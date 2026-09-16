@@ -5,6 +5,7 @@ url: https://effekseer.github.io/en/contribute.html
 category: shaders-vfx
 subcategories: [particles, vfx]
 license: CC0
+license_spdx: CC0-1.0
 commercial: true
 attribution_required: false
 formats: [efk]

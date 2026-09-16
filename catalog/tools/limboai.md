@@ -5,6 +5,7 @@ url: https://github.com/limbonaut/limboai
 category: tools
 subcategories: [godot, ai]
 license: MIT
+license_spdx: MIT
 commercial: true
 attribution_required: false
 formats: [godot-addon, gdextension]

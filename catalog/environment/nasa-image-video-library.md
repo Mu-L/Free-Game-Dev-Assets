@@ -2,6 +2,7 @@
 id: nasa-image-video-library
 name: NASA Image and Video Library
 url: https://images.nasa.gov
+publisher: NASA
 category: environment
 subcategories: [images, video, audio, public-domain]
 license: custom

@@ -5,6 +5,7 @@ url: https://github.com/Chrisknyfe/boujie_water_shader
 category: shaders-vfx
 subcategories: [water, godot]
 license: MIT
+license_spdx: MIT
 commercial: true
 attribution_required: false
 formats: [gdshader, godot-addon]

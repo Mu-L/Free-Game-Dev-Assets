@@ -5,6 +5,7 @@ url: https://github.com/MenacingMecha/godot-psx-style-demo
 category: shaders-vfx
 subcategories: [retro, post-process, godot]
 license: MIT
+license_spdx: MIT
 commercial: true
 attribution_required: false
 formats: [gdshader, godot-project]

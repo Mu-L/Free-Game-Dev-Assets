@@ -5,6 +5,7 @@ url: https://github.com/facebookresearch/AnimatedDrawings
 category: animation
 subcategories: [2d, drawings, pipeline]
 license: MIT
+license_spdx: MIT
 commercial: true
 attribution_required: false
 formats: [Python, config, examples]

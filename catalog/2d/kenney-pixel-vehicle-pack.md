@@ -6,6 +6,7 @@ publisher: Kenney
 category: 2d
 subcategories: [sprites, vehicles]
 license: CC0
+license_spdx: CC0-1.0
 commercial: true
 attribution_required: false
 formats: [PNG]

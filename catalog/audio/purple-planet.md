@@ -6,7 +6,7 @@ category: audio
 subcategories: [music]
 license: custom
 commercial: unknown
-attribution_required: true
+attribution_required: unknown
 formats: [MP3, WAV]
 tags: [music, ambient, cinematic]
 verified: 2026-08-25

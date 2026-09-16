@@ -5,6 +5,7 @@ url: https://github.com/HungryProton/scatter
 category: tools
 subcategories: [godot, foliage, scatter]
 license: MIT
+license_spdx: MIT
 commercial: true
 attribution_required: false
 formats: [godot-addon]

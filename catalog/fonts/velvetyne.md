@@ -5,6 +5,7 @@ url: https://velvetyne.fr
 category: fonts
 subcategories: [display, foundry]
 license: SIL OFL
+license_spdx: OFL-1.1
 commercial: true
 attribution_required: true
 formats: [OTF, TTF, WOFF]

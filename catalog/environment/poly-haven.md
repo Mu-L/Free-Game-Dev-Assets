@@ -5,6 +5,7 @@ url: https://polyhaven.com
 category: environment
 subcategories: [hdri, textures, models]
 license: CC0
+license_spdx: CC0-1.0
 commercial: true
 attribution_required: false
 formats: [EXR, HDR, PNG, glTF, FBX]

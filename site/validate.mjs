@@ -10,7 +10,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
 const CATALOG = path.join(ROOT, "catalog");
 const CONFIG_PATH = path.join(__dirname, "config.json");
-const EXPECTED_COUNT = 294;
+const SPDX_ALLOWED_PATH = path.join(__dirname, "spdx-allowed.json");
 const REQUIRED = [
   "id",
   "name",
@@ -66,6 +66,9 @@ const EMOJI_RE = /\p{Extended_Pictographic}/u;
 const MD_LINK_RE = /!\[[^\]]*\]\(([^)]+)\)|\[[^\]]*\]\(([^)]+)\)/g;
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 const EVIDENCE_DATE_RE = /\d{4}-\d{2}-\d{2}/;
+const COMMERCIAL_VALUES = new Set(["true", "false", "unknown", "varies"]);
+const STATUS_VALUES = new Set(["active", "needs-review", "deprecated"]);
+const ATTRIBUTION_REQUIRED_VALUES = new Set(["true", "false", "unknown"]);
 
 function hasEmoji(text) {
   const stripped = text.replace(/[©®™]/g, "");
@@ -155,6 +158,21 @@ function relFromRoot(file) {
   return path.relative(ROOT, file).split(path.sep).join("/");
 }
 
+function catalogCategories() {
+  return new Set(
+    fs
+      .readdirSync(CATALOG, { withFileTypes: true })
+      .filter((d) => d.isDirectory())
+      .map((d) => d.name)
+  );
+}
+
+function enumKey(v) {
+  if (v === true) return "true";
+  if (v === false) return "false";
+  return String(v);
+}
+
 function checkRelativeLinks(file, errors) {
   const text = fs.readFileSync(file, "utf8");
   const dir = path.dirname(file);
@@ -177,10 +195,39 @@ function checkRelativeLinks(file, errors) {
   }
 }
 
+function coverageReport(entries) {
+  const byCat = new Map();
+  let spdx = 0;
+  let publisher = 0;
+  for (const meta of entries) {
+    const cat = String(meta.category || "?");
+    byCat.set(cat, (byCat.get(cat) || 0) + 1);
+    if (!isEmptyField(meta.license_spdx)) spdx += 1;
+    if (!isEmptyField(meta.publisher)) publisher += 1;
+  }
+  const n = entries.length;
+  const pct = (c) => (n ? ((100 * c) / n).toFixed(1) : "0.0");
+  const lines = ["coverage:"];
+  for (const cat of [...byCat.keys()].sort()) {
+    lines.push(`  ${cat.padEnd(14)} ${String(byCat.get(cat)).padStart(3)}`);
+  }
+  lines.push(`  license_spdx  ${spdx}/${n} (${pct(spdx)}%)`);
+  lines.push(`  publisher     ${publisher}/${n} (${pct(publisher)}%)`);
+  return lines.join("\n");
+}
+
 function main() {
   const errors = [];
   const today = todayISO();
   const config = JSON.parse(fs.readFileSync(CONFIG_PATH, "utf8"));
+  const expectedCount = config.expectedEntryCount;
+  if (!Number.isInteger(expectedCount) || expectedCount < 1) {
+    errors.push("site/config.json expectedEntryCount must be a positive integer");
+  }
+  const spdxAllowed = new Set(
+    JSON.parse(fs.readFileSync(SPDX_ALLOWED_PATH, "utf8"))
+  );
+  const categories = catalogCategories();
   const entryFiles = walkFiles(CATALOG, [], (f) => {
     const base = path.basename(f);
     return f.endsWith(".md") && !SKIP_MD.has(base);
@@ -210,6 +257,37 @@ function main() {
     }
     if (meta.category && String(meta.category) !== dirName) {
       errors.push(`${rel} category "${meta.category}" does not match directory`);
+    }
+    if (meta.category && !categories.has(String(meta.category))) {
+      errors.push(`${rel} category "${meta.category}" is not a catalog/ directory`);
+    }
+    const commercialKey = enumKey(meta.commercial);
+    if (!isEmptyField(meta.commercial) && !COMMERCIAL_VALUES.has(commercialKey)) {
+      errors.push(`${rel} commercial "${commercialKey}" is not true|false|unknown|varies`);
+    }
+    const statusKey = enumKey(meta.status);
+    if (!isEmptyField(meta.status) && !STATUS_VALUES.has(statusKey)) {
+      errors.push(`${rel} status "${statusKey}" is not active|needs-review|deprecated`);
+    }
+    const attrKey = enumKey(meta.attribution_required);
+    if (
+      !isEmptyField(meta.attribution_required) &&
+      !ATTRIBUTION_REQUIRED_VALUES.has(attrKey)
+    ) {
+      errors.push(
+        `${rel} attribution_required "${attrKey}" is not true|false|unknown`
+      );
+    }
+    if (attrKey === "true" && isEmptyField(meta.attribution_string)) {
+      errors.push(`${rel} attribution_required true needs attribution_string`);
+    }
+    if (!isEmptyField(meta.license_spdx)) {
+      const spdx = String(meta.license_spdx);
+      if (!spdxAllowed.has(spdx)) {
+        errors.push(
+          `${rel} license_spdx "${spdx}" is not in site/spdx-allowed.json`
+        );
+      }
     }
     if (meta.id) {
       const id = String(meta.id);
@@ -244,9 +322,9 @@ function main() {
     entries.push(meta);
   }
 
-  if (entryFiles.length !== EXPECTED_COUNT) {
+  if (Number.isInteger(expectedCount) && entryFiles.length !== expectedCount) {
     errors.push(
-      `entry count ${entryFiles.length} !== ${EXPECTED_COUNT} (update EXPECTED_COUNT in site/validate.mjs when adding or removing entries)`
+      `entry count ${entryFiles.length} !== ${expectedCount} (update expectedEntryCount in site/config.json when adding or removing entries)`
     );
   }
 
@@ -284,6 +362,7 @@ function main() {
   console.log(
     `validate ok: ${entryFiles.length} entries, ${ids.size} ids, no broken links`
   );
+  console.log(coverageReport(entries));
 }
 
 main();

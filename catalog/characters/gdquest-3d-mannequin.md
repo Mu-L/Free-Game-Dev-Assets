@@ -2,9 +2,11 @@
 id: gdquest-3d-mannequin
 name: GDQuest Open 3D Mannequin
 url: https://github.com/GDQuest/godot-3d-mannequin
+publisher: GDQuest
 category: characters
 subcategories: [mannequin, godot]
 license: CC-BY-4.0
+license_spdx: CC-BY-4.0
 commercial: true
 attribution_required: true
 attribution_string: "GDQuest and contributors (https://www.gdquest.com/)"

@@ -5,6 +5,7 @@ url: https://github.com/TokisanGames/Terrain3D
 category: tools
 subcategories: [godot, terrain]
 license: MIT
+license_spdx: MIT
 commercial: true
 attribution_required: false
 formats: [godot-addon, gdextension, EXR, R16, PNG]

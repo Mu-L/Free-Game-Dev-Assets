@@ -5,6 +5,7 @@ url: https://pixel-boy.itch.io/ninja-adventure-asset-pack
 category: 2d
 subcategories: [sprites, tiles, pixel, audio]
 license: CC0
+license_spdx: CC0-1.0
 commercial: true
 attribution_required: false
 formats: [PNG, WAV]

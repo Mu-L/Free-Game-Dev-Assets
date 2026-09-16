@@ -5,6 +5,7 @@ url: https://github.com/clayjohn/godot-volumetric-cloud-demo
 category: shaders-vfx
 subcategories: [sky, clouds, godot]
 license: MIT
+license_spdx: MIT
 commercial: true
 attribution_required: false
 formats: [gdshader, godot-project]

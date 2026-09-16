@@ -5,6 +5,7 @@ url: https://ldtk.io
 category: tools
 subcategories: [level-editor]
 license: MIT
+license_spdx: MIT
 commercial: true
 attribution_required: false
 formats: [ldtk, json]

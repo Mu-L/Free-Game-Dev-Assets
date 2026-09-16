@@ -6,6 +6,7 @@ publisher: Blender Studio
 category: characters
 subcategories: [base-meshes]
 license: CC0
+license_spdx: CC0-1.0
 commercial: true
 attribution_required: false
 formats: [Blend, glTF, FBX]

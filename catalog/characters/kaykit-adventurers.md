@@ -6,6 +6,7 @@ publisher: KayKit
 category: characters
 subcategories: [rigged, animated, modular-accessories]
 license: CC0
+license_spdx: CC0-1.0
 commercial: true
 attribution_required: false
 formats: [FBX, glTF]

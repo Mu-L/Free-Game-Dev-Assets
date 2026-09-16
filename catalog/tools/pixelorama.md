@@ -5,6 +5,7 @@ url: https://orama-interactive.itch.io/pixelorama
 category: tools
 subcategories: [pixel-art]
 license: MIT
+license_spdx: MIT
 commercial: true
 attribution_required: false
 formats: [pxo, PNG]

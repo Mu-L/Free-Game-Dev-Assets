@@ -5,6 +5,7 @@ url: https://github.com/odrick/free-tex-packer
 category: tools
 subcategories: [atlas, pipeline]
 license: MIT
+license_spdx: MIT
 commercial: true
 attribution_required: false
 formats: [PNG, JSON]

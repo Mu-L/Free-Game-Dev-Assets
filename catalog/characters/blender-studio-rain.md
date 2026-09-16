@@ -6,6 +6,7 @@ publisher: Blender Studio
 category: characters
 subcategories: [rigged, library]
 license: CC-BY-4.0
+license_spdx: CC-BY-4.0
 commercial: true
 attribution_required: true
 attribution_string: "Rain (c) Blender Studio (CC BY 4.0)"

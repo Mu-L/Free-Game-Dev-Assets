@@ -5,6 +5,7 @@ url: https://gltf-transform.dev
 category: tools
 subcategories: [pipeline, compression]
 license: MIT
+license_spdx: MIT
 commercial: true
 attribution_required: false
 formats: [CLI, JS API]

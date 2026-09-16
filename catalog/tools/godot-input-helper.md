@@ -5,6 +5,7 @@ url: https://github.com/nathanhoad/godot_input_helper
 category: tools
 subcategories: [godot, input]
 license: MIT
+license_spdx: MIT
 commercial: true
 attribution_required: false
 formats: [godot-addon]

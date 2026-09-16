@@ -2,9 +2,11 @@
 id: makehuman
 name: MakeHuman Community
 url: http://www.makehumancommunity.org
+publisher: MakeHuman Community
 category: characters
 subcategories: [humanoid, generator]
 license: CC0
+license_spdx: CC0-1.0
 commercial: true
 attribution_required: false
 formats: [FBX, OBJ, DAE]

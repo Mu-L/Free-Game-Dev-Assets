@@ -9,5 +9,5 @@
 - [ ] Copied `catalog/TEMPLATE.md` (new entries)
 - [ ] `id` is unique across the whole catalog
 - [ ] Live license checked today; `active` entries have dated `## Evidence`
-- [ ] Bumped `EXPECTED_COUNT` in `site/validate.mjs`
+- [ ] Bumped `expectedEntryCount` in `site/config.json`
 - [ ] `node site/validate.mjs` passes

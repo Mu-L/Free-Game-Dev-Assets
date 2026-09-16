@@ -5,6 +5,7 @@ url: https://michelf.ca/projects/sim-daltonism/
 category: tools
 subcategories: [accessibility]
 license: Apache-2.0
+license_spdx: Apache-2.0
 commercial: true
 attribution_required: false
 formats: [macOS, iOS]

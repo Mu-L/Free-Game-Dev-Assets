@@ -5,6 +5,7 @@ url: https://github.com/myshell-ai/MeloTTS
 category: tools
 subcategories: [tts, speech]
 license: MIT
+license_spdx: MIT
 commercial: true
 attribution_required: false
 formats: [Python, WAV]

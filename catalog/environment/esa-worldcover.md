@@ -5,6 +5,7 @@ url: https://esa-worldcover.org/en/data-access
 category: environment
 subcategories: [geodata, landcover]
 license: CC-BY-4.0
+license_spdx: CC-BY-4.0
 commercial: true
 attribution_required: true
 attribution_string: "Contains modified Copernicus Sentinel data / ESA WorldCover. Suggested format; CC-BY-4.0 requires a credits-screen source link."

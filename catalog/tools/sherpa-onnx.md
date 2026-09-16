@@ -5,6 +5,7 @@ url: https://github.com/k2-fsa/sherpa-onnx
 category: tools
 subcategories: [tts, speech, asr]
 license: Apache-2.0
+license_spdx: Apache-2.0
 commercial: true
 attribution_required: false
 formats: [ONNX, C++, Python, WASM]

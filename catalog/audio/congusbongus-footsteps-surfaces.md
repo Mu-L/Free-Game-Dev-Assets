@@ -6,6 +6,7 @@ publisher: OpenGameArt
 category: audio
 subcategories: [sfx, footsteps]
 license: CC-BY-3.0
+license_spdx: CC-BY-3.0
 commercial: true
 attribution_required: true
 attribution_string: "Footsteps (c) congusbongus (CC BY 3.0), derived from Freesound contributors listed in the pack. Suggested format; name the author as CC-BY-3.0 requires."

@@ -141,13 +141,14 @@ Each source is one markdown file with YAML frontmatter plus short notes. Add new
 | Field | Meaning |
 | --- | --- |
 | `license` | Short license name as stated by the source (`CC0`, `CC-BY-3.0`, `SIL OFL`, `custom`, `varies`) |
+| `license_spdx` | Optional SPDX identifier when the grant maps 1:1 (`CC0-1.0`, `OFL-1.1`, `MIT`, …). Omit for `custom`, `varies`, and unversioned or statutory public-domain works. Exact case; must be in `site/spdx-allowed.json` |
 | `commercial` | `true` / `false` / `unknown` / `varies`. `varies` means per-file review; the site filter still shows these with a **per-file review** badge |
-| `attribution_required` | Whether credits are mandatory |
+| `attribution_required` | `true` / `false` / `unknown`. `unknown` is per-file or unverified (aggregators, unreachable terms). There is no `varies` state |
 | `formats` | Common download / interchange formats |
 | `verified` | Date of the last license spot-check (`YYYY-MM-DD`) |
 | `status` | See legend below |
 | `grid_dimensions` / `camera_perspective` / `hardware_tags` | Optional — 2D tile size, projection (`isometric_3_4`, `top_down`, `side_scroller`, `2d_flat`), input-device coverage |
-| `attribution_string` | Optional copy-paste credit when `attribution_required` |
+| `attribution_string` | Copy-paste credit; required when `attribution_required` is `true` |
 | `publisher` | Optional rights-holding publisher when that publisher has more than one entry. Not a generic host. |
 
 </details>

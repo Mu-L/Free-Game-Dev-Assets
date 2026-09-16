@@ -6,6 +6,7 @@ publisher: Quaternius
 category: characters
 subcategories: [rigged, animated, shooter]
 license: CC0
+license_spdx: CC0-1.0
 commercial: true
 attribution_required: false
 formats: [FBX, OBJ, Blend, glTF]

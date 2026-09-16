@@ -6,6 +6,7 @@ publisher: Tiny Speck
 category: 2d
 subcategories: [sprites, vectors, environments]
 license: CC0
+license_spdx: CC0-1.0
 commercial: true
 attribution_required: false
 formats: [PNG, SVG, FLA]

@@ -6,6 +6,7 @@ publisher: Google Fonts
 category: fonts
 subcategories: [pixel, display, sans]
 license: SIL OFL
+license_spdx: OFL-1.1
 commercial: true
 attribution_required: false
 formats: [TTF]

@@ -5,6 +5,7 @@ url: https://www.adventurekid.se/akrt/free-reverb-impulse-responses/
 category: audio
 subcategories: [ir, reverb]
 license: CC-BY-4.0
+license_spdx: CC-BY-4.0
 commercial: true
 attribution_required: true
 attribution_string: "Reverb IRs (c) Adventure Kid (CC BY 4.0)"

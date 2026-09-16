@@ -5,6 +5,7 @@ url: https://github.com/Zorochase/ultimate-retro-shader-collection
 category: shaders-vfx
 subcategories: [retro, post-process, godot]
 license: MIT
+license_spdx: MIT
 commercial: true
 attribution_required: false
 formats: [gdshader, godot-addon]

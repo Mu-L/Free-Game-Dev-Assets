@@ -5,6 +5,7 @@ url: https://incompetech.com
 category: audio
 subcategories: [music]
 license: CC-BY-4.0
+license_spdx: CC-BY-4.0
 commercial: true
 attribution_required: true
 attribution_string: "Title Kevin MacLeod (incompetech.com) Licensed under Creative Commons: By Attribution 4.0 https://creativecommons.org/licenses/by/4.0/"

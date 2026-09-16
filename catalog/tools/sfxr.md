@@ -5,6 +5,7 @@ url: https://www.drpetter.se/project_sfxr.html
 category: tools
 subcategories: [sfx-generator]
 license: MIT
+license_spdx: MIT
 commercial: true
 attribution_required: false
 formats: [WAV]

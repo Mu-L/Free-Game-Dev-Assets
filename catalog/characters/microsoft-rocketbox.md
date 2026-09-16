@@ -2,9 +2,11 @@
 id: microsoft-rocketbox
 name: Microsoft Rocketbox
 url: https://github.com/microsoft/Microsoft-Rocketbox
+publisher: Microsoft
 category: characters
 subcategories: [humanoid, rigged, library]
 license: MIT
+license_spdx: MIT
 commercial: true
 attribution_required: true
 attribution_string: "Microsoft Rocketbox Copyright (c) 2020 Microsoft. Keep LICENSE.md with redistributed FBX."

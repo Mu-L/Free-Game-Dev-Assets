@@ -6,6 +6,7 @@ publisher: Kenney
 category: 2d
 subcategories: [ui, input]
 license: CC0
+license_spdx: CC0-1.0
 commercial: true
 attribution_required: false
 formats: [PNG, SVG]

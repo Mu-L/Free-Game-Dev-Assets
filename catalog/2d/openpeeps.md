@@ -5,6 +5,7 @@ url: https://www.openpeeps.com/
 category: 2d
 subcategories: [illustrations, characters, ui]
 license: CC0
+license_spdx: CC0-1.0
 commercial: true
 attribution_required: false
 formats: [SVG, PNG, Sketch, Figma]

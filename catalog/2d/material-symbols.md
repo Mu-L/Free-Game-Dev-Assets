@@ -6,6 +6,7 @@ publisher: Google Fonts
 category: 2d
 subcategories: [icons, ui]
 license: Apache-2.0
+license_spdx: Apache-2.0
 commercial: true
 attribution_required: true
 formats: [SVG, TTF, WOFF2]

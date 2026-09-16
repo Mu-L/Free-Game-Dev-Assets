@@ -5,6 +5,7 @@ url: https://bigsoundbank.com/
 category: audio
 subcategories: [sfx, foley, field-recording]
 license: CC0
+license_spdx: CC0-1.0
 commercial: true
 attribution_required: false
 formats: [WAV, MP3]

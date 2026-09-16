@@ -5,6 +5,7 @@ url: https://openhdri.org
 category: environment
 subcategories: [hdri]
 license: CC0
+license_spdx: CC0-1.0
 commercial: true
 attribution_required: false
 formats: [EXR]

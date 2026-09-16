@@ -6,7 +6,7 @@ category: 3d
 subcategories: [scans, historical]
 license: unknown
 commercial: unknown
-attribution_required: true
+attribution_required: unknown
 formats: [STL, OBJ]
 tags: [photogrammetry, museum, print, aggregator]
 verified: 2026-08-25

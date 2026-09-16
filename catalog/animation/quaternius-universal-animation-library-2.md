@@ -6,6 +6,7 @@ publisher: Quaternius
 category: animation
 subcategories: [character, retarget, humanoid]
 license: CC0
+license_spdx: CC0-1.0
 commercial: true
 attribution_required: false
 formats: [FBX, GLB, Blend]

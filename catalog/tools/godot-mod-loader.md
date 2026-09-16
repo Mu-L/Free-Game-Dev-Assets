@@ -5,6 +5,7 @@ url: https://github.com/Godot-Modding/loader
 category: tools
 subcategories: [godot, modding]
 license: MIT
+license_spdx: MIT
 commercial: true
 attribution_required: false
 formats: [godot-addon]

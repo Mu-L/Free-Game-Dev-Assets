@@ -5,6 +5,7 @@ url: https://github.com/google/draco
 category: tools
 subcategories: [pipeline, compression]
 license: Apache-2.0
+license_spdx: Apache-2.0
 commercial: true
 attribution_required: false
 formats: [DRC, glTF KHR_draco]

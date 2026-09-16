@@ -2,11 +2,12 @@
 id: charge-materials
 name: Charge Material Asset Library
 url: https://studio.blender.org/projects/charge/gallery/?asset=7249
+publisher: Blender Studio
 category: 3d
 subcategories: [materials, blender]
 license: CC-BY
 commercial: unknown
-attribution_required: true
+attribution_required: unknown
 formats: [Blend]
 tags: [blender-studio, eevee, bake-out, license-unverified]
 verified: 2026-08-25

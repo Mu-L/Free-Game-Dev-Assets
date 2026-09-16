@@ -2,9 +2,11 @@
 id: orbitron
 name: Orbitron
 url: https://www.theleagueofmoveabletype.com/orbitron
+publisher: The League of Moveable Type
 category: fonts
 subcategories: [display, sans]
 license: SIL OFL
+license_spdx: OFL-1.1
 commercial: true
 attribution_required: false
 formats: [OTF, TTF]

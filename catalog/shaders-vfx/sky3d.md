@@ -5,6 +5,7 @@ url: https://github.com/TokisanGames/Sky3D
 category: shaders-vfx
 subcategories: [sky, atmosphere, godot]
 license: MIT
+license_spdx: MIT
 commercial: true
 attribution_required: false
 formats: [gdshader, godot-addon]

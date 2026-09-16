@@ -5,6 +5,7 @@ url: https://www.jetbrains.com/lp/mono/
 category: fonts
 subcategories: [mono, ui]
 license: SIL OFL
+license_spdx: OFL-1.1
 commercial: true
 attribution_required: false
 formats: [TTF, WOFF2, variable]

@@ -6,6 +6,7 @@ publisher: KayKit
 category: 3d
 subcategories: [props]
 license: CC0
+license_spdx: CC0-1.0
 commercial: true
 attribution_required: false
 formats: [OBJ, FBX, glTF]

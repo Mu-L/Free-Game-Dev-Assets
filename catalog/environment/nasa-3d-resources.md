@@ -2,6 +2,7 @@
 id: nasa-3d-resources
 name: NASA 3D Resources
 url: https://nasa3d.arc.nasa.gov/
+publisher: NASA
 category: environment
 subcategories: [models, planetary, public-domain]
 license: public-domain

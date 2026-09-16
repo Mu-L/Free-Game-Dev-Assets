@@ -5,6 +5,7 @@ url: https://github.com/Arnklit/Waterways
 category: shaders-vfx
 subcategories: [water, rivers, godot]
 license: MIT
+license_spdx: MIT
 commercial: true
 attribution_required: false
 formats: [gdshader, godot-addon]

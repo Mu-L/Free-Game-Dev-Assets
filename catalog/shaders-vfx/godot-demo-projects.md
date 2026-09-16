@@ -5,6 +5,7 @@ url: https://github.com/godotengine/godot-demo-projects
 category: shaders-vfx
 subcategories: [demos, particles, shaders, godot]
 license: MIT
+license_spdx: MIT
 commercial: true
 attribution_required: false
 formats: [gdshader, godot]

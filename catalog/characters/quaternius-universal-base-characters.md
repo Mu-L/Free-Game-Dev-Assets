@@ -6,6 +6,7 @@ publisher: Quaternius
 category: characters
 subcategories: [base-mesh, modular, rigged]
 license: CC0
+license_spdx: CC0-1.0
 commercial: true
 attribution_required: false
 formats: [FBX, glTF, Blend, OBJ]

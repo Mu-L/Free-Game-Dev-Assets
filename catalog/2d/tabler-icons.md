@@ -5,6 +5,7 @@ url: https://tabler.io/icons
 category: 2d
 subcategories: [icons, ui]
 license: MIT
+license_spdx: MIT
 commercial: true
 attribution_required: false
 formats: [SVG, React, PNG]

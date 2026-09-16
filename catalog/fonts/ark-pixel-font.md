@@ -5,6 +5,7 @@ url: https://github.com/TakWolf/ark-pixel-font
 category: fonts
 subcategories: [pixel, cjk, display]
 license: SIL OFL
+license_spdx: OFL-1.1
 commercial: true
 attribution_required: false
 formats: [OTF, TTF]

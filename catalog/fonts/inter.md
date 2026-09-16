@@ -5,6 +5,7 @@ url: https://rsms.me/inter/
 category: fonts
 subcategories: [sans, ui]
 license: SIL OFL
+license_spdx: OFL-1.1
 commercial: true
 attribution_required: false
 formats: [OTF, TTF, variable]

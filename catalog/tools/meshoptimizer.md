@@ -5,6 +5,7 @@ url: https://github.com/zeux/meshoptimizer
 category: tools
 subcategories: [compression, meshes]
 license: MIT
+license_spdx: MIT
 commercial: true
 attribution_required: false
 formats: [CLI, library]

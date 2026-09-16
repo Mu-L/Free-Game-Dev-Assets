@@ -5,6 +5,7 @@ url: https://brailleinstitute.org/freefont
 category: fonts
 subcategories: [sans, accessibility, ui]
 license: SIL OFL
+license_spdx: OFL-1.1
 commercial: true
 attribution_required: false
 formats: [OTF, TTF]

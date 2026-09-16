@@ -6,6 +6,7 @@ publisher: Material Maker
 category: tools
 subcategories: [materials, procedural]
 license: MIT
+license_spdx: MIT
 commercial: true
 attribution_required: false
 formats: [png, mm]

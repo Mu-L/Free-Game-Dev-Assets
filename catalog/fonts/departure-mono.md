@@ -5,6 +5,7 @@ url: https://departuremono.com
 category: fonts
 subcategories: [pixel, mono]
 license: SIL OFL
+license_spdx: OFL-1.1
 commercial: true
 attribution_required: false
 formats: [OTF, TTF]

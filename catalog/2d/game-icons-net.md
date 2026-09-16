@@ -5,6 +5,7 @@ url: https://game-icons.net
 category: 2d
 subcategories: [icons, ui]
 license: CC-BY-3.0
+license_spdx: CC-BY-3.0
 commercial: true
 attribution_required: true
 attribution_string: "Icons made by {author}. Available on https://game-icons.net"

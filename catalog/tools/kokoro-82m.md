@@ -5,6 +5,7 @@ url: https://huggingface.co/hexgrad/Kokoro-82M
 category: tools
 subcategories: [tts, speech]
 license: Apache-2.0
+license_spdx: Apache-2.0
 commercial: true
 attribution_required: false
 formats: [ONNX, model]

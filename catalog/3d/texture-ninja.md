@@ -5,6 +5,7 @@ url: https://texture.ninja
 category: 3d
 subcategories: [textures]
 license: CC0
+license_spdx: CC0-1.0
 commercial: true
 attribution_required: false
 formats: [JPG, PNG]

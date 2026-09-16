@@ -5,6 +5,7 @@ url: https://github.com/ramokz/phantom-camera
 category: tools
 subcategories: [godot, camera]
 license: MIT
+license_spdx: MIT
 commercial: true
 attribution_required: false
 formats: [godot-addon]

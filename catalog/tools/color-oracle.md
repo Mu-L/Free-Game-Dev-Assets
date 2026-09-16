@@ -5,6 +5,7 @@ url: https://colororacle.org/
 category: tools
 subcategories: [accessibility]
 license: MIT
+license_spdx: MIT
 commercial: true
 attribution_required: false
 formats: [desktop]

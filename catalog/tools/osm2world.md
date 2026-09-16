@@ -5,6 +5,7 @@ url: https://osm2world.org
 category: tools
 subcategories: [geo, conversion]
 license: MIT
+license_spdx: MIT
 commercial: true
 attribution_required: false
 formats: [glTF, OBJ]

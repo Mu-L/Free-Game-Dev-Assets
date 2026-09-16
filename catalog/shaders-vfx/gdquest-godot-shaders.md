@@ -2,9 +2,11 @@
 id: gdquest-godot-shaders
 name: GDQuest Godot Shaders
 url: https://github.com/gdquest-demos/godot-shaders
+publisher: GDQuest
 category: shaders-vfx
 subcategories: [shaders, demos, godot]
 license: MIT
+license_spdx: MIT
 commercial: true
 attribution_required: false
 formats: [gdshader, godot]

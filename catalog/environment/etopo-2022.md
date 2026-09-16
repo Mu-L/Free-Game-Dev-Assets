@@ -5,6 +5,7 @@ url: https://www.ncei.noaa.gov/products/etopo-global-relief-model
 category: environment
 subcategories: [heightmaps, dem, bathymetry]
 license: CC0
+license_spdx: CC0-1.0
 commercial: true
 attribution_required: false
 formats: [GeoTIFF, netCDF]

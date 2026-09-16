@@ -6,6 +6,7 @@ publisher: Alif Type
 category: fonts
 subcategories: [arabic, display, serif]
 license: SIL OFL
+license_spdx: OFL-1.1
 commercial: true
 attribution_required: false
 formats: [TTF, OTF]

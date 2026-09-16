@@ -2,6 +2,9 @@
 RESEARCH/*
 !RESEARCH/README.md
 
+# Session scratch (follow-up logs, not catalog source of truth)
+_scratch/
+
 # Secrets / local env
 .env
 .env.*

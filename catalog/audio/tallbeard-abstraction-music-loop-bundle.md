@@ -5,6 +5,7 @@ url: https://tallbeard.itch.io/music-loop-bundle
 category: audio
 subcategories: [music, loops]
 license: CC0
+license_spdx: CC0-1.0
 commercial: true
 attribution_required: false
 formats: [MP3, OGG]

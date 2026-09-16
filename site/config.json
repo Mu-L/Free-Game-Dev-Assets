@@ -5,6 +5,7 @@
     "repo": "https://github.com/TMHSDigital/Free-Game-Dev-Assets",
     "baseUrl": "/Free-Game-Dev-Assets"
   },
+  "expectedEntryCount": 294,
   "categories": {
     "3d": { "label": "3D", "blurb": "Models, scans, PBR textures" },
     "environment": { "label": "Environment", "blurb": "HDRI, terrain, geodata" },

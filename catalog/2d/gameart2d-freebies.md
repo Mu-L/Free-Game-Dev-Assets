@@ -5,6 +5,7 @@ url: https://www.gameart2d.com/freebies.html
 category: 2d
 subcategories: [sprites, tiles, ui, platformer]
 license: CC0
+license_spdx: CC0-1.0
 commercial: true
 attribution_required: false
 formats: [PNG]

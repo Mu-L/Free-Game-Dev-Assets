@@ -5,6 +5,7 @@ url: https://github.com/SirRamEsq/SmartShape2D
 category: tools
 subcategories: [godot, 2d, terrain]
 license: MIT
+license_spdx: MIT
 commercial: true
 attribution_required: false
 formats: [godot-addon]

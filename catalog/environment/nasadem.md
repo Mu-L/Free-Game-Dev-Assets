@@ -2,9 +2,11 @@
 id: nasadem
 name: NASADEM (LP DAAC)
 url: https://lpdaac.usgs.gov/products/nasadem_hgtv001/
+publisher: NASA
 category: environment
 subcategories: [heightmaps, dem]
 license: CC0
+license_spdx: CC0-1.0
 commercial: true
 attribution_required: false
 formats: [HGT, GeoTIFF]

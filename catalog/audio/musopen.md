@@ -6,7 +6,7 @@ category: audio
 subcategories: [music]
 license: unknown
 commercial: unknown
-attribution_required: true
+attribution_required: unknown
 formats: [MP3]
 tags: [music, public-domain, recordings]
 verified: 2026-08-25

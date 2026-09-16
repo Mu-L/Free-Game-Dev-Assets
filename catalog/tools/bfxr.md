@@ -5,6 +5,7 @@ url: https://www.bfxr.net
 category: tools
 subcategories: [sfx-generator]
 license: MIT
+license_spdx: MIT
 commercial: true
 attribution_required: false
 formats: [WAV]

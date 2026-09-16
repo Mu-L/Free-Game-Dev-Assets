@@ -5,6 +5,7 @@ url: https://ansimuz.itch.io/sunny-land-pixel-game-art
 category: 2d
 subcategories: [sprites, tiles, pixel, platformer, audio]
 license: CC0
+license_spdx: CC0-1.0
 commercial: true
 attribution_required: false
 formats: [PNG, WAV]

@@ -6,6 +6,7 @@ publisher: KayKit
 category: 3d
 subcategories: [characters, environments, animations]
 license: CC0
+license_spdx: CC0-1.0
 commercial: true
 attribution_required: false
 formats: [FBX, OBJ, glTF, Blend]

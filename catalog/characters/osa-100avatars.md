@@ -5,6 +5,7 @@ url: https://www.opensourceavatars.com/
 category: characters
 subcategories: [vrm, avatar, library]
 license: CC0
+license_spdx: CC0-1.0
 commercial: true
 attribution_required: false
 formats: [VRM]

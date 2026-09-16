@@ -2,9 +2,11 @@
 id: microsoft-movebox
 name: MoveBox for Microsoft Rocketbox
 url: https://github.com/microsoft/MoveBox-for-Microsoft-Rocketbox
+publisher: Microsoft
 category: animation
 subcategories: [mocap, tools, kinect]
 license: MIT
+license_spdx: MIT
 commercial: true
 attribution_required: false
 formats: [Unity, Kinect]

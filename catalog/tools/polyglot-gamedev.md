@@ -5,6 +5,7 @@ url: https://docs.google.com/spreadsheets/d/17f0dQawb-s_Fd7DHgmVvJoEGDMH_yoSd8EY
 category: tools
 subcategories: [localization]
 license: CC0
+license_spdx: CC0-1.0
 commercial: true
 attribution_required: false
 formats: [CSV, spreadsheet]

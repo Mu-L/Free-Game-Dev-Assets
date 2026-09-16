@@ -6,6 +6,7 @@ publisher: Sparklin
 category: 2d
 subcategories: [sprites, tiles, pixel, ui]
 license: CC0
+license_spdx: CC0-1.0
 commercial: true
 attribution_required: false
 formats: [PNG]

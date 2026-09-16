@@ -6,6 +6,7 @@ publisher: Kenney
 category: shaders-vfx
 subcategories: [light-cookies, masks, 2d-vfx]
 license: CC0
+license_spdx: CC0-1.0
 commercial: true
 attribution_required: false
 formats: [PNG]

@@ -5,6 +5,7 @@ url: https://www.thebasemesh.com
 category: 3d
 subcategories: [base-meshes, prototyping]
 license: CC0
+license_spdx: CC0-1.0
 commercial: true
 attribution_required: false
 formats: [OBJ, glTF]

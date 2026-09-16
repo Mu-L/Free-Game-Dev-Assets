@@ -5,6 +5,7 @@ url: https://github.com/KhronosGroup/KTX-Software
 category: tools
 subcategories: [compression, textures]
 license: Apache-2.0
+license_spdx: Apache-2.0
 commercial: true
 attribution_required: false
 formats: [ktx, ktx2]

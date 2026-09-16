@@ -5,6 +5,7 @@ url: https://vurmux.itch.io/urizen-onebit-tileset
 category: 2d
 subcategories: [tileset, sprites, pixel]
 license: CC0
+license_spdx: CC0-1.0
 commercial: true
 attribution_required: false
 formats: [PNG]

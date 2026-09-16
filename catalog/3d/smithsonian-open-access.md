@@ -5,6 +5,7 @@ url: https://www.si.edu/openaccess
 category: 3d
 subcategories: [scans, historical]
 license: CC0
+license_spdx: CC0-1.0
 commercial: true
 attribution_required: false
 formats: [glTF, OBJ]

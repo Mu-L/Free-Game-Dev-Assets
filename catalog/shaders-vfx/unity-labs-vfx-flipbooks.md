@@ -5,6 +5,7 @@ url: https://unity.com/blog/engine-platform/free-vfx-image-sequences-flipbooks
 category: shaders-vfx
 subcategories: [flipbooks, particles, textures]
 license: CC0
+license_spdx: CC0-1.0
 commercial: true
 attribution_required: false
 formats: [EXR]

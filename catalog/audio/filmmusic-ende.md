@@ -5,6 +5,7 @@ url: https://ende.app/en/standard-license
 category: audio
 subcategories: [music]
 license: CC-BY-4.0
+license_spdx: CC-BY-4.0
 commercial: true
 attribution_required: false
 formats: [MP3, WAV]

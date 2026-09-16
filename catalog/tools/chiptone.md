@@ -5,6 +5,7 @@ url: https://sfbgames.itch.io/chiptone
 category: tools
 subcategories: [sfx-generator]
 license: CC0
+license_spdx: CC0-1.0
 commercial: true
 attribution_required: false
 formats: [WAV]

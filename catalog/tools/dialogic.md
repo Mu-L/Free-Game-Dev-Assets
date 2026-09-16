@@ -5,6 +5,7 @@ url: https://github.com/dialogic-godot/dialogic
 category: tools
 subcategories: [godot, dialogue, ui]
 license: MIT
+license_spdx: MIT
 commercial: true
 attribution_required: false
 formats: [godot-addon]

@@ -6,6 +6,7 @@ publisher: GGBotNet
 category: fonts
 subcategories: [pixel, display, ui]
 license: CC0
+license_spdx: CC0-1.0
 commercial: true
 attribution_required: false
 formats: [TTF, OTF, WOFF, WOFF2]

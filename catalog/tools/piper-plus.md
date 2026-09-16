@@ -5,6 +5,7 @@ url: https://github.com/ayutaz/piper-plus
 category: tools
 subcategories: [tts, speech]
 license: MIT
+license_spdx: MIT
 commercial: true
 attribution_required: false
 formats: [model, binary]

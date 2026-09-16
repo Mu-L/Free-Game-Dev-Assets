@@ -6,6 +6,7 @@ publisher: LuizMelo
 category: 2d
 subcategories: [2d, sprites, character]
 license: CC0
+license_spdx: CC0-1.0
 commercial: true
 attribution_required: false
 formats: [PNG]

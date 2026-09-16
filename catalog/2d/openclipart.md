@@ -5,6 +5,7 @@ url: https://openclipart.org
 category: 2d
 subcategories: [icons, vectors, clipart]
 license: CC0
+license_spdx: CC0-1.0
 commercial: true
 attribution_required: false
 formats: [SVG, PNG]

@@ -5,6 +5,7 @@ url: https://github.com/bitbrain/beehave
 category: tools
 subcategories: [godot, ai]
 license: MIT
+license_spdx: MIT
 commercial: true
 attribution_required: false
 formats: [godot-addon]

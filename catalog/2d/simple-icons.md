@@ -5,6 +5,7 @@ url: https://simpleicons.org/
 category: 2d
 subcategories: [icons, brands]
 license: CC0
+license_spdx: CC0-1.0
 commercial: true
 attribution_required: false
 formats: [SVG]

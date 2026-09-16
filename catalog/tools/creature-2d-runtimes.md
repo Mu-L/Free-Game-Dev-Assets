@@ -5,6 +5,7 @@ url: https://github.com/kestrelm/Creature_Godot
 category: tools
 subcategories: [skeletal-2d]
 license: Apache-2.0
+license_spdx: Apache-2.0
 commercial: true
 attribution_required: false
 formats: [runtime, Godot]

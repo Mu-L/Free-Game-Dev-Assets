@@ -6,6 +6,7 @@ publisher: Screaming Brain Studios
 category: 2d
 subcategories: [tiles, isometric]
 license: CC0
+license_spdx: CC0-1.0
 commercial: true
 attribution_required: false
 formats: [PNG]

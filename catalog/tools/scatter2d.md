@@ -5,6 +5,7 @@ url: https://github.com/alex9978/scatter2d
 category: tools
 subcategories: [godot, scatter]
 license: MIT
+license_spdx: MIT
 commercial: true
 attribution_required: false
 formats: [godot-addon]

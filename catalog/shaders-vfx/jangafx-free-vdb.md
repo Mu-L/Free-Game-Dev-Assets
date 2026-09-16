@@ -5,6 +5,7 @@ url: https://jangafx.com/software/embergen/download/free-vdb-animations/
 category: shaders-vfx
 subcategories: [vfx, volumes, particles]
 license: CC0
+license_spdx: CC0-1.0
 commercial: true
 attribution_required: false
 formats: [VDB]

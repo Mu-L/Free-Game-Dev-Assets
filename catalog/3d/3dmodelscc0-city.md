@@ -6,6 +6,7 @@ publisher: 3dmodelscc0
 category: 3d
 subcategories: [props, interiors, environment]
 license: CC0
+license_spdx: CC0-1.0
 commercial: true
 attribution_required: false
 formats: [GLB]

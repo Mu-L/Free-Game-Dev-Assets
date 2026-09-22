@@ -4,6 +4,45 @@ Newest section at the top. One section per review run. This is the record of wha
 run measured, what it changed, what it deliberately did not change, and what the next
 run should not spend time re-deciding.
 
+## 2026-09-22 (third pass, same session)
+
+Took the "next highest-value action" the first two passes both named. Batch G.
+
+- Executed: **the 2D taxonomy is populated and exposed.** `camera_perspective`
+  11 -> 28, `grid_dimensions` 6 -> 11. Site gained a View filter with URL state
+  (`?view=side_scroller`), the grid and perspective on every row, both fields in the
+  entry dialog, and an active-filter chip. New check **V12** enforces the documented
+  vocabulary for all three optional fields, which `TEMPLATE.md` described and nothing
+  had ever checked.
+- Also fixed, found by reading the deployed payload rather than by any check:
+  **`license_spdx` was 0/294 in the built site.** `build.mjs` never copied the field
+  onto the entry object, so every SPDX identifier the catalog has recorded existed only
+  in frontmatter and had never reached `data.json`, `data.js` or the page. Now 227/294
+  live. Worth noting the shape of this bug: `validate.mjs` measures frontmatter,
+  `build.mjs` decides what ships, and nothing compares the two. Other fields could be
+  dropped the same way and no check would notice.
+- Method, and the constraint worth keeping: fields were populated **only where the
+  entry's own body already states the fact**, so this restates what the catalog knows
+  and no `verified:` date moved. A first attempt used regex over the bodies and was
+  discarded: it read "0x72" in an author's name as a grid size and the word
+  "platformer" in unrelated prose as a side-scroller. The bodies were read instead.
+- Deferred, and now visible rather than hidden:
+  - **`top_down` returns exactly one entry** (`dcss-tiles`, which is `needs-review`).
+    That is the coverage gap the task test found in the first pass, now legible in the
+    UI. It is a sourcing problem, not a tagging one.
+  - **Three tile packs are deliberately untagged**: `kenney-1-bit-pack` and
+    `kenney-tiny-dungeon` read as top-down roguelike tiles, and `ox72-dungeon-tileset`
+    is the sibling of an entry already classified `isometric_3_4`, but none of the
+    three states its perspective in its own body. Confirming them means looking at the
+    packs, which is a sourcing task for a future run. Do not infer them.
+  - The rest of `2d` beyond these, and every other category, still has no
+    `camera_perspective`. That is correct for `tools`, `fonts` and `audio`; it is an
+    open question for `characters` and parts of `3d`, where the field is arguably not
+    applicable at all. Decide the scope before populating further.
+- Next highest-value action: **source a CC0 4-directional top-down character set and a
+  top-down tileset with a stated perspective.** The filter now proves the gap exists,
+  and `ninja-adventure` remains effectively the only complete answer in the category.
+
 ## 2026-09-22 (second pass, same session)
 
 Picked up the two items the first pass deferred. Batches F and E.
@@ -107,7 +146,8 @@ Picked up the two items the first pass deferred. Batches F and E.
     records this as attribution class `notice` so V4 does not fire on them.
   - **No virtualization, pagination or search debounce.** Measured at 294 entries and
     below the threshold where they pay for themselves. Measure again before proposing.
-- Next highest-value action: **populate `camera_perspective` and `grid_dimensions`**.
+- Next highest-value action: ~~**populate `camera_perspective` and `grid_dimensions`**~~
+  — done in the third pass above.
   The task-based coverage test failed hardest not on missing sources but on missing
   taxonomy: a developer cannot filter for a top-down 2D source, because
   `camera_perspective` is set on 11 of 294 entries and `grid_dimensions` on 6, and the

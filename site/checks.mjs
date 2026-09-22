@@ -1,0 +1,254 @@
+/**
+ * Catalog checks added by the 2026-09-22 review (batch B).
+ *
+ * Each function is pure and returns an array of error strings, so
+ * site/checks.test.mjs can drive every one against a known-bad fixture
+ * without touching the real catalog. validate.mjs wires them into the run.
+ */
+
+const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+const DATE_ANY_RE = /\d{4}-\d{2}-\d{2}/g;
+
+/** Generic hosts and distributors that are never a rights holder. */
+export const GENERIC_HOSTS = new Set([
+  "github",
+  "github.com",
+  "gitlab",
+  "gitlab.com",
+  "hugging face",
+  "huggingface",
+  "huggingface.co",
+  "itch.io",
+  "itch",
+  "sourceforge",
+  "sourceforge.net",
+  "google drive",
+  "dropbox",
+  "archive.org",
+  "internet archive",
+]);
+
+function empty(v) {
+  if (v === undefined || v === null) return true;
+  if (typeof v === "string" && v.trim() === "") return true;
+  if (Array.isArray(v) && v.length === 0) return true;
+  return false;
+}
+
+/** The `## Evidence` section of an entry body, or null. */
+export function evidenceSection(body) {
+  const idx = body.search(/^## Evidence\s*$/m);
+  if (idx === -1) return null;
+  const rest = body.slice(idx);
+  const next = rest.search(/\n## (?!Evidence)/);
+  return next === -1 ? rest : rest.slice(0, next);
+}
+
+/* ------------------------------------------------------------------ V1 */
+/** `license` must be a value the vocabulary documents. */
+export function checkLicenseVocabulary(rel, meta, vocab) {
+  const errors = [];
+  if (empty(meta.license)) return errors;
+  const license = String(meta.license);
+  if (!Object.prototype.hasOwnProperty.call(vocab.licenses, license)) {
+    errors.push(
+      `${rel} license "${license}" is not in site/license-vocabulary.json (add it there first, with its SPDX mapping and attribution expectation)`
+    );
+  }
+  return errors;
+}
+
+/* --------------------------------------------------------------- V2/V3 */
+/**
+ * `license_spdx` must agree with what `license` implies:
+ *   - a license with one SPDX id must carry it (V3, fillable but absent)
+ *   - and must carry that exact id (V2, mismatch)
+ *   - a license with no SPDX id must not carry one (V2, invented)
+ *   - an ambiguous license must not be resolved by guessing (V2)
+ */
+export function checkSpdxConsistency(rel, meta, vocab, spdxAllowed) {
+  const errors = [];
+  if (empty(meta.license)) return errors;
+  const license = String(meta.license);
+  const spec = vocab.licenses[license];
+  if (!spec) return errors; // V1 already reported it
+  const recorded = empty(meta.license_spdx) ? null : String(meta.license_spdx);
+
+  if (spec.spdx) {
+    if (recorded === null) {
+      errors.push(
+        `${rel} license "${license}" maps to SPDX "${spec.spdx}" but license_spdx is absent`
+      );
+    } else if (recorded !== spec.spdx) {
+      errors.push(
+        `${rel} license "${license}" maps to SPDX "${spec.spdx}" but license_spdx is "${recorded}"`
+      );
+    } else if (spdxAllowed && !spdxAllowed.has(spec.spdx)) {
+      errors.push(
+        `${rel} license_spdx "${spec.spdx}" is not in site/spdx-allowed.json`
+      );
+    }
+    return errors;
+  }
+
+  if (recorded !== null) {
+    const why = spec.spdx_ambiguous
+      ? ` ${spec.spdx_ambiguous}`
+      : " That license value has no SPDX identifier.";
+    errors.push(
+      `${rel} license "${license}" must not carry license_spdx "${recorded}".${why}`
+    );
+  }
+  return errors;
+}
+
+/* ------------------------------------------------------------------ V4 */
+/**
+ * A license whose attribution is `required` cannot silently set
+ * `attribution_required: false`. Either the flag is true and an
+ * attribution_string exists (validate.mjs enforces that pair), or the body
+ * states the publisher's waiver on a marker line.
+ */
+export function checkAttributionConsistency(rel, meta, body, vocab) {
+  const errors = [];
+  if (empty(meta.license)) return errors;
+  const spec = vocab.licenses[String(meta.license)];
+  if (!spec || spec.attribution !== "required") return errors;
+  if (meta.attribution_required !== false) return errors;
+  if (body.includes(vocab.attribution_waiver_marker)) return errors;
+  errors.push(
+    `${rel} license "${meta.license}" requires attribution but attribution_required is false, ` +
+      `and the body has no "${vocab.attribution_waiver_marker}" line explaining the publisher's waiver`
+  );
+  return errors;
+}
+
+/* ------------------------------------------------------------------ V8 */
+/**
+ * The check that defends the repo's central promise: a `verified` date may
+ * never be newer than the evidence it claims to rest on. Bumping `verified`
+ * without adding a dated Evidence line is exactly the failure this catches.
+ * Also rejects Evidence dates in the future, and (V10) an Evidence section
+ * that carries no date at all, whatever the entry's status.
+ */
+export function checkEvidenceDates(rel, meta, body, today) {
+  const errors = [];
+  const ev = evidenceSection(body);
+  if (!ev) return errors; // presence is validate.mjs's job, and only for active
+  const dates = [...ev.matchAll(DATE_ANY_RE)].map((m) => m[0]).sort();
+  if (!dates.length) {
+    errors.push(`${rel} ## Evidence section carries no YYYY-MM-DD date`);
+    return errors;
+  }
+  const newest = dates[dates.length - 1];
+  if (newest > today) {
+    errors.push(`${rel} Evidence date ${newest} is in the future`);
+  }
+  const verified = empty(meta.verified) ? null : String(meta.verified);
+  if (verified && DATE_RE.test(verified) && verified > newest) {
+    errors.push(
+      `${rel} verified ${verified} is newer than its newest Evidence date ${newest}. ` +
+        `A new verified date needs a dated Evidence line from the same check`
+    );
+  }
+  return errors;
+}
+
+/* ------------------------------------------------------------------ V9 */
+/** A deprecated entry must say why, on a marker line. */
+export function checkDeprecationReason(rel, meta, body, vocab) {
+  const errors = [];
+  if (String(meta.status) !== "deprecated") return errors;
+  if (body.includes(vocab.deprecation_reason_marker)) return errors;
+  errors.push(
+    `${rel} status deprecated needs a "${vocab.deprecation_reason_marker}" line giving the reason`
+  );
+  return errors;
+}
+
+/* ------------------------------------------------------------------ V7 */
+/**
+ * `publisher` names a rights holder, never a host, and entries sharing a root
+ * domain must not disagree about who that is. An entry that leaves `publisher`
+ * unset is fine: sibling organisations on one domain are real (the Blender
+ * application and Blender Studio's asset bundles both live on blender.org).
+ */
+export function checkPublisherConsistency(entries) {
+  const errors = [];
+  const byDomain = new Map();
+  for (const e of entries) {
+    if (empty(e.meta.publisher)) continue;
+    const publisher = String(e.meta.publisher);
+    if (GENERIC_HOSTS.has(publisher.toLowerCase())) {
+      errors.push(
+        `${e.rel} publisher "${publisher}" is a generic host, not a rights holder`
+      );
+    }
+    let domain;
+    try {
+      domain = new URL(String(e.meta.url)).hostname.replace(/^www\./, "");
+    } catch {
+      continue;
+    }
+    if (!byDomain.has(domain)) byDomain.set(domain, new Map());
+    const seen = byDomain.get(domain);
+    if (!seen.has(publisher)) seen.set(publisher, e.rel);
+  }
+  for (const [domain, seen] of byDomain) {
+    if (domain === "github.com" || domain === "gitlab.com") continue;
+    if (seen.size < 2) continue;
+    const listed = [...seen.entries()]
+      .map(([p, rel]) => `"${p}" (${rel})`)
+      .join(", ");
+    errors.push(`domain ${domain} has conflicting publisher values: ${listed}`);
+  }
+  return errors;
+}
+
+/* ------------------------------------------------------------------ V6 */
+/**
+ * The category count tables in README.md and catalog/README.md, and the
+ * README source-count badge and link text, all restate numbers the catalog
+ * already knows. They are correct today and drift on the next addition.
+ */
+export function checkCountTables(measured, docs) {
+  const errors = [];
+  const total = Object.values(measured).reduce((a, b) => a + b, 0);
+
+  for (const { name, text, pathFragment } of docs) {
+    for (const [cat, count] of Object.entries(measured)) {
+      const re = new RegExp(
+        `\\|[^|\\n]*\\|\\s*(\\d+)\\s*\\|[^\\n]*${pathFragment.replace("CAT", cat)}`
+      );
+      const m = text.match(re);
+      if (!m) {
+        errors.push(`${name} has no category count row for "${cat}"`);
+        continue;
+      }
+      if (Number(m[1]) !== count) {
+        errors.push(
+          `${name} lists ${m[1]} entries for "${cat}" but the catalog has ${count}`
+        );
+      }
+    }
+  }
+
+  const readme = docs.find((d) => d.name === "README.md");
+  if (readme) {
+    const badge = readme.text.match(/badge\/sources-(\d+)-/);
+    if (!badge) errors.push("README.md has no sources-<count> badge");
+    else if (Number(badge[1]) !== total) {
+      errors.push(
+        `README.md sources badge says ${badge[1]} but the catalog has ${total}`
+      );
+    }
+    const browse = readme.text.match(/Browse (\d+) sources/);
+    if (!browse) errors.push('README.md has no "Browse <count> sources" link');
+    else if (Number(browse[1]) !== total) {
+      errors.push(
+        `README.md "Browse ${browse[1]} sources" but the catalog has ${total}`
+      );
+    }
+  }
+  return errors;
+}

@@ -1,0 +1,302 @@
+#!/usr/bin/env node
+/**
+ * Fixture suite for the checks added in batch B. Run: node site/checks.test.mjs
+ *
+ * Every check gets a known-bad fixture it must reject and a known-good one it
+ * must accept. A check that passes while measuring nothing is the failure mode
+ * this file exists to prevent, so "rejects" asserts on the message too.
+ */
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import {
+  checkAttributionConsistency,
+  checkCountTables,
+  checkDeprecationReason,
+  checkEvidenceDates,
+  checkLicenseVocabulary,
+  checkPublisherConsistency,
+  checkSpdxConsistency,
+} from "./checks.mjs";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const vocab = JSON.parse(
+  fs.readFileSync(path.join(__dirname, "license-vocabulary.json"), "utf8")
+);
+const spdxAllowed = new Set(
+  JSON.parse(fs.readFileSync(path.join(__dirname, "spdx-allowed.json"), "utf8"))
+);
+
+let passed = 0;
+const failures = [];
+
+function rejects(label, errors, needle) {
+  if (!errors.length) {
+    failures.push(`${label}: expected an error, got none`);
+    return;
+  }
+  if (needle && !errors.some((e) => e.includes(needle))) {
+    failures.push(
+      `${label}: error did not mention "${needle}"; got: ${errors.join(" | ")}`
+    );
+    return;
+  }
+  passed += 1;
+}
+
+function accepts(label, errors) {
+  if (errors.length) {
+    failures.push(`${label}: expected no error, got: ${errors.join(" | ")}`);
+    return;
+  }
+  passed += 1;
+}
+
+const TODAY = "2026-09-22";
+const EV = (d) => `\n## Evidence\n\n- Live page (${d}): "CC0"\n`;
+
+/* V1 -------------------------------------------------------------------- */
+rejects(
+  "V1 rejects an undocumented license value",
+  checkLicenseVocabulary("bad.md", { license: "CC-BY 4.0" }, vocab),
+  "not in site/license-vocabulary.json"
+);
+rejects(
+  "V1 rejects the OFL near-miss",
+  checkLicenseVocabulary("bad.md", { license: "OFL" }, vocab),
+  "OFL"
+);
+accepts(
+  "V1 accepts a documented license value",
+  checkLicenseVocabulary("ok.md", { license: "SIL OFL" }, vocab)
+);
+
+/* V2 / V3 --------------------------------------------------------------- */
+rejects(
+  "V3 rejects a fillable but absent license_spdx",
+  checkSpdxConsistency("bad.md", { license: "MIT" }, vocab, spdxAllowed),
+  "license_spdx is absent"
+);
+rejects(
+  "V2 rejects a license_spdx that contradicts the license",
+  checkSpdxConsistency(
+    "bad.md",
+    { license: "CC0", license_spdx: "MIT" },
+    vocab,
+    spdxAllowed
+  ),
+  'license_spdx is "MIT"'
+);
+rejects(
+  "V2 rejects an SPDX id invented for a license that has none",
+  checkSpdxConsistency(
+    "bad.md",
+    { license: "custom", license_spdx: "MIT" },
+    vocab,
+    spdxAllowed
+  ),
+  "must not carry license_spdx"
+);
+rejects(
+  "V2 rejects guessing -only for a bare GPL value",
+  checkSpdxConsistency(
+    "bad.md",
+    { license: "GPL-3.0", license_spdx: "GPL-3.0-only" },
+    vocab,
+    spdxAllowed
+  ),
+  "deprecated the bare identifier"
+);
+accepts(
+  "V2/V3 accept a correct pairing",
+  checkSpdxConsistency(
+    "ok.md",
+    { license: "CC0", license_spdx: "CC0-1.0" },
+    vocab,
+    spdxAllowed
+  )
+);
+accepts(
+  "V3 accepts an absent SPDX on an ambiguous license",
+  checkSpdxConsistency("ok.md", { license: "GPL-3.0" }, vocab, spdxAllowed)
+);
+
+/* V4 -------------------------------------------------------------------- */
+rejects(
+  "V4 rejects an attribution license silently marked not-required",
+  checkAttributionConsistency(
+    "bad.md",
+    { license: "CC-BY-4.0", attribution_required: false },
+    "# X\n\nNo waiver stated.\n",
+    vocab
+  ),
+  "no \"- Attribution waived:\" line"
+);
+accepts(
+  "V4 accepts the same entry once the waiver is stated",
+  checkAttributionConsistency(
+    "ok.md",
+    { license: "CC-BY-4.0", attribution_required: false },
+    "# X\n\n## Notes\n\n- Attribution waived: publisher offers an opt-out\n",
+    vocab
+  )
+);
+accepts(
+  "V4 does not fire on OFL, whose obligation is a notice not a credit",
+  checkAttributionConsistency(
+    "ok.md",
+    { license: "SIL OFL", attribution_required: false },
+    "# X\n",
+    vocab
+  )
+);
+
+/* V8 / V10 -------------------------------------------------------------- */
+rejects(
+  "V8 rejects a verified date newer than its newest Evidence date",
+  checkEvidenceDates(
+    "bad.md",
+    { verified: "2026-09-22" },
+    `# X${EV("2026-07-19")}`,
+    TODAY
+  ),
+  "newer than its newest Evidence date"
+);
+rejects(
+  "V8 rejects an Evidence date in the future",
+  checkEvidenceDates(
+    "bad.md",
+    { verified: "2026-09-22" },
+    `# X${EV("2027-01-01")}`,
+    TODAY
+  ),
+  "is in the future"
+);
+rejects(
+  "V10 rejects an Evidence section with no date",
+  checkEvidenceDates(
+    "bad.md",
+    { verified: "2026-09-22" },
+    '# X\n\n## Evidence\n\n- Live page: "CC0"\n',
+    TODAY
+  ),
+  "carries no YYYY-MM-DD date"
+);
+accepts(
+  "V8 accepts verified equal to the Evidence date",
+  checkEvidenceDates(
+    "ok.md",
+    { verified: "2026-07-19" },
+    `# X${EV("2026-07-19")}`,
+    TODAY
+  )
+);
+accepts(
+  "V8 accepts verified older than the Evidence date",
+  checkEvidenceDates(
+    "ok.md",
+    { verified: "2026-07-19" },
+    `# X${EV("2026-08-24")}`,
+    TODAY
+  )
+);
+
+/* V9 -------------------------------------------------------------------- */
+rejects(
+  "V9 rejects a deprecated entry with no stated reason",
+  checkDeprecationReason(
+    "bad.md",
+    { status: "deprecated" },
+    "# X\n\nThe site is gone.\n",
+    vocab
+  ),
+  "needs a \"- Deprecated:\" line"
+);
+accepts(
+  "V9 accepts a deprecated entry that states one",
+  checkDeprecationReason(
+    "ok.md",
+    { status: "deprecated" },
+    "# X\n\n## Notes\n\n- Deprecated: the site is gone\n",
+    vocab
+  )
+);
+accepts(
+  "V9 does not fire on an active entry",
+  checkDeprecationReason("ok.md", { status: "active" }, "# X\n", vocab)
+);
+
+/* V7 -------------------------------------------------------------------- */
+rejects(
+  "V7 rejects a generic host used as a publisher",
+  checkPublisherConsistency([
+    { rel: "bad.md", meta: { publisher: "GitHub", url: "https://github.com/a/b" } },
+  ]),
+  "is a generic host"
+);
+rejects(
+  "V7 rejects two publishers claiming one domain",
+  checkPublisherConsistency([
+    { rel: "a.md", meta: { publisher: "Alpha", url: "https://example.com/a" } },
+    { rel: "b.md", meta: { publisher: "Beta", url: "https://example.com/b" } },
+  ]),
+  "conflicting publisher values"
+);
+accepts(
+  "V7 accepts one publisher across a domain, with a sibling entry unset",
+  checkPublisherConsistency([
+    { rel: "a.md", meta: { publisher: "Blender Studio", url: "https://www.blender.org/a" } },
+    { rel: "b.md", meta: { publisher: "Blender Studio", url: "https://www.blender.org/b" } },
+    { rel: "c.md", meta: { url: "https://www.blender.org/c" } },
+  ])
+);
+accepts(
+  "V7 does not fire across github.com, which hosts many publishers",
+  checkPublisherConsistency([
+    { rel: "a.md", meta: { publisher: "Alpha", url: "https://github.com/a/x" } },
+    { rel: "b.md", meta: { publisher: "Beta", url: "https://github.com/b/y" } },
+  ])
+);
+
+/* V6 -------------------------------------------------------------------- */
+const goodReadme = [
+  "[![Sources](https://img.shields.io/badge/sources-3-informational)](x)",
+  "**[Browse 3 sources](x)**",
+  "| **2D** | 2 | Sprites | [`catalog/2d/`](catalog/2d/) |",
+  "| **Video** | 1 | Clips | [`catalog/video/`](catalog/video/) |",
+].join("\n");
+rejects(
+  "V6 rejects a category count that drifted",
+  checkCountTables({ "2d": 5, video: 1 }, [
+    { name: "README.md", text: goodReadme, pathFragment: "catalog/CAT/" },
+  ]),
+  'lists 2 entries for "2d" but the catalog has 5'
+);
+rejects(
+  "V6 rejects a stale sources badge",
+  checkCountTables({ "2d": 2, video: 2 }, [
+    { name: "README.md", text: goodReadme, pathFragment: "catalog/CAT/" },
+  ]),
+  "sources badge says 3 but the catalog has 4"
+);
+rejects(
+  "V6 rejects a category missing from the table entirely",
+  checkCountTables({ "2d": 2, video: 1, audio: 1 }, [
+    { name: "README.md", text: goodReadme, pathFragment: "catalog/CAT/" },
+  ]),
+  'no category count row for "audio"'
+);
+accepts(
+  "V6 accepts tables that match",
+  checkCountTables({ "2d": 2, video: 1 }, [
+    { name: "README.md", text: goodReadme, pathFragment: "catalog/CAT/" },
+  ])
+);
+
+/* ----------------------------------------------------------------------- */
+if (failures.length) {
+  console.error(`checks.test failed (${failures.length}):`);
+  for (const f of failures) console.error(`  - ${f}`);
+  process.exit(1);
+}
+console.log(`checks.test ok: ${passed} assertions across 10 checks`);

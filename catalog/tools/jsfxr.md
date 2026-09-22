@@ -4,7 +4,7 @@ name: jsfxr
 url: https://sfxr.me
 category: tools
 subcategories: [sfx-generator]
-license: public-domain
+license: Unlicense
 license_spdx: Unlicense
 commercial: true
 attribution_required: false

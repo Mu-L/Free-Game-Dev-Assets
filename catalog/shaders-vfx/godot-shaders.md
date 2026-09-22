@@ -25,8 +25,8 @@ Community Godot shader library. Site policy allows personal **and commercial** u
 
 ## Evidence
 
-- Live [License](https://godotshaders.com/license/): “Anyone will be able to use the shaders posted to the site freely, both in personal and commercial products.” Submitters choose CC0, MIT, or GNU GPL v.3; media exception stated.
-- Live [About](https://godotshaders.com/about/): “All shaders here are free under CC0, MIT or GNU GPLv.3 license.”
+- Live [License](https://godotshaders.com/license/) (2026-07-19): “Anyone will be able to use the shaders posted to the site freely, both in personal and commercial products.” Submitters choose CC0, MIT, or GNU GPL v.3; media exception stated.
+- Live [About](https://godotshaders.com/about/) (2026-07-19): “All shaders here are free under CC0, MIT or GNU GPLv.3 license.”
 
 ## Related
 

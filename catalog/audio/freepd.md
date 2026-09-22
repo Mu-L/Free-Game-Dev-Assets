@@ -19,6 +19,7 @@ Former public-domain music download site. The live homepage this session is a cl
 
 ## Notes
 
+- Deprecated: the service is offline and hosting has ceased, so no current grant can be downloaded against
 - Homepage (2026-08-24) states the service is offline and hosting has ceased
 - Historical wording on that notice: "free-to-use, Public Domain music downloads". That is not a current grant you can download against
 - Prefer [kenney-music-jingles](kenney-music-jingles.md) for CC0 stingers, [incompetech](incompetech.md) for CC-BY beds, or the music inside [ansimuz-sunnyland](../2d/ansimuz-sunnyland.md) if you can carry that pack's CC0 field

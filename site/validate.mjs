@@ -5,12 +5,22 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import {
+  checkAttributionConsistency,
+  checkCountTables,
+  checkDeprecationReason,
+  checkEvidenceDates,
+  checkLicenseVocabulary,
+  checkPublisherConsistency,
+  checkSpdxConsistency,
+} from "./checks.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
 const CATALOG = path.join(ROOT, "catalog");
 const CONFIG_PATH = path.join(__dirname, "config.json");
 const SPDX_ALLOWED_PATH = path.join(__dirname, "spdx-allowed.json");
+const VOCAB_PATH = path.join(__dirname, "license-vocabulary.json");
 const REQUIRED = [
   "id",
   "name",
@@ -227,6 +237,7 @@ function main() {
   const spdxAllowed = new Set(
     JSON.parse(fs.readFileSync(SPDX_ALLOWED_PATH, "utf8"))
   );
+  const vocab = JSON.parse(fs.readFileSync(VOCAB_PATH, "utf8"));
   const categories = catalogCategories();
   const entryFiles = walkFiles(CATALOG, [], (f) => {
     const base = path.basename(f);
@@ -234,6 +245,7 @@ function main() {
   });
 
   const entries = [];
+  const records = [];
   const ids = new Map();
 
   for (const file of entryFiles) {
@@ -281,14 +293,11 @@ function main() {
     if (attrKey === "true" && isEmptyField(meta.attribution_string)) {
       errors.push(`${rel} attribution_required true needs attribution_string`);
     }
-    if (!isEmptyField(meta.license_spdx)) {
-      const spdx = String(meta.license_spdx);
-      if (!spdxAllowed.has(spdx)) {
-        errors.push(
-          `${rel} license_spdx "${spdx}" is not in site/spdx-allowed.json`
-        );
-      }
-    }
+    errors.push(...checkLicenseVocabulary(rel, meta, vocab));
+    errors.push(...checkSpdxConsistency(rel, meta, vocab, spdxAllowed));
+    errors.push(...checkAttributionConsistency(rel, meta, body, vocab));
+    errors.push(...checkEvidenceDates(rel, meta, body, today));
+    errors.push(...checkDeprecationReason(rel, meta, body, vocab));
     if (meta.id) {
       const id = String(meta.id);
       if (ids.has(id)) errors.push(`duplicate id "${id}": ${ids.get(id)} and ${rel}`);
@@ -320,7 +329,30 @@ function main() {
     }
 
     entries.push(meta);
+    records.push({ rel, meta });
   }
+
+  errors.push(...checkPublisherConsistency(records));
+
+  const measured = {};
+  for (const { meta } of records) {
+    const cat = String(meta.category);
+    measured[cat] = (measured[cat] || 0) + 1;
+  }
+  errors.push(
+    ...checkCountTables(measured, [
+      {
+        name: "README.md",
+        text: fs.readFileSync(path.join(ROOT, "README.md"), "utf8"),
+        pathFragment: "catalog/CAT/",
+      },
+      {
+        name: "catalog/README.md",
+        text: fs.readFileSync(path.join(CATALOG, "README.md"), "utf8"),
+        pathFragment: "`CAT/`",
+      },
+    ])
+  );
 
   if (Number.isInteger(expectedCount) && entryFiles.length !== expectedCount) {
     errors.push(
@@ -337,7 +369,11 @@ function main() {
     CATALOG,
     path.join(ROOT, "docs"),
     path.join(ROOT, "README.md"),
-  ];
+    path.join(ROOT, "CONTRIBUTING.md"),
+    path.join(ROOT, "SECURITY.md"),
+    path.join(ROOT, "CODE_OF_CONDUCT.md"),
+    path.join(__dirname, "README.md"),
+  ].filter((p) => fs.existsSync(p));
   for (const root of mdRoots) {
     const files = fs.statSync(root).isDirectory()
       ? walkFiles(root, [], (f) => f.endsWith(".md"))

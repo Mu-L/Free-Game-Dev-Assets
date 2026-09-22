@@ -1,0 +1,64 @@
+{
+  "_doc": {
+    "purpose": "Closed vocabulary for the catalog `license` field, plus what each value implies. Drives four checks in validate.mjs: the vocabulary check, the license/license_spdx cross-check, the 'SPDX is fillable but absent' check, and the attribution-consistency check. Adding a license to the catalog means adding it here first.",
+    "spdx": "The one SPDX identifier this license value maps to, or null when it maps to none. A null with `spdx_ambiguous` set means an identifier exists but the recorded value does not say which one, so it must not be guessed.",
+    "attribution": "required = credit the author in your product; the entry needs attribution_required true, or a stated waiver in the body. notice = carry the license/copyright file with what you redistribute, which is not a product credit, so attribution_required false is normal. none = nothing owed. any = varies per file, do not check."
+  },
+  "licenses": {
+    "CC0": { "spdx": "CC0-1.0", "attribution": "none" },
+    "Unlicense": { "spdx": "Unlicense", "attribution": "none" },
+    "public-domain": {
+      "spdx": null,
+      "attribution": "none",
+      "note": "A copyright status, not an instrument. Has no SPDX identifier. Use CC0 only when the publisher actually applied the CC0 waiver, and Unlicense only when the project ships the Unlicense text."
+    },
+    "MIT": { "spdx": "MIT", "attribution": "notice" },
+    "ISC": { "spdx": "ISC", "attribution": "notice" },
+    "Apache-2.0": { "spdx": "Apache-2.0", "attribution": "notice" },
+    "BSD-2-Clause": { "spdx": "BSD-2-Clause", "attribution": "notice" },
+    "BSD-3-Clause": { "spdx": "BSD-3-Clause", "attribution": "notice" },
+    "MPL-2.0": { "spdx": "MPL-2.0", "attribution": "notice" },
+    "GPL-2.0-or-later": { "spdx": "GPL-2.0-or-later", "attribution": "notice" },
+    "GPL-2.0": {
+      "spdx": null,
+      "spdx_ambiguous": "SPDX deprecated the bare identifier. The project is either GPL-2.0-only or GPL-2.0-or-later and this value does not say which. Read the project's own statement, then record the precise license value instead of this one.",
+      "attribution": "notice"
+    },
+    "GPL-3.0": {
+      "spdx": null,
+      "spdx_ambiguous": "SPDX deprecated the bare identifier. The project is either GPL-3.0-only or GPL-3.0-or-later and this value does not say which. Read the project's own statement, then record the precise license value instead of this one.",
+      "attribution": "notice"
+    },
+    "SIL OFL": {
+      "spdx": "OFL-1.1",
+      "attribution": "notice",
+      "note": "OFL obliges you to carry the copyright notice and license with the font files you redistribute, including embedded ones. It does not oblige a credits-screen line, which is why font entries set attribution_required false. See docs/licenses.md."
+    },
+    "CC-BY-3.0": { "spdx": "CC-BY-3.0", "attribution": "required" },
+    "CC-BY-4.0": { "spdx": "CC-BY-4.0", "attribution": "required" },
+    "CC-BY": {
+      "spdx": null,
+      "spdx_ambiguous": "Unversioned. Record CC-BY-3.0 or CC-BY-4.0 once the source states the version.",
+      "attribution": "required"
+    },
+    "ODbL": { "spdx": "ODbL-1.0", "attribution": "required" },
+    "CDLA-Permissive-2.0": { "spdx": "CDLA-Permissive-2.0", "attribution": "notice" },
+    "custom": {
+      "spdx": null,
+      "attribution": "any",
+      "note": "Publisher's own terms. The entry body must say what they actually grant."
+    },
+    "varies": {
+      "spdx": null,
+      "attribution": "any",
+      "note": "Aggregators where the license is per file. Not a blanket grant."
+    },
+    "unknown": {
+      "spdx": null,
+      "attribution": "any",
+      "note": "Source does not state it plainly. Pairs with status: needs-review."
+    }
+  },
+  "attribution_waiver_marker": "- Attribution waived:",
+  "deprecation_reason_marker": "- Deprecated:"
+}

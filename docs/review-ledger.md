@@ -4,6 +4,37 @@ Newest section at the top. One section per review run. This is the record of wha
 run measured, what it changed, what it deliberately did not change, and what the next
 run should not spend time re-deciding.
 
+## 2026-09-22 (fourth pass, same session)
+
+Sourcing, against the gap the View filter exposed. Batch H.
+
+- Executed: **6 new 2D entries**, all CC0 and all `active`. Entry count 294 -> 300.
+  `kenney-micro-roguelike` (8x8, `top_down`), `kenney-tiny-battle` (16x16, `top_down`),
+  `kenney-tiny-town`, `kenney-roguelike-rpg-pack`, `kenney-roguelike-characters` and
+  `armm1998-zelda-like` (all `isometric_3_4`). `top_down` 1 -> 3, and two of the three
+  are now `active` CC0 rather than a lone `needs-review` aggregator.
+- Method worth repeating: **perspective was decided by opening each pack's sample
+  image**, because no Kenney asset page states a projection in text. That is how the
+  split was found. Micro Roguelike and Tiny Battle are genuinely orthographic; Tiny
+  Town and the Roguelike/RPG pack draw facades above an overhead ground plane and are
+  3/4. Filing all of them as top-down because they are overhead RPG tiles would have
+  been wrong, and reading only the descriptions would have produced exactly that error.
+- **The character half of the gap is still open.** It was stated as "CC0 4-directional
+  top-down character sprites" and nothing added here claims four-direction walk cycles.
+  Kenney Roguelike Characters is front-facing 3/4 sprites with variants; the ArMM1998
+  submission says "Character with sword animation and character tamplet" without
+  enumerating directions. Both entries say so in their notes. Confirming directional
+  coverage means downloading and opening the sheets, which no pass has done.
+- Deferred, unchanged: `tenacity`'s licence (Codeberg 403s automated requests), the
+  eight decision-support clusters without comparison lines, the three deliberately
+  untagged tile packs, and the scope question about `camera_perspective` on
+  `characters` and `3d`.
+- Next highest-value action: **open the character sheets** for
+  `kenney-roguelike-characters`, `armm1998-zelda-like` and `ninja-adventure` and record
+  what directional coverage each actually ships. That is the one remaining question
+  behind the original task-test gap, and it is now the only thing standing between the
+  catalog and a confident answer to "where do my top-down characters come from".
+
 ## 2026-09-22 (third pass, same session)
 
 Took the "next highest-value action" the first two passes both named. Batch G.
@@ -39,9 +70,9 @@ Took the "next highest-value action" the first two passes both named. Batch G.
     `camera_perspective`. That is correct for `tools`, `fonts` and `audio`; it is an
     open question for `characters` and parts of `3d`, where the field is arguably not
     applicable at all. Decide the scope before populating further.
-- Next highest-value action: **source a CC0 4-directional top-down character set and a
-  top-down tileset with a stated perspective.** The filter now proves the gap exists,
-  and `ninja-adventure` remains effectively the only complete answer in the category.
+- Next highest-value action: ~~**source a CC0 4-directional top-down character set and a
+  top-down tileset with a stated perspective**~~ — tilesets done in the fourth pass
+  above; the character half remains open.
 
 ## 2026-09-22 (second pass, same session)
 

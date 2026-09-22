@@ -32,6 +32,12 @@ two carry obligations the rest do not.
 | [kenney-pixel-platformer](kenney-pixel-platformer.md) | Kenney Pixel Platformer | CC0 | yes | active |
 | [kenney-1-bit-pack](kenney-1-bit-pack.md) | Kenney 1-Bit Pack | CC0 | yes | active |
 | [kenney-tiny-dungeon](kenney-tiny-dungeon.md) | Kenney Tiny Dungeon | CC0 | yes | active |
+| [kenney-roguelike-rpg-pack](kenney-roguelike-rpg-pack.md) | Kenney Roguelike/RPG Pack | CC0 | yes | active |
+| [kenney-roguelike-characters](kenney-roguelike-characters.md) | Kenney Roguelike Characters | CC0 | yes | active |
+| [kenney-tiny-town](kenney-tiny-town.md) | Kenney Tiny Town | CC0 | yes | active |
+| [kenney-tiny-battle](kenney-tiny-battle.md) | Kenney Tiny Battle | CC0 | yes | active |
+| [kenney-micro-roguelike](kenney-micro-roguelike.md) | Kenney Micro Roguelike | CC0 | yes | active |
+| [armm1998-zelda-like](armm1998-zelda-like.md) | Zelda-like tilesets (ArMM1998) | CC0 | yes | active |
 | [kenney-pixel-vehicle-pack](kenney-pixel-vehicle-pack.md) | Kenney Pixel Vehicle Pack | CC0 | yes | active |
 | [kenney-input-prompts](kenney-input-prompts.md) | Kenney Input Prompts | CC0 | yes | active |
 | [ox72-dungeon-tileset](ox72-dungeon-tileset.md) | 0x72 Dungeon Tileset | CC0 | yes | active |

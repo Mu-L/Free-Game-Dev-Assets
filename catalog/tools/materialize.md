@@ -24,6 +24,7 @@ Standalone Bounding Box Software tool that builds a PBR set from a photo: height
 - Clipboard/XML automation exists for batch open/save. Useful for folder dumps, easy to accidentally process third-party textures whose licenses you do not have
 - Prefer this when you already own a photo. Prefer [ambientcg](../3d/ambientcg.md) / [cgbookcase](../3d/cgbookcase.md) when you need a ready CC0 stack
 - FAQ fetched this session is install troubleshooting only. No output-ownership FAQ line
+- Version left as bare `GPL-3.0` deliberately. The repository ships the stock GPLv3 text with no election of its own. Checked 2026-09-22.
 
 ## Evidence
 

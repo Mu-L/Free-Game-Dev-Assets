@@ -24,6 +24,7 @@ Free, cross-platform raster painting application built for illustration, concept
 - PSD import/export exists but is lossy on adjustment layers and layer styles; keep KRA as the master
 - Animation timeline exports PNG sequences, which feed a sprite atlas packer directly
 - GPL-3.0 obligations attach only if you redistribute a modified Krita binary, not to shipping your art
+- Version left as bare `GPL-3.0` deliberately. Per-file headers are `GPL-2.0-or-later` (and `LGPL-2.0-or-later` for parts of libs/ui) while the bundled COPYING is the GPLv3 text, so the distributed build is GPLv3 but the project elects no single identifier. Checked 2026-09-22; do not tighten this without a statement from the project.
 
 ## Evidence
 

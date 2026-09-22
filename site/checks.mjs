@@ -205,6 +205,49 @@ export function checkPublisherConsistency(entries) {
   return errors;
 }
 
+/* ----------------------------------------------------------------- V11 */
+/**
+ * A category README row must not contradict its entry's frontmatter. The
+ * table is hand-maintained beside frontmatter that changes, so it drifts
+ * silently: before this check, tiled's row said GPL-3.0 while its frontmatter
+ * said GPL-2.0, and nothing noticed.
+ *
+ * Annotated cells are deliberate and must survive: `varies (SA)`, `CC0*` and
+ * `varies (CC0/MIT/GPL)` all carry footnote warnings the plain value cannot.
+ * So a cell passes when it starts with the frontmatter value; only an
+ * outright different license is an error.
+ */
+export function checkCategoryReadmeRows(categoryName, readmeText, entries) {
+  const errors = [];
+  const lines = readmeText.split(/\r?\n/);
+  for (const entry of entries) {
+    const stem = entry.rel.split("/").pop().replace(/\.md$/, "");
+    const row = lines.find(
+      (l) => l.trim().startsWith("|") && l.includes(`(${stem}.md)`)
+    );
+    if (!row) continue; // validate.mjs already reports an entry missing from the README
+    const cells = row
+      .split("|")
+      .map((c) => c.trim())
+      .filter(Boolean);
+    const license = String(entry.meta.license);
+    // Strip a trailing footnote marker or parenthetical qualifier before
+    // comparing, so "CC0*", "CC-BY?" and "varies (SA)" keep working.
+    const bare = (cell) =>
+      cell
+        .replace(/\s*\([^)]*\)\s*$/, "")
+        .replace(/[*?†‡]+$/, "")
+        .trim();
+    const ok = cells.some((c) => bare(c) === license);
+    if (!ok) {
+      errors.push(
+        `catalog/${categoryName}/README.md row for "${stem}" does not carry its license "${license}": ${cells.join(" | ")}`
+      );
+    }
+  }
+  return errors;
+}
+
 /* ------------------------------------------------------------------ V6 */
 /**
  * The category count tables in README.md and catalog/README.md, and the

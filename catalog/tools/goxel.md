@@ -4,12 +4,13 @@ name: Goxel
 url: https://goxel.xyz
 category: tools
 subcategories: [voxel, editor]
-license: GPL-3.0
+license: GPL-3.0-or-later
+license_spdx: GPL-3.0-or-later
 commercial: true
 attribution_required: false
 formats: [VOX, glTF, OBJ, PLY]
 tags: [voxel, open-source, dcc]
-verified: 2026-08-24
+verified: 2026-09-22
 status: active
 ---
 
@@ -24,9 +25,11 @@ Open-source voxel editor (Windows, Mac, Linux, iOS, Android) with sparse unlimit
 - Export list in README: obj, ply, png, MagicaVoxel, Qubicle. Site also lists glTF2 and Build engine
 - MagicaVoxel remains the faster painter for many people. Goxel is the one you can audit and rebuild
 - CLA required for contributions, in part so mobile builds can be non-GPL. Irrelevant unless you fork
+- Source headers elect "or any later version", so the SPDX identifier is `GPL-3.0-or-later`.
 
 ## Evidence
 
+- Live GitHub `src/goxel.c` header (2026-09-22): "either version 3 of the License, or (at your option) any later version"
 - Live GitHub `README.md` Licence (2026-08-24): "Goxel is released under the GNU GPL3 licence"
 - Live `COPYING` (2026-08-24): "GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007"
 

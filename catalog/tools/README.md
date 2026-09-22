@@ -9,21 +9,21 @@ These are editors/utilities and free engine add-ons, not asset packs. Tool licen
 | [blender](blender.md) | Blender | GPL-2.0-or-later | active |
 | [blockbench](blockbench.md) | Blockbench | GPL-3.0 | active |
 | [ldtk](ldtk.md) | LDtk | MIT | active |
-| [tiled](tiled.md) | Tiled Map Editor | GPL-3.0 | active |
+| [tiled](tiled.md) | Tiled Map Editor | GPL-2.0-or-later | active |
 | [pixelorama](pixelorama.md) | Pixelorama | MIT | active |
 | [material-maker](material-maker.md) | Material Maker | MIT | active |
 | [gaea](gaea.md) | Gaea Community Edition | custom | needs-review |
 | [accurig](accurig.md) | AccuRig (Reallusion) | custom | needs-review |
 | [krita](krita.md) | Krita | GPL-3.0 | active |
-| [inkscape](inkscape.md) | Inkscape | GPL-2.0 | active |
+| [inkscape](inkscape.md) | Inkscape | GPL-3.0-or-later | active |
 | [tenacity](tenacity.md) | Tenacity | GPL-2.0 | active |
-| [jsfxr](jsfxr.md) | jsfxr | public-domain | active |
+| [jsfxr](jsfxr.md) | jsfxr | Unlicense | active |
 | [chiptone](chiptone.md) | ChipTone | CC0 | active |
-| [gimp](gimp.md) | GIMP | GPL-3.0 | active |
+| [gimp](gimp.md) | GIMP | GPL-3.0-or-later | active |
 | [libresprite](libresprite.md) | LibreSprite | GPL-2.0 | active |
-| [goxel](goxel.md) | Goxel | GPL-3.0 | active |
+| [goxel](goxel.md) | Goxel | GPL-3.0-or-later | active |
 | [materialize](materialize.md) | Materialize | GPL-3.0 | active |
-| [lmms](lmms.md) | LMMS | GPL-2.0 | active |
+| [lmms](lmms.md) | LMMS | GPL-2.0-or-later | active |
 | [bfxr](bfxr.md) | Bfxr | MIT | active |
 | [sfxr](sfxr.md) | sfxr | MIT | active |
 | [audacity](audacity.md) | Audacity | GPL-3.0 | active |
@@ -45,7 +45,7 @@ These are editors/utilities and free engine add-ons, not asset packs. Tool licen
 | [meshroom](meshroom.md) | Meshroom | MPL-2.0 | active |
 | [colmap](colmap.md) | COLMAP | BSD-3-Clause | active |
 | [meshlab](meshlab.md) | MeshLab | GPL-3.0 | active |
-| [cloudcompare](cloudcompare.md) | CloudCompare | GPL-2.0 | active |
+| [cloudcompare](cloudcompare.md) | CloudCompare | GPL-2.0-or-later | active |
 | [xnormal](xnormal.md) | xNormal | custom | needs-review |
 
 ## Audio middleware
@@ -73,7 +73,7 @@ These are editors/utilities and free engine add-ons, not asset packs. Tool licen
 | [sherpa-onnx](sherpa-onnx.md) | sherpa-onnx | Apache-2.0 | active |
 | [melotts](melotts.md) | MeloTTS | MIT | active |
 | [piper-plus](piper-plus.md) | Piper Plus | MIT | active |
-| [espeak-ng](espeak-ng.md) | eSpeak NG | GPL-3.0 | active |
+| [espeak-ng](espeak-ng.md) | eSpeak NG | GPL-3.0-or-later | active |
 
 ## Godot 4 add-ons
 
@@ -99,6 +99,6 @@ Software only. Not a GTA V asset grant. See [`docs/fivem.md`](../../docs/fivem.m
 
 | ID | Name | License | Status |
 | --- | --- | --- | --- |
-| [sollumz](sollumz.md) | Sollumz | GPL-3.0 | active |
+| [sollumz](sollumz.md) | Sollumz | GPL-3.0-or-later | active |
 
 See: [`docs/godot-budget-stack.md`](../../docs/godot-budget-stack.md) · [`docs/ai-assets.md`](../../docs/ai-assets.md) · [`docs/fivem.md`](../../docs/fivem.md) · [`docs/research-index.md`](../../docs/research-index.md).

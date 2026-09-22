@@ -4,12 +4,13 @@ name: LMMS
 url: https://lmms.io
 category: tools
 subcategories: [daw, music]
-license: GPL-2.0
+license: GPL-2.0-or-later
+license_spdx: GPL-2.0-or-later
 commercial: true
 attribution_required: false
 formats: [WAV, OGG, MIDI, MMP]
 tags: [daw, open-source, gpl]
-verified: 2026-08-24
+verified: 2026-09-22
 status: active
 ---
 
@@ -24,9 +25,11 @@ Cross-platform DAW (Windows, Linux, macOS) with piano roll, mixer, built-in synt
 - Nintendo / Roland / Yamaha chip emulations in the plugin list are *emulations*. Do not treat ROM dumps or trademarked patch names as free
 - Prefer [incompetech](../audio/incompetech.md) or [kenney-music-jingles](../audio/kenney-music-jingles.md) when you want a library grant instead of a DAW
 - Checklist: license file on GitHub, commercial use of the *program* under GPL, no NC/ND on the app, not a marketplace, community project, not blocklisted, tool vs song ownership unquoted
+- Source headers elect "or any later version", so the SPDX identifier is `GPL-2.0-or-later` rather than the bare, deprecated `GPL-2.0`.
 
 ## Evidence
 
+- Live GitHub `src/core/main.cpp` header (2026-09-22): "either version 2 of the License, or (at your option) any later version"
 - Live GitHub `LICENSE.txt` (2026-08-24): "GNU GENERAL PUBLIC LICENSE Version 2, June 1991"
 - Live GitHub repo license metadata (2026-08-24): SPDX "GPL-2.0"
 - Live homepage (2026-08-24): "LMMS is a 100% free, open source, community-driven project" (not a license name)

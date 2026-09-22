@@ -4,12 +4,13 @@ name: Sollumz
 url: https://github.com/Sollumz/Sollumz
 category: tools
 subcategories: [blender-addon, gta-format]
-license: GPL-3.0
+license: GPL-3.0-or-later
+license_spdx: GPL-3.0-or-later
 commercial: true
 attribution_required: false
 formats: [YDR, YDD, YFT, YBN, YTYP, YCD, YMAP, Blend]
 tags: [blender-addon, gta-format, fivem, open-source]
-verified: 2026-08-25
+verified: 2026-09-22
 status: active
 ---
 
@@ -25,9 +26,11 @@ Blender 4+ add-on that imports, exports, and authors GTA V format drawables, col
 - README lists YDD, YDR, YFT, YBN, YTYP, YCD, and partial YMAP. Wiki: [docs.sollumz.org](https://docs.sollumz.org/)
 - README recommends CodeWalker (Discord). This catalog does **not** list CodeWalker: no `LICENSE` file on GitHub, and it reads GTA V archives. Owning GTA V is not a redistribution license.
 - Distributing a modified Sollumz add-on is GPL-3. That is separate from shipping a game that contains meshes you authored.
+- The project states the "or any later version" election directly, so the SPDX identifier is `GPL-3.0-or-later`.
 
 ## Evidence
 
+- Live GitHub README (2026-09-22): "either version 3 of the License, or (at your option) any later version"
 - Live GitHub `README.md` License (2026-08-25): "GNU General Public License ... version 3 ... or later"
 - Live `LICENSE` (2026-08-25): "GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007"
 - Live README Features (2026-08-25): supported formats YDD, YDR, YFT, YBN, YTYP, YCD, YMAP (Partial)

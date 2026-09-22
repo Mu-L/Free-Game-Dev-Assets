@@ -4,12 +4,13 @@ name: CloudCompare
 url: https://www.cloudcompare.org
 category: tools
 subcategories: [point-cloud, pipeline]
-license: GPL-2.0
+license: GPL-2.0-or-later
+license_spdx: GPL-2.0-or-later
 commercial: true
 attribution_required: false
 formats: [LAS, E57, PLY, OBJ]
 tags: [lidar, point-cloud, gpl]
-verified: 2026-08-24
+verified: 2026-09-22
 status: active
 ---
 
@@ -23,9 +24,11 @@ Point-cloud / mesh tool for lidar cleanup, alignment, and sampling down to somet
 - Homepage fetch via HTML-to-markdown failed this session; download and wiki pages returned 200 as text
 - Global Shift exists because lidar is in Earth coordinates. Apply it before export or your mesh is 1e6 units from origin
 - Checklist: license on wiki + GitHub, commercial use of the *app* under GPL / CCLib under LGPL, no NC/ND, not a marketplace, named project, not blocklisted, lib vs app split recorded, output ownership unquoted
+- The bundled `license.txt` is the project's own header, not stock license text: it elects "version 2 or later", so the SPDX identifier is `GPL-2.0-or-later`.
 
 ## Evidence
 
+- Live GitHub `license.txt` (2026-09-22): "the Free Software Foundation; version 2 or later of the License"
 - Live wiki License (2026-08-24): "The license of the CCLib library ... is LGPL version 2.0"
 - Same page (2026-08-24): "can be integrated in any commercial or non-commercial project"
 - Same page (2026-08-24): "The license of the other components is GPL (version 2.0)"

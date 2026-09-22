@@ -11,6 +11,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import {
   checkAttributionConsistency,
+  checkCategoryReadmeRows,
   checkCountTables,
   checkDeprecationReason,
   checkEvidenceDates,
@@ -293,10 +294,54 @@ accepts(
   ])
 );
 
+/* V11 ------------------------------------------------------------------- */
+const readme = [
+  "| ID | Name | License | Status |",
+  "| [tiled](tiled.md) | Tiled | GPL-3.0 | active |",
+  "| [kenney](kenney.md) | Kenney | CC0 | active |",
+  "| [lpc](lpc.md) | LPC | varies (SA) | active |",
+].join("\n");
+rejects(
+  "V11 rejects a README row whose license contradicts the frontmatter",
+  checkCategoryReadmeRows("tools", readme, [
+    { rel: "catalog/tools/tiled.md", meta: { license: "GPL-2.0-or-later" } },
+  ]),
+  'does not carry its license "GPL-2.0-or-later"'
+);
+accepts(
+  "V11 accepts a row that matches",
+  checkCategoryReadmeRows("tools", readme, [
+    { rel: "catalog/tools/kenney.md", meta: { license: "CC0" } },
+  ])
+);
+accepts(
+  "V11 keeps annotated cells legal, since the footnote carries a warning",
+  checkCategoryReadmeRows("tools", readme, [
+    { rel: "catalog/tools/lpc.md", meta: { license: "varies" } },
+  ])
+);
+accepts(
+  "V11 tolerates a trailing footnote marker",
+  checkCategoryReadmeRows(
+    "tools",
+    ["| [a](a.md) | A | CC0* | active |", "| [b](b.md) | B | CC-BY? | active |"].join("\n"),
+    [
+      { rel: "catalog/tools/a.md", meta: { license: "CC0" } },
+      { rel: "catalog/tools/b.md", meta: { license: "CC-BY" } },
+    ]
+  )
+);
+accepts(
+  "V11 stays quiet when the entry has no row (validate.mjs reports that)",
+  checkCategoryReadmeRows("tools", readme, [
+    { rel: "catalog/tools/absent.md", meta: { license: "MIT" } },
+  ])
+);
+
 /* ----------------------------------------------------------------------- */
 if (failures.length) {
   console.error(`checks.test failed (${failures.length}):`);
   for (const f of failures) console.error(`  - ${f}`);
   process.exit(1);
 }
-console.log(`checks.test ok: ${passed} assertions across 10 checks`);
+console.log(`checks.test ok: ${passed} assertions across 11 checks`);

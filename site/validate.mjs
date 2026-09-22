@@ -7,6 +7,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import {
   checkAttributionConsistency,
+  checkCategoryReadmeRows,
   checkCountTables,
   checkDeprecationReason,
   checkEvidenceDates,
@@ -333,6 +334,20 @@ function main() {
   }
 
   errors.push(...checkPublisherConsistency(records));
+
+  const byCategory = new Map();
+  for (const record of records) {
+    const cat = String(record.meta.category);
+    if (!byCategory.has(cat)) byCategory.set(cat, []);
+    byCategory.get(cat).push(record);
+  }
+  for (const [cat, group] of byCategory) {
+    const readme = path.join(CATALOG, cat, "README.md");
+    if (!fs.existsSync(readme)) continue;
+    errors.push(
+      ...checkCategoryReadmeRows(cat, fs.readFileSync(readme, "utf8"), group)
+    );
+  }
 
   const measured = {};
   for (const { meta } of records) {

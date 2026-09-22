@@ -4,12 +4,13 @@ name: GIMP
 url: https://www.gimp.org
 category: tools
 subcategories: [raster, painting, texturing]
-license: GPL-3.0
+license: GPL-3.0-or-later
+license_spdx: GPL-3.0-or-later
 commercial: true
 attribution_required: false
 formats: [XCF, PNG, TIFF, PSD, EXR]
 tags: [painting, texture-work, open-source, dcc]
-verified: 2026-08-24
+verified: 2026-09-22
 status: active
 ---
 
@@ -24,9 +25,11 @@ GNU Image Manipulation Program: free raster editor for photo work, compositing, 
 - Wrap-around / tile preview is weaker than Krita's W-key wrap-around mode. Prefer Krita when the job is seamless trim sheets
 - Website images and Wilber are a separate question (many are CC-BY-SA). Do not ship the mascot from gimp.org without reading [linking.html](https://www.gimp.org/about/linking.html)
 - Third-party "buy GIMP" stores are legal under GPL if they ship source. Prefer gimp.org downloads
+- Source headers elect "or any later version", so the SPDX identifier is `GPL-3.0-or-later` rather than the bare, deprecated `GPL-3.0`.
 
 ## Evidence
 
+- Live GitHub `app/main.c` header (2026-09-22): "either version 3 of the License, or (at your option) any later version"
 - Live FAQ, "Can I use GIMP commercially?" (2026-08-24): "Yes, you can. GIMP is free software, it doesn't put restrictions on the kind of work you produce with it"
 - Same FAQ, license section (2026-08-24): "distributed under terms of General Public License v3 and later"
 - Live `/about/COPYING` (2026-08-24): "GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007"

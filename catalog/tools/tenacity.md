@@ -24,6 +24,7 @@ Community fork of Audacity, maintained on Codeberg, for trimming and cleaning th
 - Export as 16-bit PCM WAV for engine-side SFX and OGG Vorbis for music beds; Godot streams OGG but decodes WAV to memory
 - No non-destructive automation lanes, so keep the original downloads and treat the AUP3 project as scratch
 - GPL-2.0 covers the application; recordings and edits you make carry whatever license the source audio had, which for CC-BY sources means the attribution obligation survives your edit
+- Version left as bare `GPL-2.0` deliberately. No license file could be read from the Codeberg repository this run (the host returned 403 to automated requests), so the recorded value is unchanged and unconfirmed. Checked 2026-09-22.
 
 ## Evidence
 

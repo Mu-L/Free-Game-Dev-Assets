@@ -4,12 +4,13 @@ name: eSpeak NG
 url: https://github.com/espeak-ng/espeak-ng
 category: tools
 subcategories: [tts, speech]
-license: GPL-3.0
+license: GPL-3.0-or-later
+license_spdx: GPL-3.0-or-later
 commercial: true
 attribution_required: false
 formats: [WAV, espeak-ng-data]
 tags: [tts, formant, gpl, offline]
-verified: 2026-08-24
+verified: 2026-09-22
 status: active
 ---
 
@@ -23,9 +24,11 @@ Formant (robotic) TTS for 100+ languages. Useful for placeholder VO, accessibili
 - `espeak-ng-data` (voices, dictionaries) lives in-tree under the same GPL. Do not treat voices as a separate Apache grant
 - This is why Piper Plus advertises "without espeak-ng"
 - Checklist: license file visible, commercial use of the *program* under GPL, no NC/ND, not a marketplace, named org, not blocklisted, engine vs WAV unquoted
+- The project states "GPL version 3 or later", so the SPDX identifier is `GPL-3.0-or-later`. The bundled `getopt.c` is BSD-2-Clause.
 
 ## Evidence
 
+- Live GitHub README (2026-09-22): "eSpeak NG Text-to-Speech is released under the GPL version 3 or later license"
 - Live GitHub README, License Information (2026-08-24): "released under the GPL version 3 or later license"
 - Live `COPYING` (2026-08-24): "GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007"
 

@@ -19,6 +19,7 @@
     "BSD-3-Clause": { "spdx": "BSD-3-Clause", "attribution": "notice" },
     "MPL-2.0": { "spdx": "MPL-2.0", "attribution": "notice" },
     "GPL-2.0-or-later": { "spdx": "GPL-2.0-or-later", "attribution": "notice" },
+    "GPL-3.0-or-later": { "spdx": "GPL-3.0-or-later", "attribution": "notice" },
     "GPL-2.0": {
       "spdx": null,
       "spdx_ambiguous": "SPDX deprecated the bare identifier. The project is either GPL-2.0-only or GPL-2.0-or-later and this value does not say which. Read the project's own statement, then record the precise license value instead of this one.",

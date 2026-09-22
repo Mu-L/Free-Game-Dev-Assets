@@ -21,6 +21,7 @@ Lightweight low-poly modeling / UV / animation editor. Ideal companion to Kenney
 
 - Source: [github.com/JannisX11/blockbench](https://github.com/JannisX11/blockbench). LICENSE file path 404 as `LICENSE` / `LICENSE.md` this session; SPDX metadata and homepage GPL sentence are the evidence
 - Exports glTF and `.bbmodel`. Keep `.bbmodel` as working file; ship glTF
+- Version left as bare `GPL-3.0` deliberately. The repository ships the stock GPLv3 text with no "or later" election of its own. Checked 2026-09-22; do not tighten this without a statement from the project.
 
 ## Evidence
 

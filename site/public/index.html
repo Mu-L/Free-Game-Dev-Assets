@@ -8,6 +8,7 @@
       name="description"
       content="Curated free game assets and tools with commercial-use and license metadata."
     />
+    <!--HEAD_META-->
     <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -18,6 +19,8 @@
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
+    <a class="skip-link" href="#catalog">Skip to catalog</a>
+
     <header class="topbar">
       <a class="brand" href="#top">Free Game Dev Assets</a>
       <nav class="topnav" aria-label="Primary">
@@ -54,15 +57,29 @@
               <th scope="col">License</th>
             </tr>
           </thead>
-          <tbody></tbody>
+          <tbody><!--STARTER_ROWS--></tbody>
         </table>
       </section>
 
       <section class="section" id="catalog" aria-labelledby="catalog-title">
         <div class="section-head">
           <h2 id="catalog-title">Catalog</h2>
-          <p id="catalog-blurb">Search and filter every indexed source.</p>
+          <p id="catalog-blurb"><!--CATALOG_BLURB--></p>
         </div>
+
+        <details class="legend">
+          <summary>What the labels mean</summary>
+          <dl>
+            <div><dt>active</dt><dd>License spot-checked at the source; the entry carries dated evidence.</dd></div>
+            <div><dt>needs-review</dt><dd>Useful, but a real question is open. Verify before you ship.</dd></div>
+            <div><dt>deprecated</dt><dd>Kept for history only. Hidden unless you turn it on.</dd></div>
+            <div><dt>commercial OK</dt><dd>The source grants commercial use.</dd></div>
+            <div><dt>per-file review</dt><dd>An aggregator. Some files qualify, some do not. Check each one.</dd></div>
+            <div><dt>commercial ?</dt><dd>The source does not say plainly. Treat as unresolved.</dd></div>
+            <div><dt>verified date</dt><dd>When someone last read the license at the source. Older than a year is worth re-checking yourself.</dd></div>
+          </dl>
+          <p>Fuller guidance is in the <a href="#guides">guides</a>.</p>
+        </details>
 
         <div class="controls" role="search">
           <label class="search-field">
@@ -75,9 +92,9 @@
             />
           </label>
 
-          <div class="filter-row" id="category-filters" aria-label="Categories"></div>
+          <div class="filter-row" id="category-filters" role="group" aria-label="Filter by category"></div>
 
-          <div class="filter-row meta-filters">
+          <div class="filter-row meta-filters" role="group" aria-label="Filter by status and terms">
             <label class="check">
               <input type="checkbox" id="filter-active" checked />
               Active
@@ -85,6 +102,10 @@
             <label class="check">
               <input type="checkbox" id="filter-review" checked />
               Needs review
+            </label>
+            <label class="check">
+              <input type="checkbox" id="filter-deprecated" />
+              Deprecated
             </label>
             <label class="check" title="Includes aggregators that need per-file review">
               <input type="checkbox" id="filter-commercial" />
@@ -94,12 +115,26 @@
               <input type="checkbox" id="filter-no-attr" />
               No attribution
             </label>
-            <p class="result-count" id="result-count" aria-live="polite"></p>
+            <label class="check sort-field">
+              <span>Sort</span>
+              <select id="sort">
+                <option value="name">Name</option>
+                <option value="license">License, least owed first</option>
+                <option value="verified">Recently verified</option>
+              </select>
+            </label>
+            <p class="result-count" id="result-count" aria-live="polite"><!--RESULT_COUNT--></p>
           </div>
+
+          <div class="filter-row active-filters" id="active-filters" hidden></div>
         </div>
 
-        <div class="entry-list" id="entry-grid"></div>
-        <p class="empty" id="empty-state" hidden>No entries match these filters.</p>
+        <div class="entry-list" id="entry-grid"><!--ENTRY_ROWS--></div>
+        <p class="empty" id="empty-state" hidden>
+          No entries match these filters.
+          <button type="button" class="link-button" id="empty-reset">Clear all filters</button>
+          to see the whole catalog.
+        </p>
       </section>
 
       <section class="section" id="guides" aria-labelledby="guides-title">
@@ -107,7 +142,7 @@
           <h2 id="guides-title">Guides</h2>
           <p>Read before shipping a commercial build.</p>
         </div>
-        <ul class="guide-list" id="guide-list"></ul>
+        <ul class="guide-list" id="guide-list"><!--GUIDE_ROWS--></ul>
       </section>
     </main>
 
@@ -120,9 +155,10 @@
         <a id="footer-repo" href="https://github.com/TMHSDigital/Free-Game-Dev-Assets">Contribute on GitHub</a>
         · add entries from <code>catalog/TEMPLATE.md</code>
       </p>
+      <p class="footer-stamp"><!--FOOTER_STAMP--></p>
     </footer>
 
-    <dialog class="entry-dialog" id="entry-dialog">
+    <dialog class="entry-dialog" id="entry-dialog" aria-labelledby="dialog-title">
       <form method="dialog" class="dialog-chrome">
         <button value="close" class="dialog-close" aria-label="Close">Close</button>
       </form>

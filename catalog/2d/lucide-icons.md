@@ -5,6 +5,7 @@ url: https://lucide.dev/
 category: 2d
 subcategories: [icons, ui]
 license: ISC
+license_spdx: ISC
 commercial: true
 attribution_required: false
 formats: [SVG]

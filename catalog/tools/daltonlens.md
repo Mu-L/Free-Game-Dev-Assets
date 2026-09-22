@@ -5,6 +5,7 @@ url: https://github.com/DaltonLens/DaltonLens
 category: tools
 subcategories: [accessibility]
 license: BSD-2-Clause
+license_spdx: BSD-2-Clause
 commercial: true
 attribution_required: false
 formats: [desktop]

@@ -5,6 +5,7 @@ url: https://github.com/assimp/assimp
 category: tools
 subcategories: [pipeline, conversion]
 license: BSD-3-Clause
+license_spdx: BSD-3-Clause
 commercial: true
 attribution_required: false
 formats: [FBX, glTF, OBJ, DAE, many]

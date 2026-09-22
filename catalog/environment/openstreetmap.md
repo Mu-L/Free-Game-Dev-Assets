@@ -5,6 +5,7 @@ url: https://www.openstreetmap.org
 category: environment
 subcategories: [geodata, maps]
 license: ODbL
+license_spdx: ODbL-1.0
 commercial: true
 attribution_required: true
 attribution_string: "© OpenStreetMap contributors"

@@ -5,6 +5,7 @@ url: https://github.com/wjakob/instant-meshes
 category: tools
 subcategories: [remesh, pipeline]
 license: BSD-3-Clause
+license_spdx: BSD-3-Clause
 commercial: true
 attribution_required: false
 formats: [OBJ]

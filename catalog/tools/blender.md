@@ -5,6 +5,7 @@ url: https://www.blender.org
 category: tools
 subcategories: [dcc, modeling, animation]
 license: GPL-2.0-or-later
+license_spdx: GPL-2.0-or-later
 commercial: true
 attribution_required: false
 formats: [Blend, glTF, FBX, OBJ, USD]

@@ -5,6 +5,7 @@ url: https://colmap.github.io
 category: tools
 subcategories: [photogrammetry, pipeline]
 license: BSD-3-Clause
+license_spdx: BSD-3-Clause
 commercial: true
 attribution_required: false
 formats: [BIN, TXT, PLY, OBJ]

@@ -6,6 +6,7 @@ publisher: Microsoft
 category: environment
 subcategories: [geodata, buildings]
 license: CDLA-Permissive-2.0
+license_spdx: CDLA-Permissive-2.0
 commercial: true
 attribution_required: true
 attribution_string: "Microsoft Global ML Building Footprints (CDLA Permissive 2.0). Suggested; include the CDLA text when redistributing the Data files."

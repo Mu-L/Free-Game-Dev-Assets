@@ -5,6 +5,7 @@ url: https://alicevision.org
 category: tools
 subcategories: [photogrammetry, pipeline]
 license: MPL-2.0
+license_spdx: MPL-2.0
 commercial: true
 attribution_required: false
 formats: [OBJ, ABC, EXR, SFMdata]

@@ -4,6 +4,57 @@ Newest section at the top. One section per review run. This is the record of wha
 run measured, what it changed, what it deliberately did not change, and what the next
 run should not spend time re-deciding.
 
+## 2026-09-22 (second pass, same session)
+
+Picked up the two items the first pass deferred. Batches F and E.
+
+- Executed:
+  - **F, GPL version precision.** Read each of the 15 bare-GPL projects' own licensing
+    statements at source. 8 had an explicit election and were corrected:
+    cloudcompare, lmms and tiled to `GPL-2.0-or-later`; goxel, gimp, espeak-ng and
+    sollumz to `GPL-3.0-or-later`; and **inkscape from `GPL-2.0` to `GPL-3.0-or-later`**,
+    which is a correction rather than precision, because its own COPYING says the
+    complete binaries are GPLv3-or-later while its licensing page still shows the GPLv2
+    title. `license_spdx` coverage 219 -> 227 (77.2%). `verified` moved to 2026-09-22 on
+    these 8 only, each with a dated Evidence line quoting what was read.
+  - Added check **V11**: a category README row may not contradict its entry's
+    frontmatter. It found two real drifts (tiled's row said GPL-3.0 against frontmatter
+    GPL-2.0; jsfxr's still said public-domain after batch B corrected it to Unlicense).
+  - **E, documentation and decision support.** `docs/fonts.md` and `docs/geodata.md`,
+    both registered in `site/config.json` and linked from `catalog/README.md`.
+    Comparison tables for the icon cluster in `catalog/2d/README.md` and the tool
+    near-duplicates in `catalog/tools/README.md`.
+- Deferred, still open:
+  - **7 entries keep a bare GPL value on purpose** and now say why in their notes.
+    krita and meshlab have per-file `GPL-2.0-or-later` headers but ship the GPLv3 text,
+    so the distribution is GPLv3 with no single election. audacity says "GPLv3" while
+    most files are GPLv2-or-later and VST3 code constrains the combination. blockbench,
+    libresprite and materialize ship stock licence text with no election. **tenacity
+    could not be read at all**: Codeberg returned 403 to automated requests, so its
+    value is unchanged and unconfirmed, and it is the one worth a manual look.
+  - Eight of the ten decision-support clusters still have no comparison line: the four
+    colourblindness tools are described in prose but the remaining clusters (Godot
+    scatter, dungeon tilesets, and the rest) are untouched.
+  - Everything in the first-pass list below that is not struck through here.
+- Parked, do not re-litigate:
+  - **A stock GPL licence file proves nothing about the project's election.** Its own
+    "How to Apply These Terms" appendix contains the words "any later version". A pass
+    in this session nearly recorded eight wrong answers by pattern-matching that phrase
+    in 35KB LICENSE files. Only a project-authored statement counts: a source-file
+    header, a README sentence, or a short project-written licence note.
+  - **krita and meshlab are not defects.** Their bare `GPL-3.0` is the honest value.
+    Checked 2026-09-22 against two sources each.
+  - **Annotated cells in category README tables are deliberate.** `CC0*`, `CC-BY?`,
+    `varies (SA)` and `varies (CC0/MIT/GPL)` carry footnote warnings the plain value
+    cannot. V11 strips a trailing marker or parenthetical before comparing; do not
+    "normalise" these away. An earlier attempt in this session stripped 10 of them and
+    was reverted.
+  - **V11 only inspects rows whose first cell is the entry link.** Category READMEs may
+    also hold comparison tables that link entries from prose cells; those are not
+    listings. Matching any row produced 22 false positives.
+- Next highest-value action: unchanged from the first pass below. Populate
+  `camera_perspective` and `grid_dimensions`.
+
 ## 2026-09-22
 
 - Measured: 294 entries (263 active, 29 needs-review, 2 deprecated); 262 commercial
@@ -25,13 +76,9 @@ run should not spend time re-deciding.
   - D: prerendering, the deprecated-filter fix, verified age in the UI, permalinks,
     URL state, sort, clipboard, legend, dark scheme, sitemap/robots/404.
 - Deferred:
-  - **Batch E** (docs and decision support) was never put to the maintainer, so it was
-    not run. It holds two doc gaps this run measured and a set of comparison lines.
-  - **15 entries carrying `license: GPL-2.0` or `GPL-3.0`** have no `license_spdx` and
-    must not get one by inference. SPDX deprecated the bare identifiers; each project
-    is either `-only` or `-or-later` and the recorded value does not say. Resolving
-    them means reading 15 projects' own licensing statements. `license-vocabulary.json`
-    marks them ambiguous and check V2 rejects any guess.
+  - ~~**Batch E** (docs and decision support)~~ — done in the second pass above.
+  - ~~**15 entries carrying `license: GPL-2.0` or `GPL-3.0`**~~ — 8 resolved in the
+    second pass above; 7 remain bare on purpose, with reasons recorded in their notes.
   - **12 urls returned 403 or 454** (fab, smithsonian, scan-the-world, sonniss,
     pixabay-audio, zapsplat, musopen, inkscape, tenacity, cloudcompare, vroid-studio,
     godot-shaders). Bot blocks, inconclusive, not defects. No `verified` was moved.

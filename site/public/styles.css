@@ -864,3 +864,10 @@ input:focus-visible {
     padding: 0.55rem 0.35rem;
   }
 }
+
+/* Optional 2D taxonomy, shown on the row when an entry records it. */
+.meta-line .tax {
+  padding: 0 0.3rem;
+  border: 1px solid var(--line);
+  color: var(--ink);
+}

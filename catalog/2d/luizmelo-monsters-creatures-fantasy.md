@@ -11,6 +11,7 @@ commercial: true
 attribution_required: false
 formats: [PNG]
 tags: [pixel, platformer, spritesheet, cc0]
+camera_perspective: side_scroller
 verified: 2026-08-24
 status: active
 ---

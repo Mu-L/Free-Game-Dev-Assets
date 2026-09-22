@@ -10,6 +10,7 @@ commercial: true
 attribution_required: false
 formats: [SVG]
 tags: [icons, brand-free, r04]
+camera_perspective: 2d_flat
 verified: 2026-08-24
 status: active
 ---

@@ -18,6 +18,14 @@ const VOCAB_PATH = path.join(__dirname, "license-vocabulary.json");
 /** Sort rank for "license permissiveness": least owed first. */
 const ATTRIBUTION_RANK = { none: 0, notice: 1, required: 2, any: 3 };
 
+/** Readable labels for the optional 2D/UI taxonomy. */
+const PERSPECTIVE_LABELS = {
+  top_down: "top-down",
+  isometric_3_4: "3/4 view",
+  side_scroller: "side-scroller",
+  "2d_flat": "flat UI",
+};
+
 /** Age buckets for the verified-date cue. Days. */
 const VERIFIED_FRESH_DAYS = 180;
 const VERIFIED_AGING_DAYS = 365;
@@ -220,6 +228,12 @@ function entryRowHtml(entry, repo, now) {
     .slice(0, 3)
     .map((f) => `<span>${esc(f)}</span>`)
     .join("");
+  const taxonomy = [
+    entry.grid_dimensions ? `<span class="tax">${esc(entry.grid_dimensions)}</span>` : "",
+    entry.camera_perspective
+      ? `<span class="tax">${esc(PERSPECTIVE_LABELS[entry.camera_perspective] || entry.camera_perspective)}</span>`
+      : "",
+  ].join("");
   return `<article class="entry-card" id="entry-${esc(entry.id)}" data-id="${esc(entry.id)}" data-status="${esc(entry.status)}" style="--edge:${edgeVar(entry)}">
   <span class="entry-edge" aria-hidden="true"></span>
   <div class="entry-body">
@@ -229,7 +243,7 @@ function entryRowHtml(entry, repo, now) {
     </div>
     <p>${esc(entry.summary || "")}</p>
     <div class="meta-line">
-      <span>${esc(entry.category)}</span>${formats}
+      <span>${esc(entry.category)}</span>${formats}${taxonomy}
       <span class="verified is-${age.bucket}" data-verified="${esc(entry.verified || "")}" title="License last checked at the source">${esc(ageText)}</span>
     </div>
     <div class="entry-links">

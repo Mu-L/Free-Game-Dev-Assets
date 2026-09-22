@@ -11,6 +11,7 @@ attribution_required: true
 attribution_string: "Icons made by {author}. Available on https://game-icons.net"
 formats: [SVG, PNG]
 tags: [icons, vector, monochrome]
+camera_perspective: 2d_flat
 verified: 2026-08-15
 status: active
 ---

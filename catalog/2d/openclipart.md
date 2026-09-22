@@ -10,6 +10,7 @@ commercial: true
 attribution_required: false
 formats: [SVG, PNG]
 tags: [svg, public-domain, clipart, provenance-risk]
+camera_perspective: 2d_flat
 verified: 2026-08-24
 status: active
 ---

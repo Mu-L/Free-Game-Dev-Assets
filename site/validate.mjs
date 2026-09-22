@@ -14,6 +14,7 @@ import {
   checkLicenseVocabulary,
   checkPublisherConsistency,
   checkSpdxConsistency,
+  checkTaxonomyValues,
 } from "./checks.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -299,6 +300,7 @@ function main() {
     errors.push(...checkAttributionConsistency(rel, meta, body, vocab));
     errors.push(...checkEvidenceDates(rel, meta, body, today));
     errors.push(...checkDeprecationReason(rel, meta, body, vocab));
+    errors.push(...checkTaxonomyValues(rel, meta));
     if (meta.id) {
       const id = String(meta.id);
       if (ids.has(id)) errors.push(`duplicate id "${id}": ${ids.get(id)} and ${rel}`);

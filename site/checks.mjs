@@ -205,6 +205,45 @@ export function checkPublisherConsistency(entries) {
   return errors;
 }
 
+/* ----------------------------------------------------------------- V12 */
+/** Documented values for the optional 2D/UI taxonomy. See catalog/TEMPLATE.md. */
+export const CAMERA_PERSPECTIVES = new Set([
+  "top_down",
+  "isometric_3_4",
+  "side_scroller",
+  "2d_flat",
+]);
+const GRID_RE = /^\d{1,3}x\d{1,3}$/;
+
+/**
+ * The optional taxonomy fields were documented in TEMPLATE.md and enforced
+ * nowhere, so a typo or an invented value would have shipped silently and a
+ * filter built on them would quietly drop entries.
+ */
+export function checkTaxonomyValues(rel, meta) {
+  const errors = [];
+  if (!empty(meta.camera_perspective)) {
+    const v = String(meta.camera_perspective);
+    if (!CAMERA_PERSPECTIVES.has(v)) {
+      errors.push(
+        `${rel} camera_perspective "${v}" is not one of ${[...CAMERA_PERSPECTIVES].join(" | ")}`
+      );
+    }
+  }
+  if (!empty(meta.grid_dimensions)) {
+    const v = String(meta.grid_dimensions);
+    if (!GRID_RE.test(v)) {
+      errors.push(
+        `${rel} grid_dimensions "${v}" is not WxH in pixels, for example 16x16`
+      );
+    }
+  }
+  if (!empty(meta.hardware_tags) && !Array.isArray(meta.hardware_tags)) {
+    errors.push(`${rel} hardware_tags must be a list`);
+  }
+  return errors;
+}
+
 /* ----------------------------------------------------------------- V11 */
 /**
  * A category README row must not contradict its entry's frontmatter. The

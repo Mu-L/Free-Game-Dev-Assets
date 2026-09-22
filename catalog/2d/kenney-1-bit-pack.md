@@ -11,6 +11,7 @@ commercial: true
 attribution_required: false
 formats: [PNG]
 tags: [cc0, 1-bit, roguelike, rpg, pixel, kenney]
+grid_dimensions: 16x16
 verified: 2026-07-19
 status: active
 ---

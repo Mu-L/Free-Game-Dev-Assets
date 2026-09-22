@@ -10,6 +10,7 @@ commercial: true
 attribution_required: false
 formats: [SVG, PNG, Sketch, Figma]
 tags: [cc0, illustration, characters, mix-match]
+camera_perspective: 2d_flat
 verified: 2026-07-19
 status: active
 ---

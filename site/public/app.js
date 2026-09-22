@@ -22,6 +22,7 @@
     deprecated: false,
     commercialOnly: false,
     noAttr: false,
+    perspective: "any",
     sort: "name",
   };
   const state = { ...DEFAULTS };
@@ -29,6 +30,12 @@
   const categoryLabels = data.categories || {};
   const repo = data.site?.repo || "https://github.com/TMHSDigital/Free-Game-Dev-Assets";
   const byId = Object.fromEntries(data.entries.map((e) => [e.id, e]));
+  const PERSPECTIVE_LABELS = {
+    top_down: "top-down",
+    isometric_3_4: "3/4 view",
+    side_scroller: "side-scroller",
+    "2d_flat": "flat UI",
+  };
   const NOW = Date.now();
   const FRESH_DAYS = 180;
   const AGING_DAYS = 365;
@@ -75,6 +82,7 @@
     if (p.has("cat")) state.category = p.get("cat");
     if (p.has("q")) state.q = p.get("q");
     if (p.has("sort")) state.sort = p.get("sort");
+    if (p.has("view")) state.perspective = p.get("view");
     const bool = (key, field) => {
       if (p.has(key)) state[field] = p.get(key) === "1";
     };
@@ -90,6 +98,7 @@
     if (state.category !== DEFAULTS.category) p.set("cat", state.category);
     if (state.q.trim()) p.set("q", state.q.trim());
     if (state.sort !== DEFAULTS.sort) p.set("sort", state.sort);
+    if (state.perspective !== DEFAULTS.perspective) p.set("view", state.perspective);
     const bool = (key, field) => {
       if (state[field] !== DEFAULTS[field]) p.set(key, state[field] ? "1" : "0");
     };
@@ -113,6 +122,8 @@
     if (state.commercialOnly && entry.commercial !== true && entry.commercial !== "varies")
       return false;
     if (state.noAttr && entry.attribution_required !== false) return false;
+    if (state.perspective !== "any" && entry.camera_perspective !== state.perspective)
+      return false;
 
     const q = state.q.trim().toLowerCase();
     if (!q) return true;
@@ -153,6 +164,14 @@
       .slice(0, 3)
       .map((f) => `<span>${escapeHtml(f)}</span>`)
       .join("");
+    const taxonomy = [
+      entry.grid_dimensions
+        ? `<span class="tax">${escapeHtml(entry.grid_dimensions)}</span>`
+        : "",
+      entry.camera_perspective
+        ? `<span class="tax">${escapeHtml(PERSPECTIVE_LABELS[entry.camera_perspective] || entry.camera_perspective)}</span>`
+        : "",
+    ].join("");
     return `<article class="entry-card" id="entry-${escapeHtml(entry.id)}" data-id="${escapeHtml(entry.id)}" data-status="${escapeHtml(entry.status)}" style="--edge:${edgeColor(entry)}">
   <span class="entry-edge" aria-hidden="true"></span>
   <div class="entry-body">
@@ -162,7 +181,7 @@
     </div>
     <p>${escapeHtml(entry.summary || "")}</p>
     <div class="meta-line">
-      <span>${escapeHtml(entry.category)}</span>${formats}
+      <span>${escapeHtml(entry.category)}</span>${formats}${taxonomy}
       <span class="verified is-${age.bucket}" title="License last checked at the source">${escapeHtml(age.text)}</span>
     </div>
     <div class="entry-links">
@@ -216,6 +235,11 @@
     }
     if (state.q.trim()) chips.push({ key: "q", label: `search: ${state.q.trim()}` });
     if (state.sort !== DEFAULTS.sort) chips.push({ key: "sort", label: `sort: ${state.sort}` });
+    if (state.perspective !== DEFAULTS.perspective)
+      chips.push({
+        key: "perspective",
+        label: `view: ${PERSPECTIVE_LABELS[state.perspective] || state.perspective}`,
+      });
     if (!state.active) chips.push({ key: "active", label: "hiding active" });
     if (!state.review) chips.push({ key: "review", label: "hiding needs-review" });
     if (state.deprecated) chips.push({ key: "deprecated", label: "showing deprecated" });
@@ -315,6 +339,8 @@
         ${entry.publisher ? `<div><dt>Publisher</dt><dd>${escapeHtml(entry.publisher)}</dd></div>` : ""}
         ${entry.license_spdx ? `<div><dt>SPDX</dt><dd>${escapeHtml(entry.license_spdx)}</dd></div>` : ""}
         <div><dt>Attribution</dt><dd>${escapeHtml(String(entry.attribution_required))}</dd></div>
+        ${entry.camera_perspective ? `<div><dt>Perspective</dt><dd>${escapeHtml(PERSPECTIVE_LABELS[entry.camera_perspective] || entry.camera_perspective)}</dd></div>` : ""}
+        ${entry.grid_dimensions ? `<div><dt>Grid</dt><dd>${escapeHtml(entry.grid_dimensions)}</dd></div>` : ""}
         <div><dt>Formats</dt><dd>${escapeHtml((entry.formats || []).join(", ") || "—")}</dd></div>
         <div><dt>Tags</dt><dd>${escapeHtml((entry.tags || []).join(", ") || "—")}</dd></div>
         <div><dt>Verified</dt><dd class="verified is-${age.bucket}">${escapeHtml(age.text)}</dd></div>
@@ -388,6 +414,13 @@
       });
     }
 
+    const view = $("#perspective");
+    view.value = state.perspective;
+    view.addEventListener("change", (e) => {
+      state.perspective = e.target.value;
+      apply();
+    });
+
     const sort = $("#sort");
     sort.value = state.sort;
     sort.addEventListener("change", (e) => {
@@ -430,6 +463,7 @@
     $("#filter-commercial").checked = state.commercialOnly;
     $("#filter-no-attr").checked = state.noAttr;
     $("#sort").value = state.sort;
+    $("#perspective").value = state.perspective;
   }
 
   /* --------------------------------------------------------------- init */

@@ -18,6 +18,7 @@ import {
   checkLicenseVocabulary,
   checkPublisherConsistency,
   checkSpdxConsistency,
+  checkTaxonomyValues,
 } from "./checks.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -364,10 +365,36 @@ accepts(
   ])
 );
 
+/* V12 ------------------------------------------------------------------- */
+rejects(
+  "V12 rejects an undocumented camera_perspective",
+  checkTaxonomyValues("bad.md", { camera_perspective: "isometric" }),
+  'camera_perspective "isometric" is not one of'
+);
+rejects(
+  "V12 rejects a grid_dimensions that is not WxH",
+  checkTaxonomyValues("bad.md", { grid_dimensions: "16px" }),
+  "is not WxH in pixels"
+);
+rejects(
+  "V12 rejects hardware_tags that is not a list",
+  checkTaxonomyValues("bad.md", { hardware_tags: "steam_deck" }),
+  "must be a list"
+);
+accepts(
+  "V12 accepts the documented values",
+  checkTaxonomyValues("ok.md", {
+    camera_perspective: "isometric_3_4",
+    grid_dimensions: "16x16",
+    hardware_tags: ["steam_deck"],
+  })
+);
+accepts("V12 stays quiet when the optional fields are absent", checkTaxonomyValues("ok.md", {}));
+
 /* ----------------------------------------------------------------------- */
 if (failures.length) {
   console.error(`checks.test failed (${failures.length}):`);
   for (const f of failures) console.error(`  - ${f}`);
   process.exit(1);
 }
-console.log(`checks.test ok: ${passed} assertions across 11 checks`);
+console.log(`checks.test ok: ${passed} assertions across 12 checks`);

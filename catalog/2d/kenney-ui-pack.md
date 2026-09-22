@@ -11,6 +11,7 @@ commercial: true
 attribution_required: false
 formats: [PNG]
 tags: [cc0, ui, buttons, panels, kenney]
+camera_perspective: 2d_flat
 verified: 2026-07-19
 status: active
 ---

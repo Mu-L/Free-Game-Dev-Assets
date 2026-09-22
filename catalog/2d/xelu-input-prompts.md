@@ -10,6 +10,7 @@ commercial: true
 attribution_required: false
 formats: [PNG]
 tags: [gamepad, keyboard, hud]
+camera_perspective: 2d_flat
 verified: 2026-08-24
 status: active
 ---

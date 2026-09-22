@@ -11,6 +11,7 @@ commercial: true
 attribution_required: false
 formats: [PNG]
 tags: [cc0, dungeon, sewer, roguelike, pixel, kenney, tiny]
+grid_dimensions: 16x16
 verified: 2026-07-19
 status: active
 ---

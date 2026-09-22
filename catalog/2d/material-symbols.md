@@ -12,6 +12,7 @@ attribution_required: true
 formats: [SVG, TTF, WOFF2]
 tags: [icons, google, variable-font]
 attribution_string: "Material Symbols - Apache License 2.0 (Google)"
+camera_perspective: 2d_flat
 verified: 2026-08-24
 status: active
 ---

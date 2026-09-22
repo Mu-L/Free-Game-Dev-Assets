@@ -313,6 +313,7 @@
       <dl class="dialog-meta">
         <div><dt>Category</dt><dd>${escapeHtml(cat)}</dd></div>
         ${entry.publisher ? `<div><dt>Publisher</dt><dd>${escapeHtml(entry.publisher)}</dd></div>` : ""}
+        ${entry.license_spdx ? `<div><dt>SPDX</dt><dd>${escapeHtml(entry.license_spdx)}</dd></div>` : ""}
         <div><dt>Attribution</dt><dd>${escapeHtml(String(entry.attribution_required))}</dd></div>
         <div><dt>Formats</dt><dd>${escapeHtml((entry.formats || []).join(", ") || "—")}</dd></div>
         <div><dt>Tags</dt><dd>${escapeHtml((entry.tags || []).join(", ") || "—")}</dd></div>

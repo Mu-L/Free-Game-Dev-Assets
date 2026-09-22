@@ -165,6 +165,7 @@ function loadEntries(vocab) {
       ...(Array.isArray(meta.hardware_tags) ? { hardware_tags: meta.hardware_tags } : {}),
       ...(meta.attribution_string ? { attribution_string: String(meta.attribution_string) } : {}),
       ...(meta.publisher ? { publisher: String(meta.publisher) } : {}),
+      ...(meta.license_spdx ? { license_spdx: String(meta.license_spdx) } : {}),
       attributionClass: vocab.licenses[String(meta.license)]?.attribution || "any",
       licenseRank:
         ATTRIBUTION_RANK[

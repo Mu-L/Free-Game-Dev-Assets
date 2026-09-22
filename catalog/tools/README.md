@@ -2,6 +2,33 @@
 
 These are editors/utilities and free engine add-ons, not asset packs. Tool license ≠ license of art you create with them.
 
+## Choosing between near-duplicates
+
+Several pairs and clusters below do the same job. What separates them:
+
+| If you want | Take | Over | Because |
+| --- | --- | --- | --- |
+| A retro SFX in ten seconds | [jsfxr](jsfxr.md) | sfxr, bfxr | Browser, nothing to install, and the permalink encodes the full parameter set so a sound is reproducible from a URL in a design doc |
+| Control over the synthesis | [chiptone](chiptone.md) | jsfxr | Deepest editor of the four, still browser-based and CC0 |
+| The original desktop tool | [sfxr](sfxr.md) | bfxr | Reference implementation; [bfxr](bfxr.md) adds mixing and more waveforms if you need them |
+| A pixel editor under active development | [pixelorama](pixelorama.md) | libresprite | Godot-based, still shipping releases |
+| Aseprite muscle memory | [libresprite](libresprite.md) | pixelorama | Fork of Aseprite from before it went proprietary, so the UX matches; development is slower |
+| A mature tilemap editor | [tiled](tiled.md) | ldtk | Ortho, isometric and hex; the widest engine loader support. Note the editor is GPL, `libtiled` is BSD-2-Clause |
+| Modern level-design UX | [ldtk](ldtk.md) | tiled | MIT throughout, auto-layers and entity definitions, no GPL question at all |
+| An audio editor without telemetry history | [tenacity](tenacity.md) | audacity | Community fork made over exactly that objection |
+| The mainstream audio editor | [audacity](audacity.md) | tenacity | Larger plugin and tutorial ecosystem |
+| Photogrammetry with a GUI | [meshroom](meshroom.md) | colmap | Node graph you can watch; needs CUDA for the dense stage |
+| Photogrammetry you can script | [colmap](colmap.md) | meshroom | The SfM reference, CLI-first, more control at every step |
+| Interactive retopology | [instant-meshes](instant-meshes.md) | quadriflow | You paint the orientation field and watch the quads follow |
+| Batch retopology | [quadriflow](quadriflow.md) | instant-meshes | Runs unattended, which is what you want in a pipeline step |
+
+Not interchangeable despite the names: [proton-scatter](proton-scatter.md) is 3D scattering
+along curves and surfaces, [scatter2d](scatter2d.md) is 2D. The four colourblindness tools
+each cover a different stage: [color-oracle](color-oracle.md) simulates full-screen on
+desktop, [sim-daltonism](sim-daltonism.md) is a live lens on macOS and iOS,
+[daltonlens](daltonlens.md) implements the more accurate models for analysis, and
+[ubisoft-chroma](ubisoft-chroma.md) is built to run over captured game footage.
+
 ## Editors & creation
 
 | ID | Name | License | Status |

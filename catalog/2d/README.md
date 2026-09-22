@@ -4,6 +4,25 @@ Do not mix tile grids or camera projections without scaling/reprojection. Typica
 
 Optional frontmatter: `grid_dimensions`, `camera_perspective`, `hardware_tags`.
 
+## Choosing an icon set
+
+Eight icon sources are listed and seven of them are permissive UI sets that look
+interchangeable. They are not. Pick by what you need, not by licence.
+
+| Need | Take | Why |
+| --- | --- | --- |
+| A general UI set, no decisions | [lucide-icons](lucide-icons.md) | ISC, actively maintained Feather successor, brand-free, consistent stroke |
+| The widest coverage | [tabler-icons](tabler-icons.md) | MIT, the largest outline set here, uniform 24px grid |
+| Several weights of one family | [phosphor-icons](phosphor-icons.md) | MIT, six weights including duotone, so emphasis stays on-family |
+| Google design language | [material-symbols](material-symbols.md) | Apache-2.0, variable axes for weight, fill and optical size |
+| Small and opinionated | [heroicons](heroicons.md) | MIT, fewest icons, chosen not configured |
+| App chrome plus some logos | [bootstrap-icons](bootstrap-icons.md) | MIT, broad UI coverage, includes a few brand marks |
+| **Brand logos** | [simple-icons](simple-icons.md) | CC0 covers the SVG only. **Trademarks still apply**: identify, do not imply endorsement |
+| **Game iconography** | [game-icons-net](game-icons-net.md) | The only set here that is not UI chrome: swords, potions, abilities. **CC-BY-3.0, credit the individual author** |
+
+The last two are the ones to read carefully. Everything above them is a style choice; those
+two carry obligations the rest do not.
+
 | ID | Name | License | Commercial | Status |
 | --- | --- | --- | --- | --- |
 | [glitch-archive](glitch-archive.md) | Glitch archive | CC0 | yes | active |

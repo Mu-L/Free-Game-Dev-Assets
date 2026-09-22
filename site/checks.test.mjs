@@ -332,6 +332,32 @@ accepts(
   )
 );
 accepts(
+  "V11 ignores a comparison table that links an entry from a prose cell",
+  checkCategoryReadmeRows(
+    "tools",
+    [
+      "| If you want | Take | Over | Because |",
+      "| A retro SFX fast | [jsfxr](jsfxr.md) | sfxr | Browser, no install |",
+      "| ID | Name | License | Status |",
+      "| [jsfxr](jsfxr.md) | jsfxr | Unlicense | active |",
+    ].join("\n"),
+    [{ rel: "catalog/tools/jsfxr.md", meta: { license: "Unlicense" } }]
+  )
+);
+rejects(
+  "V11 still catches the catalog row when a comparison table is present",
+  checkCategoryReadmeRows(
+    "tools",
+    [
+      "| If you want | Take | Over | Because |",
+      "| A retro SFX fast | [jsfxr](jsfxr.md) | sfxr | Browser, no install |",
+      "| [jsfxr](jsfxr.md) | jsfxr | public-domain | active |",
+    ].join("\n"),
+    [{ rel: "catalog/tools/jsfxr.md", meta: { license: "Unlicense" } }]
+  ),
+  'does not carry its license "Unlicense"'
+);
+accepts(
   "V11 stays quiet when the entry has no row (validate.mjs reports that)",
   checkCategoryReadmeRows("tools", readme, [
     { rel: "catalog/tools/absent.md", meta: { license: "MIT" } },

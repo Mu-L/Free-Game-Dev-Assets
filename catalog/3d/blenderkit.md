@@ -1,7 +1,7 @@
 ---
 id: blenderkit
 name: Blendkit
-url: https://www.blenderkit.com
+url: https://www.blendkit.com
 category: 3d
 subcategories: [models, materials, hdri]
 license: varies
@@ -20,6 +20,7 @@ In-Blender (and now Godot/Maya/Rhino) asset library, formerly BlenderKit. Live s
 ## Notes
 
 - License hub: [blendkit.com/docs/licenses/](https://www.blendkit.com/docs/licenses/) (page title still "Lincenses")
+- Entry `url` moved to blendkit.com on 2026-09-22 after a link check; blenderkit.com still redirects there. Domain move only, no license re-check that day
 - Check the badge on the asset you click. Do not inherit RF vs CC0 from a neighboring thumbnail
 - "sell higher-level-derivative works" is their phrase for shipping a game. Republishing a kit is the banned path
 - Engine add-ons (Godot/Maya) have their own store ToS. This entry is the asset license page, not each add-on

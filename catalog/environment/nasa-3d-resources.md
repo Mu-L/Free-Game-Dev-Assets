@@ -1,7 +1,7 @@
 ---
 id: nasa-3d-resources
 name: NASA 3D Resources
-url: https://nasa3d.arc.nasa.gov/
+url: https://science.nasa.gov/3d-resources/
 publisher: NASA
 category: environment
 subcategories: [models, planetary, public-domain]
@@ -24,6 +24,7 @@ US federal 3D models (spacecraft, planetary props). NASA media used in 3D models
 - Check each item for third-party copyright marks
 - No NASA insignia/logos as product branding; no false endorsement
 - Attribution example: `NASA 3D Resources / NASA`
+- Entry `url` moved to science.nasa.gov/3d-resources on 2026-09-22 after a link check; nasa3d.arc.nasa.gov redirects there. Domain move only, no license re-check that day
 
 ## Evidence
 

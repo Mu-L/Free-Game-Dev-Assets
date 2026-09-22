@@ -1,7 +1,7 @@
 ---
 id: nasadem
 name: NASADEM (LP DAAC)
-url: https://lpdaac.usgs.gov/products/nasadem_hgtv001/
+url: https://www.earthdata.nasa.gov/data/catalog/lpcloud-nasadem-hgt-001
 publisher: NASA
 category: environment
 subcategories: [heightmaps, dem]
@@ -23,6 +23,7 @@ status: active
 
 - Coverage roughly 60°N–56°S land. Citation strongly urged even though CC0.
 - Prefer over scraping Google/Bing elevation — see [`docs/high-risk.md`](../../docs/high-risk.md).
+- Entry `url` moved to the Earthdata catalog on 2026-09-22 after a link check; the LP DAAC product page redirects there. Domain move only, no license re-check that day.
 
 ## Evidence
 

@@ -74,7 +74,7 @@ const BINARY_EXT = new Set([
   ".pak",
 ]);
 const SKIP_WALK = new Set([".git", "node_modules", "dist", "RESEARCH"]);
-/** Generated output and README documentation stills — not third-party packs. */
+/** Generated output and first-party stills (README screenshots, the social card): not third-party packs. */
 const ALLOWED_BINARY_PREFIXES = ["site/dist/", "docs/images/readme/"];
 const EMOJI_RE = /\p{Extended_Pictographic}/u;
 const MD_LINK_RE = /!\[[^\]]*\]\(([^)]+)\)|\[[^\]]*\]\(([^)]+)\)/g;

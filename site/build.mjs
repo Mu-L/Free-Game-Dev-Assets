@@ -14,6 +14,11 @@ const PUBLIC = path.join(__dirname, "public");
 const DIST = path.join(__dirname, "dist");
 const CONFIG_PATH = path.join(__dirname, "config.json");
 const VOCAB_PATH = path.join(__dirname, "license-vocabulary.json");
+// Social preview image: a first-party screenshot of this site, kept with the
+// other first-party stills (the validator allows binaries there) and copied
+// into dist at build time.
+const OG_CARD_NAME = "og-card.png";
+const OG_CARD_SRC = path.join(ROOT, "docs", "images", "readme", OG_CARD_NAME);
 
 /** Sort rank for "license permissiveness": least owed first. */
 const ATTRIBUTION_RANK = { none: 0, notice: 1, required: 2, any: 3 };
@@ -325,10 +330,21 @@ function guideRowsHtml(guides, repo) {
     .join("\n");
 }
 
-function headMetaHtml(site, stats, generatedAt) {
+function headMetaHtml(site, stats, generatedAt, hasCard) {
   const url = site.siteUrl;
   const title = site.title;
   const desc = site.tagline;
+  const card = `${url.replace(/\/+$/, "")}/${OG_CARD_NAME}`;
+  const cardMeta = hasCard
+    ? [
+        `<meta property="og:image" content="${esc(card)}" />`,
+        `<meta property="og:image:width" content="1200" />`,
+        `<meta property="og:image:height" content="630" />`,
+        `<meta property="og:image:alt" content="${esc(`${title}: ${desc}`)}" />`,
+        `<meta name="twitter:card" content="summary_large_image" />`,
+        `<meta name="twitter:image" content="${esc(card)}" />`,
+      ]
+    : [`<meta name="twitter:card" content="summary" />`];
   return [
     `<link rel="canonical" href="${esc(url)}" />`,
     `<meta name="theme-color" content="#1a4d3e" media="(prefers-color-scheme: light)" />`,
@@ -338,7 +354,7 @@ function headMetaHtml(site, stats, generatedAt) {
     `<meta property="og:title" content="${esc(title)}" />`,
     `<meta property="og:description" content="${esc(desc)}" />`,
     `<meta property="og:url" content="${esc(url)}" />`,
-    `<meta name="twitter:card" content="summary" />`,
+    ...cardMeta,
     `<meta name="twitter:title" content="${esc(title)}" />`,
     `<meta name="twitter:description" content="${esc(desc)}" />`,
     `<meta name="generator" content="site/build.mjs ${esc(generatedAt)}" />`,
@@ -441,6 +457,10 @@ function main() {
 
   if (fs.existsSync(DIST)) fs.rmSync(DIST, { recursive: true, force: true });
   copyDir(PUBLIC, DIST);
+  const hasCard = fs.existsSync(OG_CARD_SRC);
+  if (hasCard) fs.copyFileSync(OG_CARD_SRC, path.join(DIST, OG_CARD_NAME));
+  // data.json is the public machine-readable catalog (see site/README.md);
+  // the page itself loads data.js.
   fs.writeFileSync(path.join(DIST, "data.json"), JSON.stringify(payload, null, 2));
   fs.writeFileSync(
     path.join(DIST, "data.js"),
@@ -454,7 +474,7 @@ function main() {
   const stamp = payload.generatedAt.slice(0, 10);
   const visible = entries.filter((e) => e.status !== "deprecated");
   const substitutions = {
-    HEAD_META: headMetaHtml(config.site, stats, payload.generatedAt),
+    HEAD_META: headMetaHtml(config.site, stats, payload.generatedAt, hasCard),
     STARTER_ROWS: starterRowsHtml(featured),
     ENTRY_ROWS: groupedRowsHtml(visible, config.categories, repoUrl, now),
     CATEGORY_CHIPS: categoryChipsHtml(visible, config.categories),

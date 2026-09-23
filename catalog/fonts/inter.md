@@ -8,8 +8,8 @@ license: SIL OFL
 license_spdx: OFL-1.1
 commercial: true
 attribution_required: false
-formats: [OTF, TTF, variable]
-tags: [ui, sans, ofl, variable]
+formats: [OTF, TTF]
+tags: [ui, sans, ofl, variable-font]
 verified: 2026-07-19
 status: active
 ---

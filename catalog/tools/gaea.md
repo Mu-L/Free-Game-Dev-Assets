@@ -7,8 +7,8 @@ subcategories: [terrain]
 license: custom
 commercial: unknown
 attribution_required: unknown
-formats: [heightfield, textures]
-tags: [terrain, freemium, eula-pdf]
+formats: [desktop-app]
+tags: [terrain, freemium, eula-pdf, heightfield]
 verified: 2026-08-24
 status: needs-review
 ---

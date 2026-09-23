@@ -8,7 +8,7 @@ license: MIT
 license_spdx: MIT
 commercial: true
 attribution_required: false
-formats: [model, binary]
+formats: [model]
 tags: [ai, tts, offline, local]
 verified: 2026-08-24
 status: active

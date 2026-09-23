@@ -8,7 +8,7 @@ license: MIT
 license_spdx: MIT
 commercial: true
 attribution_required: false
-formats: [desktop]
+formats: [desktop-app]
 tags: [a11y, colorblind, r04]
 verified: 2026-08-24
 status: active

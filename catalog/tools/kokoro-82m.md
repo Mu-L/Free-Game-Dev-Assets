@@ -8,7 +8,7 @@ license: Apache-2.0
 license_spdx: Apache-2.0
 commercial: true
 attribution_required: false
-formats: [ONNX, model]
+formats: [ONNX]
 tags: [ai, tts, offline, local]
 verified: 2026-08-24
 status: active

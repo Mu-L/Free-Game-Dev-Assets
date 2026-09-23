@@ -8,8 +8,8 @@ license: varies
 commercial: unknown
 attribution_required: true
 attribution_string: "Credit the designer named on the Fontshare family page. Per-family; ITF FFL terms were not readable as text."
-formats: [OTF, TTF, WOFF, variable]
-tags: [foundry, itf, mixed-license]
+formats: [OTF, TTF, WOFF]
+tags: [foundry, itf, mixed-license, variable-font]
 verified: 2026-08-25
 status: needs-review
 ---

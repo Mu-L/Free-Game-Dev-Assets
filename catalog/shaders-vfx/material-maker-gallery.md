@@ -8,7 +8,7 @@ subcategories: [materials, procedural]
 license: varies
 commercial: unknown
 attribution_required: unknown
-formats: [mm, PNG, shaders]
+formats: [mm, PNG]
 tags: [procedural, pbr, per-item-license]
 verified: 2026-07-19
 status: needs-review

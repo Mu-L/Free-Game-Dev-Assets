@@ -8,7 +8,7 @@ license: MIT
 license_spdx: MIT
 commercial: true
 attribution_required: false
-formats: [CLI, JS API]
+formats: [cli, JavaScript]
 tags: [gltf, optimization, ktx, meshopt]
 verified: 2026-08-24
 status: active

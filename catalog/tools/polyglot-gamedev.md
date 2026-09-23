@@ -8,7 +8,7 @@ license: CC0
 license_spdx: CC0-1.0
 commercial: true
 attribution_required: false
-formats: [CSV, spreadsheet]
+formats: [CSV]
 tags: [l10n, ui-strings, r04]
 verified: 2026-08-25
 status: active

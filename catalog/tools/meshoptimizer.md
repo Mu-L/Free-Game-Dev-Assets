@@ -8,7 +8,7 @@ license: MIT
 license_spdx: MIT
 commercial: true
 attribution_required: false
-formats: [CLI, library]
+formats: [cli, library]
 tags: [gltf, geometry, pipeline, r04]
 verified: 2026-08-24
 status: active

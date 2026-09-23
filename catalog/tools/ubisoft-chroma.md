@@ -8,8 +8,8 @@ license: Apache-2.0
 license_spdx: Apache-2.0
 commercial: true
 attribution_required: false
-formats: [windows]
-tags: [a11y, colorblind, r04]
+formats: [desktop-app]
+tags: [a11y, colorblind, r04, windows]
 verified: 2026-08-24
 status: active
 ---

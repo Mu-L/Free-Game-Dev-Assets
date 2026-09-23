@@ -8,7 +8,7 @@ license: BSD-2-Clause
 license_spdx: BSD-2-Clause
 commercial: true
 attribution_required: false
-formats: [desktop]
+formats: [desktop-app]
 tags: [bsd, a11y, colorblind, simulator]
 verified: 2026-07-19
 status: active

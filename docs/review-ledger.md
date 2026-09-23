@@ -4,6 +4,47 @@ Newest section at the top. One section per review run. This is the record of wha
 run measured, what it changed, what it deliberately did not change, and what the next
 run should not spend time re-deciding.
 
+## 2026-09-23 (fourteenth pass, same session)
+
+The thirteenth pass's next action: re-run the first pass's task test. Same three tasks,
+walked from the site search and the category guides, recording each point where a
+stranger would leave.
+
+- **Task A, 3D low-poly arena with rigged characters and impact SFX in Godot 4: no leave
+  point.** Arena, characters, clips, first-person arms, weapons, impact SFX, UI, prompts,
+  font, music and Godot add-ons are all `active`, and all but Mixamo and Sonniss are
+  CC0/OFL/MIT. Friction, not a gap: the arms are FBX and `.blend` only, so they go through
+  Blender before Godot, and the entry says so.
+- **Task B, 2D top-down pixel game with UI, prompts and a terminal font: passes, but the
+  View filter misled.** Both 4-directional CC0 character sets (`ninja-adventure`,
+  `armm1998-zelda-like`) are `isometric_3_4`, so a stranger choosing View "Top-down" saw
+  tiles and vehicles and no character that turns. Labels now say "Top-down, straight
+  down" and "3/4 top-down, walls visible".
+- **Task C, first-person destruction with debris materials, industrial props and
+  ambience: passes by the fracture route.** Arms, fracture tools, industrial kits and
+  ambience are found. **Leave point found and fixed:** searching "concrete" returned
+  nothing, because no texture library named a material. Five libraries whose own pages
+  list concrete, metal and brick now carry those tags; ShareTextures gets `metal` only,
+  the one of the three its page shows. Texture Ninja and TextureCan were not tagged: one
+  page showed none of the words, the other refused the request (406).
+- **The biggest leave point was the site, not the catalog.** Search matched the query as
+  one exact substring, so "first person", "top down" and "low poly" all returned zero
+  while `first-person`, `top-down` and `low-poly` tags existed. Every task hit it. Now
+  words match independently, hyphens read as spaces, and the perspective is searchable.
+  Checked in a browser against the built site: "first person" 3, "top down" 14, "low
+  poly" 15, "concrete" 5, no console errors. Bag-of-words matching is looser: "first
+  person" also returns ccMixter, whose summary has both words. Accepted.
+- Stale cross-reference fixed: the Toon Shooter entry still called itself the closest
+  thing to first-person arms. It and the guns pack now link the arms entry.
+- Batch T, one commit. `verified:` untouched throughout: tags and search are not licence
+  facts.
+- Deferred, unchanged: `tenacity`'s licence, the two `camera_perspective` questions,
+  Mixkit's licence text, and the first pass's 12 bot-blocked URLs.
+- Next highest-value action: **clear the bot-blocked backlog with a real browser.**
+  `tenacity` (Codeberg 403), Mixkit (cookie wall; whether to accept cookies to read it
+  is still the owner's call), and the 12 URLs that returned 403/454 in the first pass have all
+  waited on "a browser-based check". This session has one.
+
 ## 2026-09-23 (thirteenth pass, same session)
 
 The twelfth pass's next action: the two task-test gaps. **Both now have entries.**
@@ -31,7 +72,8 @@ The twelfth pass's next action: the two task-test gaps. **Both now have entries.
   Cell Fracture entry cites its 5 to 50 piece guidance.
 - Deferred, unchanged: `tenacity`'s licence, the two `camera_perspective` questions,
   Mixkit's licence text.
-- Next highest-value action: **re-run the first pass's task test end to end.** Every gap it
+- Next highest-value action: ~~**re-run the first pass's task test end to end.**~~ Done in
+  the fourteenth pass above. Every gap it
   found now has an entry or a guide; re-running it is the check that those answers hold
   up, and whatever still fails becomes the next batch.
 

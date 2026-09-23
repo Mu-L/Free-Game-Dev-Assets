@@ -4,6 +4,29 @@ Newest section at the top. One section per review run. This is the record of wha
 run measured, what it changed, what it deliberately did not change, and what the next
 run should not spend time re-deciding.
 
+## 2026-09-23 (after the second full run)
+
+The second full run's next action: the sticky filter panel on phones. One commit
+(`0585922`, labelled batch E in the log; it is a site fix, not the prompt's additions batch).
+
+- **Fixed.** On screens up to 640px wide or 600px tall the panel scrolls away with the
+  page instead of pinning. Measured in touch emulation: at 375x800 the entries went from
+  about 270px of screen to all 800px; at 800x400 (a phone on its side) they get all 400px
+  (the old figure there was not measured). Desktop is unchanged: sticky, 228px.
+- The panel's height also fed `--sticky-h`, which reserves space above permalink and
+  category-jump targets. On phones that reserved 527px of empty space above the target.
+  `app.js` now publishes 0 when the panel is not sticky: `#entry-` permalinks land 16px
+  from the top on both small layouts.
+- The Top button is now how a phone user gets the filters back. Checked: it returns with
+  the search box visible and focused.
+- **Found, not fixed (pre-existing, same on the live site):** on desktop, Top scrolls to
+  the page header but focuses the search box about 1,600px further down, off screen. A
+  keyboard user who then types is typing into a field they cannot see.
+- Next highest-value action: **make Top land where it focuses.** Either scroll to the
+  catalog controls rather than the page top, or stop moving focus. A few lines in
+  `app.js`, and it is the last interaction defect on record. After that, the plural
+  subcategory convention (five pairs) from the second full run.
+
 ## 2026-09-23 (second full run)
 
 The fifteenth pass's next action: a fresh MODE=full run, measured from zero. Findings in
@@ -44,7 +67,8 @@ script ran.
     `macOS`, `iOS`, `library`, `binary`).
 - Still needs the maintainer: `og:image` hosting, whether `data.json` (297 KB, unused by
   the page) is a public endpoint, the two `camera_perspective` scope questions.
-- Next highest-value action: **fix the sticky filter panel on phones.** It is the one
+- Next highest-value action: ~~**fix the sticky filter panel on phones.**~~ Done in the
+  section above. It is the one
   finding that makes the live site worse to use for everyone on a phone, and the fix is
   contained: collapse the panel on small screens or stop it sticking there.
 

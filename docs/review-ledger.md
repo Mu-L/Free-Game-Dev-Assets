@@ -4,6 +4,43 @@ Newest section at the top. One section per review run. This is the record of wha
 run measured, what it changed, what it deliberately did not change, and what the next
 run should not spend time re-deciding.
 
+## 2026-09-23 (eighth pass, same session)
+
+Took the seventh pass's next action. Batch N. The 3D kit question, which earlier passes
+held back as a matter of art style, turned out to be mostly measurable.
+
+- Executed: parsed the glTF/GLB of every model in Kenney's Modular Dungeon and Nature
+  kits (368), every model in KayKit's Dungeon Remastered and Adventurers packs (235), and
+  eight Quaternius models, then wrote **Choosing between Kenney, KayKit and Quaternius**
+  into `catalog/3d/README.md`. Triangles, texturing, rigs, animation counts, height, file
+  size and delivery, each from the files rather than the store pages.
+- **The finding that matters most is scale.** Kenney Nature Kit trees are 1.33 m and rocks
+  0.32 m; Kenney's own Modular Dungeon walls are 4.2 m; Quaternius trees are 7 to 10 m.
+  The Nature Kit is authored at a miniature scale and needs about 5x before it sits beside
+  anything else. KayKit and Kenney dungeon walls agree within 5% (4.0 m, 4.2 m).
+- **Correction:** `kenney-nature-kit` advised pairing it with the Quaternius Stylized
+  Nature MegaKit "for denser stylized forests". Measured, that puts 1.3 m trees beside
+  7-10 m trees at a twentyfold density gap. Rewritten. Notes only; `verified` unchanged.
+- **New finding, logged rather than acted on, per the rule on scope:** Poly Pizza labels
+  the same author's work inconsistently. Of eight Quaternius models checked, seven showed
+  "Public Domain" and one (Animated Base Character) showed "Creative Commons
+  Attribution", while Quaternius itself releases the packs as CC0. That is direct evidence
+  for the `poly-pizza` entry's `needs-review` status and belongs in its notes next run: an
+  aggregator's per-file licence label cannot be trusted over the author's own statement.
+- **Method limits, stated in the README as well.** Quaternius packs are served through
+  itch, whose free-download flow would not issue a file outside a browser session (the
+  signed key was rejected every time without browser cookies). The Quaternius figures come
+  from eight models on Poly Pizza, so they are indicative, not pack-wide. KayKit ships
+  official GitHub repos (`KayKit-Game-Assets/*`), which is why its sample is complete.
+- Deferred, unchanged: `tenacity`'s licence, the `camera_perspective` scope question for
+  `characters` and `3d`, the single-valued `camera_perspective` schema question.
+- Remaining measured clusters: `characters/rigged` (14), `audio/sfx` (14), `tools/godot`
+  (12), `audio/music` (11). The KayKit and Quaternius rig numbers from this pass already
+  cover most of `characters/rigged`.
+- Next highest-value action: **add the Poly Pizza licence-label finding to the
+  `poly-pizza` entry**, then **`characters/rigged`**, reusing this pass's measurements and
+  extending them to Blender Studio's rigs and Microsoft Rocketbox.
+
 ## 2026-09-23 (site navigation, same session)
 
 Maintainer-requested navigation and usability work, not a review pass. Batches L and M.

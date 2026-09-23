@@ -401,6 +401,26 @@ rejects(
   ),
   'does not carry its license "Unlicense"'
 );
+rejects(
+  "V11 checks every listing table, not only the first",
+  checkCategoryReadmeRows(
+    "tools",
+    [
+      "## Editors",
+      "| ID | Name | License | Status |",
+      "| [tiled](tiled.md) | Tiled | GPL-2.0-or-later | active |",
+      "",
+      "## Godot 4 add-ons",
+      "| ID | Name | License | Status |",
+      "| [godot-mod-loader](godot-mod-loader.md) | Godot Mod Loader | MIT | active |",
+    ].join("\n"),
+    [
+      { rel: "catalog/tools/tiled.md", meta: { license: "GPL-2.0-or-later" } },
+      { rel: "catalog/tools/godot-mod-loader.md", meta: { license: "CC0" } },
+    ]
+  ),
+  'row for "godot-mod-loader" does not carry its license "CC0"'
+);
 accepts(
   "V11 stays quiet when the entry has no row (validate.mjs reports that)",
   checkCategoryReadmeRows("tools", readme, [

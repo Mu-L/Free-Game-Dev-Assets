@@ -264,19 +264,27 @@ export function checkCategoryReadmeRows(categoryName, readmeText, entries) {
   // comparison tables that link entries, and those have no license column to
   // contradict. The listing is found by its header rather than by row shape,
   // because a comparison table can legitimately lead with the entry link too.
-  const start = lines.findIndex((l) => /^\|\s*ID\s*\|/i.test(l.trim()));
-  if (start === -1) {
+  //
+  // A README can hold several listing tables (tools has one per section), so
+  // collect the rows of every table that starts with an "| ID |" header. Reading
+  // only the first one silently skipped every later section, which is how a
+  // licence change in the Godot table went unnoticed.
+  const table = [];
+  let tables = 0;
+  for (let i = 0; i < lines.length; i += 1) {
+    if (!/^\|\s*ID\s*\|/i.test(lines[i].trim())) continue;
+    tables += 1;
+    for (let k = i + 1; k < lines.length && lines[k].trim().startsWith("|"); k += 1) {
+      table.push(lines[k]);
+    }
+  }
+  if (!tables) {
     if (entries.length) {
       errors.push(
         `catalog/${categoryName}/README.md has no catalog table (expected a header row starting "| ID |")`
       );
     }
     return errors;
-  }
-  const table = [];
-  for (let i = start + 1; i < lines.length; i += 1) {
-    if (!lines[i].trim().startsWith("|")) break;
-    table.push(lines[i]);
   }
 
   for (const entry of entries) {

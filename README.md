@@ -80,6 +80,8 @@ pages.
 | A PBR texture library you can redistribute | [3D: Choosing a PBR texture source](catalog/3d/README.md#choosing-a-pbr-texture-source) |
 | A rigged character, and whether its animations will transfer | [Characters: Choosing a rigged character source](catalog/characters/README.md#choosing-a-rigged-character-source) |
 | A pixel font, including CJK | [Fonts: Choosing a pixel font](catalog/fonts/README.md#choosing-a-pixel-font) |
+| Game music, and whether videos of your game will get claimed | [Audio: Choosing game music](catalog/audio/README.md#choosing-game-music) |
+| Sound effects, and what "no credit" still leaves you owing | [Audio: Choosing sound effects](catalog/audio/README.md#choosing-sound-effects) |
 | A Godot 4 add-on that still builds against your engine | [Tools: Godot 4 add-ons](catalog/tools/README.md#godot-4-add-ons) |
 | Between two tools that do the same job | [Tools: near-duplicates](catalog/tools/README.md#choosing-between-near-duplicates) |
 

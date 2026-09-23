@@ -4,6 +4,38 @@ Newest section at the top. One section per review run. This is the record of wha
 run measured, what it changed, what it deliberately did not change, and what the next
 run should not spend time re-deciding.
 
+## 2026-09-23 (twelfth pass, same session)
+
+The eleventh pass's next action: `audio/sfx`. **Every cluster measured in the seventh pass
+now has decision support.**
+
+- **Batch R: "Choosing sound effects"** in `catalog/audio/README.md` (14 SFX sources, 4
+  impulse-response packs), sorted by job, with the restrictions beyond credit that
+  actually differ: Sonniss is media-production-only and bans AI training; Zapsplat's free
+  tier is MP3 only; BigSoundBank's CC0 covers only files marked "Free and Royalty Free".
+- **The open question is answered: Content ID does reach sound effects, indirectly.**
+  Freesound's FAQ explains it: musicians register songs containing raw sounds from free
+  libraries, so later videos using the same raw sound get matched, and processing a sound
+  makes a match less likely. Zapsplat's licence acknowledges mistaken automated claims.
+  The mechanism works on any widely downloaded sound, CC0 included.
+- **Impulse responses:** shipping changes what you owe. Runtime convolution ships the IR
+  file; Adventure Kid asks for credit when its IRs are redistributed "in software".
+- **Two claims caught before commit.** The table attributed a no-redistribution term to
+  Mixkit that is not on record. And Fesliyan's music policy (no YouTube monetisation, no
+  livestreaming) was nearly attributed to its sound effects; that page is the music policy,
+  and the separate SFX policy has none of those restrictions. **Lesson:** on a site that
+  sells two things, find the policy for the thing you are cataloguing.
+- **Unchecked, stated as unchecked:** Mixkit's licence text would not load behind a cookie
+  consent dialog, and accepting cookies to get past it is not a review pass's decision.
+  The README says "unchecked", not "not addressed".
+- README "Start here" now links ten guides, including both audio ones.
+- Deferred, unchanged: `tenacity`'s licence, the two `camera_perspective` questions,
+  Mixkit's licence text.
+- Next highest-value action: **the two task-test gaps still unsourced since the first
+  pass: rigged first-person arms, and rubble / pre-fractured debris geometry.** The
+  decision-support work is done; the catalog still cannot answer those two requests at
+  all, and they came from the task test tied to the owner's own work.
+
 ## 2026-09-23 (eleventh pass, same session)
 
 The tenth pass's next action: music. Two commits, one of them fixing a regression of my
@@ -33,10 +65,8 @@ own.
   how it finds its input, test it on the unusual shapes, not the common one.
 - Deferred, unchanged: `tenacity`'s licence, the two `camera_perspective` questions.
 - Remaining measured cluster: `audio/sfx` (14).
-- Next highest-value action: **`audio/sfx`**. Attribution and the Sonniss and Freesound
-  per-file terms are the known questions, and fourteen sources sit in one list. Whether
-  Content ID reaches sound effects is untested here; check it at each source rather than
-  assume either way.
+- Next highest-value action: ~~**`audio/sfx`**~~: done in the twelfth pass above, which
+  also answered whether Content ID reaches sound effects (it does, indirectly).
 
 ## 2026-09-23 (tenth pass, same session)
 

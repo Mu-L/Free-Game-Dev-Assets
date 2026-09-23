@@ -4,6 +4,49 @@ Newest section at the top. One section per review run. This is the record of wha
 run measured, what it changed, what it deliberately did not change, and what the next
 run should not spend time re-deciding.
 
+## 2026-09-22 (seventh pass, same session)
+
+Took the sixth pass's next action. Batch K. **Re-measured before starting, and the
+ledger's own figure was wrong.**
+
+- The "eight uncovered clusters" carried forward since the second pass was stale: the
+  tools comparison table from batch E already covers seven of the original ten. Counting
+  clusters properly, by entries sharing a subcategory inside a category, found much
+  larger ones nobody had looked at. Lesson for future passes: **re-measure the deferred
+  item before working it**, because a count written three passes ago describes a
+  catalog that no longer exists.
+- Executed: three comparison tables, chosen by cluster size and by how little the
+  licence column helps.
+  - `catalog/2d/README.md` — **Choosing a pixel tileset** (10 sources). Sorted by grid
+    size and projection, the two things that actually decide it.
+  - `catalog/3d/README.md` — **Choosing a PBR texture source** (8 sources). Sorted by
+    licence first: six are genuine CC0, `sharetextures` and `freepbr` are custom grants
+    that permit shipping a game but restrict passing the textures on.
+  - `catalog/fonts/README.md` — **Choosing a pixel font** (9 sources). Sorted by kind of
+    retro, and by CJK coverage, which three have and the licence column cannot show.
+- **The 2D tileset table is one this session owed.** Batch H added six pixel tile packs
+  to a category that already had four, leaving ten CC0 sources that look
+  interchangeable. Adding sources without adding a way to choose between them is a debt,
+  and it is worth noticing that the same pass that closes a coverage gap can open a
+  decision-support one.
+- **V11 reworked.** The 3D table leads with the entry link, which made it structurally
+  identical to a catalog listing row, and V11 produced seven false positives. It now
+  finds the listing by its `| ID |` header rather than by row shape. To stop that from
+  becoming a check that measures nothing if the header ever changes, a category README
+  with entries and no such table is now itself an error. Both behaviours are fixtured
+  and were re-proved by mutating the real catalog.
+- Deferred, unchanged: `tenacity`'s licence (Codeberg 403s automated requests), the
+  `camera_perspective` scope question for `characters` and `3d`, and the single-valued
+  `camera_perspective` schema question from the sixth pass.
+- Remaining clusters, now measured rather than guessed, largest first: `3d/environment`
+  (32), `3d/props` (26), `3d/modular` (17), `characters/rigged` (14), `audio/sfx` (14),
+  `tools/godot` (12), `audio/music` (11), `characters/animated` (10). The 3D ones are
+  really one question — **Kenney vs Quaternius vs KayKit**, three publishers holding 80
+  entries — and answering it well needs a view on art style and topology, not metadata.
+- Next highest-value action: **that 3D kit question**. It is the largest cluster in the
+  catalog, `catalog/3d/README.md` had no guidance at all until this pass, and a
+  developer starting a 3D project hits it immediately.
+
 ## 2026-09-22 (sixth pass, same session)
 
 Took the fifth pass's next action. Batch J. The 2D taxonomy is now as complete as it
@@ -33,11 +76,9 @@ can honestly be.
 - Deferred, unchanged: `tenacity`'s licence (Codeberg 403s automated requests), the
   eight decision-support clusters without comparison lines, and the `camera_perspective`
   scope question for `characters` and `3d`.
-- Next highest-value action: **the eight decision-support clusters**. Two of the ten
-  identified in the first pass have comparison tables; the rest (Godot scatter, dungeon
-  tilesets, colourblindness tools beyond the prose note, and the others) do not. That is
-  now the largest piece of measured, unfinished work left in the findings file, and
-  unlike the taxonomy it needs judgment rather than downloads.
+- Next highest-value action: ~~**the eight decision-support clusters**~~ — worked in
+  the seventh pass above, where the count turned out to be stale. Three much larger
+  clusters were covered instead.
 
 ## 2026-09-22 (fifth pass, same session)
 

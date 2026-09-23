@@ -1005,8 +1005,17 @@ input:focus-visible {
   }
 }
 
+/* On a phone the wrapped filter panel is about 530px tall, two thirds of the
+   screen, and pinning it left a strip for the entries. Small or short screens
+   scroll it away with the page instead; "Top" brings it back. */
+@media (max-width: 640px), (max-height: 600px) {
+  .controls {
+    position: static;
+  }
+}
+
 /* Anchored targets must clear the sticky filter bar. app.js measures it into
-   --sticky-h; the fallback covers the no-JS page. */
+   --sticky-h (0 when it is not sticky); the fallback covers the no-JS page. */
 .group-heading,
 .entry-card {
   scroll-margin-top: calc(var(--sticky-h, 10rem) + 1rem);

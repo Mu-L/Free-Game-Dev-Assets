@@ -366,14 +366,14 @@
     const controls = $(".controls");
     // Anchored jumps (chip links, #entry- permalinks) would otherwise land
     // underneath the sticky filter bar. Its height varies with wrapping, so
-    // publish the measured value and let CSS scroll-margin use it.
-    if (controls) {
-      document.documentElement.style.setProperty(
-        "--sticky-h",
-        `${Math.round(controls.getBoundingClientRect().height)}px`
-      );
-    }
-    const cutoff = (controls ? controls.getBoundingClientRect().bottom : 0) + 8;
+    // publish the measured value and let CSS scroll-margin use it. On small
+    // screens the bar is not sticky, and nothing needs clearing.
+    const stuck = !!controls && getComputedStyle(controls).position === "sticky";
+    document.documentElement.style.setProperty(
+      "--sticky-h",
+      stuck ? `${Math.round(controls.getBoundingClientRect().height)}px` : "0px"
+    );
+    const cutoff = (stuck ? controls.getBoundingClientRect().bottom : 0) + 8;
     let found = null;
     for (const h of groupHeadings) {
       if (h.getBoundingClientRect().top <= cutoff) found = h.getAttribute("data-cat");

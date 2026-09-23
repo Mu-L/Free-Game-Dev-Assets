@@ -104,6 +104,43 @@ desktop, [sim-daltonism](sim-daltonism.md) is a live lens on macOS and iOS,
 
 ## Godot 4 add-ons
 
+For an add-on, the licence is rarely the question. Whether it still builds against your
+engine version is. Maintenance was read from each repository on 2026-09-23.
+
+| Job | Take | Godot | Latest release | Last commit |
+| --- | --- | --- | --- | --- |
+| Enemy and NPC logic, trees only | [beehave](beehave.md) | 4.x | v2.9.3, 2026-08 | 2026-09 |
+| Trees **plus** state machines, with a debugger | [limboai](limboai.md) | 4.x, GDExtension | v1.8.1, 2026-08 | 2026-09 |
+| Cameras: follow, blend, shake | [phantom-camera](phantom-camera.md) | 4.x | v0.11.0.3, 2026-07 | 2026-09 |
+| Large terrain from heightmaps | [terrain3d](terrain3d.md) | 4.x, GDExtension | v1.0.2, 2026-05 | 2026-09 |
+| Dialogue and timelines | [dialogic](dialogic.md) | **4.5 or newer** | **2.0 alpha 20**, 2026-07 | 2026-08 |
+| Input remapping and profiles | [godot-guide](godot-guide.md) | 4.x | v0.14.0, 2026-07 (pre-1.0) | 2026-08 |
+| Device detection and prompts, small | [godot-input-helper](godot-input-helper.md) | 4.x | v4.7.0, 2025-06 | **2025-06** |
+| 3D props and foliage | [proton-scatter](proton-scatter.md) | 4.x | 4.0, **2023-10** | 2026-07 |
+| 2D props and foliage | [scatter2d](scatter2d.md) | 4.x | v1.4.1, 2026-01 | 2026-01 |
+| Textured 2D terrain edges | [smartshape2d](smartshape2d.md) | 4.x | 3.3.2, 2026-08 | 2026-08 |
+| Mod support | [godot-mod-loader](godot-mod-loader.md) | 4.x on `4.x-dev` | v7.0.1, 2025-06 | 2026-08 |
+| Steamworks | [godotsteam](godotsteam.md) | 4.x | v4.22.1, 2026-09 | **moved to Codeberg** |
+| Creature mesh-deform animation | [creature-2d-runtimes](creature-2d-runtimes.md) | **3 only** | none | **2020-06** |
+
+Read the bold cells before depending on one:
+
+- **Dialogic 2 is still alpha** and needs Godot 4.5. Plan for breaking changes.
+- **ProtonScatter's last release is from 2023**, but `main` is maintained. Install from
+  the branch, not the release.
+- **Input Helper** has had no commit in fifteen months. It is small enough that this may
+  simply mean finished, but check it against your engine version.
+- **GodotSteam** archived its GitHub repository and moved to Codeberg; the project itself
+  is active.
+- **Creature 2D Runtimes** is a Godot 3 runtime last touched in 2020. It is in this list
+  for completeness, not because it runs in Godot 4.
+
+Beehave or LimboAI: both are maintained. Take Beehave if trees alone are enough and you
+want an addon written in GDScript you can read and patch; take LimboAI when you also want
+state machines and a visual debugger, and can accept a compiled C++ GDExtension. The same Godot-version trap affects
+[waterways](../shaders-vfx/waterways.md) in the shaders folder: its default branch and
+only release are Godot 3.
+
 | ID | Name | License | Status |
 | --- | --- | --- | --- |
 | [proton-scatter](proton-scatter.md) | ProtonScatter | MIT | active |
@@ -113,8 +150,8 @@ desktop, [sim-daltonism](sim-daltonism.md) is a live lens on macOS and iOS,
 | [godot-guide](godot-guide.md) | G.U.I.D.E. | MIT | active |
 | [godot-input-helper](godot-input-helper.md) | Input Helper | MIT | active |
 | [dialogic](dialogic.md) | Dialogic | MIT | active |
-| [creature-2d-runtimes](creature-2d-runtimes.md) | Creature 2D Runtimes | Apache-2.0 | active |
-| [godot-mod-loader](godot-mod-loader.md) | Godot Mod Loader | MIT | active |
+| [creature-2d-runtimes](creature-2d-runtimes.md) | Creature 2D Runtimes (Godot 3 only) | Apache-2.0 | active |
+| [godot-mod-loader](godot-mod-loader.md) | Godot Mod Loader | CC0 | active |
 | [beehave](beehave.md) | Beehave | MIT | active |
 | [limboai](limboai.md) | LimboAI | MIT | active |
 | [terrain3d](terrain3d.md) | Terrain3D | MIT | active |

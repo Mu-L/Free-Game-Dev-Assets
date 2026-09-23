@@ -22,6 +22,7 @@ GDExtension bindings to Steamworks for Godot 4 (achievements, stats, leaderboard
 - Steamworks access requires a Steam partner account. The addon does not replace Valve’s SDK license.
 - Godot 4 GDExtension: match the addon build to your engine minor version. A 4.2 build will not load in 4.3 without a rebuild.
 - This session did not re-read Steamworks or GodotSteam license text. Keep `needs-review` until both pages are quoted.
+- **Source moved to Codeberg.** Checked 2026-09-23: the GitHub repository `GodotSteam/GodotSteam` is archived, and its README reads "This repository has been moved to Codeberg" with a link to `codeberg.org/godotsteam/godotsteam`. It still published v4.22.1 on 2026-09-04 before archiving, so the project is active; only the host changed. The Asset Library URL above still resolves. Codeberg refuses automated requests (see [tenacity](tenacity.md)), which is one reason this licence has not been re-read by a script
 
 ## Related
 

@@ -21,6 +21,7 @@ Godot tool that generates river meshes with flow/foam maps from Bézier curves. 
 ## Notes
 
 - Addon path: `addons/waterways`
+- **The default download is the Godot 3 version.** Checked 2026-09-23: the `main` branch has `config_version=4` in `project.godot`, which is Godot 3, and the only GitHub release (v0.2.1) dates from 2021-01-27. Godot 4 code lives on the `godot4_0` branch (targets 4.2) and `godot4_5_1` (targets 4.5). Clone the branch that matches your engine; do not take the release
 - Complements ocean-style [boujie-water](boujie-water.md) for inland rivers/streams
 - Attribution example (optional): `Waterways © Kasper Arnklit Frandsen — MIT`
 

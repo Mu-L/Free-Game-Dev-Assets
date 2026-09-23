@@ -4,6 +4,47 @@ Newest section at the top. One section per review run. This is the record of wha
 run measured, what it changed, what it deliberately did not change, and what the next
 run should not spend time re-deciding.
 
+## 2026-09-23 (tenth pass, same session)
+
+The ninth pass's next action (`tools/godot`), plus a maintainer-requested README rewrite.
+
+- **Batch P: a Godot 4 add-on maintenance table** in `catalog/tools/README.md`, read from
+  each repository: licence, last commit, latest release, archived flag, Godot version.
+- **Licence reversal on `godot-mod-loader`, MIT to CC0.** The entry linked
+  `Godot-Modding/loader`, recorded MIT, and said that older drafts claiming CC0 "are
+  wrong". The drafts were right. That repository is a placeholder: a one-line README, a
+  LICENSE and a docs folder, no code. The project is `GodotModding/godot-mod-loader`,
+  confirmed by both Godot Asset Library listings and its own CC0 LICENSE. `verified`
+  moved with three dated Evidence lines. **Lesson worth keeping:** an earlier pass
+  "corrected" a true claim by verifying the wrong repository. A licence has to belong to
+  the thing people actually download, so confirm the canonical source before reading its
+  licence.
+- Also found: GodotSteam's GitHub repo is archived (moved to Codeberg, still active);
+  Creature 2D Runtimes is a Godot 3 runtime last touched in 2020, listed under a
+  "Godot 4 add-ons" heading (now labelled); Waterways' default branch and only release
+  are Godot 3, with Godot 4 on branches. Notes only on all three.
+- Checked and left alone: Sky3D, scatter2d and gdquest-godot-shaders show `NOASSERTION`
+  on GitHub, but their licence files are ordinary MIT and, for GDQuest, a documented
+  MIT-code / CC-BY-NC-SA-art split that its entry already handles correctly.
+- **README rewritten** around what a visitor is trying to do: a task-to-guide table
+  linking the eight comparison guides, which the front page had never linked; an
+  accurate field reference; a licence-guide table including `fonts.md` and `geodata.md`;
+  and a section on what the validator actually enforces. Kept every badge and the three
+  patterns check V6 validates. Rendered through GitHub's markdown API in README mode
+  before commit, which caught four false claims.
+- **Style debt paid.** The brief forbids em dashes in anything written into the repo, and
+  this session had added them to 29 lines. Measured from the diff since the session began,
+  so only this session's text was touched; 27 fixed, 2 left because they sit in
+  pre-existing sentences.
+- **CONTRIBUTING corrected.** It called listing an entry in its category README
+  "optional", which the validator has always rejected, and told contributors to use any
+  licence name, which check V1 has rejected since batch B. Both now match the validator.
+- Deferred, unchanged: `tenacity`'s licence, the two `camera_perspective` questions.
+- Remaining measured clusters: `audio/sfx` (14), `audio/music` (11).
+- Next highest-value action: **the audio clusters**, starting with music, where the
+  licence traps are sharpest (ND clauses, Content ID registration, attribution strings)
+  and eleven sources currently sit in one list.
+
 ## 2026-09-23 (ninth pass, same session)
 
 Both of the eighth pass's next actions. Two commits.
@@ -32,10 +73,8 @@ Both of the eighth pass's next actions. Two commits.
 - Deferred, unchanged: `tenacity`'s licence, the two `camera_perspective` schema and
   scope questions.
 - Remaining measured clusters: `audio/sfx` (14), `tools/godot` (12), `audio/music` (11).
-- Next highest-value action: **`tools/godot`**, the Godot 4 add-ons. It matches the
-  owner's current work (`docs/godot-budget-stack.md`), twelve add-ons currently sit in
-  one undifferentiated list, and the useful facts (Godot version support, last release,
-  licence) are readable from each repository.
+- Next highest-value action: ~~**`tools/godot`**~~: done in the tenth pass above, which
+  also found the mod-loader licence reversal.
 
 ## 2026-09-23 (eighth pass, same session)
 

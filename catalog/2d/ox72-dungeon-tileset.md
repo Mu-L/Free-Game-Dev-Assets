@@ -12,6 +12,7 @@ attribution_required: false
 formats: [PNG]
 tags: [cc0, dungeon, pixel, tileset, itch]
 grid_dimensions: 16x16
+camera_perspective: isometric_3_4
 verified: 2026-07-19
 status: active
 ---
@@ -24,6 +25,7 @@ Classic CC0 16×16 dungeon tiles (Robert / 0x72). Explicit commercial + modify +
 
 - Name-your-price itch download — set $0 if desired
 - Do not confuse with third-party decoration packs linked on the page (separate licenses)
+- 3/4 view, confirmed 2026-09-22 against the itch preview art: a vertical brick wall face behind a floor plane, with front-facing creature sprites. Matches its sibling [ox72-dungeontileset-ii](ox72-dungeontileset-ii.md), which was already classified this way
 
 ## Evidence
 

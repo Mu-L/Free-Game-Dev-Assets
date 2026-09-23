@@ -12,6 +12,7 @@ attribution_required: false
 formats: [PNG]
 tags: [cc0, dungeon, sewer, roguelike, pixel, kenney, tiny]
 grid_dimensions: 16x16
+camera_perspective: isometric_3_4
 verified: 2026-07-19
 status: active
 ---
@@ -24,6 +25,7 @@ status: active
 
 - Part of Kenney’s Tiny series; scale up with nearest-neighbor
 - Prefer over LPC when you need closed-source-friendly dungeon tiles
+- 3/4 view, confirmed 2026-09-22 against the pack's own `Sample.png`: walls carry a lit front face below the top surface and figures face the viewer. Same projection as [kenney-tiny-town](kenney-tiny-town.md), so the two share a map; the orthographic packs do not
 
 ## Evidence
 

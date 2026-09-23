@@ -10,7 +10,7 @@ license_spdx: CC0-1.0
 commercial: true
 attribution_required: false
 formats: [PNG]
-tags: [cc0, 1-bit, roguelike, rpg, pixel, kenney]
+tags: [cc0, 1-bit, roguelike, rpg, pixel, kenney, multi-perspective]
 grid_dimensions: 16x16
 verified: 2026-07-19
 status: active
@@ -24,6 +24,7 @@ status: active
 
 - Recolor freely; CC0 commercial embed OK
 - Pairs with [ox72-dungeon-tileset](ox72-dungeon-tileset.md) when you want a second dungeon look
+- `camera_perspective` is deliberately absent, and this is the reason. Kenney ships four official sample scenes with the pack: fantasy overworld, interior, urban and **platformer**. The fantasy sample is 3/4 with building facades; the platformer sample is a side-scroller built from the same tiles. The set genuinely serves both, so no single value is correct. Checked 2026-09-22 against `Sample_fantasy.png` and `Sample_platformer.png` in the pack archive
 
 ## Evidence
 

@@ -4,6 +4,50 @@ Newest section at the top. One section per review run. This is the record of wha
 run measured, what it changed, what it deliberately did not change, and what the next
 run should not spend time re-deciding.
 
+## 2026-09-23 (second full run)
+
+The fifteenth pass's next action: a fresh MODE=full run, measured from zero. Findings in
+`_scratch/reviews/2026-09-23-findings.md`; thresholds were written there before any
+script ran.
+
+- Measured: 305 entries (275 active, 28 needs-review, 2 deprecated); commercial true 274,
+  unknown 20, varies 9, false 2; 22 licence values, all in the vocabulary. Required fields
+  305/305. `license_spdx` 239, `publisher` 135. Every `verified:` under 90 days (the 73
+  July dates cross 90 on 2026-10-17). Every entry reaches `data.json` with no field
+  dropped, and every entry has a listing row. Validator, build and tests exit 0.
+- **No licence defects found.** 26 "commercial but mentions non-commercial" keyword hits
+  were read by hand; all were "commercial and non-commercial" phrasing.
+- Contrast measured on the live site in both schemes: 2,968 text nodes each, none below
+  AA. Dialog focus trap, Escape and focus return pass. No horizontal scroll at 375px.
+- Executed, one commit each, in the order A, C, B, D so B's checks ran clean:
+  - **A** (`a1b0ccb`): 4 `formats` case clashes (6 entries) and 4 `subcategories` pairs
+    (4 entries) normalised; CONTRIBUTING now states a spelling convention for both
+    fields, which had none; em dashes removed from 2 entry lines added by review passes
+    and from the site tagline, hero and footer.
+  - **C** (`e420bdc`): `godotsteam` custom to **MIT** and active, read on Codeberg in a
+    browser; the Steamworks SDK is stated as Valve's separate agreement. `vroid-studio`
+    attribution unknown to false, from Article 13 of pixiv's VRoid Studio terms.
+  - **B** (`766e6b7`): **V13** rejects `formats`/`subcategories` values that differ only
+    by case or punctuation; **V14** rejects `unknown` licence, commercial or attribution
+    on an `active` entry. 51 assertions across 14 checks; both also proved by mutating
+    real entries.
+  - **D** (`ff120aa`): nav and entry title links 20px to 44px on touch screens, via inline
+    padding, so the layout does not move.
+- **Correction to the audit:** it listed "active entries may lack Evidence" as a
+  validator gap. `validate.mjs` already enforces that; only the `unknown` half was real.
+- **New defects found while executing, deferred by the no-scope-growth rule:**
+  - **The sticky filter panel covers two thirds of a phone screen**: 527px of an 800px
+    viewport, pinned while scrolling, leaving about 270px for entries. Desktop: 228px.
+  - Five plural subcategory pairs (character/characters, environment/environments,
+    interior/interiors, tileset/tilesets, vector/vectors). A convention call.
+  - `formats` values that are not formats (`examples`, `many`, `runtime`, `windows`,
+    `macOS`, `iOS`, `library`, `binary`).
+- Still needs the maintainer: `og:image` hosting, whether `data.json` (297 KB, unused by
+  the page) is a public endpoint, the two `camera_perspective` scope questions.
+- Next highest-value action: **fix the sticky filter panel on phones.** It is the one
+  finding that makes the live site worse to use for everyone on a phone, and the fix is
+  contained: collapse the panel on small screens or stop it sticking there.
+
 ## 2026-09-23 (fifteenth pass, same session)
 
 The fourteenth pass's next action: clear the bot-blocked backlog with a real browser
@@ -42,7 +86,8 @@ The fourteenth pass's next action: clear the bot-blocked backlog with a real bro
   scope questions, `og:image` hosting, and whether `site/dist/data.json` is a public
   endpoint. Smaller: VRoid's credit terms, Musopen's ToS clause, Scan the World's
   per-object licences.
-- Next highest-value action: **a fresh MODE=full run of the review prompt.** Fifteen
+- Next highest-value action: ~~**a fresh MODE=full run of the review prompt.**~~ Done in
+  the second full run above. Fifteen
   passes have run against measurements taken on 2026-09-22 at 294 entries. The catalog is
   now 305 entries with new checks, guides and a changed site; re-measuring from zero is
   how the next pass avoids optimising against stale numbers.

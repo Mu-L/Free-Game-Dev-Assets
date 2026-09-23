@@ -4,6 +4,39 @@ Newest section at the top. One section per review run. This is the record of wha
 run measured, what it changed, what it deliberately did not change, and what the next
 run should not spend time re-deciding.
 
+## 2026-09-23 (video sources)
+
+The previous section's next action: `video`, one entry. One commit, `8f3955b`. Entry
+count 305 to 310; `video` 1 to 6.
+
+- Added, each licence read at source in a browser today: `pexels-videos`,
+  `pixabay-videos`, `coverr` (all `active`), `mixkit-stock-video` and
+  `prelinger-archives` (both `needs-review`).
+- **No video source names games.** The three `active` ones are general grants (use,
+  copy, modify, commercially, no credit) whose exclusions do not touch shipping inside a
+  game; each entry says that is the basis, rather than claiming a games sentence exists.
+  Pexels at least names apps.
+- **Mixkit is the catalog's clearest game-versus-video case.** On one licence page, the
+  Sound Effects Free License lists "Video games" and the Stock Video Free License does
+  not. Stock video stays `needs-review` on that omission alone; the guide now cites the
+  pair instead of the stale "Mixkit is video-first" line.
+- **Prelinger:** the archive's own FAQ says "DO NOT ASSUME" its films are public domain.
+  Only films carrying the Creative Commons public-domain dedication are free; 28 of the
+  30 most-downloaded carry it (Internet Archive search API). Credit is "delighted if",
+  neither required nor waived, so `attribution_required` is `unknown`.
+- Caught before commit: Coverr was first described as "smaller than Pexels" and "skewing
+  towards lifestyle", then as the only source with an AI rule; Pexels "provides no
+  releases"; Pexels "the largest library". None was read at a source, and Pexels' terms
+  ban scraping for machine learning too. All removed or reworded.
+- Not read, and named in the entries: the Mixkit User Terms (cited by both Mixkit
+  licences as holding "important limits"), and the full Pixabay Content License (the page
+  rendered no licence body; the entries quote the summary).
+- Next highest-value action: **read the two binding documents the entries could not:**
+  the Mixkit User Terms and the full Pixabay Content License. Both licences point to them
+  for limits, and between them they govern four entries (`mixkit-sfx`,
+  `mixkit-stock-video`, `pixabay-audio`, `pixabay-videos`). Either could settle Mixkit
+  video's games question, or add a restriction to the three entries now marked `active`.
+
 ## 2026-09-23 (maintainer decisions)
 
 The maintainer took the recommended default on all three open decisions. One commit,
@@ -20,7 +53,8 @@ The maintainer took the recommended default on all three open decisions. One com
   as current as each `verified` date.
 - **`camera_perspective` / `grid_dimensions`:** 2D and UI only, stated in TEMPLATE and
   CONTRIBUTING. All 52 entries that set either field are in `2d`, so no data changed.
-- Next highest-value action: **`video`, the one category that fails any task test.** It
+- Next highest-value action: ~~**`video`, the one category that fails any task test.**~~
+  Done in the video sources section above. It
   has a single entry (`destockd`, a deliberate seed per the first run). A developer
   wanting free stock footage for a trailer, a menu background or an in-game screen has
   to leave the catalog. Source 3 to 5 candidates, opened and quoted, with the

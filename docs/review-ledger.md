@@ -4,6 +4,45 @@ Newest section at the top. One section per review run. This is the record of wha
 run measured, what it changed, what it deliberately did not change, and what the next
 run should not spend time re-deciding.
 
+## 2026-09-22 (fifth pass, same session)
+
+Took the fourth pass's next action. Batch I. **The original task-test gap is now
+closed**, four passes after it was first measured.
+
+- Executed: downloaded and opened the three character sheets, and recorded what each
+  actually ships rather than what its description implies.
+  - `ninja-adventure` — **4-directional**. 64x112 per character on a 16px grid: four
+    columns for down, up and both sides, seven rows of frames.
+  - `armm1998-zelda-like` — **4-directional**. 272x256 sheet of 16x32 frames, four
+    facings, four-frame walk plus a sword set in each direction.
+  - `kenney-roguelike-characters` — **front-facing only**. 918x203 on a 16px tile with
+    1px spacing: bodies, hair, clothing, armour, shields and weapons, every frame the
+    front view. No side or back facings, no animation frames anywhere in the pack.
+  Tagged `4-directional` and `front-facing` so site search reaches them.
+- **Correction to the fourth pass.** The `kenney-roguelike-characters` note claimed
+  variants were "separate sprites rather than a layered paper doll". The sheet shows
+  the opposite: it is a layered parts kit meant to be composited. What it lacks is
+  turning, not layering. Fixed. The lesson is the same one the fourth pass recorded
+  about perspective: the sheet answers questions the store page does not.
+- `verified:` deliberately unchanged on all three. Frame layout is not licence text,
+  and the findings sit in Notes rather than Evidence because an Evidence line in this
+  repo means proof of licence and commercial stance.
+- Sources opened: `kenney_roguelike-characters.zip` from the Kenney asset page,
+  `gfx_3.zip` attached to the OpenGameArt submission, and `content/character/*/sprite.png`
+  in [pixel-boy/NinjaAdventure](https://github.com/pixel-boy/NinjaAdventure), the
+  author's own game repo built from the itch pack. **The itch download itself is behind
+  a form**, so the Ninja Adventure layout is verified from that repo rather than from
+  the pack archive; a future run with a browser could confirm against the itch zip.
+- Deferred, unchanged: `tenacity`'s licence (Codeberg 403s automated requests), the
+  eight decision-support clusters without comparison lines, the three deliberately
+  untagged tile packs, and the `camera_perspective` scope question for `characters`
+  and `3d`.
+- Next highest-value action: **the three untagged tile packs**
+  (`kenney-1-bit-pack`, `kenney-tiny-dungeon`, `ox72-dungeon-tileset`). This pass
+  showed the method works and is cheap: download the pack, look at it, record what is
+  there. Those three are the last 2D entries where the catalog knows less than it
+  could about a field it already exposes in the UI.
+
 ## 2026-09-22 (fourth pass, same session)
 
 Sourcing, against the gap the View filter exposed. Batch H.
@@ -29,11 +68,8 @@ Sourcing, against the gap the View filter exposed. Batch H.
   eight decision-support clusters without comparison lines, the three deliberately
   untagged tile packs, and the scope question about `camera_perspective` on
   `characters` and `3d`.
-- Next highest-value action: **open the character sheets** for
-  `kenney-roguelike-characters`, `armm1998-zelda-like` and `ninja-adventure` and record
-  what directional coverage each actually ships. That is the one remaining question
-  behind the original task-test gap, and it is now the only thing standing between the
-  catalog and a confident answer to "where do my top-down characters come from".
+- Next highest-value action: ~~**open the character sheets**~~ — done in the fifth
+  pass above. Two of the three turn; the Kenney set does not.
 
 ## 2026-09-22 (third pass, same session)
 

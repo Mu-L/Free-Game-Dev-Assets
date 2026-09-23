@@ -28,7 +28,7 @@ Paid Sonniss impact packs can fill metal/glass destruction gaps on a small budge
 | Remappable input (Deck-friendly) | [G.U.I.D.E.](../catalog/tools/godot-guide.md) (MIT) |
 | Device swap / rumble helpers | [Input Helper](../catalog/tools/godot-input-helper.md) (MIT) |
 | Dialogue / timeline UI | [Dialogic](../catalog/tools/dialogic.md) (MIT) |
-| Steamworks bindings | [GodotSteam](../catalog/tools/godotsteam.md) (verify license + Steamworks) |
+| Steamworks bindings | [GodotSteam](../catalog/tools/godotsteam.md) (add-on MIT; Steamworks itself needs Valve's partner agreement) |
 | Mod loading | [Godot Mod Loader](../catalog/tools/godot-mod-loader.md) (MIT) |
 | 2D textured polygons / terrain | [SmartShape2D](../catalog/tools/smartshape2d.md) (MIT) |
 | Heightmap terrain | [Terrain3D](../catalog/tools/terrain3d.md) (MIT). [Gaea Community Edition](../catalog/tools/gaea.md) is `needs-review`; EULA is a PDF this session, not a free commercial grant |

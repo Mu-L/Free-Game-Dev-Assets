@@ -167,7 +167,7 @@ only release are Godot 3.
 | [beehave](beehave.md) | Beehave | MIT | active |
 | [limboai](limboai.md) | LimboAI | MIT | active |
 | [terrain3d](terrain3d.md) | Terrain3D | MIT | active |
-| [godotsteam](godotsteam.md) | GodotSteam | custom | needs-review |
+| [godotsteam](godotsteam.md) | GodotSteam | MIT | active |
 | [voronoishatter](voronoishatter.md) | VoronoiShatter | MIT | active |
 | [godot-destruction-plugin](godot-destruction-plugin.md) | Godot Destruction Plugin | MIT | active |
 | [godot-voxel-destruction](godot-voxel-destruction.md) | Godot Voxel Destruction | MIT | active |

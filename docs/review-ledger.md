@@ -4,6 +4,36 @@ Newest section at the top. One section per review run. This is the record of wha
 run measured, what it changed, what it deliberately did not change, and what the next
 run should not spend time re-deciding.
 
+## 2026-09-23 (formats cleanup)
+
+The previous section's next action: `formats` values that are not formats. One commit,
+`40a6010`, 20 entries.
+
+- Removed where real formats were already listed: `many`, `runtime`, `shaders`,
+  `spreadsheet`, `Kinect`, `model` (beside `ONNX`), `config`, `examples`, `binary`.
+- Software with no file format of its own now names a **delivery type**: `desktop-app`
+  (5 entries), `mobile-app`, `cli` (2); `JS API` became the `JavaScript` target.
+- Moved to `tags`: `windows`, `macos`, `ios`, `heightfield`, and `variable` as
+  `variable-font` on 5 fonts (Inter's existing `variable` tag renamed to match).
+- CONTRIBUTING now defines four kinds of `formats` value (file formats, engine or
+  language targets, delivery types, `various` for aggregators) and no longer claims every
+  extension is upper case, which `gdshader`, `tmx` and `ktx2` already contradicted.
+- Nothing invented: Gaea and Piper name no output format in their entries, so they get a
+  delivery type rather than a guessed file type.
+- Not enforced by a check. The delivery-type list is short and could become a V13-style
+  vocabulary later if it drifts.
+- **The review queue is now empty of work that does not need the maintainer.** What is
+  left is three decisions, carried since the first run.
+- Next highest-value action: **the three maintainer decisions**, with a recommended
+  default for each so a yes is enough:
+  - `og:image`: a first-party 1200x630 PNG of the site under `docs/images/readme/`, the
+    path the validator already allows for first-party stills. Hard rule 3 covers
+    third-party binaries, not the project's own screenshot.
+  - `data.json` (297 KB, unused by the page): keep it and document it in `site/README.md`
+    as the catalog's public JSON endpoint. Removing it breaks anyone already using it.
+  - `camera_perspective`: keep it 2D-only, and say so in TEMPLATE. `characters` and `3d`
+    have no perspective in the 2D sense, and the View filter already explains itself.
+
 ## 2026-09-23 (plural subcategories)
 
 The previous section's next action: the five singular/plural subcategory pairs. One
@@ -20,7 +50,8 @@ commit, `48d3d4d`, because the stricter check fails without the data fix.
 - Process note: the mutation test was reverted with `git checkout`, which also reverted
   the uncommitted fix in that file. Caught by re-reading the file before commit. Revert a
   mutation with the inverse edit, not a checkout, while other changes are uncommitted.
-- Next highest-value action: **the `formats` values that are not formats** (`examples`,
+- Next highest-value action: ~~**the `formats` values that are not formats**~~ Done in
+  the formats cleanup section above. (`examples`,
   `many`, `runtime`, `windows`, `macOS`, `iOS`, `library`, `binary` and similar). Move
   each to `tags` where it carries meaning, delete it where it does not, and say in
   CONTRIBUTING that platforms are tags. Small, but they show up in the search haystack and

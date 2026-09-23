@@ -48,7 +48,7 @@ Most game-ok libraries still split two acts:
 
 - [`catalog/audio/zapsplat.md`](../catalog/audio/zapsplat.md) — Basic tier names games, apps, and software, and requires credit. Premium drops attribution. Still a redistribution ban.
 - [`catalog/audio/pixabay-audio.md`](../catalog/audio/pixabay-audio.md) — Content License is built for media; confirm interactive/software use on the live page before shipping. Do not infer a game grant from "royalty-free."
-- [`catalog/audio/mixkit-sfx.md`](../catalog/audio/mixkit-sfx.md) — Envato Mixkit terms are video-first. Read the current license for software/games; do not copy a YouTube credit pattern into a shipped title and call it done.
+- [`catalog/video/mixkit-stock-video.md`](../catalog/video/mixkit-stock-video.md) and [`catalog/audio/mixkit-sfx.md`](../catalog/audio/mixkit-sfx.md): the clearest case in the catalog. Read on 2026-09-23, Envato's Sound Effects Free License lists "Video games" among its uses and its Stock Video Free License does not. Same publisher, same licence page, and only one of the two carries a games sentence.
 - [`catalog/audio/incompetech.md`](../catalog/audio/incompetech.md) — CC-BY-4.0 covers games if you credit; the paid "no attribution" SKU exists for ads and other credit-impossible formats, not because games are excluded.
 - [`catalog/audio/soundimage.md`](../catalog/audio/soundimage.md) — Custom grant; credit must appear **in the game**, not only on a store page.
 - [`catalog/audio/freepd.md`](../catalog/audio/freepd.md) — Site went offline; do not substitute a video-library clone and keep the old commercial-ok flag.

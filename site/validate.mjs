@@ -6,6 +6,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import {
+  checkActiveIsSettled,
   checkAttributionConsistency,
   checkCategoryReadmeRows,
   checkCountTables,
@@ -15,6 +16,7 @@ import {
   checkPublisherConsistency,
   checkSpdxConsistency,
   checkTaxonomyValues,
+  checkValueSpellings,
 } from "./checks.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -301,6 +303,7 @@ function main() {
     errors.push(...checkEvidenceDates(rel, meta, body, today));
     errors.push(...checkDeprecationReason(rel, meta, body, vocab));
     errors.push(...checkTaxonomyValues(rel, meta));
+    errors.push(...checkActiveIsSettled(rel, meta));
     if (meta.id) {
       const id = String(meta.id);
       if (ids.has(id)) errors.push(`duplicate id "${id}": ${ids.get(id)} and ${rel}`);
@@ -336,6 +339,7 @@ function main() {
   }
 
   errors.push(...checkPublisherConsistency(records));
+  errors.push(...checkValueSpellings(records));
 
   const byCategory = new Map();
   for (const record of records) {

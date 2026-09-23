@@ -47,7 +47,7 @@ One new markdown file is enough — the website rebuilds from frontmatter on dep
 - `formats`: file formats and engine targets in their usual spelling: extensions upper case (`PNG`, `FBX`, `JSON`, `VOX`), product names as the product writes them (`glTF`, `Godot`), and lower-case kebab-case for package types (`godot-addon`, `blender-extension`). Reuse the spelling already in the catalog.
 - `grid_dimensions` / `camera_perspective` / `hardware_tags`: optional 2D/UI metadata.
 - `verified`: ISO date (`YYYY-MM-DD`) of your last license check.
-- `status`: `active` | `needs-review` | `deprecated`.
+- `status`: `active` | `needs-review` | `deprecated`. `active` means the licence, the commercial stance and the credit requirement are all settled: an `unknown` in `license`, `commercial` or `attribution_required` keeps an entry at `needs-review`. The validator enforces this (V14), and rejects `formats` or `subcategories` values that differ only by case or punctuation from one already in use (V13).
 
 ## License verification checklist
 

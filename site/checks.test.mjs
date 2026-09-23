@@ -10,6 +10,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import {
+  checkActiveIsSettled,
   checkAttributionConsistency,
   checkCategoryReadmeRows,
   checkCountTables,
@@ -19,6 +20,7 @@ import {
   checkPublisherConsistency,
   checkSpdxConsistency,
   checkTaxonomyValues,
+  checkValueSpellings,
 } from "./checks.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -454,10 +456,55 @@ accepts(
 );
 accepts("V12 stays quiet when the optional fields are absent", checkTaxonomyValues("ok.md", {}));
 
+/* V13 ------------------------------------------------------------------- */
+rejects(
+  "V13 rejects a format spelt two ways across entries",
+  checkValueSpellings([
+    { rel: "a.md", meta: { formats: ["PNG", "glTF"] } },
+    { rel: "b.md", meta: { formats: ["png"] } },
+  ]),
+  'formats spells one value several ways: "PNG" (a.md), "png" (b.md)'
+);
+rejects(
+  "V13 rejects a subcategory that differs only by punctuation",
+  checkValueSpellings([
+    { rel: "a.md", meta: { subcategories: ["field-recordings"] } },
+    { rel: "b.md", meta: { subcategories: ["field_recordings"] } },
+  ]),
+  "subcategories spells one value several ways"
+);
+accepts(
+  "V13 accepts one spelling used many times, and leaves plurals alone",
+  checkValueSpellings([
+    { rel: "a.md", meta: { formats: ["PNG"], subcategories: ["character"] } },
+    { rel: "b.md", meta: { formats: ["PNG"], subcategories: ["characters"] } },
+  ])
+);
+
+/* V14 ------------------------------------------------------------------- */
+rejects(
+  "V14 rejects an active entry with unknown attribution",
+  checkActiveIsSettled("bad.md", { status: "active", license: "custom", commercial: true, attribution_required: "unknown" }),
+  "is active but attribution_required is unknown"
+);
+rejects(
+  "V14 rejects an active entry with an unknown licence",
+  checkActiveIsSettled("bad.md", { status: "active", license: "unknown", commercial: true, attribution_required: false }),
+  "is active but license is unknown"
+);
+accepts(
+  "V14 accepts unknowns on a needs-review entry",
+  checkActiveIsSettled("ok.md", { status: "needs-review", license: "unknown", commercial: "unknown", attribution_required: "unknown" })
+);
+accepts(
+  "V14 accepts a settled active entry",
+  checkActiveIsSettled("ok.md", { status: "active", license: "MIT", commercial: true, attribution_required: false })
+);
+
 /* ----------------------------------------------------------------------- */
 if (failures.length) {
   console.error(`checks.test failed (${failures.length}):`);
   for (const f of failures) console.error(`  - ${f}`);
   process.exit(1);
 }
-console.log(`checks.test ok: ${passed} assertions across 12 checks`);
+console.log(`checks.test ok: ${passed} assertions across 14 checks`);

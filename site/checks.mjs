@@ -244,6 +244,57 @@ export function checkTaxonomyValues(rel, meta) {
   return errors;
 }
 
+/* ----------------------------------------------------------------- V13 */
+/**
+ * `formats` and `subcategories` are free-form, so the same value drifts into
+ * several spellings (`png` beside `PNG`, `field-recording` beside
+ * `field-recordings`) and search and grouping split on them. Two values that
+ * differ only by case or punctuation are one value spelt twice. Plurals are
+ * not folded: `character` and `characters` are a known open question, not
+ * something this check decides.
+ */
+export function checkValueSpellings(records, fields = ["formats", "subcategories"]) {
+  const errors = [];
+  for (const field of fields) {
+    const byKey = new Map();
+    for (const { rel, meta } of records) {
+      const values = Array.isArray(meta[field]) ? meta[field] : [];
+      for (const raw of values) {
+        const v = String(raw);
+        const key = v.toLowerCase().replace(/[^a-z0-9]/g, "");
+        if (!key) continue;
+        if (!byKey.has(key)) byKey.set(key, new Map());
+        const spellings = byKey.get(key);
+        if (!spellings.has(v)) spellings.set(v, rel);
+      }
+    }
+    for (const spellings of byKey.values()) {
+      if (spellings.size < 2) continue;
+      const listed = [...spellings.entries()].map(([v, rel]) => `"${v}" (${rel})`).join(", ");
+      errors.push(`${field} spells one value several ways: ${listed}`);
+    }
+  }
+  return errors;
+}
+
+/* ----------------------------------------------------------------- V14 */
+/**
+ * `active` tells a reader the licence, the commercial stance and the credit
+ * requirement are all settled. An `unknown` in any of them means an open
+ * question, which is what `needs-review` is for. Evidence presence for active
+ * entries is checked in validate.mjs.
+ */
+export function checkActiveIsSettled(rel, meta) {
+  const errors = [];
+  if (String(meta.status) !== "active") return errors;
+  for (const field of ["license", "commercial", "attribution_required"]) {
+    if (String(meta[field]) === "unknown") {
+      errors.push(`${rel} is active but ${field} is unknown; use needs-review until it is settled`);
+    }
+  }
+  return errors;
+}
+
 /* ----------------------------------------------------------------- V11 */
 /**
  * A category README row must not contradict its entry's frontmatter. The

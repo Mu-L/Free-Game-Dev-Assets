@@ -4,6 +4,41 @@ Newest section at the top. One section per review run. This is the record of wha
 run measured, what it changed, what it deliberately did not change, and what the next
 run should not spend time re-deciding.
 
+## 2026-09-22 (sixth pass, same session)
+
+Took the fifth pass's next action. Batch J. The 2D taxonomy is now as complete as it
+can honestly be.
+
+- Executed: opened all three packs.
+  - `kenney-tiny-dungeon` -> **`isometric_3_4`**. Walls carry a lit front face below
+    the top surface and figures face the viewer.
+  - `ox72-dungeon-tileset` -> **`isometric_3_4`**. Vertical brick wall face behind a
+    floor plane, front-facing creatures. Matches its already-classified sibling.
+  - `kenney-1-bit-pack` -> **stays absent, and now says why.**
+  `camera_perspective` 28 -> 36 of 300.
+- **A real limit of the field, found by opening the archive.** The 1-bit pack ships
+  four official Kenney sample scenes: fantasy overworld, interior, urban and
+  *platformer*. The fantasy sample is 3/4 with building facades; the platformer sample
+  is a side-scroller built from the same tiles. The pack genuinely serves both, so no
+  single value is correct. This is not missing data, it is a single-valued field meeting
+  a multi-perspective tileset.
+- **Open schema question, deliberately not answered here.** Should
+  `camera_perspective` accept a list, or a `multi` value? Widening it changes what the
+  View filter means for all 300 entries (does a `side_scroller` filter return a pack
+  that merely *can* be used that way?), so it is the maintainer's call, not a detail to
+  settle inside a tagging pass. For now the field stays absent on such packs, the reason
+  is in the entry, and a `multi-perspective` tag makes it findable by search.
+- Every 2D entry that can carry a single honest value now does. What remains absent is
+  absent for a stated reason, which was not true before this pass.
+- Deferred, unchanged: `tenacity`'s licence (Codeberg 403s automated requests), the
+  eight decision-support clusters without comparison lines, and the `camera_perspective`
+  scope question for `characters` and `3d`.
+- Next highest-value action: **the eight decision-support clusters**. Two of the ten
+  identified in the first pass have comparison tables; the rest (Godot scatter, dungeon
+  tilesets, colourblindness tools beyond the prose note, and the others) do not. That is
+  now the largest piece of measured, unfinished work left in the findings file, and
+  unlike the taxonomy it needs judgment rather than downloads.
+
 ## 2026-09-22 (fifth pass, same session)
 
 Took the fourth pass's next action. Batch I. **The original task-test gap is now
@@ -37,11 +72,9 @@ closed**, four passes after it was first measured.
   eight decision-support clusters without comparison lines, the three deliberately
   untagged tile packs, and the `camera_perspective` scope question for `characters`
   and `3d`.
-- Next highest-value action: **the three untagged tile packs**
-  (`kenney-1-bit-pack`, `kenney-tiny-dungeon`, `ox72-dungeon-tileset`). This pass
-  showed the method works and is cheap: download the pack, look at it, record what is
-  there. Those three are the last 2D entries where the catalog knows less than it
-  could about a field it already exposes in the UI.
+- Next highest-value action: ~~**the three untagged tile packs**~~ — done in the sixth
+  pass above. Two resolved to `isometric_3_4`; the 1-bit pack is genuinely
+  multi-perspective and stays absent with a stated reason.
 
 ## 2026-09-22 (fourth pass, same session)
 

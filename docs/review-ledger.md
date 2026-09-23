@@ -4,6 +4,37 @@ Newest section at the top. One section per review run. This is the record of wha
 run measured, what it changed, what it deliberately did not change, and what the next
 run should not spend time re-deciding.
 
+## 2026-09-23 (thirteenth pass, same session)
+
+The twelfth pass's next action: the two task-test gaps. **Both now have entries.**
+
+- **Batch S, first-person arms:** `characters/oga-fps-arms-rigged` (CC0, OpenGameArt,
+  2015). Measured from the FBX: clavicle to hand on both sides, three-segment fingers and
+  thumbs, `hand.L.control` / `hand.R.control` IK handles. No animations beyond a rig test,
+  FBX and `.blend` only. Weak art, but it is the only rigged first-person arms source that
+  checked out. **Rejected:** OGA "Low Poly FPS Rifle and Hands" (CC0, 2022) has one joint
+  and static hands; a CC-BY 4.0 arms pack was not opened and is not listed.
+- **Batch S, debris:** no free pre-fractured rubble pack turned up (Poly Haven has none),
+  and fracturing your own meshes is the normal route, so the catalog lists the tools:
+  `blender-cell-fracture` (GPL-3.0-or-later, from the extension manifest),
+  `godot-destruction-plugin`, `voronoishatter`, `godot-voxel-destruction` (all MIT). The
+  Godot 4 add-ons table gained three maintenance rows and a paragraph on the two routes.
+- **Stated as inference, not fact:** VoronoiShatter's README names no Godot version; "4.4+"
+  comes from the `.uid` files it ships. Voxel Destruction's optional Rust setup "will use
+  prebuilt binaries" that are in neither the repository nor the release, so the entry says
+  to find where they come from first.
+- **Caught before commit:** a Notes line claimed the Cell Fracture page shows a bare
+  "GPL-3.0"; the page says "v3.0 or later". Removed. The Jummit README's CC0 header was
+  first read as a README-only licence; the README actually splits the repository, code MIT
+  and all other files CC0. Rewritten to say so.
+- Not added: `ZachAR3/Destructibles-CSharp` (MIT, needs Godot .NET, no releases). The
+  Cell Fracture entry cites its 5 to 50 piece guidance.
+- Deferred, unchanged: `tenacity`'s licence, the two `camera_perspective` questions,
+  Mixkit's licence text.
+- Next highest-value action: **re-run the first pass's task test end to end.** Every gap it
+  found now has an entry or a guide; re-running it is the check that those answers hold
+  up, and whatever still fails becomes the next batch.
+
 ## 2026-09-23 (twelfth pass, same session)
 
 The eleventh pass's next action: `audio/sfx`. **Every cluster measured in the seventh pass
@@ -31,8 +62,9 @@ now has decision support.**
 - README "Start here" now links ten guides, including both audio ones.
 - Deferred, unchanged: `tenacity`'s licence, the two `camera_perspective` questions,
   Mixkit's licence text.
-- Next highest-value action: **the two task-test gaps still unsourced since the first
-  pass: rigged first-person arms, and rubble / pre-fractured debris geometry.** The
+- Next highest-value action: ~~**the two task-test gaps still unsourced since the first
+  pass: rigged first-person arms, and rubble / pre-fractured debris geometry.**~~ Done in
+  the thirteenth pass above. The
   decision-support work is done; the catalog still cannot answer those two requests at
   all, and they came from the task test tied to the owner's own work.
 

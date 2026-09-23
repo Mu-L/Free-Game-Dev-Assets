@@ -47,7 +47,7 @@ Most game-ok libraries still split two acts:
 ## Catalog entries where this distinction is load-bearing
 
 - [`catalog/audio/zapsplat.md`](../catalog/audio/zapsplat.md) — Basic tier names games, apps, and software, and requires credit. Premium drops attribution. Still a redistribution ban.
-- [`catalog/audio/pixabay-audio.md`](../catalog/audio/pixabay-audio.md) — Content License is built for media; confirm interactive/software use on the live page before shipping. Do not infer a game grant from "royalty-free."
+- [`catalog/audio/pixabay-audio.md`](../catalog/audio/pixabay-audio.md) and [`catalog/video/pixabay-videos.md`](../catalog/video/pixabay-videos.md): the full Content License (section 5 of the Terms, read 2026-09-23) never names games. What makes a game safe is its general grant plus its definition of Standalone: content combined with other media into "a 'new' creative work" is not standalone. Do not infer a game grant from "royalty-free" alone; this one rests on that definition.
 - [`catalog/video/mixkit-stock-video.md`](../catalog/video/mixkit-stock-video.md) and [`catalog/audio/mixkit-sfx.md`](../catalog/audio/mixkit-sfx.md): the clearest case in the catalog. Read on 2026-09-23, Envato's Sound Effects Free License lists "Video games" among its uses and its Stock Video Free License does not. Same publisher, same licence page, and only one of the two carries a games sentence.
 - [`catalog/audio/incompetech.md`](../catalog/audio/incompetech.md) — CC-BY-4.0 covers games if you credit; the paid "no attribution" SKU exists for ads and other credit-impossible formats, not because games are excluded.
 - [`catalog/audio/soundimage.md`](../catalog/audio/soundimage.md) — Custom grant; credit must appear **in the game**, not only on a store page.

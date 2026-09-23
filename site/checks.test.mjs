@@ -303,6 +303,43 @@ const readme = [
   "| [lpc](lpc.md) | LPC | varies (SA) | active |",
 ].join("\n");
 rejects(
+  "V11 reports a category README with entries but no catalog table",
+  checkCategoryReadmeRows("tools", "# Tools\n\nNo table here.\n", [
+    { rel: "catalog/tools/a.md", meta: { license: "MIT" } },
+  ]),
+  "has no catalog table"
+);
+accepts(
+  "V11 ignores a comparison table that leads with the entry link",
+  checkCategoryReadmeRows(
+    "3d",
+    [
+      "| If you need | Take | Licence |",
+      "| A default | [ambientcg](ambientcg.md) - seamless | **CC0** |",
+      "",
+      "| ID | Name | License | Commercial | Status |",
+      "| [ambientcg](ambientcg.md) | ambientCG | CC0 | yes | active |",
+    ].join("\n"),
+    [{ rel: "catalog/3d/ambientcg.md", meta: { license: "CC0" } }]
+  )
+);
+rejects(
+  "V11 still catches drift in the listing when a link-first comparison table exists",
+  checkCategoryReadmeRows(
+    "3d",
+    [
+      "| If you need | Take | Licence |",
+      "| A default | [ambientcg](ambientcg.md) - seamless | **CC0** |",
+      "",
+      "| ID | Name | License | Commercial | Status |",
+      "| [ambientcg](ambientcg.md) | ambientCG | MIT | yes | active |",
+    ].join("\n"),
+    [{ rel: "catalog/3d/ambientcg.md", meta: { license: "CC0" } }]
+  ),
+  'does not carry its license "CC0"'
+);
+
+rejects(
   "V11 rejects a README row whose license contradicts the frontmatter",
   checkCategoryReadmeRows("tools", readme, [
     { rel: "catalog/tools/tiled.md", meta: { license: "GPL-2.0-or-later" } },
@@ -325,7 +362,11 @@ accepts(
   "V11 tolerates a trailing footnote marker",
   checkCategoryReadmeRows(
     "tools",
-    ["| [a](a.md) | A | CC0* | active |", "| [b](b.md) | B | CC-BY? | active |"].join("\n"),
+    [
+      "| ID | Name | License | Status |",
+      "| [a](a.md) | A | CC0* | active |",
+      "| [b](b.md) | B | CC-BY? | active |",
+    ].join("\n"),
     [
       { rel: "catalog/tools/a.md", meta: { license: "CC0" } },
       { rel: "catalog/tools/b.md", meta: { license: "CC-BY" } },
@@ -352,6 +393,8 @@ rejects(
     [
       "| If you want | Take | Over | Because |",
       "| A retro SFX fast | [jsfxr](jsfxr.md) | sfxr | Browser, no install |",
+      "",
+      "| ID | Name | License | Status |",
       "| [jsfxr](jsfxr.md) | jsfxr | public-domain | active |",
     ].join("\n"),
     [{ rel: "catalog/tools/jsfxr.md", meta: { license: "Unlicense" } }]

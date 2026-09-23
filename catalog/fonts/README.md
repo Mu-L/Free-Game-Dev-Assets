@@ -1,6 +1,29 @@
 # Fonts
 
-Prefer **SIL OFL** for embedding in commercial games. See [docs/licenses.md](../../docs/licenses.md).
+Prefer **SIL OFL** for embedding in commercial games. See [docs/licenses.md](../../docs/licenses.md)
+and [docs/fonts.md](../../docs/fonts.md) for what you still owe when `attribution_required` is false.
+
+## Choosing a pixel font
+
+Nine pixel faces, and the difference is what kind of retro you mean, plus whether you
+need CJK. All nine are safe to embed; only the last is CC0 rather than OFL.
+
+| You want | Take | Note |
+| --- | --- | --- |
+| A terminal or low-res HUD | [departure-mono](departure-mono.md) | Monospaced, the catalog's default pixel face. Site is MIT, the **font** is OFL |
+| A CRT or hacking UI | [vt323](vt323.md) | Soft-pixel terminal look, gentler than Press Start |
+| Hard 8-bit arcade | [press-start-2p](press-start-2p.md) | Title and score type. Reserved Font Name, so rename if you modify |
+| Chunky retro labels | [silkscreen](silkscreen.md) | The arcade weight without Press Start's blocky letterforms |
+| Readable pixel UI | [pixelify-sans](pixelify-sans.md) | Soft modern pixel sans; least crunchy of the set |
+| **Japanese** | [dotgothic16](dotgothic16.md) | Fontworks, on a 16px grid, covers what the Latin faces cannot |
+| **Pan-CJK, several sizes** | [ark-pixel-font](ark-pixel-font.md) | 10/12/16px, mono and proportional, language-specific glyphs. OFL on the font, MIT covers build tools only |
+| **CJK at 8x8** | [quanpixel](quanpixel.md) | The smallest CJK option. Download `QuanPixel.zip`; the itch slug still says galmuri-extended |
+| No licence file at all | [ggbotnet-fonts-cc0](ggbotnet-fonts-cc0.md) | 45 faces, **CC0**, so nothing to ship alongside. The same account's OFL collection is a different thing |
+
+Match the font's design grid to your tile grid where you can: DotGothic16 is drawn for
+16px, QuanPixel for 8px. A 16px face in an 8px UI needs scaling and will blur.
+
+
 
 | ID | Name | License | Commercial | Status |
 | --- | --- | --- | --- | --- |

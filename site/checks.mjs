@@ -259,17 +259,29 @@ export function checkTaxonomyValues(rel, meta) {
 export function checkCategoryReadmeRows(categoryName, readmeText, entries) {
   const errors = [];
   const lines = readmeText.split(/\r?\n/);
+
+  // Only the catalog listing table is checked. A category README may also carry
+  // comparison tables that link entries, and those have no license column to
+  // contradict. The listing is found by its header rather than by row shape,
+  // because a comparison table can legitimately lead with the entry link too.
+  const start = lines.findIndex((l) => /^\|\s*ID\s*\|/i.test(l.trim()));
+  if (start === -1) {
+    if (entries.length) {
+      errors.push(
+        `catalog/${categoryName}/README.md has no catalog table (expected a header row starting "| ID |")`
+      );
+    }
+    return errors;
+  }
+  const table = [];
+  for (let i = start + 1; i < lines.length; i += 1) {
+    if (!lines[i].trim().startsWith("|")) break;
+    table.push(lines[i]);
+  }
+
   for (const entry of entries) {
     const stem = entry.rel.split("/").pop().replace(/\.md$/, "");
-    // Only the catalog table is checked. A category README may also carry
-    // comparison tables that link entries from a prose cell; those are not
-    // listings and have no license column to contradict. A catalog row is the
-    // one whose FIRST cell is the entry link.
-    const row = lines.find((l) => {
-      if (!l.trim().startsWith("|") || !l.includes(`(${stem}.md)`)) return false;
-      const first = l.split("|").map((c) => c.trim()).filter(Boolean)[0] || "";
-      return first.includes(`(${stem}.md)`);
-    });
+    const row = table.find((l) => l.includes(`(${stem}.md)`));
     if (!row) continue; // validate.mjs already reports an entry missing from the README
     const cells = row
       .split("|")

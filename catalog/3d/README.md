@@ -1,5 +1,30 @@
 # 3D — models, textures, environments
 
+## Choosing a PBR texture source
+
+Seven texture libraries are listed and all seven market themselves as free PBR.
+They are not equally free, and that is the first thing to sort by.
+
+| If you need | Take | Licence |
+| --- | --- | --- |
+| A default first stop | [ambientcg](ambientcg.md) — 1500+ seamless materials, no strings | **CC0** |
+| The other safe default | [poly-haven](../environment/poly-haven.md) — also HDRIs and models | **CC0** |
+| Photoscanned surfaces ambientCG lacks | [cgbookcase](cgbookcase.md) — 566 sets, 4K/8K, plus decals | **CC0** |
+| Parameters you can tweak | [texturecan](texturecan.md) — ships **SBSAR sources**, not just fixed maps | **CC0** |
+| Extra seamless coverage | [threedtextures-me](threedtextures-me.md) — aimed at Blender, Unreal, Unity and Godot | **CC0** |
+| Unique photo detail | [texture-ninja](texture-ninja.md) — you do the tiling cleanup; not seamless out of the box | **CC0** |
+| To read the terms first | [sharetextures](sharetextures.md) — a "Custom CC0" that **bans redistribution** on other sites, in plugins, or in collections | custom |
+| To read the terms first | [freepbr](freepbr.md) — free for games, but the About page is the grant, not the CC0 badge you might assume | custom |
+
+The split that matters: the first six are real CC0 and you can redistribute the maps
+inside an asset pack. The last two are custom grants that permit shipping a game but
+restrict passing the textures on. If you are assembling something others will
+redistribute, stay in the CC0 block.
+
+Two more caveats recorded on the entries themselves: texturecan's site footer still
+says "All rights reserved" while its terms page is the actual grant, and texture-ninja
+keeps its licence string inside a JS bundle rather than in static HTML.
+
 | ID | Name | License | Commercial | Status |
 | --- | --- | --- | --- | --- |
 | [kenney](kenney.md) | Kenney | CC0 | yes | active |

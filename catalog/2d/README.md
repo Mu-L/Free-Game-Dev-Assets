@@ -4,6 +4,34 @@ Do not mix tile grids or camera projections without scaling/reprojection. Typica
 
 Optional frontmatter: `grid_dimensions`, `camera_perspective`, `hardware_tags`.
 
+## Choosing a pixel tileset
+
+Ten CC0 pixel tilesets, and from the outside they look like the same thing ten times.
+Grid size and projection are what actually decide it, because **mixing two projections
+in one map reads as a bug** and mixing two grids needs integer scaling. Pick the row
+that matches the game you are building, not the one with the most tiles.
+
+| If you are building | Take | Grid | View | Why this one |
+| --- | --- | ---: | --- | --- |
+| A whole RPG, one art style | [kenney-roguelike-rpg-pack](kenney-roguelike-rpg-pack.md) | 16x16 | 3/4 | 1700 tiles: overworld, town, interiors, items and matching UI. Gets a prototype furthest without a second source |
+| A small town or overworld | [kenney-tiny-town](kenney-tiny-town.md) | 16x16 | 3/4 | 130 tiles, exteriors only. Pairs exactly with Tiny Dungeon |
+| Dungeon interiors | [kenney-tiny-dungeon](kenney-tiny-dungeon.md) | 16x16 | 3/4 | The interior half of the Tiny pair, same grid and style |
+| A grittier dungeon | [ox72-dungeontileset-ii](ox72-dungeontileset-ii.md) | 16x16 | 3/4 | Darker palette with characters included; [vol. I](ox72-dungeon-tileset.md) is the older sibling |
+| A complete game in one download | [ninja-adventure](ninja-adventure.md) | 16x16 | 3/4 | Tiles **plus** 4-directional characters, UI, VFX, 100+ SFX and 37 music tracks |
+| An RPG without the Kenney look | [armm1998-zelda-like](armm1998-zelda-like.md) | 16x16 | 3/4 | Overworld, cave and indoor sets with a 4-directional sword character, single author |
+| A true overhead roguelike | [kenney-micro-roguelike](kenney-micro-roguelike.md) | **8x8** | **ortho** | Genuinely top-down, not 3/4. Half the grid of everything else here |
+| A turn-based strategy map | [kenney-tiny-battle](kenney-tiny-battle.md) | 16x16 | **ortho** | Roads, rivers, bridges and faction unit markers. Nothing else here covers wargames |
+| Enormous variety, one colour | [urizen-onebit](urizen-onebit.md) | **12x12** | 3/4 | 5500+ one-bit tiles across many genres. A third grid size, so commit early |
+| A monochrome prototype | [kenney-1-bit-pack](kenney-1-bit-pack.md) | 16x16 | either | 1078 1-bit tiles. Kenney ships both an overworld and a platformer sample, so it is the one set here that works in two projections |
+
+Three grids are in play (8x8, 12x12, 16x16) and they do not mix without scaling.
+Two of these are orthographic overhead and the rest are 3/4; the difference is whether
+walls show a front face. See `camera_perspective` on each entry, or filter by View on
+the site.
+
+**Characters:** only Ninja Adventure and ArMM1998 ship characters that turn.
+[kenney-roguelike-characters](kenney-roguelike-characters.md) is front-facing only.
+
 ## Choosing an icon set
 
 Eight icon sources are listed and seven of them are permissive UI sets that look

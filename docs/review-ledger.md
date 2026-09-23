@@ -4,6 +4,28 @@ Newest section at the top. One section per review run. This is the record of wha
 run measured, what it changed, what it deliberately did not change, and what the next
 run should not spend time re-deciding.
 
+## 2026-09-23 (plural subcategories)
+
+The previous section's next action: the five singular/plural subcategory pairs. One
+commit, `48d3d4d`, because the stricter check fails without the data fix.
+
+- Kept the more common form of each, changing 15 entries: `characters` (9 over 7),
+  `environment` (32 over 4), `interior` (7 over 1), `tileset` (8 over 2), `vectors` (2
+  over 1). The `characters`/`character` split was close; it is recorded in CONTRIBUTING
+  so the next contributor does not reopen it.
+- **V13 now folds a trailing "s".** Checked first against every `formats` and
+  `subcategories` value in the catalog: the only hits were these five pairs, so no false
+  positives today. One fixture added (52 assertions); a mutation on a real entry
+  (`kaykit-character-animations` back to `character`) fails the validator.
+- Process note: the mutation test was reverted with `git checkout`, which also reverted
+  the uncommitted fix in that file. Caught by re-reading the file before commit. Revert a
+  mutation with the inverse edit, not a checkout, while other changes are uncommitted.
+- Next highest-value action: **the `formats` values that are not formats** (`examples`,
+  `many`, `runtime`, `windows`, `macOS`, `iOS`, `library`, `binary` and similar). Move
+  each to `tags` where it carries meaning, delete it where it does not, and say in
+  CONTRIBUTING that platforms are tags. Small, but they show up in the search haystack and
+  on entry pages as if they were file types.
+
 ## 2026-09-23 (Search button)
 
 The previous section's next action: make the floating button land where it focuses. One
@@ -16,7 +38,8 @@ commit, `4c4a111`.
   screen and focused every time, and typing filters immediately ("kenney", 54 of 305).
 - Not changed: the button stays visible while the search box is on screen, because it
   shows by scroll depth (600px) and the catalog starts below that. Cosmetic.
-- Next highest-value action: **settle the five plural subcategory pairs**
+- Next highest-value action: ~~**settle the five plural subcategory pairs**~~ Done in
+  the plural subcategories section above.
   (character/characters, environment/environments, interior/interiors, tileset/tilesets,
   vector/vectors) by majority use, then let V13 fold a trailing "s" so a new variant
   cannot return. Check the check against the whole catalog before trusting it: plural

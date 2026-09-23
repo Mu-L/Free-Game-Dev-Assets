@@ -303,6 +303,7 @@
       grid.innerHTML = "";
       empty.hidden = false;
       groupHeadings = [];
+      displayOrder = [];
       return;
     }
     empty.hidden = true;
@@ -310,14 +311,17 @@
     if (!shouldGroup()) {
       grid.innerHTML = list.map(cardHtml).join("");
       groupHeadings = [];
+      displayOrder = list;
       syncSpy();
       return;
     }
 
     const out = [];
+    displayOrder = [];
     for (const cat of Object.keys(categoryLabels)) {
       const group = list.filter((e) => e.category === cat);
       if (!group.length) continue;
+      displayOrder.push(...group);
       const label = categoryLabels[cat]?.label || cat;
       out.push(
         `<h3 class="group-heading" id="group-${escapeHtml(cat)}" data-cat="${escapeHtml(cat)}">` +
@@ -415,11 +419,36 @@
   /* ------------------------------------------------------------- dialog */
 
   let lastTrigger = null;
+  let currentEntryId = null;
+  /** Entries in the order they are on screen, so prev/next matches the list. */
+  let displayOrder = [];
 
-  function openEntry(id, trigger) {
+  function stepEntry(delta) {
+    const i = displayOrder.findIndex((e) => e.id === currentEntryId);
+    if (i === -1) return;
+    const next = displayOrder[i + delta];
+    if (next) openEntry(next.id, null, delta);
+  }
+
+  /** `stepping` is the direction (1 or -1) when paging, otherwise false. */
+  function openEntry(id, trigger, stepping = false) {
     const entry = byId[id];
     if (!entry) return;
-    lastTrigger = trigger || null;
+    if (!stepping) lastTrigger = trigger || null;
+    currentEntryId = entry.id;
+    const pos = displayOrder.findIndex((e) => e.id === entry.id);
+    const prev = pos > 0 ? displayOrder[pos - 1] : null;
+    const next = pos !== -1 && pos < displayOrder.length - 1 ? displayOrder[pos + 1] : null;
+    // An entry opened from a permalink can be filtered out of the current
+    // list; there is no honest "next" for it, so the pager is omitted.
+    const pager =
+      pos === -1
+        ? ""
+        : `<nav class="dialog-pager" aria-label="Browse entries">
+             <button type="button" class="btn-ghost" data-step="-1"${prev ? ` title="${escapeHtml(prev.name)}"` : " disabled"}><span aria-hidden="true">&larr;</span> Previous</button>
+             <span class="dialog-position">${pos + 1} of ${displayOrder.length}</span>
+             <button type="button" class="btn-ghost" data-step="1"${next ? ` title="${escapeHtml(next.name)}"` : " disabled"}>Next <span aria-hidden="true">&rarr;</span></button>
+           </nav>`;
     const cat = categoryLabels[entry.category]?.label || entry.category;
     const age = verifiedAge(entry.verified);
     const attribution = entry.attribution_string
@@ -452,7 +481,8 @@
       <div class="dialog-actions">
         <a class="btn" href="${escapeHtml(entry.url)}" rel="noopener noreferrer">Open source</a>
         <a class="btn-ghost" href="${escapeHtml(`${repo}/blob/main/${entry.path}`)}" rel="noopener noreferrer">Entry and evidence</a>
-      </div>`;
+      </div>
+      ${pager}`;
 
     const copy = $("#copy-attribution");
     if (copy) {
@@ -475,19 +505,53 @@
     }
 
     history.replaceState(null, "", `${location.pathname}${location.search}#entry-${entry.id}`);
-    $("#entry-dialog").showModal();
+    const dialog = $("#entry-dialog");
+    // showModal() throws on a dialog that is already open, which is exactly
+    // the state stepping leaves it in.
+    if (!dialog.open) dialog.showModal();
+    if (stepping) {
+      // Keep focus on the pager so repeated Enter keeps paging; at the end of
+      // the list the same-direction button is disabled, so fall back to the
+      // other one rather than dropping focus to the document.
+      const same = $(`#dialog-body [data-step="${stepping}"]`);
+      const other = $(`#dialog-body [data-step="${-stepping}"]`);
+      const target = same && !same.disabled ? same : other;
+      if (target) target.focus();
+    }
   }
 
   function bindDialog() {
     const dialog = $("#entry-dialog");
     dialog.addEventListener("close", () => {
       history.replaceState(null, "", `${location.pathname}${location.search}`);
-      if (lastTrigger && document.contains(lastTrigger)) lastTrigger.focus();
+      // After paging, return to the entry you ended on, not the one you
+      // opened; otherwise closing throws you back up the list.
+      const endedOn = currentEntryId && document.querySelector(`#entry-${CSS.escape(currentEntryId)} .entry-link`);
+      const target = endedOn || (lastTrigger && document.contains(lastTrigger) ? lastTrigger : null);
+      if (target) {
+        target.closest(".entry-card")?.scrollIntoView({ block: "nearest" });
+        target.focus();
+      }
       lastTrigger = null;
+      currentEntryId = null;
     });
-    // Clicking the backdrop closes, matching the Escape affordance.
     dialog.addEventListener("click", (e) => {
-      if (e.target === dialog) dialog.close();
+      // Clicking the backdrop closes, matching the Escape affordance.
+      if (e.target === dialog) {
+        dialog.close();
+        return;
+      }
+      const step = e.target.closest("[data-step]");
+      if (step && !step.disabled) stepEntry(Number(step.getAttribute("data-step")));
+    });
+    dialog.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") {
+        e.preventDefault();
+        stepEntry(1);
+      } else if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        stepEntry(-1);
+      }
     });
   }
 

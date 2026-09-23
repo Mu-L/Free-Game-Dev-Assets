@@ -995,3 +995,42 @@ input:focus-visible {
 .entry-card {
   scroll-margin-top: calc(var(--sticky-h, 10rem) + 1rem);
 }
+
+/* Prev/next inside the entry dialog. */
+.dialog-pager {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--line);
+}
+
+.dialog-pager .btn-ghost {
+  min-height: 44px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink);
+  padding: 0.4rem 0.75rem;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.dialog-pager .btn-ghost:hover:not(:disabled) {
+  border-color: var(--ink);
+}
+
+.dialog-pager .btn-ghost:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.dialog-position {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}

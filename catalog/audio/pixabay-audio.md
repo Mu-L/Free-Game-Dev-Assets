@@ -22,6 +22,7 @@ Royalty-free SFX/music under Pixabay’s Content License — free commercial use
 - License summary + full Terms (`pixabay.com/service/terms/`) are the binding grant
 - Avoid trademarked/branded recognizable content in commercial merch contexts
 - Prefer Kenney/Sonniss when you need explicit CC0/game-audio packs
+- **Content ID: some Pixabay music is fingerprinted.** Pixabay's own guide (read 2026-09-23 in a browser; the site blocks scripts) says "many music composers, including those that share their work on Pixabay, have their content digitally fingerprinted via Content ID". Contributors can flag those tracks, and the flag shows on search results and the track page, but "not all contributors may flag their tracks", so verify in YouTube Studio. A claimed video can run ads you cannot monetise until cleared with the Pixabay License Certificate from whoever downloaded the track. For a game, that means your players' videos: pick unflagged tracks and check them before you ship
 
 ## Evidence
 

@@ -24,6 +24,7 @@ Royalty-free music (formerly FilmMusic.io; now ENDE.APP). Standard grant is **CC
 - Attribution waived: the publisher layers an "Attribution Optional" upgrade over the CC BY 4.0 grant, which is why `attribution_required` is false on a CC-BY license
 - Credit appreciated: `Music by Sascha Ende at ende.app`. Offered, not owed
 - Avoid ND music elsewhere — see high-risk
+- Content ID: the standard license page (read 2026-09-23) forbids anyone from registering these tracks with "YouTube Content ID or similar systems" and explicitly allows monetised YouTube videos and Twitch streams. It does not say in so many words that the author never registers them, but it treats registration as the thing no one should do
 
 ## Evidence
 

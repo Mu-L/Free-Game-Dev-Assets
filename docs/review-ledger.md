@@ -4,6 +4,33 @@ Newest section at the top. One section per review run. This is the record of wha
 run measured, what it changed, what it deliberately did not change, and what the next
 run should not spend time re-deciding.
 
+## 2026-09-23 (site navigation, same session)
+
+Maintainer-requested navigation and usability work, not a review pass. Batches L and M.
+Recorded here because it changes what the site promises and fixes a defect.
+
+- **Defect fixed:** below 640px, `.topnav a:nth-child(-n + 3) { display: none }` hid
+  Catalog, Starters and Guides, so the mobile primary nav contained only "GitHub". It
+  predates this session. All four links now fit at 375px.
+- **L:** the catalog is grouped under category headings with counts (default sort and
+  no category filter only; other sorts render flat because grouping would hide the order
+  asked for). Category chips show faceted counts under the other active filters. The
+  chip for the section in view gets a separate "you are here" marker with `aria-current`;
+  chips stay pure filters. Back-to-top, `/` to focus search, `Esc` to clear. Without JS
+  the chips are prerendered as jump links to the group headings. Anchored targets clear
+  the sticky filter bar via a measured `--sticky-h` and `scroll-margin-top`.
+- **M:** previous/next inside the entry dialog, in on-screen order across group
+  boundaries and within filters, with arrow keys, a "4 of 23" position, and focus
+  returning to the entry you ended on. An entry opened from a permalink that the current
+  filters exclude gets no pager, because there is no honest "next" for it.
+- Both batches verified in a browser at 1200px and 375px in both colour schemes: every
+  control at least 44px, WCAG AA on all new text, no overflow, no console errors.
+- **Parked, do not re-litigate:** chips filter, they do not jump. Making one control
+  both filter and navigate was considered and rejected in design. Grouping is
+  deliberately conditional on the default sort.
+- Next highest-value action for the catalog is unchanged from the seventh pass below:
+  the 3D kit question (Kenney vs Quaternius vs KayKit).
+
 ## 2026-09-22 (seventh pass, same session)
 
 Took the sixth pass's next action. Batch K. **Re-measured before starting, and the

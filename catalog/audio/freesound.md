@@ -19,6 +19,8 @@ Huge community audio library. Per-sound licenses are **CC0**, **CC BY**, or **CC
 
 ## Notes
 
+- **Content ID reaches sound effects, through third parties.** Freesound's own FAQ (read 2026-09-23) explains it: musicians put "raw" Freesound sounds into songs and register those songs with YouTube Content ID, so any other video containing the same unedited sound gets matched. It adds that a sound "modified with plugins, stretched or slowed" is less likely to match, and that a claim can be disputed by showing the Freesound upload predates the song. For a game, process sounds before you ship them, which also protects your players' videos
+
 - Search filters are not a legal guarantee — open each sound’s license page before packaging
 - Attribution list tool: freesound.org/home/attribution/
 - Site ToS restricts commercial use of the *website portal*; sound reuse still follows the per-file Creative Commons choice

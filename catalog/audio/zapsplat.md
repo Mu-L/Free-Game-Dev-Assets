@@ -20,6 +20,8 @@ Large SFX/music library. **Basic (free)** account: commercial use in games/apps 
 
 ## Notes
 
+- The Standard License (read 2026-09-23 in a browser; the site blocks scripts) has a "Content ID and Platform Claims" section: ZapSplat holds the rights and works "to minimize the risk of false claims", but "automated systems may, on rare occasions, generate mistaken or unjustified claims". It names YouTube videos and Twitch streams as covered uses. Free users get **MP3 only**, with download limits; WAV needs Premium
+
 - Attribution example (Basic): `Sound effects from ZapSplat.com`
 - Do not redistribute as a sound library / soundboard primary product
 - Free tier is useful filler; Kenney/BigSoundBank better when you need no-attrib + WAV

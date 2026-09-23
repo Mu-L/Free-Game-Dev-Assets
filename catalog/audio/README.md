@@ -2,6 +2,43 @@
 
 ## SFX & libraries
 
+### Choosing sound effects
+
+Most sound-effect sources here are free for games with no credit owed, so the licence
+column rarely decides it. Coverage, file quality and the restrictions beyond credit do.
+Checked at the sources on 2026-09-23:
+
+| You need | Take | Credit owed | Watch for |
+| --- | --- | --- | --- |
+| A big professional library | [sonniss-gdc](sonniss-gdc.md) | None | Multi-GB WAV bundles. Licensed for media production only, and **AI training is banned** |
+| UI clicks and menu feedback | [kenney-interface-sounds](kenney-interface-sounds.md) (100) or [kenney-ui-audio](kenney-ui-audio.md) (50) | None, CC0 | Interface Sounds is the broader set |
+| Punches, thuds, impacts | [kenney-impact-sounds](kenney-impact-sounds.md) | None, CC0 | 130 clips; built for prototyping |
+| Lasers, thrusters, sci-fi blips | [kenney-sci-fi-sounds](kenney-sci-fi-sounds.md) | None, CC0 | 70 clips |
+| Real-world foley and field recordings | [bigsoundbank](bigsoundbank.md) | None | CC0 applies only to files marked "Free and Royalty Free" |
+| Footsteps on many surfaces | [congusbongus-footsteps-surfaces](congusbongus-footsteps-surfaces.md) | **Required**, CC-BY-3.0 | Derived from named Freesound contributors; keep the pack's credits |
+| Footsteps, no credit | [gboxmikefozzy-footsteps](gboxmikefozzy-footsteps.md), [fesliyan-footsteps](fesliyan-footsteps.md) or [kenney-rpg-audio](kenney-rpg-audio.md) | None | Gbox is a small real recording; Fesliyan's music is under a separate paid policy |
+| A searchable pool, no credit | [pixabay-audio](pixabay-audio.md) or [mixkit-sfx](mixkit-sfx.md) | None | Pixabay bars redistributing its sounds as a pack; Mixkit is a broad filler rather than a game-focused library |
+| A large library, and credit is fine | [zapsplat](zapsplat.md) | **Required on the free tier** | **Free tier is MP3 only**, with download limits; WAV needs Premium |
+| Anything at all | [freesound](freesound.md) | Per sound | Licences vary by upload, including non-commercial ones; filter to CC0 or CC-BY |
+
+**Content ID reaches sound effects too, just indirectly.** Freesound's FAQ explains how:
+musicians drop "raw", unedited sounds from free libraries into songs and register the
+songs with YouTube Content ID, and from then on any video containing that same raw sound
+can be matched. ZapSplat's licence likewise says automated systems "may, on rare
+occasions, generate mistaken or unjustified claims". Freesound describes this for its own
+library, but the mechanism works on any sound that many people download, CC0 included.
+The defence is the one sound designers use anyway: **process sounds before you ship
+them.** Freesound notes that pitching, stretching or running a sound through plugins makes
+a match less likely. As with music, this protects your players' videos as much as yours.
+Sonniss, Fesliyan and BigSoundBank say nothing on Content ID; Mixkit's licence text would
+not load this session, so it is unchecked.
+
+**Impulse responses** (below) are the one place where shipping changes what you owe.
+Baking reverb into your sounds offline does not ship the IR file. Convolving at runtime
+does, and [adventure-kid-irs](adventure-kid-irs.md) asks for credit when its IRs are
+redistributed "in software". [voxengo-impulses](voxengo-impulses.md) owes nothing unless
+you sell or redistribute the IR files as a standalone product.
+
 | ID | Name | License | Commercial | Status |
 | --- | --- | --- | --- | --- |
 | [sonniss-gdc](sonniss-gdc.md) | Sonniss #GameAudioGDC | custom | yes | active |

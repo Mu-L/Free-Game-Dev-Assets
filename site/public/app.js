@@ -634,10 +634,13 @@
     });
 
     const top = $("#to-top");
+    // Returns to the catalog's search and filters, which on small screens have
+    // scrolled away. It used to scroll to the page top and then focus search
+    // further down, leaving keyboard users typing into a field off screen.
     top.addEventListener("click", () => {
       const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-      window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
-      search.focus();
+      $("#catalog").scrollIntoView({ block: "start", behavior: reduce ? "auto" : "smooth" });
+      search.focus({ preventScroll: true });
     });
 
     window.addEventListener("scroll", onScroll, { passive: true });

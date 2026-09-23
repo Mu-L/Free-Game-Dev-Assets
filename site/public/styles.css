@@ -1007,7 +1007,7 @@ input:focus-visible {
 
 /* On a phone the wrapped filter panel is about 530px tall, two thirds of the
    screen, and pinning it left a strip for the entries. Small or short screens
-   scroll it away with the page instead; "Top" brings it back. */
+   scroll it away with the page instead; the floating Search button brings it back. */
 @media (max-width: 640px), (max-height: 600px) {
   .controls {
     position: static;

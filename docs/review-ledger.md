@@ -4,6 +4,24 @@ Newest section at the top. One section per review run. This is the record of wha
 run measured, what it changed, what it deliberately did not change, and what the next
 run should not spend time re-deciding.
 
+## 2026-09-23 (Search button)
+
+The previous section's next action: make the floating button land where it focuses. One
+commit, `4c4a111`.
+
+- The button said "Top", scrolled to the page header, then focused the search box about
+  1,600px lower. It is now **"Search"**: it scrolls to the catalog section and focuses the
+  box with `preventScroll`, so there is one scroll and the focus is on screen.
+- Checked at 1280x900 with and without reduced motion, 375x800 and 800x400: search box on
+  screen and focused every time, and typing filters immediately ("kenney", 54 of 305).
+- Not changed: the button stays visible while the search box is on screen, because it
+  shows by scroll depth (600px) and the catalog starts below that. Cosmetic.
+- Next highest-value action: **settle the five plural subcategory pairs**
+  (character/characters, environment/environments, interior/interiors, tileset/tilesets,
+  vector/vectors) by majority use, then let V13 fold a trailing "s" so a new variant
+  cannot return. Check the check against the whole catalog before trusting it: plural
+  folding is where false positives would come from.
+
 ## 2026-09-23 (after the second full run)
 
 The second full run's next action: the sticky filter panel on phones. One commit
@@ -22,7 +40,8 @@ The second full run's next action: the sticky filter panel on phones. One commit
 - **Found, not fixed (pre-existing, same on the live site):** on desktop, Top scrolls to
   the page header but focuses the search box about 1,600px further down, off screen. A
   keyboard user who then types is typing into a field they cannot see.
-- Next highest-value action: **make Top land where it focuses.** Either scroll to the
+- Next highest-value action: ~~**make Top land where it focuses.**~~ Done in the Search
+  button section above. Either scroll to the
   catalog controls rather than the page top, or stop moving focus. A few lines in
   `app.js`, and it is the last interaction defect on record. After that, the plural
   subcategory convention (five pairs) from the second full run.

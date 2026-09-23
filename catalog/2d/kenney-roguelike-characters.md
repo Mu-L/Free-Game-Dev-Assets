@@ -10,7 +10,7 @@ license_spdx: CC0-1.0
 commercial: true
 attribution_required: false
 formats: [PNG]
-tags: [cc0, rpg, character, roguelike, overworld]
+tags: [cc0, rpg, character, roguelike, overworld, front-facing]
 camera_perspective: isometric_3_4
 verified: 2026-09-22
 status: active
@@ -22,9 +22,9 @@ status: active
 
 ## Notes
 
-- Directional coverage is the thing to check before you commit. The pack is built from front-facing 3/4 portraits with variants, and this entry does not claim a four-direction walk cycle per character. Open the sheet and confirm what your controller needs
-- Designed against [kenney-roguelike-rpg-pack](kenney-roguelike-rpg-pack.md); dropping these onto a different pixel style will show
-- Variants are separate sprites rather than a layered paper doll, so equipment changes mean swapping whole frames. [universal-lpc-generator](universal-lpc-generator.md) is the paper-doll option, with share-alike obligations attached
+- **Front-facing only, no walk cycles, confirmed.** Opened `Spritesheet/roguelikeChar_transparent.png` on 2026-09-22: a 918x203 sheet on a 16px tile with 1px spacing, holding base bodies, hair, clothing and armour layers, shields and weapons. Every frame is the front view. There are no side or back facings and no animation frames anywhere in the pack. Use it for portraits, menus and top-down figures that never turn, or composite a turning character yourself
+- Designed against [kenney-roguelike-rpg-pack](kenney-roguelike-rpg-pack.md); dropping these onto a different pixel style will show. For a turning protagonist in the same 3/4 world, use [armm1998-zelda-like](armm1998-zelda-like.md) or [ninja-adventure](ninja-adventure.md)
+- It is a layered parts kit: bodies, hair, clothing and equipment are drawn as separate pieces meant to be composited, which makes recolouring and kitbashing easy within the one front view. [universal-lpc-generator](universal-lpc-generator.md) is the option that layers *and* turns, with share-alike obligations attached
 - No tile size is stated on the source page because these are sprites rather than tiles
 
 ## Evidence

@@ -4,6 +4,40 @@ Newest section at the top. One section per review run. This is the record of wha
 run measured, what it changed, what it deliberately did not change, and what the next
 run should not spend time re-deciding.
 
+## 2026-09-23 (eleventh pass, same session)
+
+The tenth pass's next action: music. Two commits, one of them fixing a regression of my
+own.
+
+- **Batch Q: "Choosing game music"** in `catalog/audio/README.md`, sorted by the two
+  questions that decide it: is a credit owed, and will videos of the game be claimed.
+- **The finding: Content ID lands on your players, not on you.** Only one of twelve music
+  entries mentioned Content ID. Checked at each source: Incompetech's own page says claims
+  follow when "the credit was placed in the video itself" rather than in the description
+  text, so an in-game credit satisfies the licence but not YouTube, and every streamer
+  needs the description credit. Pixabay's own guide says "many music composers, including
+  those that share their work on Pixabay, have their content digitally fingerprinted",
+  flaggable but not always flagged. ENDE forbids anyone registering its tracks. Soundimage,
+  Tallbeard and Kenney say nothing; the table says "not addressed", which is not the same
+  as safe. Notes added to three entries; no `verified` dates moved (not licence text).
+- Pixabay blocks scripts, so its pages were read in a real browser. Worth remembering for
+  other 403 sources: a browser read is still a primary-source read.
+- Index fixes: the heading "Music (attribution usually required)" was false (four of six
+  active sources owe nothing), and Zapsplat's † footnote sat under the wrong table.
+- **Regression fixed: V11 had been checking only the first listing table in each category
+  README since batch K.** Audio has three, tools has seven, so six tools sections and two
+  audio sections were unchecked. Proved by reverting the mod-loader row to MIT, which
+  validated clean. V11 now reads every `| ID |` table, with a fixture that puts drift in a
+  second table. The widened check found no drift in the tables it had been skipping.
+  **Lesson:** batch K proved V11 against single-table READMEs only. When a check changes
+  how it finds its input, test it on the unusual shapes, not the common one.
+- Deferred, unchanged: `tenacity`'s licence, the two `camera_perspective` questions.
+- Remaining measured cluster: `audio/sfx` (14).
+- Next highest-value action: **`audio/sfx`**. Attribution and the Sonniss and Freesound
+  per-file terms are the known questions, and fourteen sources sit in one list. Whether
+  Content ID reaches sound effects is untested here; check it at each source rather than
+  assume either way.
+
 ## 2026-09-23 (tenth pass, same session)
 
 The ninth pass's next action (`tools/godot`), plus a maintainer-requested README rewrite.
@@ -41,9 +75,8 @@ The ninth pass's next action (`tools/godot`), plus a maintainer-requested README
   licence name, which check V1 has rejected since batch B. Both now match the validator.
 - Deferred, unchanged: `tenacity`'s licence, the two `camera_perspective` questions.
 - Remaining measured clusters: `audio/sfx` (14), `audio/music` (11).
-- Next highest-value action: **the audio clusters**, starting with music, where the
-  licence traps are sharpest (ND clauses, Content ID registration, attribution strings)
-  and eleven sources currently sit in one list.
+- Next highest-value action: ~~**the audio clusters**, starting with music~~: music done
+  in the eleventh pass above; `audio/sfx` remains.
 
 ## 2026-09-23 (ninth pass, same session)
 

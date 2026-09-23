@@ -4,6 +4,49 @@ Newest section at the top. One section per review run. This is the record of wha
 run measured, what it changed, what it deliberately did not change, and what the next
 run should not spend time re-deciding.
 
+## 2026-09-23 (fifteenth pass, same session)
+
+The fourteenth pass's next action: clear the bot-blocked backlog with a real browser
+(Playwright). Batch U, one commit.
+
+- **All 12 first-pass URLs load in a browser.** None is dead. `cloudcompare` still
+  answers 403 first and then serves the page after a challenge; the rest return 200.
+  The 403/454 results in the first pass were bot blocks, as recorded.
+- **`tenacity` resolved: `GPL-2.0-or-later`.** `LICENSE.txt` says "GNU GPL Version 2"
+  with no election; the project README says "either version 2 of the License, or (at
+  your option) any later version". A project-authored README sentence is exactly the
+  evidence the second pass's parked rule accepts. The last unconfirmed GPL value is gone.
+- **`musopen` resolved to `varies`, and the Wayback 404 is explained:** the licence URLs
+  no longer exist. Licences are per recording. On Chopin's Op. 9 page, five recordings
+  link the Public Domain Mark and one links CC BY-NC-SA 3.0. The site Terms of Use also
+  carry a boilerplate "personal, non-commercial" clause for site materials; the entry
+  reports it rather than resolving it. Stays `needs-review`.
+- **`vroid-studio` promoted to `active`, `commercial: true`.** pixiv's guidelines allow
+  commercial use including "games", state the base content "is not CC0", and bar
+  building a character creator from VRoid output. The Terms article they cite was not
+  found on pixiv's policies page, so `attribution_required` stays `unknown`.
+- **`scan-the-world` is now `commercial: false`.** MyMiniFactory's Terms allow downloads
+  "solely for your own non-commercial use" absent an agreement with the design's owner.
+  No per-object licence rendered, so `license` stays `unknown`, `needs-review`.
+- **Mixkit's licence was readable without accepting cookies.** The text is in the page
+  behind the consent dialog. The twelfth pass's "accepting cookies is the owner's call"
+  turned out not to be needed. The licence names video games, bans standalone
+  redistribution "in a tool or template", and bans registering sounds with a rights
+  management service. The audio README's "unchecked" Content ID line now quotes it.
+- `verified:` moved on five entries, each with a dated Evidence quote from a page read
+  today. `godot-shaders` and the other loading URLs kept their dates: they loaded, but
+  their licence text was not re-read.
+- Tooling note: a leftover `serve` process from the fourteenth pass locked `site/dist`
+  and broke the build with EPERM. Stop preview servers by process, not only the task.
+- Still open, and needing a person rather than a browser: the two `camera_perspective`
+  scope questions, `og:image` hosting, and whether `site/dist/data.json` is a public
+  endpoint. Smaller: VRoid's credit terms, Musopen's ToS clause, Scan the World's
+  per-object licences.
+- Next highest-value action: **a fresh MODE=full run of the review prompt.** Fifteen
+  passes have run against measurements taken on 2026-09-22 at 294 entries. The catalog is
+  now 305 entries with new checks, guides and a changed site; re-measuring from zero is
+  how the next pass avoids optimising against stale numbers.
+
 ## 2026-09-23 (fourteenth pass, same session)
 
 The thirteenth pass's next action: re-run the first pass's task test. Same three tasks,
@@ -40,7 +83,8 @@ stranger would leave.
   facts.
 - Deferred, unchanged: `tenacity`'s licence, the two `camera_perspective` questions,
   Mixkit's licence text, and the first pass's 12 bot-blocked URLs.
-- Next highest-value action: **clear the bot-blocked backlog with a real browser.**
+- Next highest-value action: ~~**clear the bot-blocked backlog with a real browser.**~~
+  Done in the fifteenth pass above.
   `tenacity` (Codeberg 403), Mixkit (cookie wall; whether to accept cookies to read it
   is still the owner's call), and the 12 URLs that returned 403/454 in the first pass have all
   waited on "a browser-based check". This session has one.

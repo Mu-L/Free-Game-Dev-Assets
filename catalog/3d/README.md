@@ -25,6 +25,43 @@ Two more caveats recorded on the entries themselves: texturecan's site footer st
 says "All rights reserved" while its terms page is the actual grant, and texture-ninja
 keeps its licence string inside a JS bundle rather than in static HTML.
 
+## Choosing between Kenney, KayKit and Quaternius
+
+Three publishers hold 80 of this catalog's entries, all CC0, all "low-poly", and they
+are not interchangeable. These numbers were measured on 2026-09-23 by opening the files,
+not taken from the store pages: every GLB in Kenney's Modular Dungeon and Nature kits
+(368 models), every model in KayKit's Dungeon Remastered and Adventurers packs (235),
+and eight Quaternius models.
+
+| | Kenney | KayKit | Quaternius |
+| --- | --- | --- | --- |
+| **Triangle budget** | Lowest. Nature trees median 166, rocks 52 | Low. Dungeon pieces median 257 | Highest. Trees around 3,600; the base character 13,700 |
+| **Texturing** | Flat material colours (Nature) or one shared `colormap.png` (Modular Dungeon) | One gradient atlas across all 203 Dungeon models; one texture per character in Adventurers | Mostly one shared texture per model |
+| **Rigged characters** | None among the catalogued 3D kits: they are environments, props and vehicles | Yes. Five adventurers, **76 animations** each, about 6,500 triangles | Yes. Base character with 45 animations |
+| **Scale** | **Varies by kit.** Nature trees 1.3 m, Dungeon walls 4.2 m | Dungeon walls 4.0 m | Trees 7 to 10 m |
+| **Typical file** | Tiny: 7 KB median (Nature) | Small: 33 KB median (Dungeon) | Large: about 2 MB per model |
+| **Delivery** | Direct zip: GLB, FBX, OBJ, plus DAE and STL in some kits | Official GitHub repos laid out as **Godot addons** | quaternius.com routes to itch; a paid Source tier sits beside the free one |
+
+**How to choose:**
+
+- **Blockout, prototypes, mobile or web**: Kenney. Nothing here is lighter, and the
+  flat-colour kits recolour with a material edit.
+- **A consistent stylised game with characters that already move**: KayKit. The shared
+  atlas keeps environment draw calls and style coherent, and the adventurers ship with 76
+  clips. If you build in Godot, the repos drop straight into `addons/`.
+- **Finished-looking scenes, especially nature**: Quaternius. Roughly twenty times the
+  triangles of Kenney's equivalents, and realistic metric scale.
+
+**Mixing them.** KayKit and Kenney's Modular Dungeon walls are within 5% of each other
+(4.0 m and 4.2 m), so those two combine cleanly. Kenney's Nature Kit does not combine
+with anything at its native scale; see its entry. Across publishers, the triangle-density
+gap reads as a style clash well before it becomes a performance problem.
+
+The Quaternius figures come from eight models the author uploaded to
+[Poly Pizza](poly-pizza.md). The pack archive is served through itch, which would not hand
+over a download outside a browser session. Treat those numbers as indicative rather
+than pack-wide. Triangle counts are geometry and survive re-hosting; file sizes may not.
+
 | ID | Name | License | Commercial | Status |
 | --- | --- | --- | --- | --- |
 | [kenney](kenney.md) | Kenney | CC0 | yes | active |

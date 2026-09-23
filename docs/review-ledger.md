@@ -71,7 +71,7 @@ held back as a matter of art style, turned out to be mostly measurable.
   (12), `audio/music` (11). The KayKit and Quaternius rig numbers from this pass already
   cover most of `characters/rigged`.
 - Next highest-value action: ~~**add the Poly Pizza finding**, then
-  **`characters/rigged`**~~ — both done in the ninth pass above.
+  **`characters/rigged`**~~: both done in the ninth pass above.
 
 ## 2026-09-23 (site navigation, same session)
 
@@ -113,12 +113,12 @@ ledger's own figure was wrong.**
   catalog that no longer exists.
 - Executed: three comparison tables, chosen by cluster size and by how little the
   licence column helps.
-  - `catalog/2d/README.md` — **Choosing a pixel tileset** (10 sources). Sorted by grid
+  - `catalog/2d/README.md`: **Choosing a pixel tileset** (10 sources). Sorted by grid
     size and projection, the two things that actually decide it.
-  - `catalog/3d/README.md` — **Choosing a PBR texture source** (8 sources). Sorted by
+  - `catalog/3d/README.md`: **Choosing a PBR texture source** (8 sources). Sorted by
     licence first: six are genuine CC0, `sharetextures` and `freepbr` are custom grants
     that permit shipping a game but restrict passing the textures on.
-  - `catalog/fonts/README.md` — **Choosing a pixel font** (9 sources). Sorted by kind of
+  - `catalog/fonts/README.md`: **Choosing a pixel font** (9 sources). Sorted by kind of
     retro, and by CJK coverage, which three have and the licence column cannot show.
 - **The 2D tileset table is one this session owed.** Batch H added six pixel tile packs
   to a category that already had four, leaving ten CC0 sources that look
@@ -137,8 +137,8 @@ ledger's own figure was wrong.**
 - Remaining clusters, now measured rather than guessed, largest first: `3d/environment`
   (32), `3d/props` (26), `3d/modular` (17), `characters/rigged` (14), `audio/sfx` (14),
   `tools/godot` (12), `audio/music` (11), `characters/animated` (10). The 3D ones are
-  really one question — **Kenney vs Quaternius vs KayKit**, three publishers holding 80
-  entries — and answering it well needs a view on art style and topology, not metadata.
+  really one question, **Kenney vs Quaternius vs KayKit**: three publishers holding 80
+  entries, and answering it well needs a view on art style and topology, not metadata.
 - Next highest-value action: **that 3D kit question**. It is the largest cluster in the
   catalog, `catalog/3d/README.md` had no guidance at all until this pass, and a
   developer starting a 3D project hits it immediately.
@@ -172,7 +172,7 @@ can honestly be.
 - Deferred, unchanged: `tenacity`'s licence (Codeberg 403s automated requests), the
   eight decision-support clusters without comparison lines, and the `camera_perspective`
   scope question for `characters` and `3d`.
-- Next highest-value action: ~~**the eight decision-support clusters**~~ — worked in
+- Next highest-value action: ~~**the eight decision-support clusters**~~: worked in
   the seventh pass above, where the count turned out to be stale. Three much larger
   clusters were covered instead.
 
@@ -183,11 +183,11 @@ closed**, four passes after it was first measured.
 
 - Executed: downloaded and opened the three character sheets, and recorded what each
   actually ships rather than what its description implies.
-  - `ninja-adventure` — **4-directional**. 64x112 per character on a 16px grid: four
+  - `ninja-adventure`: **4-directional**. 64x112 per character on a 16px grid: four
     columns for down, up and both sides, seven rows of frames.
-  - `armm1998-zelda-like` — **4-directional**. 272x256 sheet of 16x32 frames, four
+  - `armm1998-zelda-like`: **4-directional**. 272x256 sheet of 16x32 frames, four
     facings, four-frame walk plus a sword set in each direction.
-  - `kenney-roguelike-characters` — **front-facing only**. 918x203 on a 16px tile with
+  - `kenney-roguelike-characters`: **front-facing only**. 918x203 on a 16px tile with
     1px spacing: bodies, hair, clothing, armour, shields and weapons, every frame the
     front view. No side or back facings, no animation frames anywhere in the pack.
   Tagged `4-directional` and `front-facing` so site search reaches them.
@@ -209,7 +209,7 @@ closed**, four passes after it was first measured.
   eight decision-support clusters without comparison lines, the three deliberately
   untagged tile packs, and the `camera_perspective` scope question for `characters`
   and `3d`.
-- Next highest-value action: ~~**the three untagged tile packs**~~ — done in the sixth
+- Next highest-value action: ~~**the three untagged tile packs**~~: done in the sixth
   pass above. Two resolved to `isometric_3_4`; the 1-bit pack is genuinely
   multi-perspective and stays absent with a stated reason.
 
@@ -238,7 +238,7 @@ Sourcing, against the gap the View filter exposed. Batch H.
   eight decision-support clusters without comparison lines, the three deliberately
   untagged tile packs, and the scope question about `camera_perspective` on
   `characters` and `3d`.
-- Next highest-value action: ~~**open the character sheets**~~ — done in the fifth
+- Next highest-value action: ~~**open the character sheets**~~: done in the fifth
   pass above. Two of the three turn; the Kenney set does not.
 
 ## 2026-09-22 (third pass, same session)
@@ -277,7 +277,7 @@ Took the "next highest-value action" the first two passes both named. Batch G.
     open question for `characters` and parts of `3d`, where the field is arguably not
     applicable at all. Decide the scope before populating further.
 - Next highest-value action: ~~**source a CC0 4-directional top-down character set and a
-  top-down tileset with a stated perspective**~~ — tilesets done in the fourth pass
+  top-down tileset with a stated perspective**~~: tilesets done in the fourth pass
   above; the character half remains open.
 
 ## 2026-09-22 (second pass, same session)
@@ -352,8 +352,8 @@ Picked up the two items the first pass deferred. Batches F and E.
   - D: prerendering, the deprecated-filter fix, verified age in the UI, permalinks,
     URL state, sort, clipboard, legend, dark scheme, sitemap/robots/404.
 - Deferred:
-  - ~~**Batch E** (docs and decision support)~~ — done in the second pass above.
-  - ~~**15 entries carrying `license: GPL-2.0` or `GPL-3.0`**~~ — 8 resolved in the
+  - ~~**Batch E** (docs and decision support)~~: done in the second pass above.
+  - ~~**15 entries carrying `license: GPL-2.0` or `GPL-3.0`**~~: 8 resolved in the
     second pass above; 7 remain bare on purpose, with reasons recorded in their notes.
   - **12 urls returned 403 or 454** (fab, smithsonian, scan-the-world, sonniss,
     pixabay-audio, zapsplat, musopen, inkscape, tenacity, cloudcompare, vroid-studio,
@@ -384,7 +384,7 @@ Picked up the two items the first pass deferred. Batches F and E.
   - **No virtualization, pagination or search debounce.** Measured at 294 entries and
     below the threshold where they pay for themselves. Measure again before proposing.
 - Next highest-value action: ~~**populate `camera_perspective` and `grid_dimensions`**~~
-  — done in the third pass above.
+  (done in the third pass above).
   The task-based coverage test failed hardest not on missing sources but on missing
   taxonomy: a developer cannot filter for a top-down 2D source, because
   `camera_perspective` is set on 11 of 294 entries and `grid_dimensions` on 6, and the

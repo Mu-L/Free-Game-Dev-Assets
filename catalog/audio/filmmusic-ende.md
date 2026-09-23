@@ -22,7 +22,7 @@ Royalty-free music (formerly FilmMusic.io; now ENDE.APP). Standard grant is **CC
 
 - Browse/download: [ende.app](https://ende.app/en) / filmmusic.io redirects
 - Attribution waived: the publisher layers an "Attribution Optional" upgrade over the CC BY 4.0 grant, which is why `attribution_required` is false on a CC-BY license
-- Credit appreciated: `Music by Sascha Ende at ende.app` — offered, not owed
+- Credit appreciated: `Music by Sascha Ende at ende.app`. Offered, not owed
 - Avoid ND music elsewhere — see high-risk
 
 ## Evidence

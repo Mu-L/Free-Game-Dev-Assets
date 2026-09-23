@@ -32,16 +32,17 @@ One new markdown file is enough — the website rebuilds from frontmatter on dep
 7. Bump `expectedEntryCount` in [`site/config.json`](site/config.json) by the number of files you added (or lowered if you removed some).
 8. Run `node site/validate.mjs` — it must exit 0.
 9. Optional 2D/UI fields: `grid_dimensions`, `camera_perspective`, `hardware_tags`, `attribution_string` (see [`TEMPLATE.md`](catalog/TEMPLATE.md)).
-10. Optional: add a line to the matching category `README.md` for GitHub browsing (the site does not require this).
+10. Add a row to the matching category `README.md`. This is required: the validator fails an entry that is not listed there, and the row's licence cell must match your frontmatter.
 11. Optional: add the `id` to `site/config.json` → `featured` to pin it under Safe starting points.
 
 ### Frontmatter rules
 
-- `license`: exact short name from the source (e.g. `CC0`, `CC-BY-3.0`, `SIL OFL`, `custom`, `varies`).
+- `license`: the source's licence, written as one of the values in [`site/license-vocabulary.json`](site/license-vocabulary.json) (e.g. `CC0`, `CC-BY-3.0`, `SIL OFL`, `GPL-3.0-or-later`, `custom`, `varies`). If the source uses a licence the vocabulary lacks, add it there first, with its SPDX mapping and attribution class. For GPL, record `-only` or `-or-later` only when the project itself says which; otherwise use the bare `GPL-2.0` or `GPL-3.0`.
+- `license_spdx`: the SPDX identifier the vocabulary maps your `license` to. The validator rejects a missing one when a mapping exists, and an invented one when it does not.
 - `commercial`: `true` / `false` / `unknown` / `varies`. Use `varies` for aggregators where some files are commercial-ok and others are not. The site still shows these under Commercial OK, labeled **per-file review**, so they are not silently excluded and not silently treated as a blanket grant.
-- `attribution_required`: `true` / `false`.
+- `attribution_required`: `true` / `false` / `unknown`. If the licence normally requires credit (CC-BY) but the publisher waives it, set `false` and add a `- Attribution waived:` line in Notes saying so.
 - `attribution_string`: optional copy-paste credit.
-- `publisher`: optional. Name the **rights-holding publisher**, never the host. Set it whenever that publisher has more than one catalog entry, so the entries group; setting it on a publisher that currently has only one entry is also fine and saves a backfill later. Do not set it to a generic host (GitHub, Hugging Face, itch.io) or to a distributor that does not hold the rights. Distinguish sibling organisations that are genuinely different rights holders — `blender.md` (the application, Blender Foundation) carries no `publisher`, while the asset bundles under `studio.blender.org` carry `Blender Studio`. Kenney, Quaternius, KayKit, Google Fonts, OpenGameArt, LuizMelo, 0x72, Blender Studio, Material Maker, Alif Type, GGBotNet and 3dmodelscc0 are the largest groups in use today; treat that as illustrative, not as the permitted set.
+- `publisher`: optional. Name the **rights-holding publisher**, never the host. Set it whenever that publisher has more than one catalog entry, so the entries group; setting it on a publisher that currently has only one entry is also fine and saves a backfill later. Do not set it to a generic host (GitHub, Hugging Face, itch.io) or to a distributor that does not hold the rights. Distinguish sibling organisations that are genuinely different rights holders: `blender.md` (the application, Blender Foundation) carries no `publisher`, while the asset bundles under `studio.blender.org` carry `Blender Studio`. Kenney, Quaternius, KayKit, Google Fonts, OpenGameArt, LuizMelo, 0x72, Blender Studio, Material Maker, Alif Type, GGBotNet and 3dmodelscc0 are the largest groups in use today; treat that as illustrative, not as the permitted set.
 - `grid_dimensions` / `camera_perspective` / `hardware_tags`: optional 2D/UI metadata.
 - `verified`: ISO date (`YYYY-MM-DD`) of your last license check.
 - `status`: `active` | `needs-review` | `deprecated`.

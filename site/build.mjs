@@ -254,6 +254,56 @@ function entryRowHtml(entry, repo, now) {
 </article>`;
 }
 
+/**
+ * The catalog grouped under category headings. 300 rows in one flat list is
+ * not navigable; headings give the page structure a reader can scan and an
+ * anchor they can link to. app.js reproduces this exact shape on hydrate.
+ *
+ * Grouping is only correct under the default sort. Sorting by verified date
+ * or license across category buckets would be meaningless, so app.js falls
+ * back to a flat list in those cases; the prerender is always the default.
+ */
+function groupedRowsHtml(entries, categories, repo, now) {
+  const order = Object.keys(categories);
+  const seen = new Set(entries.map((e) => e.category));
+  const out = [];
+  for (const cat of order) {
+    if (!seen.has(cat)) continue;
+    const group = entries.filter((e) => e.category === cat);
+    if (!group.length) continue;
+    const label = categories[cat]?.label || cat;
+    out.push(
+      `<h3 class="group-heading" id="group-${esc(cat)}" data-cat="${esc(cat)}">` +
+        `<span class="group-name">${esc(label)}</span>` +
+        `<span class="group-count">${group.length}</span>` +
+        `</h3>`
+    );
+    out.push(...group.map((e) => entryRowHtml(e, repo, now)));
+  }
+  return out.join("\n");
+}
+
+/**
+ * Without JavaScript the chips cannot filter, so the prerender emits them as
+ * jump links to the group headings instead. app.js replaces them with real
+ * filter buttons on hydrate.
+ */
+function categoryChipsHtml(entries, categories) {
+  const counts = new Map();
+  for (const e of entries) counts.set(e.category, (counts.get(e.category) || 0) + 1);
+  const chips = [
+    `<a class="chip" href="#catalog">All <span class="chip-count">${entries.length}</span></a>`,
+  ];
+  for (const [cat, meta] of Object.entries(categories)) {
+    const n = counts.get(cat) || 0;
+    if (!n) continue;
+    chips.push(
+      `<a class="chip" href="#group-${esc(cat)}">${esc(meta.label || cat)} <span class="chip-count">${n}</span></a>`
+    );
+  }
+  return chips.join("");
+}
+
 function starterRowsHtml(featured) {
   return featured
     .map(
@@ -406,9 +456,8 @@ function main() {
   const substitutions = {
     HEAD_META: headMetaHtml(config.site, stats, payload.generatedAt),
     STARTER_ROWS: starterRowsHtml(featured),
-    ENTRY_ROWS: visible
-      .map((e) => entryRowHtml(e, repoUrl, now))
-      .join("\n"),
+    ENTRY_ROWS: groupedRowsHtml(visible, config.categories, repoUrl, now),
+    CATEGORY_CHIPS: categoryChipsHtml(visible, config.categories),
     GUIDE_ROWS: guideRowsHtml(config.guides, repoUrl),
     CATALOG_BLURB: `${stats.total} sources &middot; ${stats.active} active &middot; ${stats.commercialOk} commercial-ok &middot; ${stats.commercialVaries} per-file &middot; ${stats.deprecated} deprecated`,
     RESULT_COUNT: `${visible.length} / ${stats.total}`,

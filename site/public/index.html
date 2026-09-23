@@ -90,9 +90,10 @@
               placeholder="Name, license, tag, format…"
               autocomplete="off"
             />
+            <kbd class="search-key" aria-hidden="true">/</kbd>
           </label>
 
-          <div class="filter-row" id="category-filters" role="group" aria-label="Filter by category"></div>
+          <div class="filter-row" id="category-filters" role="group" aria-label="Filter by category"><!--CATEGORY_CHIPS--></div>
 
           <div class="filter-row meta-filters" role="group" aria-label="Filter by status and terms">
             <label class="check">
@@ -167,6 +168,10 @@
       </p>
       <p class="footer-stamp"><!--FOOTER_STAMP--></p>
     </footer>
+
+    <button type="button" class="to-top" id="to-top" hidden>
+      <span aria-hidden="true">↑</span> Top
+    </button>
 
     <dialog class="entry-dialog" id="entry-dialog" aria-labelledby="dialog-title">
       <form method="dialog" class="dialog-chrome">

@@ -192,6 +192,31 @@
 </article>`;
   }
 
+  /**
+   * Grouping is only meaningful under the default sort with no category
+   * filter. Sorting by verified date or license inside category buckets would
+   * hide the very ordering the reader asked for, so those fall back to a flat
+   * list. The prerendered page is always the grouped default.
+   */
+  function shouldGroup() {
+    return state.sort === "name" && state.category === "all";
+  }
+
+  /**
+   * How many entries each category would yield under the *other* active
+   * filters. Counting with the category filter applied would make every chip
+   * read 0 except the selected one, which tells the reader nothing.
+   */
+  function facetCounts() {
+    const saved = state.category;
+    state.category = "all";
+    const pool = data.entries.filter(matches);
+    state.category = saved;
+    const counts = new Map();
+    for (const e of pool) counts.set(e.category, (counts.get(e.category) || 0) + 1);
+    return { counts, total: pool.length };
+  }
+
   function renderCategoryFilters() {
     const host = $("#category-filters");
     const buttons = [
@@ -204,7 +229,7 @@
     host.innerHTML = buttons
       .map(
         (b) =>
-          `<button type="button" class="chip" data-cat="${escapeHtml(b.id)}" aria-pressed="false">${escapeHtml(b.label)}</button>`
+          `<button type="button" class="chip" data-cat="${escapeHtml(b.id)}" aria-pressed="false">${escapeHtml(b.label)} <span class="chip-count" data-count-for="${escapeHtml(b.id)}"></span></button>`
       )
       .join("");
     host.addEventListener("click", (e) => {
@@ -216,10 +241,15 @@
   }
 
   function syncCategoryChips() {
+    const { counts, total } = facetCounts();
     $$("#category-filters .chip").forEach((chip) => {
-      const on = chip.getAttribute("data-cat") === state.category;
+      const cat = chip.getAttribute("data-cat");
+      const on = cat === state.category;
       chip.classList.toggle("is-active", on);
       chip.setAttribute("aria-pressed", on ? "true" : "false");
+      const slot = chip.querySelector(".chip-count");
+      if (slot) slot.textContent = cat === "all" ? String(total) : String(counts.get(cat) || 0);
+      chip.classList.toggle("is-empty", cat !== "all" && !(counts.get(cat) || 0));
     });
   }
 
@@ -272,10 +302,83 @@
     if (!list.length) {
       grid.innerHTML = "";
       empty.hidden = false;
+      groupHeadings = [];
       return;
     }
     empty.hidden = true;
-    grid.innerHTML = list.map(cardHtml).join("");
+
+    if (!shouldGroup()) {
+      grid.innerHTML = list.map(cardHtml).join("");
+      groupHeadings = [];
+      syncSpy();
+      return;
+    }
+
+    const out = [];
+    for (const cat of Object.keys(categoryLabels)) {
+      const group = list.filter((e) => e.category === cat);
+      if (!group.length) continue;
+      const label = categoryLabels[cat]?.label || cat;
+      out.push(
+        `<h3 class="group-heading" id="group-${escapeHtml(cat)}" data-cat="${escapeHtml(cat)}">` +
+          `<span class="group-name">${escapeHtml(label)}</span>` +
+          `<span class="group-count">${group.length}</span>` +
+          `</h3>`
+      );
+      out.push(...group.map(cardHtml));
+    }
+    grid.innerHTML = out.join("");
+    groupHeadings = $$("#entry-grid .group-heading");
+    syncSpy();
+  }
+
+  /* ------------------------------------------------- scroll position */
+
+  let groupHeadings = [];
+  let currentGroup = null;
+  let ticking = false;
+
+  /**
+   * Marks which category you are currently scrolled into. The chips stay pure
+   * filters; this is a separate, quieter signal, because one control carrying
+   * two meanings is how a filter row stops being readable.
+   */
+  function syncSpy() {
+    const controls = $(".controls");
+    // Anchored jumps (chip links, #entry- permalinks) would otherwise land
+    // underneath the sticky filter bar. Its height varies with wrapping, so
+    // publish the measured value and let CSS scroll-margin use it.
+    if (controls) {
+      document.documentElement.style.setProperty(
+        "--sticky-h",
+        `${Math.round(controls.getBoundingClientRect().height)}px`
+      );
+    }
+    const cutoff = (controls ? controls.getBoundingClientRect().bottom : 0) + 8;
+    let found = null;
+    for (const h of groupHeadings) {
+      if (h.getBoundingClientRect().top <= cutoff) found = h.getAttribute("data-cat");
+      else break;
+    }
+    if (found === currentGroup) return;
+    currentGroup = found;
+    $$("#category-filters .chip").forEach((chip) => {
+      const on = found !== null && chip.getAttribute("data-cat") === found;
+      chip.classList.toggle("is-current", on);
+      if (on) chip.setAttribute("aria-current", "true");
+      else chip.removeAttribute("aria-current");
+    });
+  }
+
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      ticking = false;
+      syncSpy();
+      const btn = $("#to-top");
+      if (btn) btn.hidden = window.scrollY < 600;
+    });
   }
 
   function apply() {
@@ -449,6 +552,39 @@
       Object.assign(state, DEFAULTS);
       syncControls();
       apply();
+    });
+
+    const top = $("#to-top");
+    top.addEventListener("click", () => {
+      const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
+      search.focus();
+    });
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+
+    // "/" focuses search, Escape leaves it. Suppressed whenever the user is
+    // already typing somewhere or the entry dialog has focus.
+    document.addEventListener("keydown", (e) => {
+      const el = document.activeElement;
+      const typing =
+        el &&
+        (el.tagName === "INPUT" ||
+          el.tagName === "TEXTAREA" ||
+          el.tagName === "SELECT" ||
+          el.isContentEditable);
+      if (e.key === "/" && !typing && !$("#entry-dialog").open) {
+        e.preventDefault();
+        search.focus();
+        search.select();
+        return;
+      }
+      if (e.key === "Escape" && el === search && search.value) {
+        search.value = "";
+        state.q = "";
+        apply();
+      }
     });
 
     $("#repo-link").href = repo;

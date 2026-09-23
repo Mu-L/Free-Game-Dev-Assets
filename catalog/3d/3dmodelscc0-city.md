@@ -4,7 +4,7 @@ name: 3dmodelscc0 City Environment Pack
 url: https://3dmodelscc0.itch.io/city-environment-pack
 publisher: 3dmodelscc0
 category: 3d
-subcategories: [props, interiors, environment]
+subcategories: [props, interior, environment]
 license: CC0
 license_spdx: CC0-1.0
 commercial: true

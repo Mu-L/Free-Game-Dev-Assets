@@ -4,7 +4,7 @@ name: Glitch (CC0 asset release)
 url: https://github.com/tinyspeck/glitch-items
 publisher: Tiny Speck
 category: 2d
-subcategories: [sprites, vectors, environments]
+subcategories: [sprites, vectors, environment]
 license: CC0
 license_spdx: CC0-1.0
 commercial: true

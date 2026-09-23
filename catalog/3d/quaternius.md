@@ -4,7 +4,7 @@ name: Quaternius
 url: https://quaternius.com
 publisher: Quaternius
 category: 3d
-subcategories: [characters, environments, props]
+subcategories: [characters, environment, props]
 license: CC0
 license_spdx: CC0-1.0
 commercial: true

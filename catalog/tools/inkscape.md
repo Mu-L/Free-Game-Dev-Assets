@@ -3,7 +3,7 @@ id: inkscape
 name: Inkscape
 url: https://inkscape.org
 category: tools
-subcategories: [vector, ui, icons]
+subcategories: [vectors, ui, icons]
 license: GPL-3.0-or-later
 license_spdx: GPL-3.0-or-later
 commercial: true

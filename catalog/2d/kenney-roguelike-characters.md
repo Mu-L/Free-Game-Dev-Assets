@@ -4,7 +4,7 @@ name: Kenney Roguelike Characters
 url: https://kenney.nl/assets/roguelike-characters
 publisher: Kenney
 category: 2d
-subcategories: [sprites, pixel, character]
+subcategories: [sprites, pixel, characters]
 license: CC0
 license_spdx: CC0-1.0
 commercial: true

@@ -4,7 +4,7 @@ name: Kenney
 url: https://kenney.nl
 publisher: Kenney
 category: 3d
-subcategories: [models, environments, ui, audio]
+subcategories: [models, environment, ui, audio]
 license: CC0
 license_spdx: CC0-1.0
 commercial: true

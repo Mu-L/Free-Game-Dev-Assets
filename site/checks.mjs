@@ -249,9 +249,9 @@ export function checkTaxonomyValues(rel, meta) {
  * `formats` and `subcategories` are free-form, so the same value drifts into
  * several spellings (`png` beside `PNG`, `field-recording` beside
  * `field-recordings`) and search and grouping split on them. Two values that
- * differ only by case or punctuation are one value spelt twice. Plurals are
- * not folded: `character` and `characters` are a known open question, not
- * something this check decides.
+ * differ only by case, punctuation or a trailing "s" are one value spelt
+ * twice. Plural folding was checked against the whole catalog before it was
+ * switched on: its only hits were five real singular/plural pairs.
  */
 export function checkValueSpellings(records, fields = ["formats", "subcategories"]) {
   const errors = [];
@@ -261,7 +261,7 @@ export function checkValueSpellings(records, fields = ["formats", "subcategories
       const values = Array.isArray(meta[field]) ? meta[field] : [];
       for (const raw of values) {
         const v = String(raw);
-        const key = v.toLowerCase().replace(/[^a-z0-9]/g, "");
+        const key = v.toLowerCase().replace(/[^a-z0-9]/g, "").replace(/s$/, "");
         if (!key) continue;
         if (!byKey.has(key)) byKey.set(key, new Map());
         const spellings = byKey.get(key);

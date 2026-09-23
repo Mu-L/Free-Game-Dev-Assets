@@ -473,11 +473,19 @@ rejects(
   ]),
   "subcategories spells one value several ways"
 );
-accepts(
-  "V13 accepts one spelling used many times, and leaves plurals alone",
+rejects(
+  "V13 rejects a singular beside its plural",
   checkValueSpellings([
-    { rel: "a.md", meta: { formats: ["PNG"], subcategories: ["character"] } },
-    { rel: "b.md", meta: { formats: ["PNG"], subcategories: ["characters"] } },
+    { rel: "a.md", meta: { subcategories: ["character"] } },
+    { rel: "b.md", meta: { subcategories: ["characters"] } },
+  ]),
+  'subcategories spells one value several ways: "character" (a.md), "characters" (b.md)'
+);
+accepts(
+  "V13 accepts one spelling used many times",
+  checkValueSpellings([
+    { rel: "a.md", meta: { formats: ["PNG"], subcategories: ["characters", "sfx"] } },
+    { rel: "b.md", meta: { formats: ["PNG"], subcategories: ["characters", "glass"] } },
   ])
 );
 

@@ -3,7 +3,7 @@ id: craftpix
 name: CraftPix (freebies)
 url: https://craftpix.net/freebies/
 category: 2d
-subcategories: [ui, sprites, tilesets]
+subcategories: [ui, sprites, tileset]
 license: custom
 commercial: true
 attribution_required: false

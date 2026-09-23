@@ -4,7 +4,7 @@ name: Quaternius Universal Animation Library
 url: https://quaternius.com/packs/universalanimationlibrary.html
 publisher: Quaternius
 category: animation
-subcategories: [character, retarget, humanoid]
+subcategories: [characters, retarget, humanoid]
 license: CC0
 license_spdx: CC0-1.0
 commercial: true

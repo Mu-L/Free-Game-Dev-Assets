@@ -4,31 +4,33 @@ name: Musopen
 url: https://musopen.org
 category: audio
 subcategories: [music]
-license: unknown
-commercial: unknown
+license: varies
+commercial: varies
 attribution_required: unknown
 formats: [MP3]
-tags: [music, public-domain, recordings]
-verified: 2026-08-25
+tags: [music, public-domain, recordings, classical, per-file-license]
+verified: 2026-09-23
 status: needs-review
 ---
 
 # Musopen
 
-Public-domain / open classical recordings and scores. The production need this was meant to close is album-length music after [freepd](freepd.md) went offline. Every Musopen URL fetched this session (homepage, `/music/`, `/license/`, `/about/`, `/about/license/`, `/faq/`) returned HTTP 403 Cloudflare ("Just a moment..."). No license quote. Score PD and recording rights are different questions even when the site is up. Stay `needs-review` until a terms page is readable.
+Classical recordings and scores, most of them marked public domain, some not. Every recording carries its own licence icon, and on the one work page checked, one of six recordings was CC BY-NC-SA 3.0, which rules it out for a commercial game. Stays `needs-review` as a whole: this is an aggregator where the licence is decided per recording.
 
 ## Notes
 
-- Do not infer CC0 or "public domain recordings" from memory or from other catalogs
-- No `attribution_string`: every license URL returned 403 this session. Score PD and recording rights are separate questions.
-- Interactive use of a recording still needs the *recording's* grant, not only the composition's PD status
-- Prefer [incompetech](incompetech.md) or [kenney-music-jingles](kenney-music-jingles.md) until this page can be quoted
-- Checklist: license page not reachable, commercial unknown, attribution unknown, not a marketplace we could read, reputable org historically but unverified today, not on the high-risk table by name, catalog claims no rights
+- **Check the licence icon on the exact recording you download.** On Chopin's Nocturnes, Op. 9, five recordings link the Public Domain Mark 1.0 and one (Op. 9 no. 3, Gleb Ivanov) links CC BY-NC-SA 3.0. The same piece can be safe from one performer and non-commercial from another
+- The Public Domain Mark is a label, not a licence: it records Musopen's view that the recording is free of copyright. The Terms of Use say Musopen "does not warrant that all content is in the public domain" and that users "are responsible for determining the copyright status"
+- The composition being public domain does not settle the recording. Interactive use needs the recording's own status
+- The site Terms of Use also contain a generic "personal, non-commercial transitory viewing" clause for "materials (information or software)" on the website. It sits alongside per-recording licence icons and reads as boilerplate for the site itself, but it is on the page; this catalog does not resolve that conflict for you
+- For music with a single, plain grant, prefer [incompetech](incompetech.md) or [kenney-music-jingles](kenney-music-jingles.md)
+- Musopen's licence URLs (`/license/`, `/about/license/`) return 404; the Terms of Use page (`/tos/`) and the per-recording icons are where the statements live. The site is behind Cloudflare and loads only in a browser
 
 ## Evidence
 
-- Live musopen.org, `/license/`, and `/about/license/` (2026-08-25): HTTP 403 Cloudflare. License body not reachable this session
-- Wayback capture of musopen.org `/about/license/` (2026-08-25): HTTP 404. No archived grant to quote.
+- Live `musopen.org/music/` (2026-09-23): "All the music we host is royalty and copyright free. For specific restrictions when applicable, check the license icons."
+- Live `musopen.org/music/108-nocturnes-op-9/` (2026-09-23): per-recording links to `creativecommons.org/publicdomain/mark/1.0/` (five recordings) and `creativecommons.org/licenses/by-nc-sa/3.0/` (Op. 9 no. 3, Gleb Ivanov)
+- Live `musopen.org/tos/` (2026-09-23): "Musopen provides access to music and sheet music that is believed to be in the public domain. However, Musopen does not warrant that all content is in the public domain"
 
 ## Related
 

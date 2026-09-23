@@ -17,7 +17,7 @@ Checked at the sources on 2026-09-23:
 | Real-world foley and field recordings | [bigsoundbank](bigsoundbank.md) | None | CC0 applies only to files marked "Free and Royalty Free" |
 | Footsteps on many surfaces | [congusbongus-footsteps-surfaces](congusbongus-footsteps-surfaces.md) | **Required**, CC-BY-3.0 | Derived from named Freesound contributors; keep the pack's credits |
 | Footsteps, no credit | [gboxmikefozzy-footsteps](gboxmikefozzy-footsteps.md), [fesliyan-footsteps](fesliyan-footsteps.md) or [kenney-rpg-audio](kenney-rpg-audio.md) | None | Gbox is a small real recording; Fesliyan's music is under a separate paid policy |
-| A searchable pool, no credit | [pixabay-audio](pixabay-audio.md) or [mixkit-sfx](mixkit-sfx.md) | None | Pixabay bars redistributing its sounds as a pack; Mixkit is a broad filler rather than a game-focused library |
+| A searchable pool, no credit | [pixabay-audio](pixabay-audio.md) or [mixkit-sfx](mixkit-sfx.md) | None | Pixabay bars redistributing its sounds as a pack; Mixkit bars redistributing them "on its own, as stock, in a tool or template". Inside a game is fine for both. Mixkit is a broad filler rather than a game-focused library |
 | A large library, and credit is fine | [zapsplat](zapsplat.md) | **Required on the free tier** | **Free tier is MP3 only**, with download limits; WAV needs Premium |
 | Anything at all | [freesound](freesound.md) | Per sound | Licences vary by upload, including non-commercial ones; filter to CC0 or CC-BY |
 
@@ -30,8 +30,9 @@ library, but the mechanism works on any sound that many people download, CC0 inc
 The defence is the one sound designers use anyway: **process sounds before you ship
 them.** Freesound notes that pitching, stretching or running a sound through plugins makes
 a match less likely. As with music, this protects your players' videos as much as yours.
-Sonniss, Fesliyan and BigSoundBank say nothing on Content ID; Mixkit's licence text would
-not load this session, so it is unchecked.
+Sonniss, Fesliyan and BigSoundBank say nothing on Content ID. Mixkit's licence forbids
+registering its sounds "on any rights management service", which is the step that causes
+these matches, but that binds downloaders who read it, not everyone.
 
 **Impulse responses** (below) are the one place where shipping changes what you owe.
 Baking reverb into your sounds offline does not ship the IR file. Convolving at runtime
@@ -111,6 +112,6 @@ sites are gone.
 | [freepd](freepd.md) | FreePD | unknown | unknown | deprecated |
 | [free-music-archive](free-music-archive.md) | Free Music Archive | varies | unknown | needs-review |
 | [ccmixter](ccmixter.md) | ccMixter | varies | unknown | needs-review |
-| [musopen](musopen.md) | Musopen | unknown | unknown | needs-review |
+| [musopen](musopen.md) | Musopen | varies (PD Mark / CC BY-NC-SA) | varies | needs-review |
 
 Avoid **ND**-licensed music in games — see [`docs/licenses.md`](../../docs/licenses.md) / [`docs/high-risk.md`](../../docs/high-risk.md).

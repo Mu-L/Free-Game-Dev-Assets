@@ -43,7 +43,7 @@ desktop, [sim-daltonism](sim-daltonism.md) is a live lens on macOS and iOS,
 | [accurig](accurig.md) | AccuRig (Reallusion) | custom | needs-review |
 | [krita](krita.md) | Krita | GPL-3.0 | active |
 | [inkscape](inkscape.md) | Inkscape | GPL-3.0-or-later | active |
-| [tenacity](tenacity.md) | Tenacity | GPL-2.0 | active |
+| [tenacity](tenacity.md) | Tenacity | GPL-2.0-or-later | active |
 | [jsfxr](jsfxr.md) | jsfxr | Unlicense | active |
 | [chiptone](chiptone.md) | ChipTone | CC0 | active |
 | [gimp](gimp.md) | GIMP | GPL-3.0-or-later | active |

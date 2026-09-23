@@ -5,30 +5,30 @@ url: https://www.myminifactory.com/scantheworld
 category: 3d
 subcategories: [scans, historical]
 license: unknown
-commercial: unknown
+commercial: false
 attribution_required: unknown
 formats: [STL, OBJ]
-tags: [photogrammetry, museum, print, aggregator]
-verified: 2026-08-25
+tags: [photogrammetry, museum, print, aggregator, non-commercial]
+verified: 2026-09-23
 status: needs-review
 ---
 
 # Scan the World
 
-MyMiniFactory collection of 3D-scanned cultural artefacts aimed at **physical 3D printing**. The landing page this session describes an ecosystem to "freely share" scans. That is not a commercial-game grant. MyMiniFactory terms and per-object license pages returned HTTP 403. The manifesto URL loaded as a script-heavy shell with no Creative Commons string in the HTML. Do not treat this as a second Smithsonian. Prefer [smithsonian-open-access](smithsonian-open-access.md) (CC0, quoted).
+MyMiniFactory's collection of 3D-scanned cultural artefacts, made for **physical 3D printing**. "Freely share" on the landing page is not a game licence, and MyMiniFactory's own Terms of Use limit downloads to "your own non-commercial use" unless the design's owner has agreed otherwise. Treat it as **not usable in a commercial game** by default. For museum scans you can ship, use [smithsonian-open-access](smithsonian-open-access.md) (CC0, quoted).
 
 ## Notes
 
-- Host is a print marketplace. Per-object licenses on MMF historically include CC-BY-NC-SA. That family is **non-commercial**. None of those words were recoverable this session, so they are not recorded as fact
-- No `attribution_string`: MyMiniFactory terms and per-object pages returned 403. A guessed credit line would be a liability.
-- STL/OBJ from a print pipeline are rarely game-ready (scale, solids, no PBR)
-- Marketplace EULA could not be fetched (403). itch/Fab-style extra terms may still apply on download
-- Checklist: no license badge extracted, commercial unknown, attribution unknown, marketplace terms unreachable, not anonymous but terms blocked, not on the high-risk table by name, catalog claims no rights
+- **The platform terms are non-commercial.** MyMiniFactory's Terms of Use allow downloads "solely for your own non-commercial use", unless there is "a prior arrangement or agreement" with MyMiniFactory or the design's owner. A per-object licence could be such an agreement, but no per-object licence was read, so `license` stays `unknown`
+- The Scan the World store lists 12,437 objects, split into free and **premium** (paid) objects. Free to download is not the same as free to use
+- Per-object pages load only through the site's scripts and did not render object links in this pass, even in a browser
+- STL/OBJ from a print pipeline are rarely game-ready: wrong scale, solid meshes, no PBR materials
+- No `attribution_string`: none could be quoted, and a guessed credit line would be a liability
 
 ## Evidence
 
-- Live landing (2026-08-25): "freely share digital, 3D scanned cultural artefacts for physical 3D printing"
-- Same landing (2026-08-25): print-share language is not a commercial-game grant. No CC string. Per-object MMF terms still not quoted.
+- Live MyMiniFactory Terms & Conditions (2026-09-23): "You may print or download portions of the materials from various areas of this website (including through the use of our API) solely for your own non-commercial use - unless there is a prior arrangement or agreement with My Mini Factory Ltd or the owner of the design regarding the commercial use of said items"
+- Live Scan the World landing (2026-09-23): "an ecosystem for everyone to freely share digital, 3D scanned cultural artefacts for physical 3D printing"
 
 ## Related
 

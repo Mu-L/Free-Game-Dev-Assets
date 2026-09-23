@@ -17,6 +17,7 @@ Figures marked *measured* came from opening the files on 2026-09-23.
 | Avatars that move between apps | [osa-100avatars](osa-100avatars.md) | **CC0** | VRM, whose humanoid bone map is part of the format, so VRM-aware importers map it for you |
 | To generate your own | [mpfb](mpfb.md) or [makehuman](makehuman.md) | **CC0** exports | Generators, not packs. The app code is GPL or AGPL; what you export is CC0 |
 | A PS1-style stand-in, fast | [barnabe-wild-lowpoly-rigged](barnabe-wild-lowpoly-rigged.md) | **CC0** | One low-poly humanoid with IK helpers |
+| First-person arms for a shooter | [oga-fps-arms-rigged](oga-fps-arms-rigged.md) | **CC0** | *Measured:* arms only, full finger bones and IK hand controls. A 2015 "crude first attempt", FBX and `.blend`, **no animations**: you animate it |
 | A film-quality hero to study or render | Blender Studio: [rain](blender-studio-rain.md), [one](blender-studio-one.md), [critters](blender-studio-critter.md) | CC-BY-4.0, **credit required** | Production rigs, `.blend` only. The Singularity rigs (One, the Critters) need Blender 5.0+ and a login; Rain is a direct download. **Not engine-ready**: expect to bake and export yourself |
 
 **Animations do not move between publishers for free.** Three different skeletons turned
@@ -57,6 +58,7 @@ Rocketbox, whose MIT licence requires the copyright notice to ship with your bui
 | [quaternius-rpg-character-pack](quaternius-rpg-character-pack.md) | Quaternius RPG Characters | CC0 | yes | active |
 | [mpfb](mpfb.md) | MPFB (MakeHuman for Blender) | CC0* | yes | active |
 | [makehuman](makehuman.md) | MakeHuman | CC0 | yes | active |
+| [oga-fps-arms-rigged](oga-fps-arms-rigged.md) | FPS Arms, rigged (OpenGameArt) | CC0 | yes | active |
 | [charmorph](charmorph.md) | CharMorph | varies (AGPL/`mb_*`) | unknown | needs-review |
 | [vroid-studio](vroid-studio.md) | VRoid Studio | custom | unknown | needs-review |
 

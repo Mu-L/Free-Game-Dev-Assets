@@ -54,6 +54,7 @@ desktop, [sim-daltonism](sim-daltonism.md) is a live lens on macOS and iOS,
 | [bfxr](bfxr.md) | Bfxr | MIT | active |
 | [sfxr](sfxr.md) | sfxr | MIT | active |
 | [audacity](audacity.md) | Audacity | GPL-3.0 | active |
+| [blender-cell-fracture](blender-cell-fracture.md) | Cell Fracture (Blender extension) | GPL-3.0-or-later | active |
 
 ## Pipeline & compression
 
@@ -122,6 +123,9 @@ engine version is. Maintenance was read from each repository on 2026-09-23.
 | Mod support | [godot-mod-loader](godot-mod-loader.md) | 4.x on `4.x-dev` | v7.0.1, 2025-06 | 2026-08 |
 | Steamworks | [godotsteam](godotsteam.md) | 4.x | v4.22.1, 2026-09 | **moved to Codeberg** |
 | Creature mesh-deform animation | [creature-2d-runtimes](creature-2d-runtimes.md) | **3 only** | none | **2020-06** |
+| Fracture a mesh into debris, inside Godot | [voronoishatter](voronoishatter.md) | 4.4+ (inferred) | v0.3, 2026-06 (pre-1.0) | 2026-06 |
+| Swap in pieces pre-broken in Blender | [godot-destruction-plugin](godot-destruction-plugin.md) | 4.x | v7.2, 2024-06 | **2024-06** |
+| Voxel destruction for MagicaVoxel models | [godot-voxel-destruction](godot-voxel-destruction.md) | 4.1+ | v1.2.0, 2026-08 | 2026-09 |
 
 Read the bold cells before depending on one:
 
@@ -134,6 +138,14 @@ Read the bold cells before depending on one:
   is active.
 - **Creature 2D Runtimes** is a Godot 3 runtime last touched in 2020. It is in this list
   for completeness, not because it runs in Godot 4.
+- **Godot Destruction Plugin** has had no commit since its 2024 release, and its README
+  says it is "only tested in very small scenes".
+
+Debris and rubble: the catalog has no pack of pre-broken meshes, because making them from
+your own models is the normal route. Fracture in Blender with
+[blender-cell-fracture](blender-cell-fracture.md) and swap the pieces in at runtime with
+the Destruction Plugin, or do both steps inside Godot with VoronoiShatter. If your art is
+voxels, Voxel Destruction removes voxels directly and needs no pre-broken pieces.
 
 Beehave or LimboAI: both are maintained. Take Beehave if trees alone are enough and you
 want an addon written in GDScript you can read and patch; take LimboAI when you also want
@@ -156,6 +168,9 @@ only release are Godot 3.
 | [limboai](limboai.md) | LimboAI | MIT | active |
 | [terrain3d](terrain3d.md) | Terrain3D | MIT | active |
 | [godotsteam](godotsteam.md) | GodotSteam | custom | needs-review |
+| [voronoishatter](voronoishatter.md) | VoronoiShatter | MIT | active |
+| [godot-destruction-plugin](godot-destruction-plugin.md) | Godot Destruction Plugin | MIT | active |
+| [godot-voxel-destruction](godot-voxel-destruction.md) | Godot Voxel Destruction | MIT | active |
 
 ## GTA-format tooling
 

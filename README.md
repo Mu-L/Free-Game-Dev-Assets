@@ -1,7 +1,5 @@
 # Free Game Dev Assets
 
----
-
 [![Website](https://img.shields.io/website?url=https%3A%2F%2Ftmhsdigital.github.io%2FFree-Game-Dev-Assets%2F&up_message=live&down_message=down&label=website)](https://tmhsdigital.github.io/Free-Game-Dev-Assets/)
 [![Pages](https://img.shields.io/github/actions/workflow/status/TMHSDigital/Free-Game-Dev-Assets/pages.yml?label=pages)](https://github.com/TMHSDigital/Free-Game-Dev-Assets/actions/workflows/pages.yml)
 [![License: CC0-1.0](https://img.shields.io/badge/license-CC0--1.0-lightgrey.svg)](LICENSE)
@@ -9,11 +7,14 @@
 [![GitHub stars](https://img.shields.io/github/stars/TMHSDigital/Free-Game-Dev-Assets)](https://github.com/TMHSDigital/Free-Game-Dev-Assets/stargazers)
 [![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
-A curated public catalog of **free and commercially usable** assets, libraries, and tools for game development and related interactive work.
+A curated catalog of **free, commercially usable** assets and tools for game development.
 
-This repository **indexes and documents** sources. It does **not** rehost third-party binary packs. Every entry points to the original publisher so licenses stay authoritative at the source.
+It indexes sources and never rehosts them. Every entry links to the original publisher and
+records the licence exactly as that publisher states it. Every `active` entry also quotes
+the live licence page with the date it was read. You can check any claim here in one
+click, and you should before you ship.
 
-**[Browse 300 sources →](https://tmhsdigital.github.io/Free-Game-Dev-Assets/)**
+**[Browse 300 sources](https://tmhsdigital.github.io/Free-Game-Dev-Assets/)** · [Master index](catalog/README.md) · [Start here](#start-here) · [Licences](#licences)
 
 <table>
   <tr>
@@ -35,14 +36,14 @@ This repository **indexes and documents** sources. It does **not** rehost third-
     <td align="center" width="25%">
       <a href="catalog/environment/poly-haven.md"><img src="docs/images/readme/polyhaven-hdri.png" alt="Poly Haven HDRI with lighting spheres" width="220" /></a><br />
       <b><a href="catalog/environment/poly-haven.md">Poly Haven</a></b><br />
-      <sub>CC0 · HDRI / PBR</sub>
+      <sub>CC0 · HDRI and PBR</sub>
     </td>
   </tr>
   <tr>
     <td align="center" width="25%">
       <a href="catalog/2d/kenney-ui-pack.md"><img src="docs/images/readme/kenney-ui.png" alt="Kenney UI pack panels and buttons" width="220" /></a><br />
       <b><a href="catalog/2d/kenney-ui-pack.md">Kenney UI</a></b><br />
-      <sub>CC0 · HUD / menus</sub>
+      <sub>CC0 · HUD and menus</sub>
     </td>
     <td align="center" width="25%">
       <a href="catalog/2d/kenney-input-prompts.md"><img src="docs/images/readme/kenney-prompts.png" alt="Kenney Xbox Series input prompt icons" width="220" /></a><br />
@@ -62,224 +63,244 @@ This repository **indexes and documents** sources. It does **not** rehost third-
   </tr>
 </table>
 
-<sub>Publisher promotional stills (CC0 / SIL OFL), used here as documentation only. Full packs stay on the source sites.</sub>
+<sub>Publisher promotional stills (CC0 or SIL OFL), shown here as documentation only. The packs themselves stay on the source sites.</sub>
 
----
+## Start here
 
-## Contents
+Choose by the job, not by the licence. Most sources in a category share a licence, so the
+licence column rarely tells you which one to pick. These guides compare sources that look
+interchangeable and are not. Several are measured from the files themselves, not the store
+pages.
 
-- [Website](#website)
-- [Browse the catalog](#browse-the-catalog)
-- [Quick start](#quick-start)
-- [How entries work](#how-entries-work)
-- [Safe starting points](#safe-starting-points)
-- [Licenses & provenance](#licenses--provenance)
-- [Godot-oriented stack](#godot-oriented-stack)
-- [Scope](#scope)
-- [Contributing](#contributing)
-- [Repository layout](#repository-layout)
-- [License](#license)
+| You are choosing | Guide |
+| --- | --- |
+| A pixel tileset, by grid size and projection | [2D: Choosing a pixel tileset](catalog/2d/README.md#choosing-a-pixel-tileset) |
+| An icon set, and which two carry obligations | [2D: Choosing an icon set](catalog/2d/README.md#choosing-an-icon-set) |
+| Kenney, KayKit or Quaternius | [3D: measured comparison of scale, triangles and rigs](catalog/3d/README.md#choosing-between-kenney-kaykit-and-quaternius) |
+| A PBR texture library you can redistribute | [3D: Choosing a PBR texture source](catalog/3d/README.md#choosing-a-pbr-texture-source) |
+| A rigged character, and whether its animations will transfer | [Characters: Choosing a rigged character source](catalog/characters/README.md#choosing-a-rigged-character-source) |
+| A pixel font, including CJK | [Fonts: Choosing a pixel font](catalog/fonts/README.md#choosing-a-pixel-font) |
+| A Godot 4 add-on that still builds against your engine | [Tools: Godot 4 add-ons](catalog/tools/README.md#godot-4-add-ons) |
+| Between two tools that do the same job | [Tools: near-duplicates](catalog/tools/README.md#choosing-between-near-duplicates) |
 
----
-
-## Website
-
-**https://tmhsdigital.github.io/Free-Game-Dev-Assets/**
-
-The site is generated from catalog frontmatter on every push (GitHub Actions → Pages). Add or edit one file under `catalog/<category>/<id>.md` and the browse UI, filters, and counts update automatically.
-
-<details>
-<summary>Local preview</summary>
-
-```bash
-node site/validate.mjs
-node site/build.mjs
-npx --yes serve site/dist
-```
-
-</details>
-
----
+Need something working today? Take the [safe starting points](#safe-starting-points): the
+catalog's highest-confidence sources, with the licence shown so you can see which ones owe
+a credit.
 
 ## Browse the catalog
 
+The [website](https://tmhsdigital.github.io/Free-Game-Dev-Assets/) searches all 300 entries
+and filters them by category, commercial use, attribution, review status and 2D camera
+view. Press `/` to search. Filtered views and individual entries have their own URLs, so you can send
+someone exactly what you are looking at.
+
 | Category | Entries | Focus | Index |
 | --- | ---: | --- | --- |
-| **3D** | 69 | Models, scans, PBR textures & materials | [`catalog/3d/`](catalog/3d/) |
+| **3D** | 69 | Models, scans, PBR textures and materials | [`catalog/3d/`](catalog/3d/) |
 | **Tools** | 62 | Editors, pipeline, TTS, Godot add-ons | [`catalog/tools/`](catalog/tools/) |
-| **2D** | 47 | Sprites, UI/HUD, icons, palettes | [`catalog/2d/`](catalog/2d/) |
+| **2D** | 47 | Sprites, tilesets, UI and HUD, icons, palettes | [`catalog/2d/`](catalog/2d/) |
 | **Audio** | 28 | SFX, music, foley, impulse responses | [`catalog/audio/`](catalog/audio/) |
-| **Characters** | 26 | Generators & modular humanoids | [`catalog/characters/`](catalog/characters/) |
-| **Fonts** | 23 | OFL and commercial-ok typefaces | [`catalog/fonts/`](catalog/fonts/) |
+| **Characters** | 26 | Rigged packs, generators, modular humanoids | [`catalog/characters/`](catalog/characters/) |
+| **Fonts** | 23 | OFL and commercial-ok typefaces, CJK | [`catalog/fonts/`](catalog/fonts/) |
 | **Environment** | 15 | HDRI, terrain DEMs, geodata | [`catalog/environment/`](catalog/environment/) |
-| **Shaders & VFX** | 17 | Shaders, particle/FX resources | [`catalog/shaders-vfx/`](catalog/shaders-vfx/) |
-| **Animation** | 12 | MoCap databases & character clips | [`catalog/animation/`](catalog/animation/) |
+| **Shaders & VFX** | 17 | Shaders, particle and FX resources | [`catalog/shaders-vfx/`](catalog/shaders-vfx/) |
+| **Animation** | 12 | Motion capture and character clips | [`catalog/animation/`](catalog/animation/) |
 | **Video** | 1 | Stock footage, archival clips | [`catalog/video/`](catalog/video/) |
 
-Master index: [`catalog/README.md`](catalog/README.md)
+## Reading an entry
 
----
+Each source is one Markdown file: frontmatter for the facts, then notes on what it is good
+for, what the catch is, and a dated **Evidence** section quoting the live licence page.
 
-## Quick start
+| Status | Meaning |
+| --- | --- |
+| `active` | Licence read at the source and quoted with a date. Suitable to evaluate for production |
+| `needs-review` | Useful, but a real question is still open, and the entry says which. Verify before shipping |
+| `deprecated` | Kept for history, with the reason stated. Use an alternative |
 
-1. Use the [website](https://tmhsdigital.github.io/Free-Game-Dev-Assets/) or open a category folder (or the [master index](catalog/README.md)).
-2. Prefer entries with `status: active` and `commercial: true`.
-3. Follow the source URL and **re-check the live license** before shipping.
-4. Keep attribution / notices files for anything that isn’t CC0.
+`verified` is the date someone last read the licence at the source. The website shows its
+age on every row and marks it once it passes a year; at that point, re-read the licence
+yourself before you rely on it.
 
-If you’re prototyping under a tight deadline, start with the [safe starting points](#safe-starting-points).
-
----
-
-## How entries work
-
-Each source is one markdown file with YAML frontmatter plus short notes. Add new ones from [`catalog/TEMPLATE.md`](catalog/TEMPLATE.md). `id` must be unique across the whole catalog, not just the category folder.
+Aggregators (OpenGameArt, Poly Pizza, itch collections, font indexes) are usually `license: varies`.
+The licence belongs to each file, not to the site or even to the author, so review every
+file you take.
 
 <details>
 <summary>Frontmatter fields</summary>
 
 | Field | Meaning |
 | --- | --- |
-| `license` | Short license name as stated by the source (`CC0`, `CC-BY-3.0`, `SIL OFL`, `custom`, `varies`) |
-| `license_spdx` | Optional SPDX identifier when the grant maps 1:1 (`CC0-1.0`, `OFL-1.1`, `MIT`, …). Omit for `custom`, `varies`, and unversioned or statutory public-domain works. Exact case; must be in `site/spdx-allowed.json` |
-| `commercial` | `true` / `false` / `unknown` / `varies`. `varies` means per-file review; the site filter still shows these with a **per-file review** badge |
-| `attribution_required` | `true` / `false` / `unknown`. `unknown` is per-file or unverified (aggregators, unreachable terms). There is no `varies` state |
-| `formats` | Common download / interchange formats |
-| `verified` | Date of the last license spot-check (`YYYY-MM-DD`) |
-| `status` | See legend below |
-| `grid_dimensions` / `camera_perspective` / `hardware_tags` | Optional — 2D tile size, projection (`isometric_3_4`, `top_down`, `side_scroller`, `2d_flat`), input-device coverage |
-| `attribution_string` | Copy-paste credit; required when `attribution_required` is `true` |
-| `publisher` | Optional rights-holding publisher when that publisher has more than one entry. Not a generic host. |
+| `license` | Licence as the source states it, from a closed vocabulary in [`site/license-vocabulary.json`](site/license-vocabulary.json) (`CC0`, `CC-BY-4.0`, `SIL OFL`, `GPL-3.0-or-later`, `custom`, `varies`, and so on) |
+| `license_spdx` | The SPDX identifier, whenever the licence maps to exactly one. Absent when there is no single identifier: `custom`, `varies`, `unknown`, public domain, unversioned `CC-BY`, and GPL values that do not say `-only` or `-or-later` |
+| `commercial` | `true`, `false`, `unknown` or `varies`. `varies` means per-file review; the site's Commercial OK filter still lists these, labelled **per-file review** |
+| `attribution_required` | `true`, `false` or `unknown`. For fonts, `false` means no credit line, not no obligation: see [`docs/fonts.md`](docs/fonts.md) |
+| `attribution_string` | Copy-paste credit line, present when attribution is required |
+| `formats` | Common download and interchange formats |
+| `verified` | Date the licence was last read at the source (`YYYY-MM-DD`) |
+| `status` | See the table above |
+| `publisher` | The rights holder, when it has more than one entry. Never a generic host |
+| `grid_dimensions`, `camera_perspective`, `hardware_tags` | Optional 2D metadata: tile size, projection (`top_down`, `isometric_3_4`, `side_scroller`, `2d_flat`), input-device coverage |
+
+Add a new source from [`catalog/TEMPLATE.md`](catalog/TEMPLATE.md). `id` must be unique across the whole catalog.
 
 </details>
-
-<details>
-<summary>Status legend</summary>
-
-| Status | Meaning |
-| --- | --- |
-| `active` | License spot-checked; suitable to evaluate for production use |
-| `needs-review` | Useful discovery — verify the live page before shipping |
-| `deprecated` | Kept for history; prefer alternatives |
-
-</details>
-
-Aggregators (OpenGameArt, itch collections, Poly Pizza, font indexes) are usually `license: varies` and `commercial: varies`. Treat each pack or file as its own review. The site Commercial OK filter still lists them, labeled **per-file review**.
-
----
 
 ## Safe starting points
 
-High-signal CC0 / clearly permissive sources that cover most early production needs. Previews of several of these are in the gallery above.
+High-signal sources that cover most early production needs. This mirrors the starter list
+on the website, which is set in [`site/config.json`](site/config.json); if the two ever
+disagree, the config is the one the site uses.
 
 <details>
-<summary>Full starter list</summary>
+<summary>All 19 starters</summary>
 
-| Need | Source | Entry |
+| Need | Source | Licence |
 | --- | --- | --- |
-| Modular low-poly 3D / UI | Kenney | [`catalog/3d/kenney.md`](catalog/3d/kenney.md) |
-| Rigged low-poly characters | Quaternius | [`catalog/3d/quaternius.md`](catalog/3d/quaternius.md) |
-| Atlas-optimized kits | KayKit | [`catalog/3d/kaykit.md`](catalog/3d/kaykit.md) |
-| Seamless PBR materials | ambientCG | [`catalog/3d/ambientcg.md`](catalog/3d/ambientcg.md) |
-| HDRIs / calibrated env | Poly Haven | [`catalog/environment/poly-haven.md`](catalog/environment/poly-haven.md) |
-| Second CC0 HDRI publisher | Open HDRI | [`catalog/environment/open-hdri.md`](catalog/environment/open-hdri.md) |
-| Extra PBR + SBSAR | TextureCan | [`catalog/3d/texturecan.md`](catalog/3d/texturecan.md) |
-| UI icons (brand-free) | Lucide | [`catalog/2d/lucide-icons.md`](catalog/2d/lucide-icons.md) |
-| Hand-drawn 2D vectors | Glitch archive | [`catalog/2d/glitch-archive.md`](catalog/2d/glitch-archive.md) |
-| Input prompt icons | Kenney Input Prompts | [`catalog/2d/kenney-input-prompts.md`](catalog/2d/kenney-input-prompts.md) |
-| Pro SFX dumps | Sonniss #GameAudioGDC | [`catalog/audio/sonniss-gdc.md`](catalog/audio/sonniss-gdc.md) |
-| Attribution music | Incompetech | [`catalog/audio/incompetech.md`](catalog/audio/incompetech.md) |
-| No-attribution music loops | Abstraction Music Loop Bundle | [`catalog/audio/tallbeard-abstraction-music-loop-bundle.md`](catalog/audio/tallbeard-abstraction-music-loop-bundle.md) |
-| Pixel / terminal font | Departure Mono | [`catalog/fonts/departure-mono.md`](catalog/fonts/departure-mono.md) |
-| Localization fonts | Noto Sans | [`catalog/fonts/noto-sans.md`](catalog/fonts/noto-sans.md) |
+| Modular low-poly 3D / UI | [Kenney](catalog/3d/kenney.md) | CC0 |
+| Rigged low-poly characters | [Quaternius](catalog/3d/quaternius.md) | CC0 |
+| Atlas-optimized kits | [KayKit (Kay Lousberg)](catalog/3d/kaykit.md) | CC0 |
+| Seamless PBR materials | [ambientCG](catalog/3d/ambientcg.md) | CC0 |
+| HDRIs / calibrated env | [Poly Haven](catalog/environment/poly-haven.md) | CC0 |
+| Second CC0 HDRI publisher | [Open HDRI](catalog/environment/open-hdri.md) | CC0 |
+| Extra PBR + SBSAR | [TextureCan](catalog/3d/texturecan.md) | CC0 |
+| UI icons (brand-free) | [Lucide Icons](catalog/2d/lucide-icons.md) | ISC |
+| Hand-drawn 2D vectors | [Glitch (CC0 asset release)](catalog/2d/glitch-archive.md) | CC0 |
+| Input prompts (Deck / Switch 2 / Quest) | [Kenney Input Prompts](catalog/2d/kenney-input-prompts.md) | CC0 |
+| Pro SFX dumps | [Sonniss #GameAudioGDC Bundle](catalog/audio/sonniss-gdc.md) | custom |
+| Attribution music | [Incompetech (Kevin MacLeod)](catalog/audio/incompetech.md) | CC-BY-4.0 |
+| Pixel / terminal font | [Departure Mono](catalog/fonts/departure-mono.md) | SIL OFL |
+| Localization fonts | [Noto Sans (incl. CJK)](catalog/fonts/noto-sans.md) | SIL OFL |
+| No-attribution music stingers | [Kenney Music Jingles](catalog/audio/kenney-music-jingles.md) | CC0 |
+| No-attribution music loops | [Abstraction Music Loop Bundle](catalog/audio/tallbeard-abstraction-music-loop-bundle.md) | CC0 |
+| Generate your own retro SFX | [jsfxr](catalog/tools/jsfxr.md) | Unlicense |
+| Extra CC0 PBR (photoscans) | [cgbookcase](catalog/3d/cgbookcase.md) | CC0 |
+| CC0 16-bit platformer kit | [SunnyLand (ansimuz)](catalog/2d/ansimuz-sunnyland.md) | CC0 |
 
 </details>
 
----
+## Licences
 
-## Licenses & provenance
+Read these before you mix packs into a commercial build.
 
-Read [`docs/licenses.md`](docs/licenses.md), [`docs/provenance.md`](docs/provenance.md), [`docs/high-risk.md`](docs/high-risk.md), [`docs/fivem.md`](docs/fivem.md), [`docs/ai-assets.md`](docs/ai-assets.md), [`docs/trust-score.md`](docs/trust-score.md), and [`docs/game-vs-video-licensing.md`](docs/game-vs-video-licensing.md) before mixing packs into a commercial build. Research drafts: [`docs/research-index.md`](docs/research-index.md) (`R01`–`R06`).
+| Guide | Covers |
+| --- | --- |
+| [`docs/licenses.md`](docs/licenses.md) | The cheat sheet: what each licence allows and owes |
+| [`docs/fonts.md`](docs/fonts.md) | Embedding versus redistribution, and what an OFL font still owes |
+| [`docs/geodata.md`](docs/geodata.md) | Attribution across DEM, map and satellite sources, and why ODbL does not reach your game |
+| [`docs/game-vs-video-licensing.md`](docs/game-vs-video-licensing.md) | Why "commercial use" on a video licence may not cover a game |
+| [`docs/provenance.md`](docs/provenance.md) | Judging a supplier, and keeping a paper trail |
+| [`docs/high-risk.md`](docs/high-risk.md) | Sources to avoid entirely |
+| [`docs/ai-assets.md`](docs/ai-assets.md) | AI-generated assets |
+| [`docs/fivem.md`](docs/fivem.md) | GTA-format and FiveM assets |
+| [`docs/trust-score.md`](docs/trust-score.md) | How sources are rated |
 
 <details>
-<summary>Short version</summary>
+<summary>The short version</summary>
 
-- **CC0** — safest default for closed-source games; attribution not required
-- **CC-BY** — commercial OK; keep credits (BY-3.0 often wants the **author named**; BY-4.0 is usually satisfied by a credits-screen link)
-- **CC-BY-SA** — commercial OK with caveats; prefer extractable asset bundles over encrypting SA files into the binary
-- **CC-*-ND** — generally **unusable in games** (interactive sync/remix = derivative)
-- **SIL OFL** — preferred for fonts embedded in games
-- **ODbL / OSM** — game binary usually OK as a Produced Work; credit OSM; watch redistributed geodata
-- **Marketplace “free”** (Unity / Fab / Unreal) — often commercial in-engine, no redistribution, sometimes engine-locked
-- **Trust the supplier** — skip anonymous mega-dumps and known traps (MB-Lab, default Shadertoy, Maps scrapes, GTA/FiveM rips)
+- **CC0**: the safest default for a closed-source game. Nothing owed.
+- **CC-BY**: commercial use is fine; credit the author. CC-BY-3.0 sources often want the author named; CC-BY-4.0 is usually met by a credits-screen line.
+- **CC-BY-SA**: usable commercially, but share-alike applies to derivatives of the asset. Ship SA files in extractable bundles rather than encrypting them into the binary.
+- **Any ND licence**: generally unusable in games, because interactive sync and remix count as derivatives.
+- **SIL OFL**: the default for fonts in games. No credit line, but the licence file ships with the font.
+- **ODbL (OpenStreetMap)**: a game that renders map data is a produced work, so the share-alike does not reach it. Credit OSM. Redistributing the data itself is what triggers the obligations.
+- **Marketplace "free" (Unity, Fab, Unreal)**: often commercial in-engine only, with no redistribution, and sometimes locked to one engine.
+- **Aggregators**: the licence is per file, not per author. The same creator's uploads can differ.
+- **Trust the supplier**: skip anonymous mega-dumps and known traps (MB-Lab, default Shadertoy, map scrapes, GTA and FiveM rips).
 
 </details>
 
-Catalog metadata in *this* repo is CC0. Linked assets remain under their own licenses.
+Catalog metadata in this repository is CC0. Linked assets keep their own licences.
 
-## Godot-oriented stack
+## Godot
 
-Research-backed shortlist for Godot 4 projects (Kenney industrial/tech kits, Sonniss/Freesound audio, Phantom Camera, Input Helper, Dialogic, GodotSteam, Mod Loader, etc.):
+A research-backed shortlist for Godot 4 projects is in
+[`docs/godot-budget-stack.md`](docs/godot-budget-stack.md). Before adopting an add-on, check
+its row in the [maintenance table](catalog/tools/README.md#godot-4-add-ons). Some
+add-ons' latest release is years older than their maintained branch, one is alpha, and
+one is a Godot 3 runtime listed beside the Godot 4 ones.
 
-→ [`docs/godot-budget-stack.md`](docs/godot-budget-stack.md)
+## How the catalog stays honest
 
----
+A catalog like this is only useful if you can trust it, and trust has to be checked, not
+asserted. So `node site/validate.mjs` runs on every push and fails the build rather than
+publishing a broken catalog. Among other things, it checks that:
+
+- a `verified` date is never newer than the newest date in the entry's own Evidence, so a
+  date cannot be bumped without a fresh quote to back it
+- every `license` value comes from the documented vocabulary, and its SPDX identifier
+  agrees with it
+- an attribution licence marked "no attribution" states the publisher's waiver
+- category indexes, counts and the badge above match the catalog
+- no third-party binaries are committed to the repository
+
+The checks themselves are tested against known-bad fixtures in
+[`site/checks.test.mjs`](site/checks.test.mjs). Every review pass, and every correction it
+made, is recorded in [`docs/review-ledger.md`](docs/review-ledger.md).
 
 ## Scope
 
-**In scope**
+**In scope:** free asset libraries, packs and aggregators with a clear free tier; tools for
+creating or processing game assets; sources usable in commercial games when their terms
+allow.
 
-- Free asset libraries, packs, and aggregators with a clear free tier
-- Tools useful for creating or processing game assets
-- Sources usable in commercial games when terms allow
-
-**Out of scope**
-
-- Rehosting or mirroring third-party ZIP / model / audio dumps
-- Paid-only marketplaces with no meaningful free content
-- Guessing licenses — use `unknown` / `needs-review` instead
-
----
+**Out of scope:** rehosting or mirroring third-party archives, models or audio; paid-only
+marketplaces with no meaningful free content; guessing licences. When the source does not
+say plainly, the entry says `unknown` and `needs-review` instead.
 
 ## Contributing
 
-PRs welcome for new sources, license corrections, dead links, and clearer notes.
-
-See [`CONTRIBUTING.md`](CONTRIBUTING.md) for the entry checklist and verification steps. Run `node site/validate.mjs` before opening a PR. Please follow the [Code of Conduct](CODE_OF_CONDUCT.md).
-
----
-
-## Repository layout
+New sources, licence corrections, dead links and clearer notes are all welcome. See
+[`CONTRIBUTING.md`](CONTRIBUTING.md) for the entry checklist and how to verify a licence,
+and follow the [Code of Conduct](CODE_OF_CONDUCT.md).
 
 <details>
-<summary>Directory tree</summary>
+<summary>Run the checks and preview the site locally</summary>
 
-```text
-.
-├── README.md              ← you are here
-├── CONTRIBUTING.md        ← how to add / verify entries
-├── LICENSE                ← CC0-1.0 for catalog metadata & docs
-├── docs/
-│   ├── licenses.md / provenance.md / high-risk.md / fivem.md / ai-assets.md
-│   ├── trust-score.md / research-index.md / godot-budget-stack.md
-│   ├── game-vs-video-licensing.md
-│   └── images/readme/     ← publisher stills used in this README
-├── RESEARCH/README.md     ← research archive index (drafts gitignored)
-├── site/                  ← GitHub Pages source (build scans catalog/)
-│   ├── build.mjs / config.json / public/
-└── catalog/
-    ├── TEMPLATE.md
-    ├── 3d/ environment/ 2d/ characters/
-    ├── audio/ animation/ video/ shaders-vfx/ fonts/ tools/
-    └── README.md
+```bash
+node site/checks.test.mjs   # the checks, against known-bad fixtures
+node site/validate.mjs      # the catalog, against the checks
+node site/build.mjs         # builds the site into site/dist
+npx --yes serve site/dist   # preview at http://localhost:3000
 ```
 
 </details>
 
----
+<details>
+<summary>Repository layout</summary>
+
+```text
+.
+├── README.md
+├── CONTRIBUTING.md             how to add and verify an entry
+├── LICENSE                     CC0-1.0 for catalog metadata and docs
+├── catalog/
+│   ├── README.md               master index
+│   ├── TEMPLATE.md             copy this to add a source
+│   └── 3d/ 2d/ audio/ characters/ environment/
+│       fonts/ shaders-vfx/ animation/ video/ tools/
+│                               one .md per source, plus a README index
+├── docs/
+│   ├── licenses.md fonts.md geodata.md game-vs-video-licensing.md
+│   ├── provenance.md high-risk.md ai-assets.md fivem.md trust-score.md
+│   ├── godot-budget-stack.md research-index.md
+│   ├── review-ledger.md        every review pass and what it changed
+│   └── images/readme/          publisher stills used in this README
+├── site/
+│   ├── validate.mjs            catalog integrity checks
+│   ├── checks.mjs              the checks, as pure functions
+│   ├── checks.test.mjs         fixtures proving each check fails on bad input
+│   ├── license-vocabulary.json the licence values the catalog accepts
+│   ├── spdx-allowed.json       SPDX identifiers in use
+│   ├── build.mjs config.json   static site generator and its settings
+│   └── public/                 page, styles and script
+└── RESEARCH/README.md          research archive index (drafts are gitignored)
+```
+
+</details>
 
 ## License
 
-Catalog metadata and documentation in this repository are dedicated to the public domain under [CC0 1.0 Universal](LICENSE).
-
-Third-party assets linked from the catalog remain under their original licenses. Always verify terms on the source site before use.
+Catalog metadata and documentation in this repository are dedicated to the public domain
+under [CC0 1.0 Universal](LICENSE). Third-party assets linked from the catalog remain under
+their original licences. Verify terms on the source site before use.

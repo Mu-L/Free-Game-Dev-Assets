@@ -4,6 +4,34 @@ Newest section at the top. One section per review run. This is the record of wha
 run measured, what it changed, what it deliberately did not change, and what the next
 run should not spend time re-deciding.
 
+## 2026-09-23 (binding documents)
+
+The previous section's next action: read the full Pixabay Content License and the Mixkit
+User Terms. One commit, `71a5abc`, four entries.
+
+- **Pixabay:** the full licence is section 5 of the Terms of Service (the old
+  `/service/license/` URL now redirects to the summary). The grant is irrevocable,
+  worldwide and royalty-free, to "download, use, copy, modify or adapt". Games are never
+  named. What carries a game is the Standalone definition: content combined with other
+  media into "a 'new' creative work" is not standalone. The entries and the guide now
+  state that as the basis rather than asking the reader to confirm it.
+- **New Pixabay facts:** content published before 9 January 2019 is CC0 (section 4); the
+  prohibited uses include political contexts and portraying people as ill, which matters
+  for stock faces in horror or hospital scenes. `pixabay-audio` verified moved to today
+  with three dated quotes.
+- **Mixkit User Terms:** 18 or over only; no mass downloading or scraping; nothing "on a
+  stock or inventory basis"; copies sold only after alteration and combination. **Nothing
+  about games**, so `mixkit-stock-video` stays `needs-review`: the terms neither add the
+  word nor exclude games.
+- Still unread: Mixkit's Acceptable Use Policy, which the User Terms bind items to.
+- Next highest-value action: **none that needs doing now.** The one unread document is
+  Mixkit's Acceptable Use Policy, a conduct policy unlikely to move either Mixkit entry.
+  The next substantive run is a **third MODE=full review on or after 2026-10-17**, when
+  the 73 entries verified in July cross 90 days and the age distribution first changes.
+  Until then, new sources are the best use of a pass: pick a task the catalog has not
+  been tested against (a 2D platformer, or a mobile puzzle game) and walk it the way the
+  first run walked its three.
+
 ## 2026-09-23 (video sources)
 
 The previous section's next action: `video`, one entry. One commit, `8f3955b`. Entry
@@ -31,7 +59,8 @@ count 305 to 310; `video` 1 to 6.
 - Not read, and named in the entries: the Mixkit User Terms (cited by both Mixkit
   licences as holding "important limits"), and the full Pixabay Content License (the page
   rendered no licence body; the entries quote the summary).
-- Next highest-value action: **read the two binding documents the entries could not:**
+- Next highest-value action: ~~**read the two binding documents the entries could not:**~~
+  Done in the binding documents section above.
   the Mixkit User Terms and the full Pixabay Content License. Both licences point to them
   for limits, and between them they govern four entries (`mixkit-sfx`,
   `mixkit-stock-video`, `pixabay-audio`, `pixabay-videos`). Either could settle Mixkit

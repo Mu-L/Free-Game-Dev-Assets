@@ -4,6 +4,29 @@ Newest section at the top. One section per review run. This is the record of wha
 run measured, what it changed, what it deliberately did not change, and what the next
 run should not spend time re-deciding.
 
+## 2026-09-23 (maintainer decisions)
+
+The maintainer took the recommended default on all three open decisions. One commit,
+`13a67e3`. **Nothing is parked any more.**
+
+- **`og:image`:** `docs/images/readme/og-card.png`, a 1200x630 screenshot of the site's
+  first screen (57 KB), taken from the live page with the scrollbar hidden and only whole
+  table rows showing. `build.mjs` copies it into `dist` and emits `og:image` (with size
+  and alt), `twitter:card` `summary_large_image` and `twitter:image`; without the file it
+  falls back to the old summary card. Retake it when the hero changes (noted in
+  `site/README.md`).
+- **`data.json`:** kept and documented in `site/README.md` as the public JSON: top-level
+  keys, entry fields, regeneration on every push, and the caveat that licence facts are
+  as current as each `verified` date.
+- **`camera_perspective` / `grid_dimensions`:** 2D and UI only, stated in TEMPLATE and
+  CONTRIBUTING. All 52 entries that set either field are in `2d`, so no data changed.
+- Next highest-value action: **`video`, the one category that fails any task test.** It
+  has a single entry (`destockd`, a deliberate seed per the first run). A developer
+  wanting free stock footage for a trailer, a menu background or an in-game screen has
+  to leave the catalog. Source 3 to 5 candidates, opened and quoted, with the
+  game-versus-video distinction from `docs/game-vs-video-licensing.md` in mind: a clip
+  licensed for YouTube is not automatically licensed to ship inside a game.
+
 ## 2026-09-23 (formats cleanup)
 
 The previous section's next action: `formats` values that are not formats. One commit,
@@ -24,7 +47,8 @@ The previous section's next action: `formats` values that are not formats. One c
   vocabulary later if it drifts.
 - **The review queue is now empty of work that does not need the maintainer.** What is
   left is three decisions, carried since the first run.
-- Next highest-value action: **the three maintainer decisions**, with a recommended
+- Next highest-value action: ~~**the three maintainer decisions**~~ Taken in the section
+  above, all at the recommended default. With a recommended
   default for each so a yes is enough:
   - `og:image`: a first-party 1200x630 PNG of the site under `docs/images/readme/`, the
     path the validator already allows for first-party stills. Hard rule 3 covers

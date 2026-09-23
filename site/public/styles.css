@@ -635,6 +635,22 @@ input:focus-visible {
   text-decoration: underline;
 }
 
+/* Touch screens: the nav and the entry titles are the main tap targets but are
+   one line of text tall. Vertical padding on an inline link grows the hit area
+   to 44px without changing the line box, so the layout does not move. The
+   title is lifted so the summary below does not paint over its lower half. */
+@media (pointer: coarse) {
+  .topnav a,
+  .entry-top h3 a {
+    padding-block: 12px;
+  }
+
+  .entry-top h3 a {
+    position: relative;
+    z-index: 1;
+  }
+}
+
 .entry-links {
   display: flex;
   flex-wrap: wrap;

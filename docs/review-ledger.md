@@ -4,6 +4,39 @@ Newest section at the top. One section per review run. This is the record of wha
 run measured, what it changed, what it deliberately did not change, and what the next
 run should not spend time re-deciding.
 
+## 2026-09-23 (ninth pass, same session)
+
+Both of the eighth pass's next actions. Two commits.
+
+- **`poly-pizza` updated.** The licence-label finding was re-checked before being written
+  down: the first reading took the first licence string anywhere on each page, which can
+  come from a related-model card. Read properly from each model's structured `Licence`
+  field, with the creator confirmed as Quaternius on all eight, it holds: one model is
+  `CC-BY 3.0`, seven are `CC0 1.0`, and the author's own site says CC0. The entry now
+  says the licence is per file, not per author, and warns about the same page-reading
+  trap. `verified` moved to 2026-09-23 because the entry's claim (licences vary per model)
+  was read live today, with two dated Evidence lines, so V8 holds. Still `needs-review`.
+- **Batch O: `catalog/characters/README.md` gained "Choosing a rigged character
+  source"**, sorted by licence first and then by engine-readiness.
+- **The finding: three sources, three skeletons.** KayKit uses 41 joints with its own
+  short names, weapon hand-slots and no finger bones; the Quaternius model uses a 53-joint
+  Rigify rig with fingers; GDQuest's mannequin uses 45 joints with Unreal-mannequin-style
+  names. Animations need retargeting between publishers, and finger animation retargeted
+  onto KayKit is lost.
+- `microsoft-rocketbox` gained notes from its README: four LODs, 417 animations, facial
+  blendshapes (the only ones in the catalog), Unity-first tooling. Notes only.
+- **Caught before commit:** a draft said every Blender Studio rig needs a login and
+  Blender 5.0. The entries record that only for the Singularity rigs; Rain is a direct
+  download. The Quaternius skeleton figures are also scoped to the model actually
+  measured, not to the Universal Base Characters pack, which was not opened.
+- Deferred, unchanged: `tenacity`'s licence, the two `camera_perspective` schema and
+  scope questions.
+- Remaining measured clusters: `audio/sfx` (14), `tools/godot` (12), `audio/music` (11).
+- Next highest-value action: **`tools/godot`**, the Godot 4 add-ons. It matches the
+  owner's current work (`docs/godot-budget-stack.md`), twelve add-ons currently sit in
+  one undifferentiated list, and the useful facts (Godot version support, last release,
+  licence) are readable from each repository.
+
 ## 2026-09-23 (eighth pass, same session)
 
 Took the seventh pass's next action. Batch N. The 3D kit question, which earlier passes
@@ -37,9 +70,8 @@ held back as a matter of art style, turned out to be mostly measurable.
 - Remaining measured clusters: `characters/rigged` (14), `audio/sfx` (14), `tools/godot`
   (12), `audio/music` (11). The KayKit and Quaternius rig numbers from this pass already
   cover most of `characters/rigged`.
-- Next highest-value action: **add the Poly Pizza licence-label finding to the
-  `poly-pizza` entry**, then **`characters/rigged`**, reusing this pass's measurements and
-  extending them to Blender Studio's rigs and Microsoft Rocketbox.
+- Next highest-value action: ~~**add the Poly Pizza finding**, then
+  **`characters/rigged`**~~ — both done in the ninth pass above.
 
 ## 2026-09-23 (site navigation, same session)
 

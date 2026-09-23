@@ -25,6 +25,8 @@ status: active
 - README still mentions the older “research/academic” blog framing; **LICENSE.md is MIT** (updated Dec 2020) — keep the copyright notice.
 - Unity import helpers ship in-repo; Unreal batch importer contributed later. Retarget animations carefully (skeleton is library-specific).
 - Paper citation requested for *research* use; MIT still requires copyright notice in distributions.
+- What the repository ships beyond the meshes, per its README read 2026-09-23: **four poly levels per avatar** (`hipoly`, `midpoly`, `lowpoly`, `ultralowpoly`), **417 animations** (added 4/2022), and **facial blendshapes** (15 visemes, 48 FACS, 30 for the Vive facial tracker, plus ARKit-compatible sets from 6/2022). No other character source in this catalog has facial blendshapes or built-in LODs
+- Tooling is Unity-first: the import script fixes 3ds Max materials and reorganises bones for Unity's humanoid rig. In Godot or Unreal, plan on doing that step yourself
 
 ## Evidence
 

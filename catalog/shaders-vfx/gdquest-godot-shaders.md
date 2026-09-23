@@ -9,7 +9,7 @@ license: MIT
 license_spdx: MIT
 commercial: true
 attribution_required: false
-formats: [gdshader, godot]
+formats: [gdshader, Godot]
 tags: [godot, 2d, 3d, demos, gdquest]
 verified: 2026-07-19
 status: active

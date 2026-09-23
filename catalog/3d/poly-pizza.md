@@ -15,7 +15,7 @@ status: needs-review
 
 # Poly Pizza
 
-Low-poly model aggregator (10k+). **Per-model `Licence` field** — live samples include **CC0 1.0** (many Quaternius) and **CC-BY 3.0**. The licence is per file, **not per author**: the same creator's uploads here can carry different licences, and neither matches the author's own site by default. Prefer catalogued primaries ([quaternius](quaternius.md), [kenney](kenney.md)) over re-downloading mirrored packs here.
+Low-poly model aggregator (10k+). **Per-model `Licence` field**: live samples include **CC0 1.0** (many Quaternius) and **CC-BY 3.0**. The licence is per file, **not per author**: the same creator's uploads here can carry different licences, and neither matches the author's own site by default. Prefer catalogued primaries ([quaternius](quaternius.md), [kenney](kenney.md)) over re-downloading mirrored packs here.
 
 ## Notes
 

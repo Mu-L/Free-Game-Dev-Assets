@@ -3,7 +3,7 @@ id: meshoptimizer
 name: meshoptimizer
 url: https://github.com/zeux/meshoptimizer
 category: tools
-subcategories: [compression, meshes]
+subcategories: [compression, mesh]
 license: MIT
 license_spdx: MIT
 commercial: true

@@ -16,7 +16,7 @@ status: needs-review
 
 # Material Maker Community Gallery
 
-Community procedural materials/nodes/brushes/environments with **per-item** licenses. Gallery filters: **CC-BY / CC0 / CC-BY-SA**. Useful discovery hub — not a single commercial grant. Prefer the **CC0** filter for zero-friction embeds.
+Community procedural materials/nodes/brushes/environments with **per-item** licenses. Gallery filters: **CC-BY / CC0 / CC-BY-SA**. Useful discovery hub, not a single commercial grant. Prefer the **CC0** filter for zero-friction embeds.
 
 ## Notes
 
@@ -27,7 +27,7 @@ Community procedural materials/nodes/brushes/environments with **per-item** lice
 
 ## Evidence
 
-- Live gallery license filters (2026-07-19): links labeled **CC-BY**, **CC0**, **CC-BY-SA** (`license_mask` query params) — confirms per-item, not site-wide.
+- Live gallery license filters (2026-07-19): links labeled **CC-BY**, **CC0**, **CC-BY-SA** (`license_mask` query params), which confirms per-item, not site-wide.
 
 ## Related
 

@@ -8,6 +8,7 @@ license: CC0
 commercial: true
 attribution_required: false
 formats: [glTF, FBX, PNG]
+# subcategories and formats spelling: see CONTRIBUTING.md
 tags: [low-poly, modular]
 verified: 2026-07-19
 status: active

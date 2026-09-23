@@ -8,7 +8,7 @@ license: MIT
 license_spdx: MIT
 commercial: true
 attribution_required: false
-formats: [godot-addon, vox]
+formats: [godot-addon, VOX]
 tags: [godot-4, destruction, voxel, magicavoxel, debris]
 verified: 2026-09-23
 status: active

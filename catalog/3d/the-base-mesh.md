@@ -3,7 +3,7 @@ id: the-base-mesh
 name: The Base Mesh
 url: https://www.thebasemesh.com
 category: 3d
-subcategories: [base-meshes, prototyping]
+subcategories: [base-meshes, prototype]
 license: CC0
 license_spdx: CC0-1.0
 commercial: true

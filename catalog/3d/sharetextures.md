@@ -8,7 +8,7 @@ license: custom
 commercial: true
 attribution_required: false
 formats: [PNG, glTF]
-tags: [pbr, cc0-custom, redistribution-ban]
+tags: [pbr, cc0-custom, redistribution-ban, metal]
 verified: 2026-08-24
 status: active
 ---

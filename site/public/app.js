@@ -36,6 +36,14 @@
     side_scroller: "side-scroller",
     "2d_flat": "flat UI",
   };
+  // Searchable words per perspective. A 3/4 pack is what most people mean by a top-down
+  // RPG, so it answers "top down" too.
+  const PERSPECTIVE_SEARCH = {
+    top_down: "top-down",
+    isometric_3_4: "3/4 view top-down",
+    side_scroller: "side-scroller",
+    "2d_flat": "flat ui",
+  };
   const NOW = Date.now();
   const FRESH_DAYS = 180;
   const AGING_DAYS = 365;
@@ -125,21 +133,28 @@
     if (state.perspective !== "any" && entry.camera_perspective !== state.perspective)
       return false;
 
-    const q = state.q.trim().toLowerCase();
-    if (!q) return true;
-    const hay = [
-      entry.name,
-      entry.license,
-      entry.category,
-      entry.summary,
-      entry.publisher || "",
-      ...(entry.tags || []),
-      ...(entry.formats || []),
-      ...(entry.subcategories || []),
-    ]
-      .join(" ")
-      .toLowerCase();
-    return hay.includes(q);
+    const words = normalize(state.q).split(" ").filter(Boolean);
+    if (!words.length) return true;
+    const hay = normalize(
+      [
+        entry.name,
+        entry.license,
+        entry.category,
+        entry.summary,
+        entry.publisher || "",
+        PERSPECTIVE_SEARCH[entry.camera_perspective] || "",
+        ...(entry.tags || []),
+        ...(entry.formats || []),
+        ...(entry.subcategories || []),
+      ].join(" ")
+    );
+    // Every word must appear somewhere, in any order, so "top down" and "arms fps" work.
+    return words.every((w) => hay.includes(w));
+  }
+
+  // Hyphens and underscores read as spaces: "first person" finds the "first-person" tag.
+  function normalize(text) {
+    return String(text).toLowerCase().replace(/[-_]+/g, " ").replace(/\s+/g, " ").trim();
   }
 
   const SORTS = {

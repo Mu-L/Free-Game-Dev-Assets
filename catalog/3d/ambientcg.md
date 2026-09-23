@@ -9,7 +9,7 @@ license_spdx: CC0-1.0
 commercial: true
 attribution_required: false
 formats: [PNG, EXR, SBSAR]
-tags: [pbr, seamless, materials]
+tags: [pbr, seamless, materials, concrete, metal, brick]
 verified: 2026-08-24
 status: active
 ---

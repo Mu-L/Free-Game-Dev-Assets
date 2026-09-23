@@ -9,7 +9,7 @@ license_spdx: CC0-1.0
 commercial: true
 attribution_required: false
 formats: [EXR, HDR, PNG, glTF, FBX]
-tags: [hdri, pbr, calibrated, low-provenance-risk]
+tags: [hdri, pbr, calibrated, low-provenance-risk, concrete, metal, brick]
 verified: 2026-07-19
 status: active
 ---

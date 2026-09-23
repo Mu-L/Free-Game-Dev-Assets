@@ -33,6 +33,7 @@ Nineteen firearms and explosives (AK-47, M4A1, grenades, mines, and similar). Li
 ## Related
 
 - [3dmodelscc0-melee-weapons](3dmodelscc0-melee-weapons.md)
+- [oga-fps-arms-rigged](../characters/oga-fps-arms-rigged.md), rigged first-person arms to hold these
 - [3dmodelscc0-city](3dmodelscc0-city.md)
 - [kenney](kenney.md)
 - [quaternius-fantasy-props-megakit](quaternius-fantasy-props-megakit.md)

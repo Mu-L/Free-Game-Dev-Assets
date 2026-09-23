@@ -8,7 +8,7 @@ license: custom
 commercial: false
 attribution_required: false
 formats: [PNG, PSD]
-tags: [pbr, 2k, non-commercial-free-tier]
+tags: [pbr, 2k, non-commercial-free-tier, concrete, metal, brick]
 verified: 2026-08-24
 status: active
 ---

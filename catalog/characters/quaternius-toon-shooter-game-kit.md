@@ -17,7 +17,7 @@ status: active
 
 # Quaternius Toon Shooter Game Kit
 
-Toon shooter kit: characters with 17 animations, enemies, and environment pieces (74 models). Closest catalog item to "FPS-ready characters." It is **not** first-person arms. Untextured. The pack copy is a toon shooter, so interactive use is explicit.
+Toon shooter kit: characters with 17 animations, enemies, and environment pieces (74 models). Third-person shooter characters; it is **not** first-person arms. For those, see [oga-fps-arms-rigged](oga-fps-arms-rigged.md). Untextured. The pack copy is a toon shooter, so interactive use is explicit.
 
 ## Notes
 

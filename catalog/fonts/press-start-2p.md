@@ -2,7 +2,6 @@
 id: press-start-2p
 name: Press Start 2P
 url: https://fonts.google.com/specimen/Press+Start+2P
-publisher: Google Fonts
 category: fonts
 subcategories: [pixel, display]
 license: SIL OFL
@@ -21,6 +20,7 @@ Cody “Zone38” Boisclair’s arcade-style bitmap face — classic 8-bit title
 
 ## Notes
 
+- **Copyright, as the OFL notice you ship must carry it:** "Copyright 2012 The Press Start 2P Project Authors (cody@zone38.net), with Reserved Font Name "Press Start 2P"." Designer per Google Fonts' metadata: CodeMan38. Google Fonts distributes the family; it is not the rights holder, so this entry sets no `publisher`
 - Distribution: Google Fonts specimen + `google/fonts` `ofl/pressstart2p/`
 - Do not rename modified versions “Press Start 2P” (Reserved Font Name)
 - Keep OFL.txt with redistributed font files

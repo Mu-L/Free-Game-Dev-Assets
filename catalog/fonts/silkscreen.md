@@ -2,7 +2,6 @@
 id: silkscreen
 name: Silkscreen
 url: https://fonts.google.com/specimen/Silkscreen
-publisher: Google Fonts
 category: fonts
 subcategories: [pixel, display]
 license: SIL OFL
@@ -21,6 +20,7 @@ Pixel/display family on Google Fonts under SIL OFL 1.1. Useful for chunky HUD ti
 
 ## Notes
 
+- **Copyright, as the OFL notice you ship must carry it:** "Copyright 2001 The Silkscreen Project Authors (https://github.com/googlefonts/silkscreen)". Designer per Google Fonts' metadata: Jason Kottke. Google Fonts distributes the family; it is not the rights holder, so this entry sets no `publisher`
 - OFL source: `google/fonts` `ofl/silkscreen/OFL.txt`
 - Keep OFL notice with redistributed binaries
 - Attribution example: `Silkscreen © The Silkscreen Project Authors — SIL OFL 1.1`

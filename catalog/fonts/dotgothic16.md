@@ -2,7 +2,6 @@
 id: dotgothic16
 name: DotGothic16
 url: https://fonts.google.com/specimen/DotGothic16
-publisher: Google Fonts
 category: fonts
 subcategories: [pixel, display, cjk]
 license: SIL OFL
@@ -21,6 +20,7 @@ Fontworks’ 16px-grid gothic pixel face — JP-capable HUD/title type that Pres
 
 ## Notes
 
+- **Copyright, as the OFL notice you ship must carry it:** "Copyright 2020 The DotGothic16 Project Authors (https://github.com/fontworks-fonts/DotGothic16)". Designer per Google Fonts' metadata: Fontworks Inc.. Google Fonts distributes the family; it is not the rights holder, so this entry sets no `publisher`
 - Source: `google/fonts` `ofl/dotgothic16/` and [fontworks-fonts/DotGothic16](https://github.com/fontworks-fonts/DotGothic16)
 - Keep `OFL.txt` with redistributed files; don’t sell the font standalone
 - Attribution example: `DotGothic16 © The DotGothic16 Project Authors — SIL OFL 1.1`

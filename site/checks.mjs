@@ -28,6 +28,8 @@ export const GENERIC_HOSTS = new Set([
   "internet archive",
   "opengameart",
   "opengameart.org",
+  "google fonts",
+  "fonts.google.com",
 ]);
 
 /** Domains that host many rights holders, so publishers there may differ. */
@@ -36,6 +38,7 @@ const MULTI_PUBLISHER_DOMAINS = new Set([
   "gitlab.com",
   "opengameart.org",
   "archive.org",
+  "fonts.google.com",
 ]);
 
 function empty(v) {

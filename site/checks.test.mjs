@@ -261,6 +261,13 @@ rejects(
   ]),
   "is a generic host"
 );
+rejects(
+  "V7 rejects Google Fonts as a publisher, since it distributes rather than holds the rights",
+  checkPublisherConsistency([
+    { rel: "bad.md", meta: { publisher: "Google Fonts", url: "https://fonts.google.com/specimen/X" } },
+  ]),
+  "is a generic host"
+);
 accepts(
   "V7 allows different artists on opengameart.org, which hosts many publishers",
   checkPublisherConsistency([

@@ -2,7 +2,7 @@
 id: material-symbols
 name: Material Symbols
 url: https://fonts.google.com/icons
-publisher: Google Fonts
+publisher: Google
 category: 2d
 subcategories: [icons, ui]
 license: Apache-2.0
@@ -33,6 +33,7 @@ Google's variable icon font (outlined / rounded / sharp) plus SVG, the system-st
 - Live GitHub `LICENSE` (2026-08-24): "Apache License Version 2.0, January 2004"
 - Same file, section 2 (2026-08-24): "perpetual, worldwide, non-exclusive, no-charge, royalty-free"
 - fonts.google.com/icons (2026-08-24): JS shell, no license text extracted. License evidence is the GitHub file, not the icons UI
+- Live GitHub README, google/material-design-icons (2026-09-24): "These are two different official icon sets from Google, using the same underlying designs."
 
 ## Related
 

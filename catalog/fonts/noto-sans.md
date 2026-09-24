@@ -2,7 +2,6 @@
 id: noto-sans
 name: Noto Sans (incl. CJK)
 url: https://fonts.google.com/noto
-publisher: Google Fonts
 category: fonts
 subcategories: [sans, cjk, localization]
 license: SIL OFL
@@ -21,6 +20,7 @@ Google’s SIL OFL family with broad script coverage including CJK — default p
 
 ## Notes
 
+- **Copyright, as the OFL notice you ship must carry it:** "Copyright 2022 The Noto Project Authors (https://github.com/notofonts/latin-greek-cyrillic)". Designer per Google Fonts' metadata: Google. Google Fonts distributes the family; it is not the rights holder, so this entry sets no `publisher`
 - License source of truth: Noto project `LICENSE` (SIL OFL 1.1) — also mirrored via Google Fonts
 - OFL: embed/bundle/sell **with** software OK; cannot sell the font files alone; derivatives stay OFL
 - Keep OFL notice with redistributed font binaries

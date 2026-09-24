@@ -2,7 +2,6 @@
 id: pixelify-sans
 name: Pixelify Sans
 url: https://fonts.google.com/specimen/Pixelify+Sans
-publisher: Google Fonts
 category: fonts
 subcategories: [pixel, display, sans]
 license: SIL OFL
@@ -21,6 +20,7 @@ Soft/modern pixel sans (eifetx) — readable pixel UI and soft indie titles with
 
 ## Notes
 
+- **Copyright, as the OFL notice you ship must carry it:** "Copyright 2021 The Pixelify Sans Project Authors (https://github.com/eifetx/Pixelify-Sans)". Designer per Google Fonts' metadata: Stefie Justprince. Google Fonts distributes the family; it is not the rights holder, so this entry sets no `publisher`
 - Distribution: Google Fonts + `google/fonts` `ofl/pixelifysans/`
 - Keep OFL.txt with font files
 

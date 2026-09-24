@@ -4,6 +4,33 @@ Newest section at the top. One section per review run. This is the record of wha
 run measured, what it changed, what it deliberately did not change, and what the next
 run should not spend time re-deciding.
 
+## 2026-09-24 (three more batches)
+
+The previous section's next action, then two chosen on the maintainer's "your call".
+
+- **E, Google Fonts (`4af52bf`).** Each family's `OFL.txt` in `google/fonts` names "The
+  <family> Project Authors", never Google Fonts. `publisher` removed from six fonts; each
+  entry now quotes its exact copyright line (the notice OFL requires you to ship) and the
+  designer from Google's `METADATA.pb`. `material-symbols` became `Google` (its README:
+  "official icon sets from Google"). V7 now treats Google Fonts as a distributor.
+- **F, link sweep (no catalog change).** All 319 URLs fetched: 305 return 200, none
+  redirect to another domain. The 14 others are the known bot blocks plus Pexels and
+  Pixabay video; all load in a browser except one. **Smithsonian Open Access returns a
+  server error (500)** on `/openaccess` and `/openaccess/faq` while `si.edu` itself is
+  up: a section outage, not a dead link. Entry unchanged; recheck next run. Results in
+  `_scratch/reviews/linkcheck-2026-09-24.json`.
+- **G, relative dates (`e21d7be`).** 78 notes in 62 entries said "this session", "this
+  run" or "this pass". Each now carries the author date of the commit that wrote it,
+  taken with `git blame` in the author's timezone; that matched every date already in
+  the same lines. A first pass used UTC and was off by a day for evening commits, caught
+  before writing. No quotation changed and no `verified` moved.
+- Pre-existing em dashes remain in many older entries. They predate the review passes and
+  the style rule's threshold treats them as reported, not defects; a mechanical sweep
+  would rewrite prose in over a hundred files and is left to the maintainer.
+- Next highest-value action: **recheck Smithsonian Open Access**; if `/openaccess` still
+  errors at the next run, note it in the entry and look for the current URL. Then the
+  third MODE=full review on or after 2026-10-17.
+
 ## 2026-09-24 (four batches)
 
 The previous section's next action, then three more. One commit per batch.
@@ -36,7 +63,8 @@ The previous section's next action, then three more. One commit per batch.
   "distributor that does not hold the rights" CONTRIBUTING rules out; but Google
   commissions some families. Deciding needs each font's copyright line, not a blanket
   rule.
-- Next highest-value action: **read the copyright line of each Google Fonts entry** and
+- Next highest-value action: ~~**read the copyright line of each Google Fonts entry**~~
+  Done as batch E in the section above. And
   set `publisher` to the holder it names, or unset it where the holder is a project of
   many authors. Then the third MODE=full review on or after 2026-10-17.
 

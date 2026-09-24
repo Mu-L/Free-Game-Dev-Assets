@@ -495,6 +495,14 @@ rejects(
   ]),
   'subcategories spells one value several ways: "character" (a.md), "characters" (b.md)'
 );
+rejects(
+  "V13 rejects a tag beside its plural",
+  checkValueSpellings([
+    { rel: "a.md", meta: { tags: ["button"] } },
+    { rel: "b.md", meta: { tags: ["buttons"] } },
+  ]),
+  "tags spells one value several ways"
+);
 accepts(
   "V13 accepts one spelling used many times",
   checkValueSpellings([

@@ -149,7 +149,11 @@
       ].join(" ")
     );
     // Every word must appear somewhere, in any order, so "top down" and "arms fps" work.
-    return words.every((w) => hay.includes(w));
+    // A plural query word also matches its singular, since tags are stored one way:
+    // "buttons" finds the "button" tag.
+    return words.every(
+      (w) => hay.includes(w) || (w.length > 3 && w.endsWith("s") && hay.includes(w.slice(0, -1)))
+    );
   }
 
   // Hyphens and underscores read as spaces: "first person" finds the "first-person" tag.

@@ -10,7 +10,7 @@ license_spdx: CC0-1.0
 commercial: true
 attribution_required: false
 formats: [PNG, SVG, FLA]
-tags: [hand-drawn, vectors, large-pack]
+tags: [hand-drawn, vector, large-pack]
 verified: 2026-08-29
 status: active
 ---

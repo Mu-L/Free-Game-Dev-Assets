@@ -8,7 +8,7 @@ license: custom
 commercial: true
 attribution_required: false
 formats: [PNG, EPS]
-tags: [gui, hud, spritesheets, freebies]
+tags: [gui, hud, spritesheet, freebies]
 verified: 2026-07-19
 status: active
 ---

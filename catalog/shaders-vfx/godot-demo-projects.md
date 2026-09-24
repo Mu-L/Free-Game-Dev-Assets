@@ -9,7 +9,7 @@ license_spdx: MIT
 commercial: true
 attribution_required: false
 formats: [gdshader, Godot]
-tags: [godot, official, particles, shaders, templates]
+tags: [godot, official, particles, shader, templates]
 verified: 2026-07-19
 status: active
 ---

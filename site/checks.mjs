@@ -257,14 +257,14 @@ export function checkTaxonomyValues(rel, meta) {
 
 /* ----------------------------------------------------------------- V13 */
 /**
- * `formats` and `subcategories` are free-form, so the same value drifts into
+ * `formats`, `subcategories` and `tags` are free-form, so the same value drifts into
  * several spellings (`png` beside `PNG`, `field-recording` beside
  * `field-recordings`) and search and grouping split on them. Two values that
  * differ only by case, punctuation or a trailing "s" are one value spelt
  * twice. Plural folding was checked against the whole catalog before it was
  * switched on: its only hits were five real singular/plural pairs.
  */
-export function checkValueSpellings(records, fields = ["formats", "subcategories"]) {
+export function checkValueSpellings(records, fields = ["formats", "subcategories", "tags"]) {
   const errors = [];
   for (const field of fields) {
     const byKey = new Map();

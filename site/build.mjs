@@ -210,7 +210,7 @@ function entryRowHtml(entry, repo, now) {
   <span class="entry-edge" aria-hidden="true"></span>
   <div class="entry-body">
     <div class="entry-top">
-      <h3><a class="entry-link" href="#entry-${esc(entry.id)}" data-id="${esc(entry.id)}">${esc(entry.name)}</a></h3>
+      <h3><a class="entry-link" href="entry/${esc(entry.id)}/" data-id="${esc(entry.id)}">${esc(entry.name)}</a></h3>
       <span class="entry-flags">${flags}</span>
     </div>
     <p>${esc(entry.summary || "")}</p>
@@ -281,7 +281,7 @@ function starterRowsHtml(featured) {
     .map(
       (e) => `<tr>
   <td class="need">${esc(e.need || "")}</td>
-  <td><a href="${esc(e.url)}" rel="noopener noreferrer">${esc(e.name)}</a></td>
+  <td><a href="entry/${esc(e.id)}/">${esc(e.name)}</a></td>
   <td class="license">${esc(e.license)} &middot; ${esc(commercialLabel(e.commercial))}</td>
 </tr>`
     )

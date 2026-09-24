@@ -30,6 +30,13 @@
   const categoryLabels = data.categories || {};
   const repo = data.site?.repo || "https://github.com/TMHSDigital/Free-Game-Dev-Assets";
   const byId = Object.fromEntries(data.entries.map((e) => [e.id, e]));
+
+  // Old permalinks (#entry-<id>) now have real pages.
+  const legacy = location.hash.match(/^#entry-(.+)$/);
+  if (legacy && byId[decodeURIComponent(legacy[1])]) {
+    location.replace(`entry/${encodeURIComponent(decodeURIComponent(legacy[1]))}/`);
+    return;
+  }
   const PERSPECTIVE_LABELS = {
     top_down: "top-down",
     isometric_3_4: "3/4 view",
@@ -195,7 +202,7 @@
   <span class="entry-edge" aria-hidden="true"></span>
   <div class="entry-body">
     <div class="entry-top">
-      <h3><a class="entry-link" href="#entry-${escapeHtml(entry.id)}" data-id="${escapeHtml(entry.id)}">${escapeHtml(entry.name)}</a></h3>
+      <h3><a class="entry-link" href="entry/${escapeHtml(entry.id)}/" data-id="${escapeHtml(entry.id)}">${escapeHtml(entry.name)}</a></h3>
       <span class="entry-flags">${flags}</span>
     </div>
     <p>${escapeHtml(entry.summary || "")}</p>
@@ -322,7 +329,6 @@
       grid.innerHTML = "";
       empty.hidden = false;
       groupHeadings = [];
-      displayOrder = [];
       return;
     }
     empty.hidden = true;
@@ -330,17 +336,14 @@
     if (!shouldGroup()) {
       grid.innerHTML = list.map(cardHtml).join("");
       groupHeadings = [];
-      displayOrder = list;
       syncSpy();
       return;
     }
 
     const out = [];
-    displayOrder = [];
     for (const cat of Object.keys(categoryLabels)) {
       const group = list.filter((e) => e.category === cat);
       if (!group.length) continue;
-      displayOrder.push(...group);
       const label = categoryLabels[cat]?.label || cat;
       out.push(
         `<h3 class="group-heading" id="group-${escapeHtml(cat)}" data-cat="${escapeHtml(cat)}">` +
@@ -419,7 +422,7 @@
         if (!entry || !byId[entry.id]) return "";
         return `<tr>
   <td class="need">${escapeHtml(entry.need || "")}</td>
-  <td><a href="${escapeHtml(entry.url)}" rel="noopener noreferrer">${escapeHtml(entry.name)}</a></td>
+  <td><a href="entry/${escapeHtml(entry.id)}/">${escapeHtml(entry.name)}</a></td>
   <td class="license">${escapeHtml(entry.license)} &middot; ${escapeHtml(commercialLabel(entry.commercial))}</td>
 </tr>`;
       })
@@ -435,144 +438,41 @@
       .join("");
   }
 
-  /* ------------------------------------------------------------- dialog */
+  /* ------------------------------------------------------ scroll memory */
 
-  let lastTrigger = null;
-  let currentEntryId = null;
-  /** Entries in the order they are on screen, so prev/next matches the list. */
-  let displayOrder = [];
+  // Back from an entry page should land where you were, even when the
+  // browser reloads this page instead of restoring it from its cache.
+  const scrollKey = () => `fgda:scroll:${location.pathname}${location.search}`;
 
-  function stepEntry(delta) {
-    const i = displayOrder.findIndex((e) => e.id === currentEntryId);
-    if (i === -1) return;
-    const next = displayOrder[i + delta];
-    if (next) openEntry(next.id, null, delta);
-  }
-
-  /** `stepping` is the direction (1 or -1) when paging, otherwise false. */
-  function openEntry(id, trigger, stepping = false) {
-    const entry = byId[id];
-    if (!entry) return;
-    if (!stepping) lastTrigger = trigger || null;
-    currentEntryId = entry.id;
-    const pos = displayOrder.findIndex((e) => e.id === entry.id);
-    const prev = pos > 0 ? displayOrder[pos - 1] : null;
-    const next = pos !== -1 && pos < displayOrder.length - 1 ? displayOrder[pos + 1] : null;
-    // An entry opened from a permalink can be filtered out of the current
-    // list; there is no honest "next" for it, so the pager is omitted.
-    const pager =
-      pos === -1
-        ? ""
-        : `<nav class="dialog-pager" aria-label="Browse entries">
-             <button type="button" class="btn-ghost" data-step="-1"${prev ? ` title="${escapeHtml(prev.name)}"` : " disabled"}><span aria-hidden="true">&larr;</span> Previous</button>
-             <span class="dialog-position">${pos + 1} of ${displayOrder.length}</span>
-             <button type="button" class="btn-ghost" data-step="1"${next ? ` title="${escapeHtml(next.name)}"` : " disabled"}>Next <span aria-hidden="true">&rarr;</span></button>
-           </nav>`;
-    const cat = categoryLabels[entry.category]?.label || entry.category;
-    const age = verifiedAge(entry.verified);
-    const attribution = entry.attribution_string
-      ? `<div class="attribution">
-           <p class="attribution-label">Credit line</p>
-           <p class="attribution-string" id="attribution-string">${escapeHtml(entry.attribution_string)}</p>
-           <button type="button" class="btn-ghost" id="copy-attribution" data-copy="${escapeHtml(entry.attribution_string)}">Copy credit line</button>
-           <span class="copy-status" id="copy-status" role="status" aria-live="polite"></span>
-         </div>`
-      : entry.attribution_required === true
-        ? `<p class="attribution-note">Attribution is required and no canned credit line is recorded. Read the entry for what the source asks for.</p>`
-        : "";
-
-    $("#dialog-body").innerHTML = `
-      <h2 id="dialog-title">${escapeHtml(entry.name)}</h2>
-      <p class="dialog-flags">${escapeHtml(entry.status)} &middot; ${escapeHtml(commercialLabel(entry.commercial))} &middot; ${escapeHtml(entry.license)}</p>
-      <p class="lead">${escapeHtml(entry.summary || "")}</p>
-      <dl class="dialog-meta">
-        <div><dt>Category</dt><dd>${escapeHtml(cat)}</dd></div>
-        ${entry.publisher ? `<div><dt>Publisher</dt><dd>${escapeHtml(entry.publisher)}</dd></div>` : ""}
-        ${entry.license_spdx ? `<div><dt>SPDX</dt><dd>${escapeHtml(entry.license_spdx)}</dd></div>` : ""}
-        <div><dt>Attribution</dt><dd>${escapeHtml(String(entry.attribution_required))}</dd></div>
-        ${entry.camera_perspective ? `<div><dt>Perspective</dt><dd>${escapeHtml(PERSPECTIVE_LABELS[entry.camera_perspective] || entry.camera_perspective)}</dd></div>` : ""}
-        ${entry.grid_dimensions ? `<div><dt>Grid</dt><dd>${escapeHtml(entry.grid_dimensions)}</dd></div>` : ""}
-        <div><dt>Formats</dt><dd>${escapeHtml((entry.formats || []).join(", ") || "—")}</dd></div>
-        <div><dt>Tags</dt><dd>${escapeHtml((entry.tags || []).join(", ") || "—")}</dd></div>
-        <div><dt>Verified</dt><dd class="verified is-${age.bucket}">${escapeHtml(age.text)}</dd></div>
-      </dl>
-      ${attribution}
-      <div class="dialog-actions">
-        <a class="btn" href="${escapeHtml(entry.url)}" rel="noopener noreferrer">Open source</a>
-        <a class="btn-ghost" href="${escapeHtml(`${repo}/blob/main/${entry.path}`)}" rel="noopener noreferrer">Entry and evidence</a>
-      </div>
-      ${pager}`;
-
-    const copy = $("#copy-attribution");
-    if (copy) {
-      copy.addEventListener("click", async () => {
-        const status = $("#copy-status");
-        try {
-          await navigator.clipboard.writeText(copy.getAttribute("data-copy"));
-          status.textContent = "Copied";
-        } catch {
-          // Clipboard access can be refused; select the text so it can be
-          // copied by hand rather than failing silently.
-          const range = document.createRange();
-          range.selectNodeContents($("#attribution-string"));
-          const sel = getSelection();
-          sel.removeAllRanges();
-          sel.addRange(range);
-          status.textContent = "Select and copy";
-        }
-      });
-    }
-
-    history.replaceState(null, "", `${location.pathname}${location.search}#entry-${entry.id}`);
-    const dialog = $("#entry-dialog");
-    // showModal() throws on a dialog that is already open, which is exactly
-    // the state stepping leaves it in.
-    if (!dialog.open) dialog.showModal();
-    if (stepping) {
-      // Keep focus on the pager so repeated Enter keeps paging; at the end of
-      // the list the same-direction button is disabled, so fall back to the
-      // other one rather than dropping focus to the document.
-      const same = $(`#dialog-body [data-step="${stepping}"]`);
-      const other = $(`#dialog-body [data-step="${-stepping}"]`);
-      const target = same && !same.disabled ? same : other;
-      if (target) target.focus();
+  function rememberScroll() {
+    try {
+      sessionStorage.setItem(scrollKey(), String(Math.round(window.scrollY)));
+    } catch {
+      // Storage can be unavailable; scrolling back is a convenience.
     }
   }
 
-  function bindDialog() {
-    const dialog = $("#entry-dialog");
-    dialog.addEventListener("close", () => {
-      history.replaceState(null, "", `${location.pathname}${location.search}`);
-      // After paging, return to the entry you ended on, not the one you
-      // opened; otherwise closing throws you back up the list.
-      const endedOn = currentEntryId && document.querySelector(`#entry-${CSS.escape(currentEntryId)} .entry-link`);
-      const target = endedOn || (lastTrigger && document.contains(lastTrigger) ? lastTrigger : null);
-      if (target) {
-        target.closest(".entry-card")?.scrollIntoView({ block: "nearest" });
-        target.focus();
-      }
-      lastTrigger = null;
-      currentEntryId = null;
-    });
-    dialog.addEventListener("click", (e) => {
-      // Clicking the backdrop closes, matching the Escape affordance.
-      if (e.target === dialog) {
-        dialog.close();
-        return;
-      }
-      const step = e.target.closest("[data-step]");
-      if (step && !step.disabled) stepEntry(Number(step.getAttribute("data-step")));
-    });
-    dialog.addEventListener("keydown", (e) => {
-      if (e.key === "ArrowRight") {
-        e.preventDefault();
-        stepEntry(1);
-      } else if (e.key === "ArrowLeft") {
-        e.preventDefault();
-        stepEntry(-1);
-      }
-    });
+  function restoreScroll() {
+    let y = null;
+    try {
+      y = sessionStorage.getItem(scrollKey());
+      sessionStorage.removeItem(scrollKey());
+    } catch {
+      return;
+    }
+    if (y !== null) requestAnimationFrame(() => window.scrollTo(0, Number(y)));
   }
+
+  // Restored from the back/forward cache: the page kept its own position,
+  // so drop the saved one before a later visit can reuse it.
+  window.addEventListener("pageshow", (e) => {
+    if (!e.persisted) return;
+    try {
+      sessionStorage.removeItem(scrollKey());
+    } catch {
+      // Nothing to clear.
+    }
+  });
 
   /* ----------------------------------------------------------- controls */
 
@@ -614,11 +514,10 @@
       apply();
     });
 
+    // The whole card is the title link (a stretched ::after), so every click
+    // that leaves for an entry page lands here.
     $("#entry-grid").addEventListener("click", (e) => {
-      const link = e.target.closest(".entry-link");
-      if (!link) return;
-      e.preventDefault();
-      openEntry(link.getAttribute("data-id"), link);
+      if (e.target.closest("a.entry-link")) rememberScroll();
     });
 
     $("#active-filters").addEventListener("click", (e) => {
@@ -651,7 +550,7 @@
     window.addEventListener("resize", onScroll, { passive: true });
 
     // "/" focuses search, Escape leaves it. Suppressed whenever the user is
-    // already typing somewhere or the entry dialog has focus.
+    // already typing somewhere.
     document.addEventListener("keydown", (e) => {
       const el = document.activeElement;
       const typing =
@@ -660,7 +559,7 @@
           el.tagName === "TEXTAREA" ||
           el.tagName === "SELECT" ||
           el.isContentEditable);
-      if (e.key === "/" && !typing && !$("#entry-dialog").open) {
+      if (e.key === "/" && !typing) {
         e.preventDefault();
         search.focus();
         search.select();
@@ -695,15 +594,8 @@
   renderStarters();
   renderGuides();
   bindControls();
-  bindDialog();
   syncControls();
   apply();
+  restoreScroll();
 
-  // A shared link may point at one entry. Open it once the grid exists.
-  const hash = location.hash.match(/^#entry-(.+)$/);
-  if (hash && byId[hash[1]]) {
-    const card = document.getElementById(`entry-${hash[1]}`);
-    card?.scrollIntoView({ block: "center" });
-    openEntry(hash[1], card?.querySelector(".entry-link") || null);
-  }
 })();

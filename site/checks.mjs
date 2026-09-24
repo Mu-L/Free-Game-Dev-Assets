@@ -26,6 +26,16 @@ export const GENERIC_HOSTS = new Set([
   "dropbox",
   "archive.org",
   "internet archive",
+  "opengameart",
+  "opengameart.org",
+]);
+
+/** Domains that host many rights holders, so publishers there may differ. */
+const MULTI_PUBLISHER_DOMAINS = new Set([
+  "github.com",
+  "gitlab.com",
+  "opengameart.org",
+  "archive.org",
 ]);
 
 function empty(v) {
@@ -195,7 +205,8 @@ export function checkPublisherConsistency(entries) {
     if (!seen.has(publisher)) seen.set(publisher, e.rel);
   }
   for (const [domain, seen] of byDomain) {
-    if (domain === "github.com" || domain === "gitlab.com") continue;
+    // Hosts where every upload has its own rights holder.
+    if (MULTI_PUBLISHER_DOMAINS.has(domain)) continue;
     if (seen.size < 2) continue;
     const listed = [...seen.entries()]
       .map(([p, rel]) => `"${p}" (${rel})`)

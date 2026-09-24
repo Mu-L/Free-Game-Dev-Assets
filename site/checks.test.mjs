@@ -254,6 +254,20 @@ accepts(
     { rel: "c.md", meta: { url: "https://www.blender.org/c" } },
   ])
 );
+rejects(
+  "V7 rejects OpenGameArt as a publisher, since it is the host",
+  checkPublisherConsistency([
+    { rel: "bad.md", meta: { publisher: "OpenGameArt", url: "https://opengameart.org/content/x" } },
+  ]),
+  "is a generic host"
+);
+accepts(
+  "V7 allows different artists on opengameart.org, which hosts many publishers",
+  checkPublisherConsistency([
+    { rel: "a.md", meta: { publisher: "ansimuz", url: "https://opengameart.org/content/a" } },
+    { rel: "b.md", meta: { publisher: "Sylly", url: "https://opengameart.org/content/b" } },
+  ])
+);
 accepts(
   "V7 does not fire across github.com, which hosts many publishers",
   checkPublisherConsistency([

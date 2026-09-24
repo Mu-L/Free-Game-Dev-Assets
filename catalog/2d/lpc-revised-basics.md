@@ -2,7 +2,6 @@
 id: lpc-revised-basics
 name: LPC Revised Character Basics
 url: https://opengameart.org/content/lpc-revised-character-basics
-publisher: OpenGameArt
 category: 2d
 subcategories: [sprites, pixel-art]
 license: varies

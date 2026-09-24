@@ -56,6 +56,9 @@ two carry obligations the rest do not.
 | [glitch-archive](glitch-archive.md) | Glitch archive | CC0 | yes | active |
 | [kenney-ui-pack](kenney-ui-pack.md) | Kenney UI Pack | CC0 | yes | active |
 | [playpug-simple-vector-ui](playpug-simple-vector-ui.md) | PlayPug Simple Vector UI | CC0 | yes | active |
+| [kenney-puzzle-pack-2](kenney-puzzle-pack-2.md) | Kenney Puzzle Pack 2 | CC0 | yes | active |
+| [kenney-playing-cards-pack](kenney-playing-cards-pack.md) | Kenney Playing Cards Pack | CC0 | yes | active |
+| [kenney-boardgame-pack](kenney-boardgame-pack.md) | Kenney Board Game Pack | CC0 | yes | active |
 | [kenney-cursor-pack](kenney-cursor-pack.md) | Kenney Cursor Pack | CC0 | yes | active |
 | [kenney-pixel-platformer](kenney-pixel-platformer.md) | Kenney Pixel Platformer | CC0 | yes | active |
 | [kenney-1-bit-pack](kenney-1-bit-pack.md) | Kenney 1-Bit Pack | CC0 | yes | active |

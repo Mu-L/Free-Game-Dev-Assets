@@ -74,7 +74,7 @@ you sell or redistribute the IR files as a standalone product.
 
 Two questions decide it, and the licence column answers only the first.
 
-**Do you owe a credit?** Four of the six active sources owe nothing.
+**Do you owe a credit?** Five of the eight active sources owe nothing.
 
 **Will videos of your game get claimed?** This is the one that bites later, and it bites
 your players rather than you. A track registered with YouTube's Content ID gets matched in
@@ -91,6 +91,8 @@ Checked at each source on 2026-09-23:
 | A huge library, and credit is fine | [incompetech](incompetech.md) | **Required** | **Claims likely unless each video carries the credit in its description text** | Tracks |
 | Loops and atmospheres, and credit is fine | [soundimage](soundimage.md) | **Required, in the game itself** | Not addressed | Loop-oriented; use the Ogg files for looping |
 | A big searchable pool, no credit | [pixabay-audio](pixabay-audio.md) | None | **Some tracks are fingerprinted.** Filter for unflagged ones, then verify | Tracks and SFX |
+| A small chiptune soundtrack, no strings | [subspaceaudio-5-chiptunes](subspaceaudio-5-chiptunes.md) | None, CC0 | Not addressed | 5 looping WAV tracks: title, three levels, ending |
+| A full chiptune album, and credit is fine | [eric-skiff-resistor-anthems](eric-skiff-resistor-anthems.md) | **Required**, in a set form | Not addressed | 18 MP3 tracks |
 
 "Not addressed" means the source says nothing either way, not that it is safe. CC0 music
 can still be registered by a third party, so check a track in YouTube Studio before you
@@ -109,6 +111,8 @@ sites are gone.
 | [purple-planet](purple-planet.md) | Purple Planet | custom | unknown | deprecated |
 | [kenney-music-jingles](kenney-music-jingles.md) | Kenney Music Jingles | CC0 | yes | active |
 | [tallbeard-abstraction-music-loop-bundle](tallbeard-abstraction-music-loop-bundle.md) | Abstraction Music Loop Bundle | CC0 | yes | active |
+| [subspaceaudio-5-chiptunes](subspaceaudio-5-chiptunes.md) | 5 Chiptunes (Action), SubspaceAudio | CC0 | yes | active |
+| [eric-skiff-resistor-anthems](eric-skiff-resistor-anthems.md) | Eric Skiff, Resistor Anthems | CC-BY-4.0 | yes | active |
 | [freepd](freepd.md) | FreePD | unknown | unknown | deprecated |
 | [free-music-archive](free-music-archive.md) | Free Music Archive | varies | unknown | needs-review |
 | [ccmixter](ccmixter.md) | ccMixter | varies | unknown | needs-review |

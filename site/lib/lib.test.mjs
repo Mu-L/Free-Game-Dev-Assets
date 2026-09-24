@@ -91,6 +91,23 @@ eq("sectionMarkdown Notes", sectionMarkdown(body, "Notes"), "- n1\n- Deprecated:
 eq("sectionMarkdown missing", sectionMarkdown(body, "Nope"), null);
 eq("deprecationReason", deprecationReason(body), "gone");
 
+/* links -------------------------------------------------------------------- */
+import { makeLinkResolver } from "./links.mjs";
+const idByPath = new Map([["catalog/2d/kenney-ui-pack.md", "kenney-ui-pack"], ["catalog/audio/kenney-ui-audio.md", "kenney-ui-audio"]]);
+const files = new Map([["docs/provenance.md", "file"], ["catalog/2d/README.md", "file"], ["catalog/video", "dir"]]);
+const resolve = makeLinkResolver({ entryPath: "catalog/2d/kenney-ui-pack.md", idByPath, repo: "https://github.com/o/r", kindOf: (p) => files.get(p) || null });
+eq("sibling entry", resolve("kenney-ui-pack.md").href, "../kenney-ui-pack/");
+eq("entry in another category", resolve("../audio/kenney-ui-audio.md").href, "../kenney-ui-audio/");
+eq("entry link is internal", resolve("../audio/kenney-ui-audio.md").external, false);
+eq("docs go to GitHub blob", resolve("../../docs/provenance.md").href, "https://github.com/o/r/blob/main/docs/provenance.md");
+eq("category README goes to GitHub", resolve("README.md").href, "https://github.com/o/r/blob/main/catalog/2d/README.md");
+eq("directory goes to GitHub tree", resolve("../video/").href, "https://github.com/o/r/tree/main/catalog/video");
+eq("hash is kept", resolve("../../docs/provenance.md#fonts").href, "https://github.com/o/r/blob/main/docs/provenance.md#fonts");
+eq("external untouched", resolve("https://a.test/x").href, "https://a.test/x");
+eq("external flagged", resolve("https://a.test/x").external, true);
+throws("missing target fails", () => resolve("nope.md"), 'link target "nope.md" does not exist');
+throws("escaping the repo fails", () => resolve("../../../outside.md"), "does not exist");
+
 /* report (keep last) ------------------------------------------------------ */
 if (failures.length) {
   console.error(`lib.test failed (${failures.length}):`);

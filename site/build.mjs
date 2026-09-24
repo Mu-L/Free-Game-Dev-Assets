@@ -7,6 +7,10 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { commercialLabel, esc, PERSPECTIVE_LABELS, verifiedAge } from "./lib/shared.mjs";
+import { entryPageHtml } from "./lib/entry-page.mjs";
+import { LinkError, makeLinkResolver } from "./lib/links.mjs";
+import { deprecationReason, MarkdownError, renderBlocks, renderInline, splitEntryBody } from "./lib/markdown.mjs";
+import { checkPage } from "./lib/page-checks.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
@@ -104,6 +108,7 @@ function loadEntries(vocab) {
   const files = walkMarkdown(CATALOG);
   const entries = [];
   const errors = [];
+  const bodies = new Map();
 
   for (const file of files) {
     const text = fs.readFileSync(file, "utf8");
@@ -120,6 +125,7 @@ function loadEntries(vocab) {
       errors.push(`${rel} missing: ${missing.join(", ")}`);
       continue;
     }
+    bodies.set(String(meta.id), body);
 
     entries.push({
       id: String(meta.id),
@@ -147,6 +153,7 @@ function loadEntries(vocab) {
       verified: meta.verified ? String(meta.verified) : null,
       status: String(meta.status),
       path: rel,
+      page: `entry/${String(meta.id)}/`,
       summary: summaryFromBody(body),
       ...(meta.grid_dimensions ? { grid_dimensions: String(meta.grid_dimensions) } : {}),
       ...(meta.camera_perspective ? { camera_perspective: String(meta.camera_perspective) } : {}),
@@ -163,7 +170,7 @@ function loadEntries(vocab) {
   }
 
   entries.sort((a, b) => a.name.localeCompare(b.name));
-  return { entries, errors };
+  return { entries, errors, bodies };
 }
 
 function edgeVar(entry) {
@@ -326,7 +333,8 @@ function sitemapXml(site, entries) {
   const urls = [
     `  <url><loc>${esc(base)}/</loc></url>`,
     ...entries.map(
-      (e) => `  <url><loc>${esc(base)}/#entry-${esc(e.id)}</loc></url>`
+      (e) =>
+        `  <url><loc>${esc(base)}/entry/${esc(e.id)}/</loc>${e.verified ? `<lastmod>${esc(e.verified)}</lastmod>` : ""}</url>`
     ),
   ];
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.join("\n")}\n</urlset>\n`;
@@ -353,6 +361,7 @@ function notFoundHtml(site) {
     <main class="section">
       <h1>Not found</h1>
       <p>That page is not part of this catalog.</p>
+      <p>Looking for an entry? <a href="${esc(base)}/#catalog">Search the catalog</a>.</p>
       <p class="hero-actions">
         <a class="btn" href="${esc(base)}/">Back to the catalog</a>
       </p>
@@ -372,10 +381,74 @@ function copyDir(src, dest) {
   }
 }
 
+/** Writes dist/entry/<id>/index.html for every entry. */
+function writeEntryPages({ entries, bodies, config, stats, stamp, hasCard, now }) {
+  const errors = [];
+  const written = [];
+  const idByPath = new Map(entries.map((e) => [e.path, e.id]));
+  const kindOf = (repoPath) => {
+    const full = path.join(ROOT, repoPath);
+    if (!fs.existsSync(full)) return null;
+    return fs.statSync(full).isDirectory() ? "dir" : "file";
+  };
+  // Prev/next follow the homepage's default order: category, then name.
+  const visible = entries.filter((e) => e.status !== "deprecated");
+  const neighbours = new Map();
+  for (const cat of Object.keys(config.categories)) {
+    const group = visible.filter((e) => e.category === cat);
+    group.forEach((e, i) => neighbours.set(e.id, { prev: group[i - 1] || null, next: group[i + 1] || null }));
+  }
+  for (const entry of entries) {
+    const body = bodies.get(entry.id) || "";
+    const file = `${entry.path} (body)`;
+    try {
+      const resolveLink = makeLinkResolver({ entryPath: entry.path, idByPath, repo: config.site.repo, kindOf });
+      const { lead, rest, restFirstLine } = splitEntryBody(body);
+      const leadHtml = renderBlocks(lead, { file, resolveLink });
+      const restHtml = renderBlocks(rest, { file, resolveLink, firstLine: restFirstLine });
+      const reason = entry.status === "deprecated" ? deprecationReason(body) : null;
+      const { prev = null, next = null } = neighbours.get(entry.id) || {};
+      const html = entryPageHtml({
+        entry,
+        leadHtml,
+        restHtml,
+        deprecatedReasonHtml: reason ? renderInline(reason, resolveLink) : null,
+        prev,
+        next,
+        site: config.site,
+        categoryLabel: config.categories[entry.category]?.label || entry.category,
+        stamp,
+        total: stats.total,
+        hasCard,
+        now,
+      });
+      const dir = path.join(DIST, "entry", entry.id);
+      fs.mkdirSync(dir, { recursive: true });
+      fs.writeFileSync(path.join(dir, "index.html"), html);
+      written.push(`entry/${entry.id}/index.html`);
+    } catch (err) {
+      if (err instanceof MarkdownError || err instanceof LinkError) errors.push(err.message);
+      else throw err;
+    }
+  }
+  return { errors, written };
+}
+
+/** Runs the page checks over dist-relative files. */
+function checkPages(files) {
+  const kindOf = (rel) => {
+    const full = path.join(DIST, rel);
+    if (!fs.existsSync(full)) return null;
+    if (fs.statSync(full).isDirectory()) return fs.existsSync(path.join(full, "index.html")) ? "dir" : null;
+    return "file";
+  };
+  return files.flatMap((f) => checkPage(fs.readFileSync(path.join(DIST, f), "utf8"), { file: f, kindOf }));
+}
+
 function main() {
   const config = JSON.parse(fs.readFileSync(CONFIG_PATH, "utf8"));
   const vocab = JSON.parse(fs.readFileSync(VOCAB_PATH, "utf8"));
-  const { entries, errors } = loadEntries(vocab);
+  const { entries, errors, bodies } = loadEntries(vocab);
 
   if (errors.length) {
     console.error("Build warnings:");
@@ -457,11 +530,19 @@ function main() {
   fs.writeFileSync(path.join(DIST, "robots.txt"), robotsTxt(config.site));
   fs.writeFileSync(path.join(DIST, "404.html"), notFoundHtml(config.site));
 
+  const pages = writeEntryPages({ entries, bodies, config, stats, stamp, hasCard, now });
+  const pageErrors = [...pages.errors, ...checkPages(["index.html", ...pages.written])];
+  if (pageErrors.length) {
+    console.error(`Page build failed (${pageErrors.length}):`);
+    for (const e of pageErrors.slice(0, 50)) console.error(`  - ${e}`);
+    process.exit(1);
+  }
+
   console.log(
     `Built ${entries.length} entries → site/dist (${stats.active} active, ${stats.commercialOk} commercial-ok, ${stats.commercialVaries} per-file)`
   );
   console.log(
-    `Prerendered ${visible.length} entry rows into index.html; wrote sitemap.xml, robots.txt, 404.html`
+    `Prerendered ${visible.length} entry rows into index.html; wrote ${pages.written.length} entry pages, sitemap.xml, robots.txt, 404.html`
   );
   if (errors.length) process.exitCode = 0; // soft-fail missing fields as warnings
 }

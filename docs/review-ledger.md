@@ -4,6 +4,42 @@ Newest section at the top. One section per review run. This is the record of wha
 run measured, what it changed, what it deliberately did not change, and what the next
 run should not spend time re-deciding.
 
+## 2026-09-24 (four batches)
+
+The previous section's next action, then three more. One commit per batch.
+
+- **A, older OpenGameArt downloads (`4c8e212`).** The four OGA entries added before
+  2026-09-23 had their downloads opened. No licence file contradicted a page, but two
+  entries were wrong:
+  - `congusbongus-footsteps-surfaces`: the credit line named only congusbongus, while the
+    pack's own `license.txt` files credit six CC BY 3.0 Freesound authors; `formats` said
+    WAV (it is 78 OGG files); the surface list claimed snow, which is not in the pack.
+  - `lpc-revised-basics`: all 39 items in the bundled Credits files are OGA-BY, so the
+    no-share-alike option covers everything; `commercial` was `varies` though all three
+    offered licences allow commercial use. Now `true`, with the page's seven authors in
+    the credit line.
+- **B, OpenGameArt as publisher (`bf54aa2`).** CONTRIBUTING said "never the host" and
+  listed OpenGameArt as a publisher group in the same paragraph. Removed from four
+  entries; V7 now rejects it as a generic host, and skips the one-publisher-per-domain
+  rule on opengameart.org and archive.org, where each upload has its own rights holder.
+- **C, Envato's Acceptable Use and Fair Use policies (`0c13437`).** The last unread
+  documents behind the Mixkit entries. Relevant to games: no AI training on assets; no
+  content promoting the supply of weapons or gambling; assets depicting "sensitive
+  topics" only for educational, informational, journalistic or advocacy use; and a
+  "looks or feels like" catch-all. Games are not named. `mixkit-stock-video` unchanged.
+- **D, re-audit (`a7712f7`).** Everything since the second full run passes the audit
+  script. One real finding: V13 never checked `tags`, and seven singular/plural clash
+  groups had built up (one from yesterday's own work). Fixed on 7 entries; V13 now covers
+  `tags`; site search lets a plural query match a singular tag so nothing is lost.
+- **Recorded, not changed:** `publisher: Google Fonts` on seven fonts. Google Fonts
+  distributes fonts whose copyright usually sits with the designers, which reads like the
+  "distributor that does not hold the rights" CONTRIBUTING rules out; but Google
+  commissions some families. Deciding needs each font's copyright line, not a blanket
+  rule.
+- Next highest-value action: **read the copyright line of each Google Fonts entry** and
+  set `publisher` to the holder it names, or unset it where the holder is a project of
+  many authors. Then the third MODE=full review on or after 2026-10-17.
+
 ## 2026-09-23 (parallax and gems)
 
 The previous section's next action: a layered parallax source, then match-3 gems. One
@@ -25,7 +61,8 @@ commit, `5bd86a1`. Entry count 315 to 319 (2D 54). **Both new task tests now pas
   art in a closed game).
 - `publisher` left unset on the four OGA entries: two existing opengameart.org entries
   carry `publisher: OpenGameArt`, and V7 requires one publisher per domain.
-- Next highest-value action: **open the archives of the older OpenGameArt entries** and
+- Next highest-value action: ~~**open the archives of the older OpenGameArt entries**~~
+  Done as batch A of the 2026-09-24 section above. And
   compare any bundled licence file with the licence field, following the GrumpyDiamond
   finding. The OGA entries added before today were checked against the page only. Then
   the third MODE=full review on or after 2026-10-17.

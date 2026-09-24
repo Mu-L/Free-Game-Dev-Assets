@@ -108,6 +108,31 @@ eq("external flagged", resolve("https://a.test/x").external, true);
 throws("missing target fails", () => resolve("nope.md"), 'link target "nope.md" does not exist');
 throws("escaping the repo fails", () => resolve("../../../outside.md"), "does not exist");
 
+/* entry page --------------------------------------------------------------- */
+import { entryPageHtml, jsonLd, scriptJson } from "./entry-page.mjs";
+const site = { siteUrl: "https://x.test/s/", title: "Free Game Dev Assets", tagline: "T", repo: "https://github.com/o/r" };
+const base = { id: "e1", name: 'A "quoted" <Name>', url: "https://src.test/", category: "2d", license: "CC-BY-4.0", license_spdx: "CC-BY-4.0", commercial: true, attribution_required: true, attribution_string: 'Art by "X" </script>', formats: ["PNG"], verified: "2026-09-01", status: "active", path: "catalog/2d/e1.md", summary: "Sum </script> <b>" };
+const page = (over = {}) => entryPageHtml({ entry: { ...base, ...over }, leadHtml: "<p>Lead</p>", restHtml: '<h2 id="notes">Notes</h2>', deprecatedReasonHtml: null, prev: null, next: { id: "e2", name: "Next one" }, site, categoryLabel: "2D", stamp: "2026-09-24", total: 319, hasCard: true, now: Date.parse("2026-09-24T00:00:00Z") });
+const p = page();
+has("title is escaped", p, "<title>A &quot;quoted&quot; &lt;Name&gt; (CC-BY-4.0) | Free Game Dev Assets</title>");
+has("canonical", p, '<link rel="canonical" href="https://x.test/s/entry/e1/" />');
+eq("one h1", (p.match(/<h1[\s>]/g) || []).length, 1);
+has("credit line escaped", p, "Art by &quot;X&quot; &lt;/script&gt;");
+has("copy script with a credit line", p, '<script src="../../entry.js" defer></script>');
+lacks("no copy script without one", page({ attribution_string: undefined }), "entry.js");
+has("note when credit is required but not canned", page({ attribution_string: undefined }), "no canned credit line");
+has("breadcrumb category link", p, "../../?cat=2d#catalog");
+has("next link", p, 'href="../e2/" rel="next"');
+has("report link prefills the entry", p, "template=correction.yml");
+lacks("active is indexable", p, 'content="noindex"');
+has("deprecated is noindex", page({ status: "deprecated" }), '<meta name="robots" content="noindex" />');
+has("deprecated banner", page({ status: "deprecated" }), 'class="deprecated-banner"');
+const ldBlock = p.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1];
+lacks("json-ld cannot close its script", ldBlock, "</script");
+eq("json-ld parses with a licence URL", JSON.parse(ldBlock).mainEntity.license, "https://spdx.org/licenses/CC-BY-4.0.html");
+eq("json-ld omits licence without spdx", jsonLd({ ...base, license: "custom", license_spdx: undefined }, site).mainEntity.license, undefined);
+eq("scriptJson escapes <", scriptJson({ a: "</script>" }), '{"a":"\\u003c/script>"}');
+
 /* report (keep last) ------------------------------------------------------ */
 if (failures.length) {
   console.error(`lib.test failed (${failures.length}):`);

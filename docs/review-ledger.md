@@ -4,6 +4,38 @@ Newest section at the top. One section per review run. This is the record of wha
 run measured, what it changed, what it deliberately did not change, and what the next
 run should not spend time re-deciding.
 
+## 2026-09-23 (new task tests)
+
+The previous section's suggestion: walk tasks the catalog had not been tested against.
+One commit, `6990bea`. Entry count 310 to 315 (2D 50, Audio 30).
+
+- **Task D, a 2D pixel platformer: passes, with two soft spots.** Seven side-scroller
+  packs, animated characters and enemies, Tiled and LDtk, pixel fonts, SFX generators.
+  Leave points: no chiptune music ("chiptune" found only the SFX generators), and no
+  source whose publisher states it includes parallax background layers.
+- **Task E, a mobile puzzle game: failed on the core art.** UI, UI sounds, particles and
+  fonts were covered, but "puzzle", "casual", "gem" and "dice" returned nothing relevant
+  and "card" returned nothing card-game related.
+- Added, each licence read at source and each archive downloaded to the scratchpad to
+  measure its contents (nothing but metadata committed): `kenney-puzzle-pack-2`,
+  `kenney-playing-cards-pack`, `kenney-boardgame-pack` (all CC0),
+  `subspaceaudio-5-chiptunes` (CC0, confirmed by the author's own `INFO.txt` as well as
+  the OGA field) and `eric-skiff-resistor-anthems` (CC-BY 4.0, games named, credit line
+  stored). Every gap search now returns a real source.
+- **Stated limits:** Puzzle Pack 2 is brick-breaker and pipe art, not match-3 gems; the
+  entry says so. The Kenney `puzzle-pack` URL is a 404; "Puzzle Pack 1" exists and was not
+  added.
+- **Parallax is still open.** Sunny Land's comments say its backgrounds suit parallax, but
+  its own feature list does not mention backgrounds, so no tag was added. Commenters are
+  not evidence.
+- Caught before commit: "the kind that fill mobile stores" (marketing voice), "title
+  themes, level tracks and slower pieces" for an album not listened to, and "smooth
+  vector style" inferred from an SVG folder. All removed or reduced to what was measured.
+- Next highest-value action: **a layered parallax background source**, the one leave
+  point left from task D. Look for a publisher-stated CC0 or CC-BY set of separate
+  background layers; if none states it, record the gap rather than tagging a pack on a
+  commenter's word. After that, match-3 gem art for task E.
+
 ## 2026-09-23 (binding documents)
 
 The previous section's next action: read the full Pixabay Content License and the Mixkit

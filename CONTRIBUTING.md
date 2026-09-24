@@ -31,9 +31,10 @@ One new markdown file is enough — the website rebuilds from frontmatter on dep
 6. For `status: active`, include an `## Evidence` line with a short quote from that page.
 7. Bump `expectedEntryCount` in [`site/config.json`](site/config.json) by the number of files you added (or lowered if you removed some).
 8. Run `node site/validate.mjs` — it must exit 0.
-9. Optional 2D/UI fields: `grid_dimensions`, `camera_perspective`, `hardware_tags`, `attribution_string` (see [`TEMPLATE.md`](catalog/TEMPLATE.md)).
-10. Add a row to the matching category `README.md`. This is required: the validator fails an entry that is not listed there, and the row's licence cell must match your frontmatter.
-11. Optional: add the `id` to `site/config.json` → `featured` to pin it under Safe starting points.
+9. Run `node site/build.mjs`. It renders your entry's page and fails if the body uses markdown the site does not support (tables, code fences, blockquotes, images, raw HTML, `###` headings, numbered lists) or links to a file that does not exist.
+10. Optional 2D/UI fields: `grid_dimensions`, `camera_perspective`, `hardware_tags`, `attribution_string` (see [`TEMPLATE.md`](catalog/TEMPLATE.md)).
+11. Add a row to the matching category `README.md`. This is required: the validator fails an entry that is not listed there, and the row's licence cell must match your frontmatter.
+12. Optional: add the `id` to `site/config.json` → `featured` to pin it under Safe starting points.
 
 ### Frontmatter rules
 

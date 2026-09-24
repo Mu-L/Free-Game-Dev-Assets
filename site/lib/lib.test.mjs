@@ -64,6 +64,33 @@ eq("backslash escape", renderInline("\\*not italic\\*", passLink), "*not italic*
 eq("html in text is escaped", renderInline("<script>alert(1)</script>", passLink), "&lt;script&gt;alert(1)&lt;/script&gt;");
 eq("non-ASCII survives", renderInline("Johannes Sjölund", passLink), "Johannes Sjölund");
 
+/* markdown: blocks --------------------------------------------------------- */
+import { deprecationReason, renderBlocks, sectionMarkdown, splitEntryBody } from "./markdown.mjs";
+const rb = (md) => renderBlocks(md, { file: "t.md", resolveLink: passLink });
+eq("paragraph joins lines", rb("a\nb"), "<p>a b</p>");
+eq("h1 is dropped", rb("# Title\n\nText"), "<p>Text</p>");
+eq("h2 gets an id", rb("## Notes"), '<h2 id="notes">Notes</h2>');
+eq("flat list", rb("- a\n- b"), "<ul><li>a</li><li>b</li></ul>");
+eq("nested list", rb("- a\n  - b\n- c"), "<ul><li>a<ul><li>b</li></ul></li><li>c</li></ul>");
+eq("list item continuation", rb("- a\n  more"), "<ul><li>a more</li></ul>");
+eq("list then paragraph", rb("- a\n\nText"), "<ul><li>a</li></ul>\n<p>Text</p>");
+eq("italic at line start is not a list", rb("*Measured:* 5"), "<p><em>Measured:</em> 5</p>");
+throws("table rejected", () => rb("| a | b |"), "t.md:1: a table row");
+throws("fence rejected", () => rb("x\n```"), "t.md:2: a code fence");
+throws("blockquote rejected", () => rb("> q"), "a blockquote");
+throws("image rejected", () => rb("![i](x.png)"), "an image");
+throws("raw html rejected", () => rb("<div>x</div>"), "raw HTML");
+throws("h3 rejected", () => rb("### Sub"), "a heading below level 2");
+throws("ordered list rejected", () => rb("1. one"), "an ordered list");
+throws("firstLine offsets line numbers", () => renderBlocks("ok\n> q", { file: "t.md", resolveLink: passLink, firstLine: 10 }), "t.md:11:");
+const body = "# T\n\nLead one.\n\nLead two.\n\n## Notes\n\n- n1\n- Deprecated: gone\n\n## Evidence\n\n- e1";
+eq("split lead", splitEntryBody(body).lead, "# T\n\nLead one.\n\nLead two.\n");
+eq("split rest starts at first h2", splitEntryBody(body).rest.split("\n")[0], "## Notes");
+eq("split restFirstLine", splitEntryBody(body).restFirstLine, 7);
+eq("sectionMarkdown Notes", sectionMarkdown(body, "Notes"), "- n1\n- Deprecated: gone");
+eq("sectionMarkdown missing", sectionMarkdown(body, "Nope"), null);
+eq("deprecationReason", deprecationReason(body), "gone");
+
 /* report (keep last) ------------------------------------------------------ */
 if (failures.length) {
   console.error(`lib.test failed (${failures.length}):`);

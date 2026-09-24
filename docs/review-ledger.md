@@ -17,7 +17,8 @@ commit, `5bd86a1`. Entry count 315 to 319 (2D 54). **Both new task tests now pas
   shows CC0 on its OpenGameArt page, but the licence file inside its download says
   "cc-BY-3.0" and asks for credit. Not added. The OGA licence field is the uploader's
   claim; a bundled licence file can contradict it, and only opening the archive shows
-  that. Every OGA entry added in this session had its archive opened; older OGA entries
+  that. Every OGA entry added in this session had its download opened (Bondoki ships loose
+  GIFs with no licence file, which the entry says); older OGA entries
   were not, and are worth the same check.
 - Also rejected: CraftPix's OGA parallax sets (OGA-BY 3.0, credit required, and listed as
   teasers for paid packs) and "3 Parallax Backgrounds" (GPL 3.0, which is a poor fit for

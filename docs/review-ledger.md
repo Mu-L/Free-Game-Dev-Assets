@@ -4,6 +4,31 @@ Newest section at the top. One section per review run. This is the record of wha
 run measured, what it changed, what it deliberately did not change, and what the next
 run should not spend time re-deciding.
 
+## 2026-09-23 (parallax and gems)
+
+The previous section's next action: a layered parallax source, then match-3 gems. One
+commit, `5bd86a1`. Entry count 315 to 319 (2D 54). **Both new task tests now pass.**
+
+- Added, each archive downloaded to measure it and to read any bundled licence:
+  `ansimuz-industrial-parallax` and `gustavo-saraiva-city-parallax` (publisher-stated
+  parallax layers, both CC0), `bondoki-rotating-gems` and `sylly-gem-match-3` (match-3
+  gems, both CC0). The two parallax sets carry `camera_perspective: side_scroller`.
+- **New lesson, from a rejected candidate:** GrumpyDiamond's Parallax Mountain Background
+  shows CC0 on its OpenGameArt page, but the licence file inside its download says
+  "cc-BY-3.0" and asks for credit. Not added. The OGA licence field is the uploader's
+  claim; a bundled licence file can contradict it, and only opening the archive shows
+  that. Every OGA entry added in this session had its archive opened; older OGA entries
+  were not, and are worth the same check.
+- Also rejected: CraftPix's OGA parallax sets (OGA-BY 3.0, credit required, and listed as
+  teasers for paid packs) and "3 Parallax Backgrounds" (GPL 3.0, which is a poor fit for
+  art in a closed game).
+- `publisher` left unset on the four OGA entries: two existing opengameart.org entries
+  carry `publisher: OpenGameArt`, and V7 requires one publisher per domain.
+- Next highest-value action: **open the archives of the older OpenGameArt entries** and
+  compare any bundled licence file with the licence field, following the GrumpyDiamond
+  finding. The OGA entries added before today were checked against the page only. Then
+  the third MODE=full review on or after 2026-10-17.
+
 ## 2026-09-23 (new task tests)
 
 The previous section's suggestion: walk tasks the catalog had not been tested against.
@@ -31,7 +56,8 @@ One commit, `6990bea`. Entry count 310 to 315 (2D 50, Audio 30).
 - Caught before commit: "the kind that fill mobile stores" (marketing voice), "title
   themes, level tracks and slower pieces" for an album not listened to, and "smooth
   vector style" inferred from an SVG folder. All removed or reduced to what was measured.
-- Next highest-value action: **a layered parallax background source**, the one leave
+- Next highest-value action: ~~**a layered parallax background source**~~ Done in the
+  parallax and gems section above, with match-3 gems. The one leave
   point left from task D. Look for a publisher-stated CC0 or CC-BY set of separate
   background layers; if none states it, record the gap rather than tagging a pack on a
   commenter's word. After that, match-3 gem art for task E.

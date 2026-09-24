@@ -149,6 +149,23 @@ has("dangling link", checkPage(okPage.replace("../e2/", "../e3/"), opts).join(),
 has("link leaving the site", checkPage(okPage.replace("../e2/", "../../../x/"), opts).join(), "leaves the site");
 eq("query and hash are ignored", checkPage(okPage.replace("../e2/", "../../?cat=2d#catalog"), opts).length, 0);
 
+/* llms ------------------------------------------------------------------- */
+import { llmsFullTxt, llmsTxt } from "./llms.mjs";
+const cats = { "2d": { label: "2D" }, audio: { label: "Audio" } };
+const llmsEntries = [
+  { ...base, id: "a1", name: "Alpha", category: "2d", status: "active", attribution_required: false, commercial: true, license: "CC0" },
+  { ...base, id: "d1", name: "Gone", category: "2d", status: "deprecated" },
+];
+const lt = llmsTxt({ entries: llmsEntries, site, categories: cats });
+has("llms header", lt, "# Free Game Dev Assets\n\n> T");
+has("llms entry line", lt, "- [Alpha](https://x.test/s/entry/a1/): CC0; commercial OK; no credit required; active");
+lacks("llms skips deprecated", lt, "Gone");
+lacks("llms skips empty categories", lt, "## Audio");
+const lf = llmsFullTxt({ entries: llmsEntries, site, categories: cats, bodies: new Map([["a1", "# A\n\nLead\n\n## Notes\n\n- catch one\n\n## Evidence\n\n- e"]]) });
+has("full carries notes", lf, "- catch one");
+lacks("full leaves evidence out", lf, "## Evidence");
+has("full carries the source", lf, "Source: https://src.test/");
+
 /* report (keep last) ------------------------------------------------------ */
 if (failures.length) {
   console.error(`lib.test failed (${failures.length}):`);

@@ -9,6 +9,7 @@ import { fileURLToPath } from "node:url";
 import { commercialLabel, esc, PERSPECTIVE_LABELS, verifiedAge } from "./lib/shared.mjs";
 import { entryPageHtml } from "./lib/entry-page.mjs";
 import { LinkError, makeLinkResolver } from "./lib/links.mjs";
+import { llmsFullTxt, llmsTxt } from "./lib/llms.mjs";
 import { deprecationReason, MarkdownError, renderBlocks, renderInline, splitEntryBody } from "./lib/markdown.mjs";
 import { checkPage } from "./lib/page-checks.mjs";
 
@@ -529,6 +530,11 @@ function main() {
   fs.writeFileSync(path.join(DIST, "sitemap.xml"), sitemapXml(config.site, visible));
   fs.writeFileSync(path.join(DIST, "robots.txt"), robotsTxt(config.site));
   fs.writeFileSync(path.join(DIST, "404.html"), notFoundHtml(config.site));
+  fs.writeFileSync(path.join(DIST, "llms.txt"), llmsTxt({ entries, site: config.site, categories: config.categories }));
+  fs.writeFileSync(
+    path.join(DIST, "llms-full.txt"),
+    llmsFullTxt({ entries, site: config.site, categories: config.categories, bodies })
+  );
 
   const pages = writeEntryPages({ entries, bodies, config, stats, stamp, hasCard, now });
   const pageErrors = [...pages.errors, ...checkPages(["index.html", ...pages.written])];

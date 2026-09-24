@@ -23,7 +23,7 @@ True 2:1 isometric PNG tiles (not cartoon cubes). Hub this wave: one publisher p
 ## Notes
 
 - Profile (2026-08-29): "All assets have been released under the Public Domain (CC0) license."
-- Packs confirmed CC0 this session:
+- Packs confirmed CC0 on 2026-08-29:
   - Town: [iso-town-pack](https://screamingbrainstudios.itch.io/iso-town-pack) (443 town/roof tiles)
   - Floor: [isotilepack](https://screamingbrainstudios.itch.io/isotilepack) (1,008 floor tiles)
   - Wall: [isowallpack](https://screamingbrainstudios.itch.io/isowallpack)

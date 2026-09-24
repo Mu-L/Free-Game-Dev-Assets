@@ -21,7 +21,7 @@ Poxiao Fonts 8x8 bitmap CJK face (Chinese, Japanese, Korean). Itch slug is still
 ## Notes
 
 - Live listing: "QuanPixel is an 8x8 bitmap OFL font" and "使用 OFL 授权" linking scripts.sil.org/OFL.
-- DWNfonts GitHub (2026-08-29): 全小素 / QuanPixel is itch-only, not published on GitHub. No `OFL.txt` loaded this session. Keep whatever license file ships in the zip.
+- DWNfonts GitHub (2026-08-29): 全小素 / QuanPixel is itch-only, not published on GitHub. No `OFL.txt` loaded on 2026-08-29. Keep whatever license file ships in the zip.
 - Derived from Galmuri (Lee Minseo, OFL 1.1) and Chill Bitmap. Do not ship a modified version under those reserved names without permission.
 - Very small pixel size. HUD/debug, not body UI.
 - Attribution example (optional): `QuanPixel (c) Poxiao Fonts / contributors. SIL OFL 1.1`

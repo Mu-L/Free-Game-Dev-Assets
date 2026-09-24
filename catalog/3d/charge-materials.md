@@ -16,12 +16,12 @@ status: needs-review
 
 # Charge materials (Blender Studio)
 
-Procedural materials freebie from Blender Studio’s *Charge* gallery. Historically treated as **CC-BY** (bake to PBR for other engines), but this run the gallery page shows the freebie card **without an on-page license badge/quote** — keep `needs-review` until the freebie’s own license statement is readable.
+Procedural materials freebie from Blender Studio’s *Charge* gallery. Historically treated as **CC-BY** (bake to PBR for other engines), but on 2026-07-19 the gallery page shows the freebie card **without an on-page license badge/quote** — keep `needs-review` until the freebie’s own license statement is readable.
 
 ## Notes
 
 - Prefer [ambientcg](ambientcg.md) / [poly-haven](../environment/poly-haven.md) for clear CC0 PBR
-- No `attribution_string` this session: the gallery card had no readable license or required credit wording. Do not invent one.
+- No `attribution_string` on 2026-08-24: the gallery card had no readable license or required credit wording. Do not invent one.
 - Blender.org website CC-BY does **not** substitute for this asset’s grant
 - If you obtain the `.blend`, read any LICENSE/README inside before shipping
 

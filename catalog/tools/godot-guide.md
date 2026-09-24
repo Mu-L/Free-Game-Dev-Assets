@@ -21,7 +21,7 @@ Godot Unified Input Detection Engine. Structured input mapping and remapping for
 ## Notes
 
 - `LICENSE.md` is MIT grant text without the words "MIT License" in the header; GitHub license API reports MIT
-- plugin.cfg version seen this session: 0.14.0
+- plugin.cfg version seen on 2026-08-24: 0.14.0
 - README credits Xelu prompts under CC0; that is icon art, not a second plugin license
 
 ## Evidence

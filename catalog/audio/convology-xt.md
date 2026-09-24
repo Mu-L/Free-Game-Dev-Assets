@@ -21,7 +21,7 @@ Free convolution reverb plugin + **74** factory vintage IR samples (Impulse Reco
 
 - Prefer [voxengo-impulses](voxengo-impulses.md) when you need an explicit royalty-free IR file grant for commercial games
 - Using the plugin in a DAW to *render* wet audio into a game is a different question from shipping the IR files
-- `/license/`, `/eula/`, `/terms/`, `/faq/` all 404 this run; only [privacy](https://impulserecord.com/privacy/) is public — no commercial/redistribution grant there
+- `/license/`, `/eula/`, `/terms/`, `/faq/` all 404 on 2026-07-19; only [privacy](https://impulserecord.com/privacy/) is public — no commercial/redistribution grant there
 
 ## Evidence
 

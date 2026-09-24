@@ -16,7 +16,7 @@ status: active
 
 # Goxel
 
-Open-source voxel editor (Windows, Mac, Linux, iOS, Android) with sparse unlimited scenes, layers, and export to MagicaVoxel, glTF, OBJ, PLY. This is the GPL alternative to MagicaVoxel's custom freeware. The program is GNU GPL-3. The README offers a separate commercial license if you want to ship Goxel's *code* inside a closed product. Pages fetched this session do not say "voxels you sculpt are yours" in those words. GPL on an editor does not copyleft exported meshes, but that sentence is inferred, not quoted.
+Open-source voxel editor (Windows, Mac, Linux, iOS, Android) with sparse unlimited scenes, layers, and export to MagicaVoxel, glTF, OBJ, PLY. This is the GPL alternative to MagicaVoxel's custom freeware. The program is GNU GPL-3. The README offers a separate commercial license if you want to ship Goxel's *code* inside a closed product. Pages fetched on 2026-08-24 do not say "voxels you sculpt are yours" in those words. GPL on an editor does not copyleft exported meshes, but that sentence is inferred, not quoted.
 
 ## Notes
 

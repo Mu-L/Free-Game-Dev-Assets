@@ -28,7 +28,7 @@ Braille Institute’s low-vision–first UI sans — maximized letter distinctio
 ## Evidence
 
 - Live `OFL.txt` (googlefonts/atkinson-hyperlegible, 2026-08-24): "This Font Software is licensed under the SIL Open Font License, Version 1.1."
-- Braille Institute `/freefont` (2026-08-24): page is script-heavy; commercial-use sentence from the prior check was not re-extracted as HTML this session. OFL file is the license evidence.
+- Braille Institute `/freefont` (2026-08-24): page is script-heavy; commercial-use sentence from the prior check was not re-extracted as HTML on 2026-08-24. OFL file is the license evidence.
 
 ## Related
 

@@ -30,7 +30,7 @@ Radar DSM ~30 m (TanDEM-X / WorldDEM lineage) via CDSE. **Full, Free & Open** li
 
 - CDSE COP-DEM page (2026-08-25): "The GLO-30 and GLO-90 datasets are available worldwide with a free license."
 - Same page (2026-08-25): "© DLR e.V. 2010-2014 and © Airbus Defence and Space GmbH 2014-2018 provided under COPERNICUS by the European Union and ESA; all rights reserved"
-- Live ESA CCM licence PDF (Issue 21/02/2025; not re-downloaded 2026-08-25): “Full, Free & Open Licence for the use of the Copernicus WorldDEM-30” — Art. 4 rights (a–d) reproduction/distribution/public communication/adaptation; Art. 5 free of charge; Art. 3 worldwide. Parked: PDF bytes were not fetched this session.
+- Live ESA CCM licence PDF (Issue 21/02/2025; not re-downloaded 2026-08-25): “Full, Free & Open Licence for the use of the Copernicus WorldDEM-30” — Art. 4 rights (a–d) reproduction/distribution/public communication/adaptation; Art. 5 free of charge; Art. 3 worldwide. Parked: PDF bytes were not fetched on 2026-08-25.
 
 ## Related
 

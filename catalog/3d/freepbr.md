@@ -19,7 +19,7 @@ status: active
 
 ## Notes
 
-- License hub: [freepbr.com/about-free-pbr/](https://freepbr.com/about-free-pbr/). There is no `/license` URL (404 this session)
+- License hub: [freepbr.com/about-free-pbr/](https://freepbr.com/about-free-pbr/). There is no `/license` URL (404 on 2026-08-24)
 - Maps are 2048x2048 PNG. Confirm DirectX vs OpenGL normals per zip
 - Do not mirror the zips. About asks that source files stay on freepbr.com
 - The "Download ALL (600+) ... with Commercial Rights" SKU is the paid grant. Individual $0.00 product pages are the free non-commercial path

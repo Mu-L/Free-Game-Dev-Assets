@@ -22,9 +22,9 @@ Eleven city props (ATM, dumpster, bench, street light, traffic cone, and similar
 ## Notes
 
 - Listing body (2026-08-29): "all offered under a CC0 public domain license."
-- No itch Asset license table field this session. Grant is the on-page sentence.
+- No itch Asset license table field on 2026-08-29. Grant is the on-page sentence.
 - Author notes these are early 3DModelsCC0 files; quality may lag later packs.
-- Confirm the zip you actually download. Melee used a GLB mirror; this listing does not name a format this session.
+- Confirm the zip you actually download. Melee used a GLB mirror; this listing does not name a format on 2026-08-29.
 - Industrial packs on the same itch profile are not this grant.
 
 ## Evidence

@@ -26,7 +26,7 @@ Official USGS/EROS portal for Landsat, SRTM, and other Earth archives. USGS-auth
 ## Evidence
 
 - Live USGS [Copyrights and Credits](https://www.usgs.gov/information-policies-and-instructions/copyrights-and-credits) (2026-08-24): USGS information/products “are considered to be in the U.S. Public Domain” (with noted exceptions for third-party material).
-- Live EROS SRTM page / media: “Sources/Usage: Public Domain.” (SRTM product page returned 403 this session; copyrights page is the grant used.)
+- Live EROS SRTM page / media: “Sources/Usage: Public Domain.” (SRTM product page returned 403 on 2026-08-24; copyrights page is the grant used.)
 
 ## Related
 

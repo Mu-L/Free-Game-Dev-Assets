@@ -15,7 +15,7 @@ status: needs-review
 
 # FMOD Studio
 
-Audio middleware with an indie free tier (historically ~$200k USD annual gross). Useful, but **live license text could not be fetched this run** (empty responses from fmod.com).
+Audio middleware with an indie free tier (historically ~$200k USD annual gross). Useful, but **live license text could not be fetched on 2026-07-19** (empty responses from fmod.com).
 
 ## Notes
 

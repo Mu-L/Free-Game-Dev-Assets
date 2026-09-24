@@ -19,7 +19,7 @@ Low-poly model aggregator (10k+). **Per-model `Licence` field**: live samples in
 
 ## Notes
 
-- No site-wide license page (`/license` 404 this run)
+- No site-wide license page (`/license` 404 on 2026-07-19)
 - Open each model’s badge before shipping; filter creator when you already have the primary source
 - Attribution required when the model is CC-BY (not when CC0)
 - **Do not infer a licence from the creator.** Checked 2026-09-23: of eight models on the Quaternius profile, seven read `CC0 1.0` and one, "Animated Base Character", reads `CC-BY 3.0`, while Quaternius releases its packs as CC0 on its own site. A Quaternius model downloaded here can owe attribution that the same author's pack does not. If you want the CC0 grant, take the file from [quaternius](quaternius.md) directly

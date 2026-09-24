@@ -25,7 +25,7 @@ Free full-screen colorblindness simulator (Windows/Mac/Linux) for deuteranopia/p
 
 ## Evidence
 
-- colororacle.org: “Color Oracle is open source, available on GitHub…” (homepage returned 406 this session)
+- colororacle.org: “Color Oracle is open source, available on GitHub…” (homepage returned 406 on 2026-08-24)
 - Live `LICENSE.txt` (color-oracle-java) (2026-08-24): **The MIT License (MIT)** — use/modify/sell permitted.
 
 ## Related

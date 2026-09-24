@@ -16,7 +16,7 @@ status: active
 
 # eSpeak NG
 
-Formant (robotic) TTS for 100+ languages. Useful for placeholder VO, accessibility debug lines, and tiny footprints where neural models are overkill. The program is GPL-3.0 or later (`COPYING`). GitHub README also notes a BSD-2 `getopt.c` exception on Windows. Pages fetched this session do not say the WAV you synthesize is yours. Shipping the *engine* inside a closed game is a GPL event. Shipping a bounced line *may* not be; that split is inferred. Prefer [piper-plus](piper-plus.md) / [kokoro-82m](kokoro-82m.md) when you need MIT/Apache TTS code.
+Formant (robotic) TTS for 100+ languages. Useful for placeholder VO, accessibility debug lines, and tiny footprints where neural models are overkill. The program is GPL-3.0 or later (`COPYING`). GitHub README also notes a BSD-2 `getopt.c` exception on Windows. Pages fetched on 2026-08-24 do not say the WAV you synthesize is yours. Shipping the *engine* inside a closed game is a GPL event. Shipping a bounced line *may* not be; that split is inferred. Prefer [piper-plus](piper-plus.md) / [kokoro-82m](kokoro-82m.md) when you need MIT/Apache TTS code.
 
 ## Notes
 

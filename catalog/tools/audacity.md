@@ -15,13 +15,13 @@ status: active
 
 # Audacity
 
-Muse Group's audio editor (3.7.8 this session). GitHub `LICENSE.txt`: the app is GPLv3; many files are GPLv2-or-later; docs are CC-BY 3.0. FAQ: it "will always remain free". Windows/macOS installers push MuseHub; "Download without MuseHub" links exist. This catalog already prefers [tenacity](tenacity.md) for the telemetry/terms fork. Use Audacity if you need the Muse build. GPL covers the program. Edits inherit the source clip's license.
+Muse Group's audio editor (3.7.8 on 2026-08-24). GitHub `LICENSE.txt`: the app is GPLv3; many files are GPLv2-or-later; docs are CC-BY 3.0. FAQ: it "will always remain free". Windows/macOS installers push MuseHub; "Download without MuseHub" links exist. This catalog already prefers [tenacity](tenacity.md) for the telemetry/terms fork. Use Audacity if you need the Muse build. GPL covers the program. Edits inherit the source clip's license.
 
 ## Notes
 
 - License evidence is GitHub `LICENSE.txt`, not the marketing homepage (homepage is MuseHub download copy)
 - FAQ (2026-08-24) answers "Is Audacity free?" with "always remain free for everyone". That is price, not a second asset license
-- Extra MuseHub / cloud-saving terms were not fetched as a separate legal PDF this session. If you sign into Muse services, read those
+- Extra MuseHub / cloud-saving terms were not fetched as a separate legal PDF on 2026-08-24. If you sign into Muse services, read those
 - Checklist: GPL text on GitHub, commercial use of the *program* under GPL, docs CC-BY, MuseHub is a storefront not an asset EULA, named company, not blocklisted, tool vs recording ownership split
 - Version left as bare `GPL-3.0` deliberately. The project says "licensed GPLv3" while noting most files are GPLv2-or-later, and VST3-related code constrains the combined work, so no single SPDX identifier is stated. Checked 2026-09-22.
 

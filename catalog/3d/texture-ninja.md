@@ -20,10 +20,10 @@ Large CC0 photo texture library. Good for unique surface detail; expect tiling a
 
 ## Notes
 
-- Static HTML this session was only "You need to enable JavaScript to run this app."
+- Static HTML on 2026-08-24 was only "You need to enable JavaScript to run this app."
 - CC0 statement is in live `/assets/index-B3Qn25Eh.js` tooltip copy (hashed 2026-08-24)
 - Photos, not authored tileables; pair with [ambientcg](ambientcg.md) when you need a full PBR stack
-- Parked 2026-08-25: HTML still a JS shell. CC0 was not re-extracted from a new bundle this session.
+- Parked 2026-08-25: HTML still a JS shell. CC0 was not re-extracted from a new bundle on 2026-08-25.
 
 ## Evidence
 

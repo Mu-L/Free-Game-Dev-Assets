@@ -16,7 +16,7 @@ status: active
 
 # LMMS
 
-Cross-platform DAW (Windows, Linux, macOS) with piano roll, mixer, built-in synths, LADSPA/VST, and SoundFont2. This is the missing tracker-adjacent music tool next to [tenacity](tenacity.md), which only edits samples. The application is GNU GPL-2.0. The homepage does not publish a license body (it says "100% free, open source"). GitHub `LICENSE.txt` is GPLv2. Pages fetched this session do not say your exported song is yours. GPL on a DAW does not copyleft a composition you wrote, but that sentence is inferred. Bundled presets, VSTs, and any SF2 you load keep their own terms.
+Cross-platform DAW (Windows, Linux, macOS) with piano roll, mixer, built-in synths, LADSPA/VST, and SoundFont2. This is the missing tracker-adjacent music tool next to [tenacity](tenacity.md), which only edits samples. The application is GNU GPL-2.0. The homepage does not publish a license body (it says "100% free, open source"). GitHub `LICENSE.txt` is GPLv2. Pages fetched on 2026-08-24 do not say your exported song is yours. GPL on a DAW does not copyleft a composition you wrote, but that sentence is inferred. Bundled presets, VSTs, and any SF2 you load keep their own terms.
 
 ## Notes
 

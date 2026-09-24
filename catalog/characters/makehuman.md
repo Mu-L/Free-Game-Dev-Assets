@@ -21,7 +21,7 @@ Humanoid generator. **Core assets and exported models are CC0** — commercial c
 
 ## Notes
 
-- Docs/license live on `static.makehumancommunity.org` (homepage HTTP OK this run; HTTPS www refused)
+- Docs/license live on `static.makehumancommunity.org` (homepage HTTP OK on 2026-07-19; HTTPS www refused)
 - Third-party community assets may be CC-BY — check each download
 - FAQ: closed-source games Yes; sell exports Yes; attribution No (for core CC0)
 

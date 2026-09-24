@@ -22,7 +22,7 @@ Themed CC0 low-poly kits with rigged characters, modular towns, weapons, and env
 ## Notes
 
 - Homepage is a pack index and does not print a library-wide license; CC0 is on each pack page
-- Downtown City MegaKit (checked this session): License link CC0; "60-70% of my pack is completely free"; Standard ships OBJ/FBX/glTF
+- Downtown City MegaKit (checked on 2026-08-24): License link CC0; "60-70% of my pack is completely free"; Standard ships OBJ/FBX/glTF
 - Source tier adds Unity/Godot/Unreal projects and Blend; still "(CC0 License)" on the same page
 - Universal Animation Library is catalogued separately for humanoid retarget clips
 

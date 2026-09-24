@@ -16,7 +16,7 @@ status: active
 
 # Free Tex Packer
 
-Open-source sprite atlas packer (web UI, Electron desktop, Godot/Unity/Phaser JSON). The old apex `free-tex-packer.com` is a "Loading..." shell this session; a follow-through host is not the app. Use the GitHub repo. `LICENSE.md` is MIT. That is a license on the packer, not on the sprites you feed it.
+Open-source sprite atlas packer (web UI, Electron desktop, Godot/Unity/Phaser JSON). The old apex `free-tex-packer.com` is a "Loading..." shell on 2026-08-24; a follow-through host is not the app. Use the GitHub repo. `LICENSE.md` is MIT. That is a license on the packer, not on the sprites you feed it.
 
 ## Notes
 

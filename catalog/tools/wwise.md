@@ -19,7 +19,7 @@ Audiokinetic middleware — free under a production-budget cap (historically ~$2
 
 ## Notes
 
-- Pricing/download pages returned **HTTP 403** this run — cannot confirm current indie thresholds.
+- Pricing/download pages returned **HTTP 403** on 2026-07-19 — cannot confirm current indie thresholds.
 
 ## Evidence
 

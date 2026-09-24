@@ -22,7 +22,7 @@ MIT vector icon family with six weights (thin through fill and duotone). Designe
 
 ## Notes
 
-- phosphoricons.com is a JS app and rendered no license text this session; grant is the GitHub LICENSE
+- phosphoricons.com is a JS app and rendered no license text on 2026-08-24; grant is the GitHub LICENSE
 - Homepage README: "MIT © Phosphor Icons"; core repo LICENSE is the MIT grant including sell
 - Keep the MIT copyright notice when redistributing the icon set
 - Weights: Thin, Light, Regular, Bold, Fill, Duotone

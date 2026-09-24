@@ -15,7 +15,7 @@ status: needs-review
 
 # Penzilla
 
-Penny / Penzilla Design: mixed free and paid pixel interiors, GUI, icons, and character sheets on itch. Hub copy says royalty-free game assets. Free listings this session (Giant Basic GUI Bundle, Hooded Protagonist, Top-Down Retro Interior) all say "Royalty free and commercial use" and attach `PenzillaDesign_StandardLicense.pdf`. That PDF was not readable without an itch download, and none of those pages expose an itch Asset license field. Do not treat this store as CC0.
+Penny / Penzilla Design: mixed free and paid pixel interiors, GUI, icons, and character sheets on itch. Hub copy says royalty-free game assets. Free listings on 2026-08-24 (Giant Basic GUI Bundle, Hooded Protagonist, Top-Down Retro Interior) all say "Royalty free and commercial use" and attach `PenzillaDesign_StandardLicense.pdf`. That PDF was not readable without an itch download, and none of those pages expose an itch Asset license field. Do not treat this store as CC0.
 
 ## Notes
 
@@ -27,7 +27,7 @@ Penny / Penzilla Design: mixed free and paid pixel interiors, GUI, icons, and ch
 ## Evidence
 
 - Live pack pages (2026-08-24): "Royalty free and commercial use"
-- Same pages (2026-08-24): download includes `PenzillaDesign_StandardLicense.pdf`. File body not fetched this session
+- Same pages (2026-08-24): download includes `PenzillaDesign_StandardLicense.pdf`. File body not fetched on 2026-08-24
 - No itch "Asset license" CC0/CC-BY field on the three free listings checked. Stay `needs-review` until the PDF is quoted
 
 ## Related

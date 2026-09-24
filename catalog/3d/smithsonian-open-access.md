@@ -23,7 +23,7 @@ Museum 3D scans and media released under CC0 when marked with the Creative Commo
 - Open Access hub: [si.edu/openaccess](https://www.si.edu/openaccess). 3D viewer: [3d.si.edu](https://3d.si.edu)
 - Binding CC0 wording is in Smithsonian [Terms of Use](https://www.si.edu/termsofuse), not the marketing banner
 - Terms warn CC0 covers copyright only; publicity, privacy, and third-party rights can still apply
-- Open Access FAQ returned 403 (bot check) this session; terms page loaded
+- Open Access FAQ returned 403 (bot check) on 2026-08-24; terms page loaded
 
 ## Evidence
 

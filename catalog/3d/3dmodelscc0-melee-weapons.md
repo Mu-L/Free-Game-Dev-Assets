@@ -22,7 +22,7 @@ One CC0 melee-weapons zip from the 3dmodelscc0 itch account. Original 3DModelsCC
 ## Notes
 
 - Listing body (2026-08-29): weapons "offered under a CC0 public domain license."
-- No itch Asset license table field this session. Grant is the on-page sentence, not a metadata widget.
+- No itch Asset license table field on 2026-08-29. Grant is the on-page sentence, not a metadata widget.
 - Listing points at a GLB mirror (`BoQsc/cc0-melee-weapons-pack-glb`). Confirm the zip you actually download.
 - Other packs on the same itch profile are not this grant. City and guns have their own cards. Industrial leftovers still need a per-pack check.
 

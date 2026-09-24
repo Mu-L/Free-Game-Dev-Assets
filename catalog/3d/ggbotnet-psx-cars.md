@@ -23,7 +23,7 @@ Low-poly PS1-look cars (station wagon, sedan, hatch, van, police/taxi, wreck, 19
 
 - Live pack: "This game assets is licensed under a CC0 1.0 Universal."
 - Scale is inconsistent across cars (author note). Expect to normalize.
-- Formats: Blend, OBJ, PNG atlases, OGG SFX. No glTF on the listing this session.
+- Formats: Blend, OBJ, PNG atlases, OGG SFX. No glTF on the listing on 2026-08-29.
 - Same account also ships CC0 and OFL fonts. CC0 all-in-1 is [../fonts/ggbotnet-fonts-cc0](../fonts/ggbotnet-fonts-cc0.md). Do not inherit this car grant onto the OFL collection.
 - Built for Miziziziz Retro3DGraphicsCollection; that GitHub tree is not this license source.
 

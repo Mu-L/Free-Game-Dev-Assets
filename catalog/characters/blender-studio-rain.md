@@ -18,7 +18,7 @@ status: active
 
 # Blender Studio Rain
 
-Production humanoid character rig from Blender Studio (Rain v3 on the live card). Non-Quaternius CC-BY-4.0 humanoid. Free download on the character page (64.4 MB this session). Publisher Demeter Dzadik / Blender Studio.
+Production humanoid character rig from Blender Studio (Rain v3 on the live card). Non-Quaternius CC-BY-4.0 humanoid. Free download on the character page (64.4 MB on 2026-08-29). Publisher Demeter Dzadik / Blender Studio.
 
 ## Notes
 

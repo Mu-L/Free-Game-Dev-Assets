@@ -15,7 +15,7 @@ status: active
 
 # Materialize
 
-Standalone Bounding Box Software tool that builds a PBR set from a photo: height, metallic, smoothness, normal, occlusion, plus seamless tiling. Used on the Uncharted Collection remaster for metallic/smoothness/AO. The application is GNU GPL v3. The pages fetched this session do not spell out ownership of maps you generate. Treat output like other GPL editors: the program is copyleft, the bitmaps you export from your own photos are not automatically GPL, and photos you did not take keep their own licenses.
+Standalone Bounding Box Software tool that builds a PBR set from a photo: height, metallic, smoothness, normal, occlusion, plus seamless tiling. Used on the Uncharted Collection remaster for metallic/smoothness/AO. The application is GNU GPL v3. The pages fetched on 2026-08-24 do not spell out ownership of maps you generate. Treat output like other GPL editors: the program is copyleft, the bitmaps you export from your own photos are not automatically GPL, and photos you did not take keep their own licenses.
 
 ## Notes
 
@@ -23,7 +23,7 @@ Standalone Bounding Box Software tool that builds a PBR set from a photo: height
 - Download flow goes through `getkey.php`. Still GPL; not a paid EULA
 - Clipboard/XML automation exists for batch open/save. Useful for folder dumps, easy to accidentally process third-party textures whose licenses you do not have
 - Prefer this when you already own a photo. Prefer [ambientcg](../3d/ambientcg.md) / [cgbookcase](../3d/cgbookcase.md) when you need a ready CC0 stack
-- FAQ fetched this session is install troubleshooting only. No output-ownership FAQ line
+- FAQ fetched on 2026-08-24 is install troubleshooting only. No output-ownership FAQ line
 - Version left as bare `GPL-3.0` deliberately. The repository ships the stock GPLv3 text with no election of its own. Checked 2026-09-22.
 
 ## Evidence

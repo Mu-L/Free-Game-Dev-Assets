@@ -20,7 +20,7 @@ Smoke / fire / explosion image sequences from Unity Labs Paris (Thomas Iche, 201
 
 ## Notes
 
-- Canonical URL this session is `unity.com/blog/engine-platform/...`. The older `blog.unity.com/engine-platform/...` host returned HTTP 403.
+- Canonical URL on 2026-08-29 is `unity.com/blog/engine-platform/...`. The older `blog.unity.com/engine-platform/...` host returned HTTP 403.
 - Live text names CC0 and "use them in your projects." It does not repeat a Unity-engine lock.
 - Sequences: HDR linear EXR or assembled flipbook sheets (page also discusses UNORM packs). Confirm the zip you grab.
 - Experimental VFX Toolbox Image Sequencer is a Unity helper for assembling sheets. The textures themselves are still CC0 files.

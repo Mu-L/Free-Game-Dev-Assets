@@ -17,7 +17,7 @@ status: active
 
 # PlayPug Simple Vector UI Pack
 
-9-slice buttons, panels, sliders, and HUD chrome in a few flat/vector styles. Body text on the itch listing is CC0 for personal and commercial projects. Not featured: paid $4.90 SKU, free demo is PNG-only, SVG is a premium extra. No itch Asset license table field this session.
+9-slice buttons, panels, sliders, and HUD chrome in a few flat/vector styles. Body text on the itch listing is CC0 for personal and commercial projects. Not featured: paid $4.90 SKU, free demo is PNG-only, SVG is a premium extra. No itch Asset license table field on 2026-08-29.
 
 ## Notes
 
@@ -30,7 +30,7 @@ status: active
 
 - Live itch page (2026-08-29): "CC0 License" and "Free for personal and commercial projects, no attribution required"
 - Same page (2026-08-29): License heading "CC0 (Public Domain)" and "Use in commercial and non-commercial projects"
-- Itch "Asset license" table field was not present this session.
+- Itch "Asset license" table field was not present on 2026-08-29.
 
 ## Related
 

@@ -21,7 +21,7 @@ MyMiniFactory's collection of 3D-scanned cultural artefacts, made for **physical
 
 - **The platform terms are non-commercial.** MyMiniFactory's Terms of Use allow downloads "solely for your own non-commercial use", unless there is "a prior arrangement or agreement" with MyMiniFactory or the design's owner. A per-object licence could be such an agreement, but no per-object licence was read, so `license` stays `unknown`
 - The Scan the World store lists 12,437 objects, split into free and **premium** (paid) objects. Free to download is not the same as free to use
-- Per-object pages load only through the site's scripts and did not render object links in this pass, even in a browser
+- Per-object pages load only through the site's scripts and did not render object links on 2026-09-23, even in a browser
 - STL/OBJ from a print pipeline are rarely game-ready: wrong scale, solid meshes, no PBR materials
 - No `attribution_string`: none could be quoted, and a guessed credit line would be a liability
 

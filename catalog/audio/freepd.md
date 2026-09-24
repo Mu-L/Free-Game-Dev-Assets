@@ -15,7 +15,7 @@ status: deprecated
 
 # FreePD
 
-Former public-domain music download site. The live homepage this session is a closure notice after 17 years. Do not plan a pipeline around it. The catalog keeps the record so the next session does not spend a research pass rediscovering a dead CC0-music lead.
+Former public-domain music download site. The live homepage on 2026-08-24 is a closure notice after 17 years. Do not plan a pipeline around it. The catalog keeps the record so the next session does not spend a research pass rediscovering a dead CC0-music lead.
 
 ## Notes
 

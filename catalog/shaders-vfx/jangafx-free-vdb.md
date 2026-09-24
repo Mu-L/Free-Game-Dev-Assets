@@ -16,7 +16,7 @@ status: active
 
 # JangaFX free EmberGen VDBs
 
-Volumetric explosion, smoke, fire, tornado, and cloud sequences exported from EmberGen. The download page licenses these free VDBs as CC0. Not featured: multi-gigabyte MediaFire zips, EmberGen product promo, and `jangafx.com/terms-of-service` 404 this session.
+Volumetric explosion, smoke, fire, tornado, and cloud sequences exported from EmberGen. The download page licenses these free VDBs as CC0. Not featured: multi-gigabyte MediaFire zips, EmberGen product promo, and `jangafx.com/terms-of-service` 404 on 2026-08-29.
 
 ## Notes
 

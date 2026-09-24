@@ -15,7 +15,7 @@ status: needs-review
 
 # EchoThief Impulse Response Library
 
-Field IRs from unusual spaces (domes, kilns, lava tubes, fortresses) by Dr. Chris Warren. Homepage offers a zip. No license, terms, or commercial-games sentence loaded this session. Footer is a copyright line, not a grant.
+Field IRs from unusual spaces (domes, kilns, lava tubes, fortresses) by Dr. Chris Warren. Homepage offers a zip. No license, terms, or commercial-games sentence loaded on 2026-08-29. Footer is a copyright line, not a grant.
 
 ## Notes
 

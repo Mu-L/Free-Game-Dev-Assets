@@ -16,7 +16,7 @@ status: active
 
 # COLMAP
 
-ETH Zurich / UNC Chapel Hill Structure-from-Motion and Multi-View Stereo pipeline with a GUI, CLI, and PyCOLMAP. Same job as Meshroom: photos in, sparse cameras plus dense mesh/point cloud out. The library is the "new BSD" license (BSD-3-Clause). `COPYING.txt` warns that building against COLMAP's dependencies "may affect the resulting COLMAP license." Pages fetched this session do not assign a license to exported reconstructions. Your photos, and whatever they depict, stay outside the BSD grant.
+ETH Zurich / UNC Chapel Hill Structure-from-Motion and Multi-View Stereo pipeline with a GUI, CLI, and PyCOLMAP. Same job as Meshroom: photos in, sparse cameras plus dense mesh/point cloud out. The library is the "new BSD" license (BSD-3-Clause). `COPYING.txt` warns that building against COLMAP's dependencies "may affect the resulting COLMAP license." Pages fetched on 2026-08-24 do not assign a license to exported reconstructions. Your photos, and whatever they depict, stay outside the BSD grant.
 
 ## Notes
 

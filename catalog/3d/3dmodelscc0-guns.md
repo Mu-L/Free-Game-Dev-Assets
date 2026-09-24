@@ -22,7 +22,7 @@ Nineteen firearms and explosives (AK-47, M4A1, grenades, mines, and similar). Li
 ## Notes
 
 - Listing body (2026-08-29): "all offered under a CC0 public domain license."
-- No itch Asset license table field this session. Grant is the on-page sentence.
+- No itch Asset license table field on 2026-08-29. Grant is the on-page sentence.
 - Comments mention a GLB conversion path. Confirm the zip you actually download.
 - Industrial and later city pack #2 on the same itch profile are not this grant.
 

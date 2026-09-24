@@ -21,7 +21,7 @@ Handcrafted 4K decals (graffiti, cracks, impacts). This entry is the human CC0 l
 ## Notes
 
 - Product cards and a sample graffiti product (2026-08-29): CC0 public domain, commercial, no attribution required.
-- Site footer (also on 404 license URL this session): free assets CC0 public domain (credit appreciated); paid premium and AI assets use a separate 3DTexel License (no resale of raw files, credit 3DTexel).
+- Site footer (also on 404 license URL on 2026-08-29): free assets CC0 public domain (credit appreciated); paid premium and AI assets use a separate 3DTexel License (no resale of raw files, credit 3DTexel).
 - Do not download generator output and treat it as this CC0 grant. See [`docs/ai-assets.md`](../../docs/ai-assets.md).
 - Prefer [kenney-particle-pack](kenney-particle-pack.md) / [unity-labs-vfx-flipbooks](unity-labs-vfx-flipbooks.md) when you want a simpler CC0 VFX stack.
 

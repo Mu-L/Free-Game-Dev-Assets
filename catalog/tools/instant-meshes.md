@@ -16,7 +16,7 @@ status: active
 
 # Instant Meshes
 
-Interactive field-aligned remesher from Jakob / Tarini / Panozzo / Sorkine-Hornung (SIGGRAPH Asia 2015). The job it closes here is turning dense scans or sculpt dumps into a quad-ish mesh you can actually UV and skin. The program is BSD-3-Clause. Pages fetched this session do not say "the mesh you export is yours" in those words. Treat it like other pipeline tools: the code is BSD, the topology you compute from *your* input is not automatically BSD, and third-party scans keep their own licenses.
+Interactive field-aligned remesher from Jakob / Tarini / Panozzo / Sorkine-Hornung (SIGGRAPH Asia 2015). The job it closes here is turning dense scans or sculpt dumps into a quad-ish mesh you can actually UV and skin. The program is BSD-3-Clause. Pages fetched on 2026-08-24 do not say "the mesh you export is yours" in those words. Treat it like other pipeline tools: the code is BSD, the topology you compute from *your* input is not automatically BSD, and third-party scans keep their own licenses.
 
 ## Notes
 

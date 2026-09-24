@@ -20,7 +20,7 @@ Photogrammetry rocks, foliage, ground materials, etc. **Only** listings under **
 ## Notes
 
 - Prefer [poly-haven](../environment/poly-haven.md) / [ambientcg](ambientcg.md) / Kenney nature kits when you need clear CC0
-- This run: `fab.com` license URLs **HTTP 403**; Epic Fab docs pages returned Cloudflare challenge shells — cannot re-confirm Standard vs Epic wording live
+- On 2026-07-19: `fab.com` license URLs **HTTP 403**; Epic Fab docs pages returned Cloudflare challenge shells — cannot re-confirm Standard vs Epic wording live
 
 ## Evidence
 

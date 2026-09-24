@@ -15,7 +15,7 @@ status: active
 
 # CMU MoCap Database
 
-Free human motion clips from Carnegie Mellon Graphics Lab. Site grant is "free for all uses" with no separate commercial carve-out and no attribution requirement on the pages loaded this session. Raw academic capture. Expect cleanup and retargeting before engine import.
+Free human motion clips from Carnegie Mellon Graphics Lab. Site grant is "free for all uses" with no separate commercial carve-out and no attribution requirement on the pages loaded on 2026-08-24. Raw academic capture. Expect cleanup and retargeting before engine import.
 
 ## Notes
 

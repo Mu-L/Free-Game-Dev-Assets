@@ -19,7 +19,7 @@ Epic-owned 3D viewer and store. Free downloads are not a site-wide CC0 library. 
 
 ## Notes
 
-- Help Center license articles 404 this session. Evidence is `/terms` and `/licenses`, not Zendesk
+- Help Center license articles 404 on 2026-08-24. Evidence is `/terms` and `/licenses`, not Zendesk
 - CC-BY-SA on a downloadable model is share-alike on the asset derivative. CC-BY-NC and editorial licenses are not commercial-game-safe. CC-BY-ND is the usual interactive-work trap
 - Paid RF "standard" still forbids selling the file as a file, and forbids alcohol/tobacco/gambling/weapons *promotion* in that EULA. Read it if you paid
 - Checklist: license is per-model (not a site badge), commercial unknown at catalog level, attribution unknown at catalog level, marketplace EULA yes, Epic/Sketchfab named, not blocklisted, catalog claims no rights

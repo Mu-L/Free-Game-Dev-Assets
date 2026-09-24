@@ -29,7 +29,7 @@ Curated VRM avatar registry. The original **100Avatars** series (R1–R3) is **C
 
 - Live homepage meta description (2026-08-25): "CC0 licensed open-source avatars for any project. No attribution required."
 - Same HTML (2026-08-25): visible copy is i18n keys such as `home.hero.title`. Footer "All avatars CC0." was not in the static body.
-- `data/projects.json` on the previously cited GitHub path returned 404 this session; per-collection filtering could not be re-checked.
+- `data/projects.json` on the previously cited GitHub path returned 404 on 2026-08-24; per-collection filtering could not be re-checked.
 
 ## Related
 

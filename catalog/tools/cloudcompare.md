@@ -21,7 +21,7 @@ Point-cloud / mesh tool for lidar cleanup, alignment, and sampling down to somet
 ## Notes
 
 - Wiki: [cloudcompare.org/doc/wiki/index.php?title=License](https://www.cloudcompare.org/doc/wiki/index.php?title=License) (last edited 2015; still the page they link)
-- Homepage fetch via HTML-to-markdown failed this session; download and wiki pages returned 200 as text
+- Homepage fetch via HTML-to-markdown failed on 2026-08-24; download and wiki pages returned 200 as text
 - Global Shift exists because lidar is in Earth coordinates. Apply it before export or your mesh is 1e6 units from origin
 - Checklist: license on wiki + GitHub, commercial use of the *app* under GPL / CCLib under LGPL, no NC/ND, not a marketplace, named project, not blocklisted, lib vs app split recorded, output ownership unquoted
 - The bundled `license.txt` is the project's own header, not stock license text: it elects "version 2 or later", so the SPDX identifier is `GPL-2.0-or-later`.

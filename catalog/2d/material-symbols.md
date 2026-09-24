@@ -19,7 +19,7 @@ status: active
 
 # Material Symbols
 
-Google's variable icon font (outlined / rounded / sharp) plus SVG, the system-style HUD set this catalog was missing next to Lucide/Tabler/Phosphor. The fonts.google.com/icons page is a JavaScript app and yielded no license body this session. The grant we can quote is `LICENSE` in [google/material-design-icons](https://github.com/google/material-design-icons): Apache License 2.0. Apache permits commercial use. Keep the copyright/NOTICE when you redistribute the font files.
+Google's variable icon font (outlined / rounded / sharp) plus SVG, the system-style HUD set this catalog was missing next to Lucide/Tabler/Phosphor. The fonts.google.com/icons page is a JavaScript app and yielded no license body on 2026-08-24. The grant we can quote is `LICENSE` in [google/material-design-icons](https://github.com/google/material-design-icons): Apache License 2.0. Apache permits commercial use. Keep the copyright/NOTICE when you redistribute the font files.
 
 ## Notes
 

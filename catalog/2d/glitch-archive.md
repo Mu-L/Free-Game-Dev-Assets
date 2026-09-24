@@ -22,7 +22,7 @@ status: active
 ## Notes
 
 - Logo and trademark are excluded. Only files in the repo tree are covered.
-- Original announcement: glitchthegame.com/public-domain-game-art/ (not re-fetched this session). Community PNG/SVG conversions are usually easier than Adobe FLA.
+- Original announcement: glitchthegame.com/public-domain-game-art/ (not re-fetched on 2026-08-29). Community PNG/SVG conversions are usually easier than Adobe FLA.
 - FLA packages need Flash-era tools or community rips; do not treat FLA as engine-ready.
 - OpenGameArt post is a news quote of Tiny Speck, not a per-file OGA widget. Keep it in Related.
 

@@ -22,7 +22,7 @@ CC0 character and modular environment packs. Models share a single 1024x1024 gra
 ## Notes
 
 - Itch profile is a storefront and does not print a library-wide license
-- Adventurers page (checked this session): single atlas, FBX/glTF, author ask not to resell unmodified copies
+- Adventurers page (checked on 2026-08-24): single atlas, FBX/glTF, author ask not to resell unmodified copies
 - Prototype / resource / furniture Bits packs are catalogued separately
 - Paid Complete KayKit and mystery-series packs sit on the same profile; do not copy this hub's CC0 onto those without reading the pack page
 

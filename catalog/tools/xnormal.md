@@ -15,7 +15,7 @@ status: needs-review
 
 # xNormal
 
-Windows baker (v3.19.3c) for normal maps, AO, and related texture maps from high/low meshes. DirectX 10+, 4 GB RAM. Homepage only calls it a "free app". No EULA, LICENSE, or commercial-use sentence was reachable this session (`/eula.html` and `/license.txt` 404). Free download is not a quoted commercial grant. Prefer [materialize](materialize.md) (GPL v3, quoted) when you need a license you can point at.
+Windows baker (v3.19.3c) for normal maps, AO, and related texture maps from high/low meshes. DirectX 10+, 4 GB RAM. Homepage only calls it a "free app". No EULA, LICENSE, or commercial-use sentence was reachable on 2026-08-24 (`/eula.html` and `/license.txt` 404). Free download is not a quoted commercial grant. Prefer [materialize](materialize.md) (GPL v3, quoted) when you need a license you can point at.
 
 ## Notes
 
@@ -26,7 +26,7 @@ Windows baker (v3.19.3c) for normal maps, AO, and related texture maps from high
 ## Evidence
 
 - Live homepage (2026-08-24): "xNormal is a free app to bake texture maps"
-- Live `/eula.html` and `/license.txt` (2026-08-24): HTTP 404. No EULA body this session
+- Live `/eula.html` and `/license.txt` (2026-08-24): HTTP 404. No EULA body on 2026-08-24
 
 ## Related
 

@@ -22,7 +22,7 @@ NPM packaging of self-hostable open-source fonts (2000+ families). Closes the "G
 
 - Install `@fontsource/<id>` or `@fontsource-variable/<id>`. Godot/Unity still want the TTF/WOFF from `files/` inside the package, not the CSS helper
 - MIT on [fontsource/fontsource `LICENSE`](https://github.com/fontsource/fontsource/blob/main/LICENSE) is Ayuhito's packaging code. Embedding Inter is still Inter's OFL
-- Live API example this session: `api.fontsource.org/v1/fonts/inter` reports `license: OFL-1.1`
+- Live API example on 2026-08-24: `api.fontsource.org/v1/fonts/inter` reports `license: OFL-1.1`
 - Ubuntu Font License is not OFL. Do not assume every package is OFL
 - Checklist: license text in README + per-package files, commercial OK for OFL/Apache majority, attribution per OFL, not a marketplace, named org, not blocklisted, software vs font licenses split
 

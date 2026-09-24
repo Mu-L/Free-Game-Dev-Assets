@@ -23,7 +23,7 @@ Forty-five GGBotNet faces in one zip under CC0 1.0. Distinct from the same accou
 
 - Live listing: "licensed under the Creative Commons Zero (CC0) v1.0 Universal license."
 - GitHub `ggbotnet/fonts-cc0` `LICENSE` (2026-08-29) is the CC0 1.0 deed, including commercial purposes.
-- itch Asset license table field was not present this session. Grant is the on-page License block plus the GitHub file.
+- itch Asset license table field was not present on 2026-08-29. Grant is the on-page License block plus the GitHub file.
 - Profile also links an OFL collection (`itch.io/c/1379515`). Check that collection per zip. This entry is the CC0 all-in-1 only.
 - CC0 fonts can be renamed. Still keep the CC0 text with redistributed files.
 

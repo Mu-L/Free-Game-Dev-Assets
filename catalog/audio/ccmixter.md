@@ -23,7 +23,7 @@ Remix community and CC music archive (stems, a cappellas, finished tracks). Ther
 - Attribution how-to: [ccmixter.org/how-to-attribute-ccmixter-tracks](https://ccmixter.org/how-to-attribute-ccmixter-tracks)
 - `dig.ccmixter.org/free` is their CC BY search. `dig.ccmixter.org/ccplus` is the NC side. Filters are not a legal guarantee
 - MixterPlus (`mixter.plus`) is a separate invite product. This entry is ccMixter.org
-- Interactive sync of an ND track is still the usual trap. This session's attribution page only pictured BY and BY-NC. That is not proof ND never appears
+- Interactive sync of an ND track is still the usual trap. On 2026-08-24's attribution page only pictured BY and BY-NC. That is not proof ND never appears
 - Checklist: CC flavors named, commercial unknown at catalog level, attribution required, not a Unity/Fab EULA, named community, not blocklisted, catalog claims no rights
 
 ## Evidence

@@ -20,7 +20,7 @@ Lightweight neural TTS. Hugging Face model card lists Apache-2.0 and calls the w
 
 ## Notes
 
-- Catalog URL was `github.com/hexgrad/Kokoro-82M`; that repo returned 404 this session. Live home is Hugging Face
+- Catalog URL was `github.com/hexgrad/Kokoro-82M`; that repo returned 404 on 2026-08-24. Live home is Hugging Face
 - Apache-2.0 is the weight/code grant. It is not a statement about every clip in the training set
 - Pair with [piper-plus](piper-plus.md) if you need a different local TTS stack
 

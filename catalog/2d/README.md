@@ -59,6 +59,10 @@ two carry obligations the rest do not.
 | [kenney-puzzle-pack-2](kenney-puzzle-pack-2.md) | Kenney Puzzle Pack 2 | CC0 | yes | active |
 | [kenney-playing-cards-pack](kenney-playing-cards-pack.md) | Kenney Playing Cards Pack | CC0 | yes | active |
 | [kenney-boardgame-pack](kenney-boardgame-pack.md) | Kenney Board Game Pack | CC0 | yes | active |
+| [bondoki-rotating-gems](bondoki-rotating-gems.md) | Rotating Gems for Match-3 (Bondoki) | CC0 | yes | active |
+| [sylly-gem-match-3](sylly-gem-match-3.md) | Gem Match 3 Set (Sylly) | CC0 | yes | active |
+| [ansimuz-industrial-parallax](ansimuz-industrial-parallax.md) | Industrial Parallax Background (ansimuz) | CC0 | yes | active |
+| [gustavo-saraiva-city-parallax](gustavo-saraiva-city-parallax.md) | City Parallax Pixel Art (Gustavo Saraiva) | CC0 | yes | active |
 | [kenney-cursor-pack](kenney-cursor-pack.md) | Kenney Cursor Pack | CC0 | yes | active |
 | [kenney-pixel-platformer](kenney-pixel-platformer.md) | Kenney Pixel Platformer | CC0 | yes | active |
 | [kenney-1-bit-pack](kenney-1-bit-pack.md) | Kenney 1-Bit Pack | CC0 | yes | active |

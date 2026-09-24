@@ -6,6 +6,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { commercialLabel, esc, PERSPECTIVE_LABELS, verifiedAge } from "./lib/shared.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
@@ -22,32 +23,6 @@ const OG_CARD_SRC = path.join(ROOT, "docs", "images", "readme", OG_CARD_NAME);
 
 /** Sort rank for "license permissiveness": least owed first. */
 const ATTRIBUTION_RANK = { none: 0, notice: 1, required: 2, any: 3 };
-
-/** Readable labels for the optional 2D/UI taxonomy. */
-const PERSPECTIVE_LABELS = {
-  top_down: "top-down",
-  isometric_3_4: "3/4 view",
-  side_scroller: "side-scroller",
-  "2d_flat": "flat UI",
-};
-
-/** Age buckets for the verified-date cue. Days. */
-const VERIFIED_FRESH_DAYS = 180;
-const VERIFIED_AGING_DAYS = 365;
-
-function verifiedAge(verified, now) {
-  if (!verified) return { days: null, bucket: "unknown" };
-  const t = Date.parse(`${verified}T00:00:00Z`);
-  if (Number.isNaN(t)) return { days: null, bucket: "unknown" };
-  const days = Math.max(0, Math.floor((now - t) / 86400000));
-  const bucket =
-    days <= VERIFIED_FRESH_DAYS
-      ? "fresh"
-      : days <= VERIFIED_AGING_DAYS
-        ? "aging"
-        : "stale";
-  return { days, bucket };
-}
 
 function parseScalar(raw) {
   const v = raw.trim();
@@ -189,22 +164,6 @@ function loadEntries(vocab) {
 
   entries.sort((a, b) => a.name.localeCompare(b.name));
   return { entries, errors };
-}
-
-function esc(str) {
-  return String(str)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#39;");
-}
-
-function commercialLabel(v) {
-  if (v === true) return "commercial OK";
-  if (v === false) return "non-commercial";
-  if (v === "varies") return "per-file review";
-  return "commercial ?";
 }
 
 function edgeVar(entry) {

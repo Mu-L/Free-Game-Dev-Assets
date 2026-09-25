@@ -6,7 +6,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { commercialLabel, esc, PERSPECTIVE_LABELS, verifiedAge } from "./lib/shared.mjs";
+import { commercialLabel, esc, PERSPECTIVE_LABELS, unquoteScalar, verifiedAge } from "./lib/shared.mjs";
 import { entryPageHtml } from "./lib/entry-page.mjs";
 import { LinkError, makeLinkResolver } from "./lib/links.mjs";
 import { llmsFullTxt, llmsTxt } from "./lib/llms.mjs";
@@ -38,7 +38,7 @@ function parseScalar(raw) {
     (v.startsWith('"') && v.endsWith('"')) ||
     (v.startsWith("'") && v.endsWith("'"))
   ) {
-    return v.slice(1, -1);
+    return unquoteScalar(v);
   }
   if (v.startsWith("[") && v.endsWith("]")) {
     const inner = v.slice(1, -1).trim();
@@ -382,16 +382,22 @@ function copyDir(src, dest) {
   }
 }
 
-/** Writes dist/entry/<id>/index.html for every entry. */
-function writeEntryPages({ entries, bodies, config, stats, stamp, hasCard, now }) {
-  const errors = [];
-  const written = [];
+/** Returns entry => link resolver for links in that entry's body. */
+function linkResolvers(entries, config) {
   const idByPath = new Map(entries.map((e) => [e.path, e.id]));
   const kindOf = (repoPath) => {
     const full = path.join(ROOT, repoPath);
     if (!fs.existsSync(full)) return null;
     return fs.statSync(full).isDirectory() ? "dir" : "file";
   };
+  return (entry) => makeLinkResolver({ entryPath: entry.path, idByPath, repo: config.site.repo, kindOf });
+}
+
+/** Writes dist/entry/<id>/index.html for every entry. */
+function writeEntryPages({ entries, bodies, config, stats, stamp, hasCard, now }) {
+  const errors = [];
+  const written = [];
+  const resolverFor = linkResolvers(entries, config);
   // Prev/next follow the homepage's default order: category, then name.
   const visible = entries.filter((e) => e.status !== "deprecated");
   const neighbours = new Map();
@@ -403,7 +409,7 @@ function writeEntryPages({ entries, bodies, config, stats, stamp, hasCard, now }
     const body = bodies.get(entry.id) || "";
     const file = `${entry.path} (body)`;
     try {
-      const resolveLink = makeLinkResolver({ entryPath: entry.path, idByPath, repo: config.site.repo, kindOf });
+      const resolveLink = resolverFor(entry);
       const { lead, rest, restFirstLine } = splitEntryBody(body);
       const leadHtml = renderBlocks(lead, { file, resolveLink });
       const restHtml = renderBlocks(rest, { file, resolveLink, firstLine: restFirstLine });
@@ -530,11 +536,6 @@ function main() {
   fs.writeFileSync(path.join(DIST, "sitemap.xml"), sitemapXml(config.site, visible));
   fs.writeFileSync(path.join(DIST, "robots.txt"), robotsTxt(config.site));
   fs.writeFileSync(path.join(DIST, "404.html"), notFoundHtml(config.site));
-  fs.writeFileSync(path.join(DIST, "llms.txt"), llmsTxt({ entries, site: config.site, categories: config.categories }));
-  fs.writeFileSync(
-    path.join(DIST, "llms-full.txt"),
-    llmsFullTxt({ entries, site: config.site, categories: config.categories, bodies })
-  );
 
   const pages = writeEntryPages({ entries, bodies, config, stats, stamp, hasCard, now });
   const pageErrors = [...pages.errors, ...checkPages(["index.html", ...pages.written])];
@@ -543,6 +544,20 @@ function main() {
     for (const e of pageErrors.slice(0, 50)) console.error(`  - ${e}`);
     process.exit(1);
   }
+
+  // After the page gate: every body link has resolved by now, so the llms
+  // files cannot hit a link error of their own.
+  fs.writeFileSync(path.join(DIST, "llms.txt"), llmsTxt({ entries, site: config.site, categories: config.categories }));
+  fs.writeFileSync(
+    path.join(DIST, "llms-full.txt"),
+    llmsFullTxt({
+      entries,
+      site: config.site,
+      categories: config.categories,
+      bodies,
+      resolverFor: linkResolvers(entries, config),
+    })
+  );
 
   console.log(
     `Built ${entries.length} entries → site/dist (${stats.active} active, ${stats.commercialOk} commercial-ok, ${stats.commercialVaries} per-file)`

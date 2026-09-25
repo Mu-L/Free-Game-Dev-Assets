@@ -27,8 +27,8 @@ export function renderInline(text, resolveLink) {
   let s = String(text);
   // Code spans first: their contents are literal.
   s = s.replace(/`([^`]+)`/g, (_, code) => keep(`<code>${esc(code)}</code>`));
-  // Backslash escapes.
-  s = s.replace(/\\([\\`*_[\]()#+\-.!|<>])/g, (_, ch) => keep(esc(ch)));
+  // Backslash escapes: any ASCII punctuation, as in CommonMark.
+  s = s.replace(/\\([!-/:-@[-`{-~])/g, (_, ch) => keep(esc(ch)));
   // Links. The label keeps bold, italic and code; the href goes through the resolver.
   s = s.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (_, label, href) => {
     const { href: out, external } = resolveLink(href);

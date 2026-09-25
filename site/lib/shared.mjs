@@ -49,3 +49,12 @@ export function commercialLabel(v) {
 export function entryPageUrl(site, id) {
   return `${String(site.siteUrl).replace(/\/+$/, "")}/entry/${id}/`;
 }
+
+/** A YAML scalar without its quotes, with the quote escapes undone. */
+export function unquoteScalar(v) {
+  if (v.length >= 2 && v.startsWith('"') && v.endsWith('"')) {
+    return v.slice(1, -1).replace(/\\(["\\])/g, "$1");
+  }
+  if (v.length >= 2 && v.startsWith("'") && v.endsWith("'")) return v.slice(1, -1).replaceAll("''", "'");
+  return v;
+}

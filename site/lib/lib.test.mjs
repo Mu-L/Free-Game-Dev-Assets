@@ -166,6 +166,30 @@ has("full carries notes", lf, "- catch one");
 lacks("full leaves evidence out", lf, "## Evidence");
 has("full carries the source", lf, "Source: https://src.test/");
 
+/* final review fixes ------------------------------------------------------- */
+import { unquoteScalar } from "./shared.mjs";
+eq("escaped double quote", renderInline('a \\"q\\" b', passLink), "a &quot;q&quot; b");
+eq("escaped comma", renderInline("x\\,y", passLink), "x,y");
+eq("yaml double-quoted escapes", unquoteScalar('"Music \\"{t}\\" by a\\\\b"'), 'Music "{t}" by a\\b');
+eq("yaml single-quoted escape", unquoteScalar("'it''s'"), "it's");
+eq("yaml unquoted passes through", unquoteScalar("plain"), "plain");
+const longLead = `Lead ${"word ".repeat(60)}with [k](k.md) at the end.`;
+const lfLinks = llmsFullTxt({
+  entries: [{ ...llmsEntries[0], summary: "Short…" }],
+  site,
+  categories: cats,
+  bodies: new Map([["a1", `# A\n\n${longLead}\n\n## Notes\n\n- see [o](../audio/o.md) and [d](../../docs/p.md)\n- read [\`docs/p.md\`](../../docs/p.md); \`[x](y)\` stays literal`]]),
+  resolverFor: () => (href) =>
+    href.endsWith("o.md") ? { href: "../o/", external: false } : href.endsWith("k.md") ? { href: "../k/", external: false } : { href: "https://github.com/o/r/blob/main/docs/p.md", external: true },
+});
+has("full uses the whole lead", lfLinks, "word with [k](https://x.test/s/entry/k/) at the end.");
+lacks("full does not use the cut summary", lfLinks, "Short…");
+has("full notes link to entry pages", lfLinks, "[o](https://x.test/s/entry/o/)");
+has("full notes link to GitHub", lfLinks, "[d](https://github.com/o/r/blob/main/docs/p.md)");
+lacks("full has no relative links", lfLinks, "](../");
+has("full rewrites a link whose label is code", lfLinks, "[`docs/p.md`](https://github.com/o/r/blob/main/docs/p.md)");
+has("full leaves links inside code alone", lfLinks, "`[x](y)` stays literal");
+
 /* report (keep last) ------------------------------------------------------ */
 if (failures.length) {
   console.error(`lib.test failed (${failures.length}):`);

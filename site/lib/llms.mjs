@@ -1,6 +1,30 @@
 /** Plain-text indexes of the catalog for AI assistants (llmstxt.org format). */
-import { sectionMarkdown } from "./markdown.mjs";
+import { sectionMarkdown, splitEntryBody } from "./markdown.mjs";
 import { commercialLabel, entryPageUrl } from "./shared.mjs";
+
+/** The first paragraph of the body before its first `##`, lines joined. */
+function leadParagraph(body) {
+  const first = splitEntryBody(body)
+    .lead.split(/\n\s*\n/)
+    .map((p) => p.trim())
+    .find((p) => p && !p.startsWith("#"));
+  return first ? first.split("\n").map((l) => l.trim()).join(" ") : "";
+}
+
+/** Markdown links made absolute: this file is read on its own, far from the repo. */
+function absoluteLinks(md, resolveLink, pageUrl) {
+  if (!resolveLink) return md;
+  // Code spans are literal: set them aside so a link-shaped span is left
+  // alone, while a link whose label is code is still rewritten.
+  const spans = [];
+  const out = md
+    .replace(/`[^`]*`/g, (span) => `\u0000${spans.push(span) - 1}\u0000`)
+    .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (_, label, href) => {
+      const r = resolveLink(href);
+      return `[${label}](${r.external ? r.href : new URL(r.href, pageUrl).href})`;
+    });
+  return out.replace(/\u0000(\d+)\u0000/g, (_, i) => spans[Number(i)]);
+}
 
 const creditWord = (e) =>
   e.attribution_required === true ? "credit required" : e.attribution_required === false ? "no credit required" : "credit unclear";
@@ -31,14 +55,19 @@ export function llmsTxt({ entries, site, categories }) {
   return `${out.join("\n")}\n`;
 }
 
-export function llmsFullTxt({ entries, site, categories, bodies }) {
+export function llmsFullTxt({ entries, site, categories, bodies, resolverFor }) {
   const out = [header(site)];
   for (const g of groups(entries, categories)) {
     out.push(`\n## ${g.label}\n`);
     for (const e of g.items) {
-      const notes = sectionMarkdown(bodies.get(e.id) || "", "Notes");
+      const body = bodies.get(e.id) || "";
+      const page = entryPageUrl(site, e.id);
+      const resolveLink = resolverFor ? resolverFor(e) : null;
+      const lead = absoluteLinks(leadParagraph(body) || e.summary || "", resolveLink, page);
+      const notesMd = sectionMarkdown(body, "Notes");
+      const notes = notesMd ? absoluteLinks(notesMd, resolveLink, page) : null;
       out.push(
-        `### ${e.name}\n\nPage: ${entryPageUrl(site, e.id)}\nSource: ${e.url}\nLicence: ${facts(e)}; verified ${e.verified}\n\n${e.summary || ""}${notes ? `\n\n${notes}` : ""}\n`
+        `### ${e.name}\n\nPage: ${page}\nSource: ${e.url}\nLicence: ${facts(e)}; verified ${e.verified}\n\n${lead}${notes ? `\n\n${notes}` : ""}\n`
       );
     }
   }

@@ -460,7 +460,12 @@
     } catch {
       return;
     }
-    if (y !== null) requestAnimationFrame(() => window.scrollTo(0, Number(y)));
+    // Only Back and Forward return to a position. A link to the homepage
+    // (the brand, the breadcrumb) is a new visit and starts where it asks.
+    const nav = performance.getEntriesByType("navigation")[0];
+    if (y !== null && nav && nav.type === "back_forward") {
+      requestAnimationFrame(() => window.scrollTo(0, Number(y)));
+    }
   }
 
   // Restored from the back/forward cache: the page kept its own position,
@@ -517,6 +522,8 @@
     // The whole card is the title link (a stretched ::after), so every click
     // that leaves for an entry page lands here.
     $("#entry-grid").addEventListener("click", (e) => {
+      // A modified click opens a new tab and this page stays where it is.
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
       if (e.target.closest("a.entry-link")) rememberScroll();
     });
 

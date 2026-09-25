@@ -1079,3 +1079,159 @@ input:focus-visible {
     text-align: left;
   }
 }
+
+/* ------------------------------------------------------------------ *
+ * Starter stacks: the homepage list and /stack/<id>/ pages.
+ * ------------------------------------------------------------------ */
+.stack-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--line);
+}
+
+.stack-list li {
+  border-bottom: 1px solid var(--line);
+}
+
+.stack-list a {
+  display: block;
+  padding: 0.75rem 0.15rem;
+  color: var(--ink);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.stack-list a:hover {
+  color: var(--accent);
+}
+
+.stack-list span {
+  display: block;
+  margin-top: 0.2rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 400;
+}
+
+.owes {
+  margin: 1.25rem 0;
+  padding: 0.75rem;
+  border: 1px solid var(--line);
+}
+
+.owes > h2 {
+  margin: 0 0 0.5rem;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.owes-group + .owes-group {
+  margin-top: 1rem;
+}
+
+.owes-group h3 {
+  margin: 0 0 0.35rem;
+  font-size: 0.95rem;
+}
+
+.owes-group p,
+.owes-group ul {
+  margin: 0;
+}
+
+.owes-group ul {
+  padding-left: 1.25rem;
+}
+
+.owes-group .credit-list {
+  padding-left: 0;
+  list-style: none;
+}
+
+.credit-item + .credit-item {
+  margin-top: 0.75rem;
+}
+
+.owes-group .copy-all {
+  margin-top: 0.75rem;
+}
+
+.stack-section h2 {
+  margin: 1.75rem 0 0.5rem;
+  font-size: 1.15rem;
+  letter-spacing: -0.01em;
+}
+
+.pick-list,
+.gap-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--line);
+}
+
+.pick,
+.gap-list li {
+  padding: 0.75rem 0.15rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.pick p {
+  margin: 0;
+}
+
+.pick .pick-need {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.pick .pick-name {
+  margin-top: 0.15rem;
+  font-weight: 600;
+}
+
+.pick-flag {
+  margin-left: 0.4rem;
+  padding: 0 0.3rem;
+  border: 1px solid var(--warn);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.pick .pick-licence {
+  margin-top: 0.15rem;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.pick .pick-why {
+  margin-top: 0.35rem;
+  max-width: 42rem;
+}
+
+.pick-why code,
+.gap-list code {
+  font-size: 0.85em;
+  overflow-wrap: anywhere;
+}
+
+.stack-note {
+  margin: 1.5rem 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.used-in {
+  margin: 0 0 1rem;
+}

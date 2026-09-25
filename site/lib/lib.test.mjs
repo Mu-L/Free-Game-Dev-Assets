@@ -250,6 +250,63 @@ eq("licence in the label is not checked", parseStack(stackMd.replace("[Chips]", 
 eq("pickPath resolves from stacks/", pickPath("stacks/s1.md", "../catalog/2d/x.md"), "catalog/2d/x.md");
 eq("section order constant", STACK_SECTIONS.join(","), "Art,Audio,Fonts,Tools,Gaps");
 
+/* stacks: owes and page ---------------------------------------------------- */
+import { copyAllText, owes } from "./stacks.mjs";
+import { stackJsonLd, stackPageHtml } from "./stack-page.mjs";
+import { stackPageUrl } from "./shared.mjs";
+const resolveDeep = makeLinkResolver({ entryPath: "stacks/s1.md", idByPath, repo: "https://github.com/o/r", kindOf: (p) => files.get(p) || null, entryBase: "../../entry/" });
+eq("stack links reach entry pages two levels up", resolveDeep("../catalog/2d/kenney-ui-pack.md").href, "../../entry/kenney-ui-pack/");
+eq("default entry base unchanged", resolve("kenney-ui-pack.md").href, "../kenney-ui-pack/");
+eq("stackPageUrl", stackPageUrl({ siteUrl: "https://x.test/s/" }, "s1"), "https://x.test/s/stack/s1/");
+const eA = { ...base, id: "a", name: "Alpha", attribution_required: true, attribution_string: 'Art by "A" <x>', status: "active", commercial: true };
+const eB = { ...base, id: "b", name: "Beta", attribution_required: true, attribution_string: "Music by B", status: "active", commercial: true };
+const eC = { ...base, id: "c", name: "Gamma", attribution_required: false, attribution_string: undefined, commercial: "varies", status: "needs-review" };
+const eD = { ...base, id: "d", name: "Delta", attribution_required: "unknown", attribution_string: undefined, status: "active" };
+const eE = { ...base, id: "e", name: "Eps", attribution_required: true, attribution_string: undefined, status: "active" };
+const pickedFix = [{ need: "Tiles", entry: eA }, { need: "Music", entry: eB }, { need: "Sprites", entry: eA }, { need: "Sounds", entry: eC }, { need: "Font", entry: eD }, { need: "Icons", entry: eE }];
+const ow = owes(pickedFix);
+eq("credits once per entry", ow.credits.map((c) => c.entry.id).join(","), "a,b,e");
+eq("an entry picked twice keeps both needs", ow.credits[0].needs.join(","), "Tiles,Sprites");
+eq("a required credit with no canned line", ow.credits[2].line, null);
+eq("no credit bucket", ow.noCredit.map((i) => i.entry.id).join(","), "c");
+eq("per-file bucket", ow.perFile.map((i) => i.entry.id).join(","), "c");
+eq("open questions bucket", ow.openQuestions.map((i) => i.entry.id).join(","), "c");
+eq("unclear bucket", ow.unclear.map((i) => i.entry.id).join(","), "d");
+eq("copy all joins canned lines in pick order", copyAllText(ow), 'Art by "A" <x>\nMusic by B');
+const stackMeta = { id: "s1", title: 'Make a "thing" </script>', task: "A task <b>.", walked: "2026-09-20" };
+const sp = (over = {}) =>
+  stackPageHtml({
+    stack: { meta: stackMeta },
+    sections: [{ name: "Art", rows: [{ need: "Tiles", entry: eA, whyHtml: "Why <em>a</em>." }, { need: "Sounds", entry: eC, whyHtml: "Why c." }] }],
+    gapsHtml: ["No parallax."],
+    leadHtml: "<p>Lead</p>",
+    owed: ow,
+    site,
+    stamp: "2026-09-24",
+    total: 319,
+    hasCard: true,
+    now: Date.parse("2026-09-24T00:00:00Z"),
+    ...over,
+  });
+const spage = sp();
+has("stack title escaped", spage, "<title>Make a &quot;thing&quot; &lt;/script&gt; | Free Game Dev Assets</title>");
+has("stack canonical", spage, '<link rel="canonical" href="https://x.test/s/stack/s1/" />');
+eq("stack one h1", (spage.match(/<h1[\s>]/g) || []).length, 1);
+has("stack pick links its entry page", spage, 'href="../../entry/a/"');
+has("stack credit line escaped", spage, "Art by &quot;A&quot; &lt;x&gt;");
+has("copy all carries every canned line", spage, 'data-copy="Art by &quot;A&quot; &lt;x&gt;\nMusic by B"');
+has("no canned line note", spage, "No canned credit line: see the entry.");
+has("per-file note", spage, "Some files qualify, some do not.");
+has("needs-review flag on the pick", spage, 'class="pick-flag"');
+has("gaps rendered", spage, "<li>No parallax.</li>");
+has("walked line", spage, "Stack walked 2026-09-20. Each licence is only as current as its entry's verified date.");
+has("copy script with canned lines", spage, '<script src="../../stack.js" defer></script>');
+lacks("no copy script without canned lines", sp({ owed: owes([{ need: "Sounds", entry: eC }]) }), "stack.js");
+const sld = spage.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1];
+lacks("stack json-ld cannot close its script", sld, "</script");
+eq("stack json-ld lists the picks", JSON.parse(sld).itemListElement[0].url, "https://x.test/s/entry/a/");
+eq("stack json-ld name survives", stackJsonLd(stackMeta, [{ rows: [] }], site).name, 'Make a "thing" </script>');
+
 /* report (keep last) ------------------------------------------------------ */
 if (failures.length) {
   console.error(`lib.test failed (${failures.length}):`);

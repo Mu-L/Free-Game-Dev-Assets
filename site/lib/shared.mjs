@@ -58,3 +58,8 @@ export function unquoteScalar(v) {
   if (v.length >= 2 && v.startsWith("'") && v.endsWith("'")) return v.slice(1, -1).replaceAll("''", "'");
   return v;
 }
+
+/** Absolute URL of a starter stack's page. */
+export function stackPageUrl(site, id) {
+  return `${String(site.siteUrl).replace(/\/+$/, "")}/stack/${id}/`;
+}

@@ -8,10 +8,17 @@ export function makeLinkResolver({ entryPath, idByPath, repo, kindOf, entryBase 
   return (raw) => {
     if (/^(https?:|mailto:)/i.test(raw)) return { href: raw, external: true };
     if (raw.startsWith("#")) return { href: raw, external: false };
-    const at = raw.indexOf("#");
-    const target = at === -1 ? raw : raw.slice(0, at);
-    const hash = at === -1 ? "" : raw.slice(at);
-    const repoPath = path.posix.normalize(path.posix.join(dir, decodeURI(target))).replace(/\/$/, "");
+    // Split off ?query and #hash; both are kept on the rewritten link.
+    const m = raw.match(/^([^?#]*)(\?[^#]*)?(#.*)?$/);
+    const target = m[1];
+    const hash = `${m[2] || ""}${m[3] || ""}`;
+    let decoded;
+    try {
+      decoded = decodeURI(target);
+    } catch {
+      throw new LinkError(`${entryPath}: link target "${raw}" is malformed`);
+    }
+    const repoPath = path.posix.normalize(path.posix.join(dir, decoded)).replace(/\/$/, "");
     const id = idByPath.get(repoPath);
     if (id) return { href: `${entryBase}${id}/${hash}`, external: false };
     const kind = repoPath.startsWith("..") ? null : kindOf(repoPath);

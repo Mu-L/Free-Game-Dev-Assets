@@ -89,7 +89,7 @@ eq("split rest starts at first h2", splitEntryBody(body).rest.split("\n")[0], "#
 eq("split restFirstLine", splitEntryBody(body).restFirstLine, 7);
 eq("sectionMarkdown Notes", sectionMarkdown(body, "Notes"), "- n1\n- Deprecated: gone");
 eq("sectionMarkdown missing", sectionMarkdown(body, "Nope"), null);
-eq("deprecationReason", deprecationReason(body), "gone");
+eq("deprecationReason starts a sentence", deprecationReason(body), "Gone");
 
 /* links -------------------------------------------------------------------- */
 import { makeLinkResolver } from "./links.mjs";
@@ -322,6 +322,15 @@ lacks("llms without stacks has no stacks section", lt, "Starter stacks");
 const lfs = llmsFullTxt({ entries: llmsEntries, site, categories: cats, bodies: new Map(), stacks: llmsStacks });
 has("full lists each pick", lfs, "- Tiles: Alpha (https://x.test/s/entry/a1/); CC0; commercial OK; no credit required; active");
 has("full lists credits", lfs, "Credits to ship: none");
+
+/* deferred minors, batch A ------------------------------------------------- */
+eq("deprecation reason is capitalised", deprecationReason("- Deprecated: the service is offline"), "The service is offline");
+eq("bare url in bold", renderInline("**https://a.test/x**", passLink), '<strong><a href="https://a.test/x" rel="noopener noreferrer">https://a.test/x</a></strong>');
+eq("bare url keeps a balanced paren", renderInline("see https://a.test/wiki/Foo_(bar).", passLink), 'see <a href="https://a.test/wiki/Foo_(bar)" rel="noopener noreferrer">https://a.test/wiki/Foo_(bar)</a>.');
+eq("angle-bracket autolink", renderInline("<https://a.test/x>", passLink), '<a href="https://a.test/x" rel="noopener noreferrer">https://a.test/x</a>');
+eq("bare url stops at a code span", renderInline("https://a.test/x`y`", passLink), '<a href="https://a.test/x" rel="noopener noreferrer">https://a.test/x</a><code>y</code>');
+throws("malformed escape is a link error", () => resolve("bad%E0.md"), 'link target "bad%E0.md" is malformed');
+eq("query on a relative link is kept", resolve("../../docs/provenance.md?plain=1").href, "https://github.com/o/r/blob/main/docs/provenance.md?plain=1");
 
 /* report (keep last) ------------------------------------------------------ */
 if (failures.length) {

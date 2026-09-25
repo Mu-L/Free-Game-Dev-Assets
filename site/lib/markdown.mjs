@@ -35,9 +35,18 @@ export function renderInline(text, resolveLink) {
     const rel = external ? ' rel="noopener noreferrer"' : "";
     return keep(`<a href="${esc(out)}"${rel}>${marks(esc(label))}</a>`);
   });
-  // Bare URLs, leaving trailing sentence punctuation outside the link.
-  s = s.replace(/https?:\/\/[^\s<>"]+/g, (url) => {
-    const [, core, tail] = url.match(/^(.*?)([.,;:!?)\]]*)$/);
+  // Autolinks in angle brackets.
+  s = s.replace(/<(https?:\/\/[^\s<>]+)>/g, (_, url) => keep(`<a href="${esc(url)}" rel="noopener noreferrer">${esc(url)}</a>`));
+  // Bare URLs, leaving trailing sentence punctuation outside the link. A URL
+  // stops at `*` (bold around it) and at a slot (a code span right after it),
+  // and keeps a closing paren that balances one inside it (Foo_(bar)).
+  s = s.replace(/https?:\/\/[^\s<>"*\u0000]+/g, (url) => {
+    let [, core, tail] = url.match(/^(.*?)([.,;:!?)\]]*)$/);
+    const count = (str, ch) => str.split(ch).length - 1;
+    while (tail.startsWith(")") && count(core, "(") > count(core, ")")) {
+      core += ")";
+      tail = tail.slice(1);
+    }
     return keep(`<a href="${esc(core)}" rel="noopener noreferrer">${esc(core)}</a>`) + tail;
   });
   s = marks(esc(s));
@@ -161,5 +170,8 @@ export function sectionMarkdown(body, heading) {
 /** The text after the `- Deprecated:` marker line, or null. */
 export function deprecationReason(body) {
   const m = String(body).match(/^- Deprecated:\s*(.+)$/m);
-  return m ? m[1].trim() : null;
+  if (!m) return null;
+  // The banner reads "Deprecated. <reason>", so the reason starts a sentence.
+  const reason = m[1].trim();
+  return reason.charAt(0).toUpperCase() + reason.slice(1);
 }

@@ -65,10 +65,12 @@ export function llmsFullTxt({ entries, site, categories, bodies, resolverFor, st
   if (stacks.length) {
     out.push(`\n## Starter stacks\n`);
     for (const s of stacks) {
-      const credits = owes(s.picked).credits.map((c) => c.entry.name);
+      const credits = owes(s.picked).credits.map(
+        (c) => `- ${c.entry.name}: ${c.line || "no canned credit line; see the entry page"}`
+      );
       const picks = s.picked.map((p) => `- ${p.need}: ${p.entry.name} (${entryPageUrl(site, p.entry.id)}); ${facts(p.entry)}`);
       out.push(
-        `### ${s.meta.title}\n\nPage: ${stackPageUrl(site, s.meta.id)}\nTask: ${s.meta.task}\nWalked: ${s.meta.walked}\n\n${picks.join("\n")}\n\nCredits to ship: ${credits.length ? credits.join(", ") : "none"}\n`
+        `### ${s.meta.title}\n\nPage: ${stackPageUrl(site, s.meta.id)}\nTask: ${s.meta.task}\nWalked: ${s.meta.walked}\n\n${picks.join("\n")}\n\nCredits to ship:${credits.length ? `\n${credits.join("\n")}` : " none"}\n`
       );
     }
   }

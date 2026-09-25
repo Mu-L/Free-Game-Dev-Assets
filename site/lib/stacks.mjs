@@ -3,6 +3,7 @@
  * A stack names its picks; every licence fact on its page comes from the
  * picked entries at build time, so a stack cannot disagree with an entry.
  */
+import fs from "node:fs";
 import path from "node:path";
 import { unquoteScalar } from "./shared.mjs";
 
@@ -15,7 +16,19 @@ const REQUIRED = ["id", "title", "task", "walked"];
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 // - **Need:** [Entry name](path/to/entry.md). Why this pick.
 const PICK_RE = /^- \*\*([^*]+?):\*\* \[([^\]]+)\]\(([^)\s]+)\)\.\s+(\S.*)$/;
-const LICENCE_PHRASES = ["Creative Commons", "public domain", "royalty-free"];
+// Names and shorthands matched in any case, as whole words. The exact ids
+// from the vocabulary are matched case-sensitively in namedLicence.
+const LICENCE_PHRASES = [
+  "Creative Commons",
+  "public domain",
+  "public-domain",
+  "royalty-free",
+  "royalty free",
+  "CC BY",
+  "CC0",
+  "OFL",
+  "GPL",
+];
 // Vocabulary keys that are ordinary words, not licence names.
 const PLAIN_WORD_IDS = new Set(["custom", "unknown", "varies"]);
 
@@ -37,8 +50,9 @@ export function namedLicence(text, terms) {
   for (const t of terms) {
     if (new RegExp(`(^|[^\\w-])${escRe(t)}(?!\\w)`).test(text)) return t;
   }
-  const lower = text.toLowerCase();
-  for (const p of LICENCE_PHRASES) if (lower.includes(p.toLowerCase())) return p;
+  for (const p of LICENCE_PHRASES) {
+    if (new RegExp(`(^|[^\\w-])${escRe(p)}(?![\\w])`, "i").test(text)) return p;
+  }
   return null;
 }
 
@@ -55,7 +69,12 @@ export function pickPath(stackFile, href) {
 }
 
 export function parseStack(text, { file, terms = [] }) {
-  const lines = String(text).replace(/\r\n?/g, "\n").split("\n");
+  // A byte-order mark and trailing spaces are invisible in an editor; ignore both.
+  const lines = String(text)
+    .replace(/^﻿/, "")
+    .replace(/\r\n?/g, "\n")
+    .split("\n")
+    .map((l) => l.replace(/\s+$/, ""));
   const fail = (i, msg) => {
     throw new StackError(`${file}:${i + 1}: ${msg}`);
   };
@@ -63,8 +82,9 @@ export function parseStack(text, { file, terms = [] }) {
   const end = lines.indexOf("---", 1);
   if (end === -1) fail(0, "frontmatter is not closed with ---");
   // Licence facts come only from the entries, so no prose in a stack may state one.
+  // Link targets are paths, not prose: "../catalog/x-cc0.md" states nothing.
   const noLicence = (i, text, what) => {
-    const named = namedLicence(text, terms);
+    const named = namedLicence(text.replace(/\]\([^)]*\)/g, "]"), terms);
     if (named) fail(i, `the ${what} names a licence ("${named}"); licence facts come from the entry`);
   };
   const meta = {};
@@ -164,4 +184,30 @@ export function copyAllText(owed) {
     .filter((c) => c.line)
     .map((c) => c.line)
     .join("\n");
+}
+
+/**
+ * The stack files under <root>/stacks: `files` are the top-level .md files
+ * except README.md, sorted, as [{ rel, text }]; `stray` are .md files in
+ * subfolders, which the build does not read. Build and validator share this.
+ */
+export function listStackFiles(root) {
+  const dir = path.join(root, "stacks");
+  const files = [];
+  const stray = [];
+  if (!fs.existsSync(dir)) return { files, stray };
+  const walk = (d, rel) => {
+    for (const ent of fs.readdirSync(d, { withFileTypes: true })) {
+      const r = `${rel}/${ent.name}`;
+      if (ent.isDirectory()) walk(path.join(d, ent.name), r);
+      else if (ent.name.endsWith(".md") && ent.name !== "README.md") {
+        if (rel === "stacks") files.push({ rel: r, text: fs.readFileSync(path.join(d, ent.name), "utf8") });
+        else stray.push(r);
+      }
+    }
+  };
+  walk(dir, "stacks");
+  files.sort((a, b) => a.rel.localeCompare(b.rel));
+  stray.sort();
+  return { files, stray };
 }

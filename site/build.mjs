@@ -14,7 +14,7 @@ import { deprecationReason, MarkdownError, renderBlocks, renderInline, splitEntr
 import { checkPage } from "./lib/page-checks.mjs";
 import { checkStacks } from "./checks.mjs";
 import { stackPageHtml } from "./lib/stack-page.mjs";
-import { licenceTerms, owes, parseStack, pickPath } from "./lib/stacks.mjs";
+import { licenceTerms, listStackFiles, owes, parseStack, pickPath } from "./lib/stacks.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
@@ -24,7 +24,6 @@ const DIST = path.join(__dirname, "dist");
 const CONFIG_PATH = path.join(__dirname, "config.json");
 const VOCAB_PATH = path.join(__dirname, "license-vocabulary.json");
 const SPDX_ALLOWED_PATH = path.join(__dirname, "spdx-allowed.json");
-const STACKS = path.join(ROOT, "stacks");
 // Social preview image: a first-party screenshot of this site, kept with the
 // other first-party stills (the validator allows binaries there) and copied
 // into dist at build time.
@@ -401,15 +400,13 @@ function linkResolvers(entries, config, entryBase = "../") {
 
 /** Reads stacks/*.md, checks them (V15) and resolves each pick to its entry. */
 function loadStacks(entries, vocab, spdxAllowed) {
-  if (!fs.existsSync(STACKS)) return { stacks: [], errors: [] };
-  const files = fs
-    .readdirSync(STACKS)
-    .filter((n) => n.endsWith(".md") && n !== "README.md")
-    .sort()
-    .map((n) => ({ rel: `stacks/${n}`, text: fs.readFileSync(path.join(STACKS, n), "utf8") }));
+  const { files, stray } = listStackFiles(ROOT);
   const terms = licenceTerms(vocab, spdxAllowed);
   const byPath = new Map(entries.map((e) => [e.path, e]));
-  const errors = checkStacks(files, byPath, terms, new Date().toISOString().slice(0, 10));
+  const errors = [
+    ...stray.map((rel) => `${rel}: stacks live directly in stacks/; the build does not read subfolders`),
+    ...checkStacks(files, byPath, terms, new Date().toISOString().slice(0, 10)),
+  ];
   if (errors.length) return { stacks: [], errors };
   const stacks = files.map(({ rel, text }) => {
     const parsed = parseStack(text, { file: rel, terms });

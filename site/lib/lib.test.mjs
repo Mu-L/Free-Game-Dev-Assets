@@ -332,6 +332,33 @@ eq("bare url stops at a code span", renderInline("https://a.test/x`y`", passLink
 throws("malformed escape is a link error", () => resolve("bad%E0.md"), 'link target "bad%E0.md" is malformed');
 eq("query on a relative link is kept", resolve("../../docs/provenance.md?plain=1").href, "https://github.com/o/r/blob/main/docs/provenance.md?plain=1");
 
+/* deferred minors, batch B ------------------------------------------------- */
+import fsTest from "node:fs";
+import osTest from "node:os";
+import pathTest from "node:path";
+import { listStackFiles } from "./stacks.mjs";
+eq("short name OFL", namedLicence("An OFL font.", []), "OFL");
+eq("short name GPL", namedLicence("a GPL editor", []), "GPL");
+eq("short name CC BY", namedLicence("CC BY 4.0 music", []), "CC BY");
+eq("lower-case cc0", namedLicence("a cc0 pack", []), "CC0");
+eq("royalty free without the hyphen", namedLicence("royalty free loops", []), "royalty free");
+eq("hyphenated public-domain", namedLicence("Public-domain art", []), "public-domain");
+eq("short names match whole words only", namedLicence("Wolf sprites and a gplus icon.", []), null);
+eq("link targets are not scanned", parseStack(stackMd.replace("Five loops.", "Five loops, see [x](../catalog/MIT/x.md)."), { file: "stacks/s1.md", terms: ["MIT", "CC0"] }).sections[1].picks[0].why.includes("MIT"), true);
+eq("a byte-order mark is ignored", parseStack(`﻿${stackMd}`, { file: "stacks/s1.md", terms: [] }).meta.id, "s1");
+eq("trailing spaces on the fences are ignored", parseStack(stackMd.replace("---\nid", "---  \nid").replace("\n---\n\n#", "\n---   \n\n#"), { file: "stacks/s1.md", terms: [] }).meta.id, "s1");
+const tmpRoot = fsTest.mkdtempSync(pathTest.join(osTest.tmpdir(), "stacks-"));
+fsTest.mkdirSync(pathTest.join(tmpRoot, "stacks", "drafts"), { recursive: true });
+for (const [f, t] of [["stacks/b.md", "B"], ["stacks/a.md", "A"], ["stacks/README.md", "R"], ["stacks/drafts/c.md", "C"]]) fsTest.writeFileSync(pathTest.join(tmpRoot, f), t);
+const listed = listStackFiles(tmpRoot);
+eq("listStackFiles reads the top level, sorted, without README", listed.files.map((f) => f.rel).join(","), "stacks/a.md,stacks/b.md");
+eq("listStackFiles reports nested files", listed.stray.join(","), "stacks/drafts/c.md");
+eq("listStackFiles keeps the text", listed.files[0].text, "A");
+eq("listStackFiles without a stacks folder", listStackFiles(pathTest.join(tmpRoot, "nope")).files.length, 0);
+fsTest.rmSync(tmpRoot, { recursive: true, force: true });
+const lfsCredit = llmsFullTxt({ entries: llmsEntries, site, categories: cats, bodies: new Map(), stacks: [{ meta: { id: "s2", title: "Make Y", task: "A task.", walked: "2026-09-01" }, picked: [{ need: "Art", entry: { ...base, id: "b1", name: "Beta" } }] }] });
+has("full carries the credit line text", lfsCredit, 'Credits to ship:\n- Beta: Art by "X" </script>');
+
 /* report (keep last) ------------------------------------------------------ */
 if (failures.length) {
   console.error(`lib.test failed (${failures.length}):`);

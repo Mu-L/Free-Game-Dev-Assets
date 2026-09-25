@@ -19,7 +19,7 @@ import {
   checkTaxonomyValues,
   checkValueSpellings,
 } from "./checks.mjs";
-import { licenceTerms } from "./lib/stacks.mjs";
+import { licenceTerms, listStackFiles } from "./lib/stacks.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
@@ -344,10 +344,9 @@ function main() {
   errors.push(...checkPublisherConsistency(records));
   errors.push(...checkValueSpellings(records));
 
-  // V15: starter stacks. README.md in stacks/ is the directory's guide, not a stack.
-  const stackFiles = walkFiles(STACKS, [], (f) => f.endsWith(".md") && path.basename(f) !== "README.md").map(
-    (f) => ({ rel: relFromRoot(f), text: fs.readFileSync(f, "utf8") })
-  );
+  // V15: starter stacks. The build reads the same list (lib/stacks.mjs).
+  const { files: stackFiles, stray: strayStacks } = listStackFiles(ROOT);
+  for (const rel of strayStacks) errors.push(`${rel}: stacks live directly in stacks/; the build does not read subfolders`);
   for (const { rel, text } of stackFiles) if (hasEmoji(text)) errors.push(`${rel} contains emoji`);
   const entriesByPath = new Map(records.map(({ rel, meta }) => [rel, { id: String(meta.id), status: String(meta.status) }]));
   errors.push(...checkStacks(stackFiles, entriesByPath, licenceTerms(vocab, [...spdxAllowed]), today));

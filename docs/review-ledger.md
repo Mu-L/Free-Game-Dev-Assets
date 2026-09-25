@@ -4,6 +4,37 @@ Newest section at the top. One section per review run. This is the record of wha
 run measured, what it changed, what it deliberately did not change, and what the next
 run should not spend time re-deciding.
 
+## 2026-09-25 (licence freshness)
+
+Sub-project C from the site brainstorm, built from
+`docs/superpowers/specs/2026-09-25-licence-freshness-design.md` in five commits
+(`241af04`..`749860a`). No catalog entry changed and no `verified` moved.
+
+- **What shipped.** A line under the homepage hero, "Checked within 180 days: 317 of
+  317. Older than a year: 0. Oldest check: 2026-07-19 (68 days). As of 2026-09-25",
+  and `/freshness/`: the same line, the 76 entries checked on the build day or in the
+  30 days before it, and every entry oldest first. A "Licence freshness" footer link on
+  every page, a sitemap entry (324 URLs) and a line in `llms.txt`. The buckets are the
+  cards' own; deprecated entries are not counted.
+- **Weekly rebuild.** `pages.yml` also runs Mondays at 06:17 UTC, so the ages move when
+  nothing is pushed. GitHub pauses schedules in a public repository after 60 days
+  without activity; a manual run from the Actions tab restarts them.
+- **Final review.** Two fixes in `749860a`: the homepage cards now age by the build time,
+  like the prerender and the line (with the visitor's clock 60 days ahead a card read
+  "128d ago" beside a line saying 68 days; now both say 68), and the recent-checks
+  wording counts the build day. Three minors deferred: the "read at its source"
+  sentence still prints if an entry lacks a date (the validator prevents that);
+  `cancel-in-progress` lets a scheduled run and a push run cancel each other (the newer
+  run publishes); an undated row has no chip style.
+- **Measured.** Locally: the line's link opens the page; no sideways scroll at 375px and
+  every table cell keeps its label; no text below AA in either scheme at 1280 and 375;
+  the page is complete without JavaScript (76 recent, 317 rows); zero console errors.
+  Live: `/freshness/` 200 with 317 rows, sitemap 324, the homepage line and the llms
+  line present, the schedule on `main`.
+- Next highest-value action: **the third full review on or after 2026-10-17**, when the
+  61 entries checked on 2026-07-19 pass 90 days; rechecking them moves the freshness
+  line. Then sub-project D, the README first screen.
+
 ## 2026-09-25 (recheck and deferred fixes)
 
 Four commits (`849af07`..`b63e3c3`): the Smithsonian recheck, then the deferred minors

@@ -4,6 +4,43 @@ Newest section at the top. One section per review run. This is the record of wha
 run measured, what it changed, what it deliberately did not change, and what the next
 run should not spend time re-deciding.
 
+## 2026-09-24 (entry pages)
+
+Sub-project B from the site brainstorm, built from
+`docs/superpowers/specs/2026-09-24-entry-pages-design.md` in eleven commits
+(`fee59c1`..`a5403a4`). No catalog entry changed and no `verified` moved.
+
+- **What shipped.** Every entry has a page at `/entry/<id>/` with its full body, a facts
+  panel, the credit line with a Copy button, and links to the source, the file on GitHub
+  and a prefilled correction issue. Deprecated entries get a banner and `noindex`. The
+  sitemap lists 318 real pages. `llms.txt` and `llms-full.txt` index the 317 visible
+  entries. Homepage cards are now whole-card links; the entry dialog is gone and old
+  `#entry-<id>` links redirect to the page.
+- **Gates.** The build fails, naming the file and line, on markdown the renderer does not
+  support or on a relative link to a missing file. It also checks every generated page
+  for leaked markdown, one `h1`, a canonical link and links that resolve. Tests:
+  `site/lib/lib.test.mjs`, 101 assertions, run in both workflows.
+- **Measured locally.** Card corner click and touch tap open the page. Back restores the
+  filter and scroll position (difference 0), and a fresh visit starts at the top. No
+  sideways scroll at 375px. No text below AA contrast in either scheme. Zero console
+  errors. Pages work without JavaScript.
+- **Final review.** Four findings fixed in `a5403a4`, each with a test that failed first:
+  escaped quotes showed as `\"` on four evidence pages; the ccmixter credit line copied
+  with backslashes (a frontmatter parsing bug that predates this work); `llms-full.txt`
+  had repo-relative links and cut summaries; the scroll position came back on an
+  ordinary link to the homepage. Seven minor findings are deferred: bare-URL edge
+  cases no entry uses yet; a malformed `%` stops the homepage script (in an `#entry-`
+  link) or crashes the build without a file name (in a body link); the freepd banner's
+  reason starts in lower case; starter-table links do not save the scroll position; the
+  card's verified-date tooltip sits under the stretched link; the spec's Testing section
+  names `checks.test.mjs` where the renderer tests live in `lib.test.mjs`.
+- **Measured live.** `/entry/kenney-ui-pack/` 200 with its Notes; sitemap 318 URLs;
+  both llms files 200, `llms-full.txt` with 0 relative links; the old-link redirect,
+  card click and touch tap all work on the deployed site.
+- Next highest-value action: **sub-project A, starter stacks**, from the same brainstorm.
+  The Smithsonian recheck and the third full review from the previous section still
+  stand.
+
 ## 2026-09-24 (three more batches)
 
 The previous section's next action, then two chosen on the maintainer's "your call".

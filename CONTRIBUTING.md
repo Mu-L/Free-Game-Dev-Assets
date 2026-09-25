@@ -36,6 +36,8 @@ One new markdown file is enough — the website rebuilds from frontmatter on dep
 11. Add a row to the matching category `README.md`. This is required: the validator fails an entry that is not listed there, and the row's licence cell must match your frontmatter.
 12. Optional: add the `id` to `site/config.json` → `featured` to pin it under Safe starting points.
 
+To add a starter stack (one pick per need for a kind of game), follow [`stacks/README.md`](stacks/README.md).
+
 ### Frontmatter rules
 
 - `license`: the source's licence, written as one of the values in [`site/license-vocabulary.json`](site/license-vocabulary.json) (e.g. `CC0`, `CC-BY-3.0`, `SIL OFL`, `GPL-3.0-or-later`, `custom`, `varies`). If the source uses a licence the vocabulary lacks, add it there first, with its SPDX mapping and attribution class. For GPL, record `-only` or `-or-later` only when the project itself says which; otherwise use the bare `GPL-2.0` or `GPL-3.0`.

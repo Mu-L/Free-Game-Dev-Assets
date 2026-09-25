@@ -13,6 +13,7 @@ Static GitHub Pages UI for this catalog.
 | `site/config.json` → `categories` / `guides` | Labels and guide links |
 | `site/public/*` | Page chrome / design |
 | An entry's body (Notes, Evidence) | Its page at `entry/<id>/` |
+| `stacks/<id>.md` | Its page at `stack/<id>/`, the homepage Starter stacks list, and "Used in" on each picked entry |
 
 ## Public JSON
 
@@ -45,6 +46,15 @@ with the file and line, as does a relative link to a file that does not exist.
 The build also writes `llms.txt` (one line per entry) and `llms-full.txt` (with each
 entry's Notes) for AI assistants, and checks every generated page before it succeeds.
 Tests: `node site/lib/lib.test.mjs`.
+
+## Starter stacks
+
+`build.mjs` writes `stack/<id>/index.html` for each file in `stacks/` (the format is in
+`stacks/README.md`). The page's "What this stack owes" panel is computed from the picked
+entries: credit lines to ship, picks that need no credit, aggregators to check file by
+file, and open questions. A stack never states a licence itself. V15 in `checks.mjs`
+fails a stack whose pick is missing, deprecated or malformed, or whose why sentence
+names a licence; `validate.mjs` and `build.mjs` both run it.
 
 ## Social preview
 

@@ -57,7 +57,11 @@
     side_scroller: "side-scroller",
     "2d_flat": "flat ui",
   };
-  const NOW = Date.now();
+  // Ages are measured at build time, like the prerendered cards and the
+  // freshness line, so the page never disagrees with itself. A weekly
+  // scheduled build keeps the build time recent.
+  const built = Date.parse(data.generatedAt);
+  const NOW = Number.isNaN(built) ? Date.now() : built;
   const FRESH_DAYS = 180;
   const AGING_DAYS = 365;
 

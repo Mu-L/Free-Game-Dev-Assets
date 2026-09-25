@@ -50,7 +50,7 @@ export function freshnessLineHtml(stats, stamp, href) {
 const BUCKET_WORDS = { fresh: "fresh", aging: "aging", stale: "stale", unknown: "no check date" };
 
 function recentHtml(recent, stamp) {
-  if (!recent.length) return `<p>None in the ${RECENT_DAYS} days before ${esc(stamp)}.</p>`;
+  if (!recent.length) return `<p>None checked on ${esc(stamp)} or in the ${RECENT_DAYS} days before it.</p>`;
   const items = recent
     .map(
       (r) =>
@@ -128,7 +128,7 @@ export function freshnessPageHtml({ stats, site, stamp, total, hasCard }) {
       <div class="entry-lead"><p>An entry's verified date is when someone last read its licence at the source. Each entry's page quotes that licence with dates. Deprecated entries are not counted.</p></div>
       <section aria-labelledby="recent">
         <h2 id="recent">Most recently checked</h2>
-        <p>Checked in the ${RECENT_DAYS} days before ${esc(stamp)}, newest first. The catalog keeps only the latest check date, so a first check and a recheck look the same.</p>
+        <p>Checked on ${esc(stamp)} or in the ${RECENT_DAYS} days before it, newest first. The catalog keeps only the latest check date, so a first check and a recheck look the same.</p>
         ${recentHtml(stats.recent, stamp)}
       </section>
       <section aria-labelledby="every-check">

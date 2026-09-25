@@ -421,6 +421,10 @@ has("entry page footer links freshness", p, '<a href="../../freshness/">Licence 
 has("stack page footer links freshness", spage, '<a href="../../freshness/">Licence freshness</a>');
 has("llms points at freshness", lt, "Licence freshness, every entry by check date: https://x.test/s/freshness/");
 
+/* freshness: review fixes -------------------------------------------------- */
+has("recent window wording counts the build day", fp, "Checked on 2026-09-25 or in the 30 days before it, newest first.");
+has("empty recent window wording counts the build day", freshnessPageHtml({ stats: freshnessStats([fe("a", "Alpha", 90)], fNow), site, stamp: "2026-09-25", total: 1, hasCard: false }), "None checked on 2026-09-25 or in the 30 days before it.");
+
 /* report (keep last) ------------------------------------------------------ */
 if (failures.length) {
   console.error(`lib.test failed (${failures.length}):`);

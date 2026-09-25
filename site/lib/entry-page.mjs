@@ -165,6 +165,7 @@ export function entryPageHtml({ entry, leadHtml, restHtml, deprecatedReasonHtml,
     </main>
     <footer class="footer">
       <p>Catalog metadata is CC0. Linked assets keep their own licenses: re-check the live source before shipping.</p>
+      <p><a href="../../freshness/">Licence freshness</a></p>
       <p class="footer-stamp">Built ${esc(stamp)} from ${total} catalog entries.</p>
     </footer>
     ${c.script ? '<script src="../../entry.js" defer></script>' : ""}

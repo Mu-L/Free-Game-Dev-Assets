@@ -9,6 +9,10 @@ on:
       - "site/**"
       - ".github/workflows/pages.yml"
   workflow_dispatch:
+  # Weekly rebuild so the freshness ages never lag the calendar by more than
+  # about a week when nothing is pushed.
+  schedule:
+    - cron: "17 6 * * 1"
 
 permissions:
   contents: read

@@ -14,6 +14,7 @@ import { deprecationReason, MarkdownError, renderBlocks, renderInline, splitEntr
 import { checkPage } from "./lib/page-checks.mjs";
 import { checkStacks } from "./checks.mjs";
 import { stackPageHtml } from "./lib/stack-page.mjs";
+import { freshnessLineHtml, freshnessPageHtml, freshnessStats } from "./lib/freshness.mjs";
 import { licenceTerms, listStackFiles, owes, parseStack, pickPath } from "./lib/stacks.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -337,6 +338,7 @@ function sitemapXml(site, entries, stacks = []) {
   const base = site.siteUrl.replace(/\/+$/, "");
   const urls = [
     `  <url><loc>${esc(base)}/</loc></url>`,
+    `  <url><loc>${esc(base)}/freshness/</loc></url>`,
     ...stacks.map((s) => `  <url><loc>${esc(base)}/stack/${esc(s.meta.id)}/</loc><lastmod>${esc(s.meta.walked)}</lastmod></url>`),
     ...entries.map(
       (e) =>
@@ -595,7 +597,9 @@ function main() {
   const indexPath = path.join(DIST, "index.html");
   const stamp = payload.generatedAt.slice(0, 10);
   const visible = entries.filter((e) => e.status !== "deprecated");
+  const fresh = freshnessStats(entries, now);
   const substitutions = {
+    FRESHNESS_LINE: freshnessLineHtml(fresh, stamp, "freshness/"),
     HEAD_META: headMetaHtml(config.site, stats, payload.generatedAt, hasCard),
     STACK_ROWS: stackRowsHtml(stacks),
     STARTER_ROWS: starterRowsHtml(featured),
@@ -620,6 +624,11 @@ function main() {
   fs.writeFileSync(path.join(DIST, "sitemap.xml"), sitemapXml(config.site, visible, stacks));
   fs.writeFileSync(path.join(DIST, "robots.txt"), robotsTxt(config.site));
   fs.writeFileSync(path.join(DIST, "404.html"), notFoundHtml(config.site));
+  fs.mkdirSync(path.join(DIST, "freshness"), { recursive: true });
+  fs.writeFileSync(
+    path.join(DIST, "freshness", "index.html"),
+    freshnessPageHtml({ stats: fresh, site: config.site, stamp, total: stats.total, hasCard })
+  );
 
   const pages = writeEntryPages({ entries, bodies, config, stats, stamp, hasCard, now, usedIn });
   const stackPages = writeStackPages({ stacks, entries, config, stats, stamp, hasCard, now });
@@ -627,7 +636,7 @@ function main() {
     ...stackErrors,
     ...pages.errors,
     ...stackPages.errors,
-    ...checkPages(["index.html", ...pages.written, ...stackPages.written]),
+    ...checkPages(["index.html", "freshness/index.html", ...pages.written, ...stackPages.written]),
   ];
   if (pageErrors.length) {
     console.error(`Page build failed (${pageErrors.length}):`);
@@ -654,7 +663,7 @@ function main() {
     `Built ${entries.length} entries → site/dist (${stats.active} active, ${stats.commercialOk} commercial-ok, ${stats.commercialVaries} per-file)`
   );
   console.log(
-    `Prerendered ${visible.length} entry rows into index.html; wrote ${pages.written.length} entry pages, ${stackPages.written.length} stack pages, sitemap.xml, robots.txt, 404.html`
+    `Prerendered ${visible.length} entry rows into index.html; wrote ${pages.written.length} entry pages, ${stackPages.written.length} stack pages, sitemap.xml, robots.txt, 404.html, freshness/index.html`
   );
   if (errors.length) process.exitCode = 0; // soft-fail missing fields as warnings
 }

@@ -416,6 +416,11 @@ has("an undated row says so", fp, "no check date");
 has("recent section present", fp, 'id="recent"');
 lacks("deprecated left out of the page", fp, "Theta");
 
+/* freshness: links in ------------------------------------------------------ */
+has("entry page footer links freshness", p, '<a href="../../freshness/">Licence freshness</a>');
+has("stack page footer links freshness", spage, '<a href="../../freshness/">Licence freshness</a>');
+has("llms points at freshness", lt, "Licence freshness, every entry by check date: https://x.test/s/freshness/");
+
 /* report (keep last) ------------------------------------------------------ */
 if (failures.length) {
   console.error(`lib.test failed (${failures.length}):`);

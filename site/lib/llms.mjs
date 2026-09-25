@@ -1,6 +1,6 @@
 /** Plain-text indexes of the catalog for AI assistants (llmstxt.org format). */
 import { sectionMarkdown, splitEntryBody } from "./markdown.mjs";
-import { commercialLabel, entryPageUrl, stackPageUrl } from "./shared.mjs";
+import { commercialLabel, entryPageUrl, freshnessPageUrl, stackPageUrl } from "./shared.mjs";
 import { owes } from "./stacks.mjs";
 
 /** The first paragraph of the body before its first `##`, lines joined. */
@@ -38,6 +38,8 @@ function header(site) {
 > ${site.tagline}
 
 A curated catalog of free game assets, libraries and tools. It holds links and licence metadata only; nothing is rehosted. Each licence was read at its source on the entry's verified date, and the entry page quotes it with dates. "needs-review" means a real question is open: read the entry's Notes before shipping. Deprecated entries are not listed.
+
+Licence freshness, every entry by check date: ${freshnessPageUrl(site)}
 `;
 }
 

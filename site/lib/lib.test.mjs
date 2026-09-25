@@ -363,6 +363,44 @@ has("full carries the credit line text", lfsCredit, 'Credits to ship:\n- Beta: A
 has("copy all targets a block of just the credit lines", spage, 'data-target="credits-all"');
 has("that block is hidden until the fallback needs it", spage, '<pre class="attribution-string copy-all-text" id="credits-all" hidden>Art by &quot;A&quot; &lt;x&gt;\nMusic by B</pre>');
 
+/* freshness: stats and line ------------------------------------------------ */
+import { freshnessLineHtml, freshnessStats } from "./freshness.mjs";
+const fNow = Date.parse("2026-09-25T12:00:00Z");
+const daysAgo = (n) => new Date(fNow - n * 86400000).toISOString().slice(0, 10);
+const fe = (id, name, days, over = {}) => ({ ...base, id, name, status: "active", verified: days === null ? null : daysAgo(days), ...over });
+const fEntries = [
+  fe("a", "Alpha", 180), fe("b", "Beta", 181), fe("c", "Gamma", 365), fe("d", "Delta", 366),
+  fe("e", "Eps", 30), fe("f", "Zeta", 31), fe("g", "Eta", null), fe("h", "Theta", 400, { status: "deprecated" }),
+  fe("i", "Aardvark", 366), fe("j", "Iota", 0),
+];
+const fs1 = freshnessStats(fEntries, fNow);
+eq("freshness skips deprecated", fs1.total, 9);
+eq("fresh bucket includes day 180", fs1.fresh, 4);
+eq("aging bucket is 181 to 365", fs1.aging, 2);
+eq("stale bucket is over 365", fs1.stale, 2);
+eq("missing verified is unknown", fs1.unknown, 1);
+eq("oldest ties break by name", fs1.oldest.entry.id, "i");
+eq("oldest age", fs1.oldest.days, 366);
+eq("recent window includes day 30, excludes 31", fs1.recent.map((r) => r.entry.id).join(","), "j,e");
+eq("rows oldest first, unknown last", fs1.rows.map((r) => r.entry.id).join(","), "i,d,c,b,a,f,e,j,g");
+eq("buckets match the cards", fs1.rows.every((r) => r.bucket === verifiedAge(r.entry.verified, fNow).bucket), true);
+const fl = freshnessLineHtml(fs1, "2026-09-25", "freshness/");
+has("line counts fresh of total", fl, "<strong>Checked within 180 days: 4 of 9.</strong>");
+has("line shows aging when present", fl, "Aging (181 to 365 days): 2.");
+has("line shows stale", fl, "Older than a year: 2.");
+has("line shows unknown when present", fl, "No check date: 1.");
+has("line shows the oldest check", fl, `Oldest check: ${daysAgo(366)} (366 days).`);
+has("line shows as-of", fl, "As of 2026-09-25.");
+has("line links the page", fl, '<a href="freshness/">See every check, oldest first</a>.');
+const flClean = freshnessLineHtml(freshnessStats([fe("a", "Alpha", 10)], fNow), "2026-09-25", "freshness/");
+lacks("no aging clause at zero", flClean, "Aging");
+lacks("no unknown clause at zero", flClean, "No check date");
+has("stale clause even at zero", flClean, "Older than a year: 0.");
+has("one day is singular", freshnessLineHtml(freshnessStats([fe("a", "Alpha", 1)], fNow), "2026-09-25", "f/"), "(1 day)");
+const fEmpty = freshnessStats([], fNow);
+eq("empty catalog has no oldest", fEmpty.oldest, null);
+lacks("empty catalog line has no oldest clause", freshnessLineHtml(fEmpty, "2026-09-25", "f/"), "Oldest check");
+
 /* report (keep last) ------------------------------------------------------ */
 if (failures.length) {
   console.error(`lib.test failed (${failures.length}):`);

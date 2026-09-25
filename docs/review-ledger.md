@@ -4,6 +4,33 @@ Newest section at the top. One section per review run. This is the record of wha
 run measured, what it changed, what it deliberately did not change, and what the next
 run should not spend time re-deciding.
 
+## 2026-09-25 (recheck and deferred fixes)
+
+Four commits (`849af07`..`b63e3c3`): the Smithsonian recheck, then the deferred minors
+from the entry pages and starter stacks reviews, each fix with a test that failed first.
+
+- **Smithsonian Open Access (`849af07`).** The Open Access pages load again in a
+  browser; scripted requests now get 403. The Terms of Use CC0 and commercial-use
+  quotes are unchanged, the FAQ's CC0 sentence is added, and `verified` moves to
+  2026-09-25 on that reading.
+- **Renderer and links (`ba8bf6e`).** Deprecation banners start the reason with a
+  capital (freepd, purple-planet). Bare URLs stop at bold markers and code spans, keep
+  a balancing paren, and `<url>` autolinks render. A malformed escape in a body link is
+  a named error; a `?query` on a relative link is kept. A page diff against the previous
+  build changed only the two banners.
+- **Stack checks (`1b677aa`).** The licence check also catches OFL, GPL, CC BY, any-case
+  cc0, public-domain and royalty free as whole words, and skips link targets. A BOM or
+  trailing spaces no longer break the frontmatter. Build and validator read one list of
+  stack files; a stack in a subfolder fails both. `llms-full.txt` gives credit lines.
+- **Homepage and Copy (`b63e3c3`).** A malformed `#entry-` link no longer stops the
+  homepage script; starter-table links save the scroll position (Back: 745 to 745);
+  a refused clipboard makes Copy all select only the credit lines.
+- Still open from the reviews: the card's verified-date tooltip sits under the stretched
+  link; a broken link in a stack's why sentence or gap names no line; the entry pages
+  spec's Testing section names `checks.test.mjs` for tests that live in `lib.test.mjs`.
+- Next highest-value action: **sub-project C, visible trust**, per the brainstorm. Then
+  the third full review on or after 2026-10-17.
+
 ## 2026-09-25 (starter stacks)
 
 Sub-project A from the site brainstorm, built from

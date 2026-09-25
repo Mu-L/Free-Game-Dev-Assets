@@ -7,14 +7,47 @@
 [![GitHub stars](https://img.shields.io/github/stars/TMHSDigital/Free-Game-Dev-Assets)](https://github.com/TMHSDigital/Free-Game-Dev-Assets/stargazers)
 [![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
-A curated catalog of **free, commercially usable** assets and tools for game development.
+Free assets and tools for commercial games. Each entry records the licence as its source
+states it and the date someone read it there; active entries quote the source's own words.
+The catalog indexes sources and never rehosts them: check the source before you ship.
 
-It indexes sources and never rehosts them. Every entry links to the original publisher and
-records the licence exactly as that publisher states it. Every `active` entry also quotes
-the live licence page with the date it was read. You can check any claim here in one
-click, and you should before you ship.
+- **[Browse 319 sources](https://tmhsdigital.github.io/Free-Game-Dev-Assets/)** on the site, filtered by licence, credit and review status.
+- **Starter stacks**, one pick per need and what the whole set owes:
+  [2D pixel platformer](https://tmhsdigital.github.io/Free-Game-Dev-Assets/stack/2d-pixel-platformer/) ·
+  [2D top-down pixel game](https://tmhsdigital.github.io/Free-Game-Dev-Assets/stack/2d-top-down-pixel/) ·
+  [3D low-poly arena in Godot](https://tmhsdigital.github.io/Free-Game-Dev-Assets/stack/3d-low-poly-arena-godot/) ·
+  [First-person destruction](https://tmhsdigital.github.io/Free-Game-Dev-Assets/stack/first-person-destruction/) ·
+  [Mobile puzzle](https://tmhsdigital.github.io/Free-Game-Dev-Assets/stack/mobile-puzzle/)
+- **Licence freshness:** [when each licence was last read at its source](https://tmhsdigital.github.io/Free-Game-Dev-Assets/freshness/), oldest first.
+- **By category:** [master index](catalog/README.md) · **Before you ship:** [licences](#licences)
 
-**[Browse 319 sources](https://tmhsdigital.github.io/Free-Game-Dev-Assets/)** · [Master index](catalog/README.md) · [Start here](#start-here) · [Licences](#licences)
+**Recent:** 2026-09-25, starter stacks and a licence freshness page. 2026-09-24, a page for every entry.
+
+## Start here
+
+Choose by the job, not by the licence. Most sources in a category share a licence, so the
+licence column rarely tells you which one to pick. These guides compare sources that look
+interchangeable and are not. Several are measured from the files themselves, not the store
+pages.
+
+| You are choosing | Guide |
+| --- | --- |
+| A pixel tileset, by grid size and projection | [2D: Choosing a pixel tileset](catalog/2d/README.md#choosing-a-pixel-tileset) |
+| An icon set, and which two carry obligations | [2D: Choosing an icon set](catalog/2d/README.md#choosing-an-icon-set) |
+| Kenney, KayKit or Quaternius | [3D: measured comparison of scale, triangles and rigs](catalog/3d/README.md#choosing-between-kenney-kaykit-and-quaternius) |
+| A PBR texture library you can redistribute | [3D: Choosing a PBR texture source](catalog/3d/README.md#choosing-a-pbr-texture-source) |
+| A rigged character, and whether its animations will transfer | [Characters: Choosing a rigged character source](catalog/characters/README.md#choosing-a-rigged-character-source) |
+| A pixel font, including CJK | [Fonts: Choosing a pixel font](catalog/fonts/README.md#choosing-a-pixel-font) |
+| Game music, and whether videos of your game will get claimed | [Audio: Choosing game music](catalog/audio/README.md#choosing-game-music) |
+| Sound effects, and what "no credit" still leaves you owing | [Audio: Choosing sound effects](catalog/audio/README.md#choosing-sound-effects) |
+| A Godot 4 add-on that still builds against your engine | [Tools: Godot 4 add-ons](catalog/tools/README.md#godot-4-add-ons) |
+| Between two tools that do the same job | [Tools: near-duplicates](catalog/tools/README.md#choosing-between-near-duplicates) |
+
+Need something working today? Take the [safe starting points](#safe-starting-points): the
+catalog's highest-confidence sources, with the licence shown so you can see which ones owe
+a credit.
+
+## A few of the sources
 
 <table>
   <tr>
@@ -64,30 +97,6 @@ click, and you should before you ship.
 </table>
 
 <sub>Publisher promotional stills (CC0 or SIL OFL), shown here as documentation only. The packs themselves stay on the source sites.</sub>
-
-## Start here
-
-Choose by the job, not by the licence. Most sources in a category share a licence, so the
-licence column rarely tells you which one to pick. These guides compare sources that look
-interchangeable and are not. Several are measured from the files themselves, not the store
-pages.
-
-| You are choosing | Guide |
-| --- | --- |
-| A pixel tileset, by grid size and projection | [2D: Choosing a pixel tileset](catalog/2d/README.md#choosing-a-pixel-tileset) |
-| An icon set, and which two carry obligations | [2D: Choosing an icon set](catalog/2d/README.md#choosing-an-icon-set) |
-| Kenney, KayKit or Quaternius | [3D: measured comparison of scale, triangles and rigs](catalog/3d/README.md#choosing-between-kenney-kaykit-and-quaternius) |
-| A PBR texture library you can redistribute | [3D: Choosing a PBR texture source](catalog/3d/README.md#choosing-a-pbr-texture-source) |
-| A rigged character, and whether its animations will transfer | [Characters: Choosing a rigged character source](catalog/characters/README.md#choosing-a-rigged-character-source) |
-| A pixel font, including CJK | [Fonts: Choosing a pixel font](catalog/fonts/README.md#choosing-a-pixel-font) |
-| Game music, and whether videos of your game will get claimed | [Audio: Choosing game music](catalog/audio/README.md#choosing-game-music) |
-| Sound effects, and what "no credit" still leaves you owing | [Audio: Choosing sound effects](catalog/audio/README.md#choosing-sound-effects) |
-| A Godot 4 add-on that still builds against your engine | [Tools: Godot 4 add-ons](catalog/tools/README.md#godot-4-add-ons) |
-| Between two tools that do the same job | [Tools: near-duplicates](catalog/tools/README.md#choosing-between-near-duplicates) |
-
-Need something working today? Take the [safe starting points](#safe-starting-points): the
-catalog's highest-confidence sources, with the licence shown so you can see which ones owe
-a credit.
 
 ## Browse the catalog
 

@@ -1240,3 +1240,104 @@ input:focus-visible {
   margin: 0.5rem 0 0;
   white-space: pre-wrap;
 }
+
+/* ------------------------------------------------------------------ *
+ * Licence freshness: the homepage line and /freshness/.
+ * ------------------------------------------------------------------ */
+.freshness-line {
+  max-width: 42rem;
+  margin: 1rem 0 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.freshness-line strong {
+  color: var(--ink);
+}
+
+.freshness-page section h2 {
+  margin: 1.75rem 0 0.5rem;
+  font-size: 1.15rem;
+  letter-spacing: -0.01em;
+}
+
+.recent-list {
+  margin: 0.5rem 0 0;
+  padding-left: 1.25rem;
+}
+
+.recent-list li {
+  margin: 0.3rem 0;
+}
+
+.fresh-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.fresh-table th,
+.fresh-table td {
+  padding: 0.45rem 0.5rem;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+}
+
+.fresh-table th {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.fresh-table td:nth-child(1),
+.fresh-table td:nth-child(2) {
+  font-family: var(--mono);
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .fresh-table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+
+  .fresh-table,
+  .fresh-table tbody,
+  .fresh-table tr,
+  .fresh-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .fresh-table tr {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .fresh-table td {
+    display: flex;
+    gap: 0.75rem;
+    padding: 0.15rem 0;
+    border: 0;
+  }
+
+  .fresh-table td::before {
+    content: attr(data-label);
+    flex: 0 0 5.5rem;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
+  .fresh-table td:nth-child(1),
+  .fresh-table td:nth-child(2) {
+    white-space: normal;
+  }
+}

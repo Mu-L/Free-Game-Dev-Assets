@@ -63,3 +63,8 @@ export function unquoteScalar(v) {
 export function stackPageUrl(site, id) {
   return `${String(site.siteUrl).replace(/\/+$/, "")}/stack/${id}/`;
 }
+
+/** Absolute URL of the licence freshness page. */
+export function freshnessPageUrl(site) {
+  return `${String(site.siteUrl).replace(/\/+$/, "")}/freshness/`;
+}

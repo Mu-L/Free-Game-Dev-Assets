@@ -401,6 +401,21 @@ const fEmpty = freshnessStats([], fNow);
 eq("empty catalog has no oldest", fEmpty.oldest, null);
 lacks("empty catalog line has no oldest clause", freshnessLineHtml(fEmpty, "2026-09-25", "f/"), "Oldest check");
 
+/* freshness: page ---------------------------------------------------------- */
+import { freshnessPageHtml } from "./freshness.mjs";
+const fp = freshnessPageHtml({ stats: freshnessStats([...fEntries, fe("k", 'Q "<b>"', 5)], fNow), site, stamp: "2026-09-25", total: 319, hasCard: true });
+has("freshness title", fp, "<title>Licence freshness | Free Game Dev Assets</title>");
+has("freshness canonical", fp, '<link rel="canonical" href="https://x.test/s/freshness/" />');
+eq("freshness one h1", (fp.match(/<h1[\s>]/g) || []).length, 1);
+has("freshness links entries one level up", fp, 'href="../entry/i/"');
+has("freshness names escaped", fp, "Q &quot;&lt;b&gt;&quot;");
+has("freshness line links the table", fp, '<a href="#every-check">See every check, oldest first</a>');
+has("freshness table cells carry labels", fp, '<td data-label="Checked">');
+eq("freshness table rows oldest first", [...fp.matchAll(/<tr class="fresh-row" data-id="([^"]+)"/g)].map((m) => m[1]).slice(0, 3).join(","), "i,d,c");
+has("an undated row says so", fp, "no check date");
+has("recent section present", fp, 'id="recent"');
+lacks("deprecated left out of the page", fp, "Theta");
+
 /* report (keep last) ------------------------------------------------------ */
 if (failures.length) {
   console.error(`lib.test failed (${failures.length}):`);

@@ -4,6 +4,27 @@ Newest section at the top. One section per review run. This is the record of wha
 run measured, what it changed, what it deliberately did not change, and what the next
 run should not spend time re-deciding.
 
+## 2026-09-25 (outreach)
+
+Sub-project E, the items that reach outside the repo, each approved by the maintainer
+first.
+
+- **Repository description** set with `gh repo edit`, without the em dash: "Curated
+  catalog of free, commercially usable game assets, libraries and tools. Each licence
+  recorded from its source with the date it was read. Links only, nothing rehosted."
+- **Pull requests opened**, one line each, placed alphabetically, disclosing that the
+  maintainer runs the catalog: ellisonleao/magictools#418 (Graphics > Assets/
+  Placeholders, +1), Kavex/GameDev-Resources#81 (Multiple Graphic Collections, +1),
+  Calinou/awesome-gamedev#98 (Assorted Assets with reference 459, +4). The last list
+  accepts only freedom-respecting material; the PR says the catalog links to sources
+  under various licences and that its own metadata is CC0, and may be declined.
+- **Still for the maintainer:** upload `docs/images/readme/og-card.png` as the social
+  preview (Settings > General > Social preview); GitHub has no API for it.
+- Also fixed: the entry pages spec now names `site/lib/lib.test.mjs` as the home of its
+  renderer tests (`c9c2bb2`).
+- Next highest-value action: **the third full review on or after 2026-10-17**. Check
+  the three pull requests for maintainer comments before then.
+
 ## 2026-09-25 (README first screen)
 
 Sub-project D from the site brainstorm, one commit (`d76ec59`), a bounded change agreed

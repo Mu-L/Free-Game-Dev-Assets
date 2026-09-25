@@ -10,7 +10,9 @@
       } catch {
         // Clipboard access can be refused; select the text so it can be
         // copied by hand rather than failing silently.
+        // Copy all's target is a hidden block of just the credit lines.
         const target = document.getElementById(btn.getAttribute("data-target"));
+        target.hidden = false;
         const range = document.createRange();
         range.selectNodeContents(target);
         const sel = getSelection();

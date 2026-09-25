@@ -359,6 +359,10 @@ fsTest.rmSync(tmpRoot, { recursive: true, force: true });
 const lfsCredit = llmsFullTxt({ entries: llmsEntries, site, categories: cats, bodies: new Map(), stacks: [{ meta: { id: "s2", title: "Make Y", task: "A task.", walked: "2026-09-01" }, picked: [{ need: "Art", entry: { ...base, id: "b1", name: "Beta" } }] }] });
 has("full carries the credit line text", lfsCredit, 'Credits to ship:\n- Beta: Art by "X" </script>');
 
+/* deferred minors, batch C ------------------------------------------------- */
+has("copy all targets a block of just the credit lines", spage, 'data-target="credits-all"');
+has("that block is hidden until the fallback needs it", spage, '<pre class="attribution-string copy-all-text" id="credits-all" hidden>Art by &quot;A&quot; &lt;x&gt;\nMusic by B</pre>');
+
 /* report (keep last) ------------------------------------------------------ */
 if (failures.length) {
   console.error(`lib.test failed (${failures.length}):`);

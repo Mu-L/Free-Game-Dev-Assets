@@ -48,8 +48,9 @@ function owesHtml(owed) {
       .join("\n");
     const all = copyAllText(owed);
     const allButton = all
-      ? `<p class="copy-all"><button type="button" class="btn-ghost" data-copy="${esc(all)}" data-target="credits-list" hidden>Copy all credits</button>
-          <span class="copy-status" role="status" aria-live="polite"></span></p>`
+      ? `<p class="copy-all"><button type="button" class="btn-ghost" data-copy="${esc(all)}" data-target="credits-all" hidden>Copy all credits</button>
+          <span class="copy-status" role="status" aria-live="polite"></span></p>
+          <pre class="attribution-string copy-all-text" id="credits-all" hidden>${esc(all)}</pre>`
       : "";
     groups.push(`<div class="owes-group"><h3>Credits to ship</h3><ul class="credit-list" id="credits-list">${items}</ul>${allButton}</div>`);
   }

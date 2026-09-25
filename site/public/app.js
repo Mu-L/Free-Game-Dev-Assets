@@ -33,8 +33,14 @@
 
   // Old permalinks (#entry-<id>) now have real pages.
   const legacy = location.hash.match(/^#entry-(.+)$/);
-  if (legacy && byId[decodeURIComponent(legacy[1])]) {
-    location.replace(`entry/${encodeURIComponent(decodeURIComponent(legacy[1]))}/`);
+  let legacyId = null;
+  try {
+    legacyId = legacy ? decodeURIComponent(legacy[1]) : null;
+  } catch {
+    // A malformed escape is not an entry; the page loads as usual.
+  }
+  if (legacyId && byId[legacyId]) {
+    location.replace(`entry/${encodeURIComponent(legacyId)}/`);
     return;
   }
   const PERSPECTIVE_LABELS = {
@@ -525,6 +531,11 @@
       // A modified click opens a new tab and this page stays where it is.
       if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
       if (e.target.closest("a.entry-link")) rememberScroll();
+    });
+    // Starter rows link to entry pages too.
+    $("#starter-table").addEventListener("click", (e) => {
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      if (e.target.closest("a")) rememberScroll();
     });
 
     $("#active-filters").addEventListener("click", (e) => {

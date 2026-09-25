@@ -12,6 +12,9 @@ import { LinkError, makeLinkResolver } from "./lib/links.mjs";
 import { llmsFullTxt, llmsTxt } from "./lib/llms.mjs";
 import { deprecationReason, MarkdownError, renderBlocks, renderInline, splitEntryBody } from "./lib/markdown.mjs";
 import { checkPage } from "./lib/page-checks.mjs";
+import { checkStacks } from "./checks.mjs";
+import { stackPageHtml } from "./lib/stack-page.mjs";
+import { licenceTerms, owes, parseStack, pickPath } from "./lib/stacks.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
@@ -20,6 +23,8 @@ const PUBLIC = path.join(__dirname, "public");
 const DIST = path.join(__dirname, "dist");
 const CONFIG_PATH = path.join(__dirname, "config.json");
 const VOCAB_PATH = path.join(__dirname, "license-vocabulary.json");
+const SPDX_ALLOWED_PATH = path.join(__dirname, "spdx-allowed.json");
+const STACKS = path.join(ROOT, "stacks");
 // Social preview image: a first-party screenshot of this site, kept with the
 // other first-party stills (the validator allows binaries there) and copied
 // into dist at build time.
@@ -329,10 +334,11 @@ function headMetaHtml(site, stats, generatedAt, hasCard) {
   ].join("\n    ");
 }
 
-function sitemapXml(site, entries) {
+function sitemapXml(site, entries, stacks = []) {
   const base = site.siteUrl.replace(/\/+$/, "");
   const urls = [
     `  <url><loc>${esc(base)}/</loc></url>`,
+    ...stacks.map((s) => `  <url><loc>${esc(base)}/stack/${esc(s.meta.id)}/</loc><lastmod>${esc(s.meta.walked)}</lastmod></url>`),
     ...entries.map(
       (e) =>
         `  <url><loc>${esc(base)}/entry/${esc(e.id)}/</loc>${e.verified ? `<lastmod>${esc(e.verified)}</lastmod>` : ""}</url>`
@@ -382,19 +388,87 @@ function copyDir(src, dest) {
   }
 }
 
-/** Returns entry => link resolver for links in that entry's body. */
-function linkResolvers(entries, config) {
+/** Returns file => link resolver for links in that file's body (`file.path` is repo-relative). */
+function linkResolvers(entries, config, entryBase = "../") {
   const idByPath = new Map(entries.map((e) => [e.path, e.id]));
   const kindOf = (repoPath) => {
     const full = path.join(ROOT, repoPath);
     if (!fs.existsSync(full)) return null;
     return fs.statSync(full).isDirectory() ? "dir" : "file";
   };
-  return (entry) => makeLinkResolver({ entryPath: entry.path, idByPath, repo: config.site.repo, kindOf });
+  return (file) => makeLinkResolver({ entryPath: file.path, idByPath, repo: config.site.repo, kindOf, entryBase });
+}
+
+/** Reads stacks/*.md, checks them (V15) and resolves each pick to its entry. */
+function loadStacks(entries, vocab, spdxAllowed) {
+  if (!fs.existsSync(STACKS)) return { stacks: [], errors: [] };
+  const files = fs
+    .readdirSync(STACKS)
+    .filter((n) => n.endsWith(".md") && n !== "README.md")
+    .sort()
+    .map((n) => ({ rel: `stacks/${n}`, text: fs.readFileSync(path.join(STACKS, n), "utf8") }));
+  const terms = licenceTerms(vocab, spdxAllowed);
+  const byPath = new Map(entries.map((e) => [e.path, e]));
+  const errors = checkStacks(files, byPath, terms, new Date().toISOString().slice(0, 10));
+  if (errors.length) return { stacks: [], errors };
+  const stacks = files.map(({ rel, text }) => {
+    const parsed = parseStack(text, { file: rel, terms });
+    const picked = parsed.sections.flatMap((s) =>
+      s.picks.map((p) => ({ ...p, section: s.name, entry: byPath.get(pickPath(rel, p.href)) }))
+    );
+    return { ...parsed, rel, picked };
+  });
+  return { stacks, errors };
+}
+
+/** Writes dist/stack/<id>/index.html for every stack. */
+function writeStackPages({ stacks, entries, config, stats, stamp, hasCard, now }) {
+  const errors = [];
+  const written = [];
+  const resolverFor = linkResolvers(entries, config, "../../entry/");
+  for (const stack of stacks) {
+    try {
+      const resolveLink = resolverFor({ path: stack.rel });
+      const leadHtml = renderBlocks(stack.lead, { file: stack.rel, resolveLink, firstLine: stack.leadLine });
+      const sections = stack.sections.map((s) => ({
+        name: s.name,
+        rows: stack.picked
+          .filter((p) => p.section === s.name)
+          .map((p) => ({ need: p.need, entry: p.entry, whyHtml: renderInline(p.why, resolveLink) })),
+      }));
+      const gapsHtml = stack.gaps.map((g) => renderInline(g.text, resolveLink));
+      const html = stackPageHtml({
+        stack,
+        sections,
+        gapsHtml,
+        leadHtml,
+        owed: owes(stack.picked),
+        site: config.site,
+        stamp,
+        total: stats.total,
+        hasCard,
+        now,
+      });
+      const dir = path.join(DIST, "stack", stack.meta.id);
+      fs.mkdirSync(dir, { recursive: true });
+      fs.writeFileSync(path.join(dir, "index.html"), html);
+      written.push(`stack/${stack.meta.id}/index.html`);
+    } catch (err) {
+      if (err instanceof MarkdownError || err instanceof LinkError) errors.push(err.message);
+      else throw err;
+    }
+  }
+  return { errors, written };
+}
+
+function stackRowsHtml(stacks) {
+  return stacks
+    .map((s) => `<li><a href="stack/${esc(s.meta.id)}/">${esc(s.meta.title)}<span>${esc(s.meta.task)}</span></a></li>`)
+    .join("\n");
 }
 
 /** Writes dist/entry/<id>/index.html for every entry. */
-function writeEntryPages({ entries, bodies, config, stats, stamp, hasCard, now }) {
+function writeEntryPages({ entries, bodies, config, stats, stamp, hasCard, now, usedIn = new Map() }) {
   const errors = [];
   const written = [];
   const resolverFor = linkResolvers(entries, config);
@@ -428,6 +502,7 @@ function writeEntryPages({ entries, bodies, config, stats, stamp, hasCard, now }
         total: stats.total,
         hasCard,
         now,
+        stacks: usedIn.get(entry.id) || [],
       });
       const dir = path.join(DIST, "entry", entry.id);
       fs.mkdirSync(dir, { recursive: true });
@@ -456,6 +531,17 @@ function main() {
   const config = JSON.parse(fs.readFileSync(CONFIG_PATH, "utf8"));
   const vocab = JSON.parse(fs.readFileSync(VOCAB_PATH, "utf8"));
   const { entries, errors, bodies } = loadEntries(vocab);
+  const spdxAllowed = JSON.parse(fs.readFileSync(SPDX_ALLOWED_PATH, "utf8"));
+  const { stacks, errors: stackErrors } = loadStacks(entries, vocab, spdxAllowed);
+  // Entry id => the stacks that pick it, for "Used in" on entry pages.
+  const usedIn = new Map();
+  for (const s of stacks) {
+    for (const p of s.picked) {
+      const list = usedIn.get(p.entry.id) || [];
+      if (!list.some((x) => x.id === s.meta.id)) list.push({ id: s.meta.id, title: s.meta.title });
+      usedIn.set(p.entry.id, list);
+    }
+  }
 
   if (errors.length) {
     console.error("Build warnings:");
@@ -514,6 +600,7 @@ function main() {
   const visible = entries.filter((e) => e.status !== "deprecated");
   const substitutions = {
     HEAD_META: headMetaHtml(config.site, stats, payload.generatedAt, hasCard),
+    STACK_ROWS: stackRowsHtml(stacks),
     STARTER_ROWS: starterRowsHtml(featured),
     ENTRY_ROWS: groupedRowsHtml(visible, config.categories, repoUrl, now),
     CATEGORY_CHIPS: categoryChipsHtml(visible, config.categories),
@@ -533,12 +620,18 @@ function main() {
   }
   fs.writeFileSync(indexPath, html);
 
-  fs.writeFileSync(path.join(DIST, "sitemap.xml"), sitemapXml(config.site, visible));
+  fs.writeFileSync(path.join(DIST, "sitemap.xml"), sitemapXml(config.site, visible, stacks));
   fs.writeFileSync(path.join(DIST, "robots.txt"), robotsTxt(config.site));
   fs.writeFileSync(path.join(DIST, "404.html"), notFoundHtml(config.site));
 
-  const pages = writeEntryPages({ entries, bodies, config, stats, stamp, hasCard, now });
-  const pageErrors = [...pages.errors, ...checkPages(["index.html", ...pages.written])];
+  const pages = writeEntryPages({ entries, bodies, config, stats, stamp, hasCard, now, usedIn });
+  const stackPages = writeStackPages({ stacks, entries, config, stats, stamp, hasCard, now });
+  const pageErrors = [
+    ...stackErrors,
+    ...pages.errors,
+    ...stackPages.errors,
+    ...checkPages(["index.html", ...pages.written, ...stackPages.written]),
+  ];
   if (pageErrors.length) {
     console.error(`Page build failed (${pageErrors.length}):`);
     for (const e of pageErrors.slice(0, 50)) console.error(`  - ${e}`);
@@ -547,7 +640,7 @@ function main() {
 
   // After the page gate: every body link has resolved by now, so the llms
   // files cannot hit a link error of their own.
-  fs.writeFileSync(path.join(DIST, "llms.txt"), llmsTxt({ entries, site: config.site, categories: config.categories }));
+  fs.writeFileSync(path.join(DIST, "llms.txt"), llmsTxt({ entries, site: config.site, categories: config.categories, stacks }));
   fs.writeFileSync(
     path.join(DIST, "llms-full.txt"),
     llmsFullTxt({
@@ -556,6 +649,7 @@ function main() {
       categories: config.categories,
       bodies,
       resolverFor: linkResolvers(entries, config),
+      stacks,
     })
   );
 
@@ -563,7 +657,7 @@ function main() {
     `Built ${entries.length} entries → site/dist (${stats.active} active, ${stats.commercialOk} commercial-ok, ${stats.commercialVaries} per-file)`
   );
   console.log(
-    `Prerendered ${visible.length} entry rows into index.html; wrote ${pages.written.length} entry pages, sitemap.xml, robots.txt, 404.html`
+    `Prerendered ${visible.length} entry rows into index.html; wrote ${pages.written.length} entry pages, ${stackPages.written.length} stack pages, sitemap.xml, robots.txt, 404.html`
   );
   if (errors.length) process.exitCode = 0; // soft-fail missing fields as warnings
 }

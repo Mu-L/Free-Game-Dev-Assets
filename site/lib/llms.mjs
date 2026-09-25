@@ -1,6 +1,7 @@
 /** Plain-text indexes of the catalog for AI assistants (llmstxt.org format). */
 import { sectionMarkdown, splitEntryBody } from "./markdown.mjs";
-import { commercialLabel, entryPageUrl } from "./shared.mjs";
+import { commercialLabel, entryPageUrl, stackPageUrl } from "./shared.mjs";
+import { owes } from "./stacks.mjs";
 
 /** The first paragraph of the body before its first `##`, lines joined. */
 function leadParagraph(body) {
@@ -46,8 +47,12 @@ function groups(entries, categories) {
     .filter((g) => g.items.length);
 }
 
-export function llmsTxt({ entries, site, categories }) {
+export function llmsTxt({ entries, site, categories, stacks = [] }) {
   const out = [header(site)];
+  if (stacks.length) {
+    out.push(`\n## Starter stacks\n`);
+    for (const s of stacks) out.push(`- [${s.meta.title}](${stackPageUrl(site, s.meta.id)}): ${s.meta.task}`);
+  }
   for (const g of groups(entries, categories)) {
     out.push(`\n## ${g.label}\n`);
     for (const e of g.items) out.push(`- [${e.name}](${entryPageUrl(site, e.id)}): ${facts(e)}`);
@@ -55,8 +60,18 @@ export function llmsTxt({ entries, site, categories }) {
   return `${out.join("\n")}\n`;
 }
 
-export function llmsFullTxt({ entries, site, categories, bodies, resolverFor }) {
+export function llmsFullTxt({ entries, site, categories, bodies, resolverFor, stacks = [] }) {
   const out = [header(site)];
+  if (stacks.length) {
+    out.push(`\n## Starter stacks\n`);
+    for (const s of stacks) {
+      const credits = owes(s.picked).credits.map((c) => c.entry.name);
+      const picks = s.picked.map((p) => `- ${p.need}: ${p.entry.name} (${entryPageUrl(site, p.entry.id)}); ${facts(p.entry)}`);
+      out.push(
+        `### ${s.meta.title}\n\nPage: ${stackPageUrl(site, s.meta.id)}\nTask: ${s.meta.task}\nWalked: ${s.meta.walked}\n\n${picks.join("\n")}\n\nCredits to ship: ${credits.length ? credits.join(", ") : "none"}\n`
+      );
+    }
+  }
   for (const g of groups(entries, categories)) {
     out.push(`\n## ${g.label}\n`);
     for (const e of g.items) {

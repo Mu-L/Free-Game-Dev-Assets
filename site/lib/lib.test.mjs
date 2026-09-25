@@ -307,6 +307,18 @@ lacks("stack json-ld cannot close its script", sld, "</script");
 eq("stack json-ld lists the picks", JSON.parse(sld).itemListElement[0].url, "https://x.test/s/entry/a/");
 eq("stack json-ld name survives", stackJsonLd(stackMeta, [{ rows: [] }], site).name, 'Make a "thing" </script>');
 
+/* stacks: links in --------------------------------------------------------- */
+const pageWithStacks = entryPageHtml({ entry: base, leadHtml: "<p>Lead</p>", restHtml: "", deprecatedReasonHtml: null, prev: null, next: null, site, categoryLabel: "2D", stamp: "2026-09-24", total: 319, hasCard: true, now: Date.parse("2026-09-24T00:00:00Z"), stacks: [{ id: "s1", title: "Make <X>" }] });
+has("used in links the stack", pageWithStacks, 'Used in: <a href="../../stack/s1/">Make &lt;X&gt;</a>');
+lacks("no used in without stacks", p, "Used in");
+const llmsStacks = [{ meta: { id: "s1", title: "Make X", task: "A task.", walked: "2026-09-01" }, picked: [{ need: "Tiles", entry: llmsEntries[0] }] }];
+const lts = llmsTxt({ entries: llmsEntries, site, categories: cats, stacks: llmsStacks });
+has("llms lists stacks", lts, "## Starter stacks\n\n- [Make X](https://x.test/s/stack/s1/): A task.");
+lacks("llms without stacks has no stacks section", lt, "Starter stacks");
+const lfs = llmsFullTxt({ entries: llmsEntries, site, categories: cats, bodies: new Map(), stacks: llmsStacks });
+has("full lists each pick", lfs, "- Tiles: Alpha (https://x.test/s/entry/a1/); CC0; commercial OK; no credit required; active");
+has("full lists credits", lfs, "Credits to ship: none");
+
 /* report (keep last) ------------------------------------------------------ */
 if (failures.length) {
   console.error(`lib.test failed (${failures.length}):`);

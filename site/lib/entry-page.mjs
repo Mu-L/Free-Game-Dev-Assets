@@ -55,7 +55,7 @@ function credit(entry) {
   return { value: "Unclear: read the Notes", script: false, block: "" };
 }
 
-export function entryPageHtml({ entry, leadHtml, restHtml, deprecatedReasonHtml, prev, next, site, categoryLabel, stamp, total, hasCard, now }) {
+export function entryPageHtml({ entry, leadHtml, restHtml, deprecatedReasonHtml, prev, next, site, categoryLabel, stamp, total, hasCard, now, stacks = [] }) {
   const repo = site.repo;
   const url = entryPageUrl(site, entry.id);
   const title = `${entry.name} (${entry.license}) | ${site.title}`;
@@ -99,6 +99,9 @@ export function entryPageHtml({ entry, leadHtml, restHtml, deprecatedReasonHtml,
         ${next ? `<a class="btn-ghost" href="../${esc(next.id)}/" rel="next">${esc(next.name)} <span aria-hidden="true">&rarr;</span></a>` : "<span></span>"}
       </nav>`
       : "";
+  const usedIn = stacks.length
+    ? `<p class="used-in">Used in: ${stacks.map((s) => `<a href="../../stack/${esc(s.id)}/">${esc(s.title)}</a>`).join(", ")}</p>`
+    : "";
   return `<!DOCTYPE html>
 <html lang="en">
   <head>
@@ -129,6 +132,7 @@ export function entryPageHtml({ entry, leadHtml, restHtml, deprecatedReasonHtml,
       <a class="brand" href="../../">Free Game Dev Assets</a>
       <nav class="topnav" aria-label="Primary">
         <a href="../../#catalog">Catalog</a>
+        <a href="../../#stacks">Stacks</a>
         <a href="../../#starters">Starters</a>
         <a href="../../#guides">Guides</a>
         <a href="${esc(repo)}" rel="noopener noreferrer">GitHub</a>
@@ -155,6 +159,7 @@ export function entryPageHtml({ entry, leadHtml, restHtml, deprecatedReasonHtml,
         <a class="btn-ghost" href="${esc(`${repo}/blob/main/${entry.path}`)}" rel="noopener noreferrer">View the file on GitHub</a>
         <a class="btn-ghost" href="${esc(issue)}" rel="noopener noreferrer">Report a problem with this entry</a>
       </p>
+      ${usedIn}
       <div class="entry-content">${restHtml}</div>
       ${pager}
     </main>

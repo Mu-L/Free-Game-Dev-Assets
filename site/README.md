@@ -56,6 +56,15 @@ file, and open questions. A stack never states a licence itself. V15 in `checks.
 fails a stack whose pick is missing, deprecated or malformed, or whose why sentence
 names a licence; `validate.mjs` and `build.mjs` both run it.
 
+## Licence freshness
+
+`build.mjs` writes a one-line summary under the homepage hero and `freshness/index.html`
+from each entry's `verified` date, using `site/lib/freshness.mjs`. The buckets are the
+cards' own (fresh up to 180 days, aging to 365, stale after). Deprecated entries are
+not counted. `pages.yml` also runs every Monday at 06:17 UTC so the ages keep moving
+when nothing is pushed; GitHub pauses scheduled workflows in a public repository after
+60 days without activity, so a long quiet spell needs a manual run from the Actions tab.
+
 ## Social preview
 
 `docs/images/readme/og-card.png` is a 1200x630 screenshot of this site's first screen.

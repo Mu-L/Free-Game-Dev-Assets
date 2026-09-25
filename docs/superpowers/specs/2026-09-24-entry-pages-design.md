@@ -152,7 +152,7 @@ Site-wide:
 
 ## Testing
 
-Added to `site/checks.test.mjs` (runs in both workflows):
+Added to `site/lib/lib.test.mjs` (runs in both workflows; the spec first named `site/checks.test.mjs`):
 
 - Renderer fixtures: one accepted case per supported feature, including nested lists
   and escapes; one rejected case per unsupported block type; escaping (an entry

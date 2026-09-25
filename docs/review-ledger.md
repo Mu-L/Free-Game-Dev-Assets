@@ -4,6 +4,28 @@ Newest section at the top. One section per review run. This is the record of wha
 run measured, what it changed, what it deliberately did not change, and what the next
 run should not spend time re-deciding.
 
+## 2026-09-25 (README first screen)
+
+Sub-project D from the site brainstorm, one commit (`d76ec59`), a bounded change agreed
+in conversation (no spec).
+
+- The top of the README now leads with one line on what the catalog is and what each
+  entry records, then the routes: the site ("Browse 319 sources", still checked by the
+  validator), the five starter stacks, the licence freshness page, the master index and
+  the licence guide, and a dated "Recent" line. The image showcase moved below "Start
+  here", unchanged.
+- No counts or ages that go stale were added: the freshness figures stay on the site,
+  which rebuilds weekly. The "Recent" line is updated by hand with each release.
+- A claim was narrowed before commit: "each with its licence quoted from the source"
+  holds only for `active` entries, so the line says every entry records the licence and
+  the date it was read, and active entries quote the source.
+- Measured on github.com at 1280x800 with the README scrolled to its top: the Browse
+  link, all five stack links, the freshness link and the Recent line sit within the
+  first 350px.
+- Next highest-value action: **the third full review on or after 2026-10-17**. Sub-project
+  E (social preview image, repo description, awesome-list submissions) needs the
+  maintainer's own clicks; the text can be prepared on request.
+
 ## 2026-09-25 (licence freshness)
 
 Sub-project C from the site brainstorm, built from

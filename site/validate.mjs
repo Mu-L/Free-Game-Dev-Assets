@@ -15,9 +15,11 @@ import {
   checkLicenseVocabulary,
   checkPublisherConsistency,
   checkSpdxConsistency,
+  checkStacks,
   checkTaxonomyValues,
   checkValueSpellings,
 } from "./checks.mjs";
+import { licenceTerms } from "./lib/stacks.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
@@ -25,6 +27,7 @@ const CATALOG = path.join(ROOT, "catalog");
 const CONFIG_PATH = path.join(__dirname, "config.json");
 const SPDX_ALLOWED_PATH = path.join(__dirname, "spdx-allowed.json");
 const VOCAB_PATH = path.join(__dirname, "license-vocabulary.json");
+const STACKS = path.join(ROOT, "stacks");
 const REQUIRED = [
   "id",
   "name",
@@ -341,6 +344,14 @@ function main() {
   errors.push(...checkPublisherConsistency(records));
   errors.push(...checkValueSpellings(records));
 
+  // V15: starter stacks. README.md in stacks/ is the directory's guide, not a stack.
+  const stackFiles = walkFiles(STACKS, [], (f) => f.endsWith(".md") && path.basename(f) !== "README.md").map(
+    (f) => ({ rel: relFromRoot(f), text: fs.readFileSync(f, "utf8") })
+  );
+  for (const { rel, text } of stackFiles) if (hasEmoji(text)) errors.push(`${rel} contains emoji`);
+  const entriesByPath = new Map(records.map(({ rel, meta }) => [rel, { id: String(meta.id), status: String(meta.status) }]));
+  errors.push(...checkStacks(stackFiles, entriesByPath, licenceTerms(vocab, [...spdxAllowed]), today));
+
   const byCategory = new Map();
   for (const record of records) {
     const cat = String(record.meta.category);
@@ -388,6 +399,7 @@ function main() {
 
   const mdRoots = [
     CATALOG,
+    STACKS,
     path.join(ROOT, "docs"),
     path.join(ROOT, "README.md"),
     path.join(ROOT, "CONTRIBUTING.md"),
@@ -417,7 +429,7 @@ function main() {
   }
 
   console.log(
-    `validate ok: ${entryFiles.length} entries, ${ids.size} ids, no broken links`
+    `validate ok: ${entryFiles.length} entries, ${ids.size} ids, ${stackFiles.length} stacks, no broken links`
   );
   console.log(coverageReport(entries));
 }

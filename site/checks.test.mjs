@@ -19,6 +19,7 @@ import {
   checkLicenseVocabulary,
   checkPublisherConsistency,
   checkSpdxConsistency,
+  checkStacks,
   checkTaxonomyValues,
   checkValueSpellings,
 } from "./checks.mjs";
@@ -538,10 +539,29 @@ accepts(
   checkActiveIsSettled("ok.md", { status: "active", license: "MIT", commercial: true, attribution_required: false })
 );
 
+/* V15 ------------------------------------------------------------------- */
+const stackEntries = new Map([
+  ["catalog/2d/good.md", { id: "good", status: "active" }],
+  ["catalog/2d/old.md", { id: "old", status: "deprecated" }],
+]);
+const stackText = (pick, meta = {}) =>
+  `---\nid: ${meta.id || "s1"}\ntitle: T\ntask: A task.\nwalked: ${meta.walked || "2026-09-01"}\n---\n\nLead.\n\n${meta.section || "## Art"}\n\n${pick}\n`;
+const goodPick = "- **Tiles:** [Good](../catalog/2d/good.md). Sixteen tiles.";
+const oneStack = (text, rel = "stacks/s1.md") => checkStacks([{ rel, text }], stackEntries, ["MIT"], TODAY);
+accepts("V15 accepts a good stack", oneStack(stackText(goodPick)));
+rejects("V15 rejects a pick that is not an entry", oneStack(stackText("- **Tiles:** [Nope](../catalog/2d/nope.md). Why.")), 'stacks/s1.md:12: pick "../catalog/2d/nope.md" is not a catalog entry');
+rejects("V15 rejects a deprecated pick", oneStack(stackText("- **Tiles:** [Old](../catalog/2d/old.md). Why.")), 'stacks/s1.md:12: pick "old" is deprecated');
+rejects("V15 rejects a malformed pick line", oneStack(stackText("- Tiles: Good. Why.")), "stacks/s1.md:12: a pick line is");
+rejects("V15 rejects an id that is not the filename", oneStack(stackText(goodPick), "stacks/other.md"), 'id "s1" does not match the filename');
+rejects("V15 rejects a duplicate id", checkStacks([{ rel: "stacks/s1.md", text: stackText(goodPick) }, { rel: "stacks/s1.md", text: stackText(goodPick) }], stackEntries, [], TODAY), 'duplicate stack id "s1"');
+rejects("V15 rejects a licence in a why sentence", oneStack(stackText("- **Tiles:** [Good](../catalog/2d/good.md). A MIT pack.")), 'names a licence ("MIT")');
+rejects("V15 rejects a walked date in the future", oneStack(stackText(goodPick, { walked: "2099-01-01" })), "walked 2099-01-01 is in the future");
+rejects("V15 rejects an unknown section", oneStack(stackText(goodPick, { section: "## Levels" })), 'section "Levels" is not one of');
+
 /* ----------------------------------------------------------------------- */
 if (failures.length) {
   console.error(`checks.test failed (${failures.length}):`);
   for (const f of failures) console.error(`  - ${f}`);
   process.exit(1);
 }
-console.log(`checks.test ok: ${passed} assertions across 14 checks`);
+console.log(`checks.test ok: ${passed} assertions across 15 checks`);

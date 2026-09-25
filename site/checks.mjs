@@ -6,6 +6,9 @@
  * without touching the real catalog. validate.mjs wires them into the run.
  */
 
+import path from "node:path";
+import { parseStack, pickPath, StackError } from "./lib/stacks.mjs";
+
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 const DATE_ANY_RE = /\d{4}-\d{2}-\d{2}/g;
 
@@ -304,6 +307,44 @@ export function checkActiveIsSettled(rel, meta) {
   for (const field of ["license", "commercial", "attribution_required"]) {
     if (String(meta[field]) === "unknown") {
       errors.push(`${rel} is active but ${field} is unknown; use needs-review until it is settled`);
+    }
+  }
+  return errors;
+}
+
+/* ----------------------------------------------------------------- V15 */
+/**
+ * Starter stacks (stacks/<id>.md). The shape rules live in lib/stacks.mjs so
+ * the build and this check cannot drift; here each pick must also be a
+ * catalog entry that is still listed, and the stack id must be unique.
+ */
+export function checkStacks(stackFiles, entriesByPath, terms, today) {
+  const errors = [];
+  const ids = new Map();
+  for (const { rel, text } of stackFiles) {
+    let stack;
+    try {
+      stack = parseStack(text, { file: rel, terms });
+    } catch (err) {
+      if (err instanceof StackError) {
+        errors.push(err.message);
+        continue;
+      }
+      throw err;
+    }
+    const { id, walked } = stack.meta;
+    if (id !== path.posix.basename(rel, ".md")) errors.push(`${rel}: id "${id}" does not match the filename`);
+    if (ids.has(id)) errors.push(`duplicate stack id "${id}": ${ids.get(id)} and ${rel}`);
+    else ids.set(id, rel);
+    if (today && walked > today) errors.push(`${rel}: walked ${walked} is in the future`);
+    for (const section of stack.sections) {
+      for (const pick of section.picks) {
+        const entry = entriesByPath.get(pickPath(rel, pick.href));
+        if (!entry) errors.push(`${rel}:${pick.line}: pick "${pick.href}" is not a catalog entry`);
+        else if (String(entry.status) === "deprecated") {
+          errors.push(`${rel}:${pick.line}: pick "${entry.id}" is deprecated; repick or move the need to Gaps`);
+        }
+      }
     }
   }
   return errors;

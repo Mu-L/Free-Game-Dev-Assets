@@ -190,6 +190,66 @@ lacks("full has no relative links", lfLinks, "](../");
 has("full rewrites a link whose label is code", lfLinks, "[`docs/p.md`](https://github.com/o/r/blob/main/docs/p.md)");
 has("full leaves links inside code alone", lfLinks, "`[x](y)` stays literal");
 
+/* stacks: parse ------------------------------------------------------------ */
+import { licenceTerms, namedLicence, parseStack, pickPath, STACK_SECTIONS } from "./stacks.mjs";
+const stackMd = [
+  "---",
+  "id: s1",
+  "title: Make a thing",
+  'task: "A game: to sell."',
+  "walked: 2026-09-20",
+  "---",
+  "",
+  "# Make a thing",
+  "",
+  "Lead line one.",
+  "Lead line two.",
+  "",
+  "## Art",
+  "",
+  "- **Tiles:** [Kenney Pixel Platformer](../catalog/2d/kenney-pixel-platformer.md). 200 tiles on an 18x18 grid, see [UI](../catalog/2d/kenney-ui-pack.md).",
+  "- **Player:** [Hero](../catalog/2d/luizmelo-martial-hero.md). Idle, run and jump.",
+  "",
+  "## Audio",
+  "",
+  "- **Music, no credit:** [Chips](../catalog/audio/subspaceaudio-5-chiptunes.md). Five loops.",
+  "",
+  "## Gaps",
+  "",
+  "- No parallax layers yet.",
+].join("\n");
+const st = parseStack(stackMd, { file: "stacks/s1.md", terms: ["MIT", "CC0"] });
+eq("stack id", st.meta.id, "s1");
+eq("stack task unquoted", st.meta.task, "A game: to sell.");
+eq("stack lead skips the h1", st.lead, "Lead line one.\nLead line two.");
+eq("stack lead line", st.leadLine, 10);
+eq("stack sections exclude Gaps", st.sections.map((s) => s.name).join(","), "Art,Audio");
+eq("stack pick need", st.sections[0].picks[0].need, "Tiles");
+eq("stack pick href", st.sections[0].picks[0].href, "../catalog/2d/kenney-pixel-platformer.md");
+eq("stack pick why keeps later links", st.sections[0].picks[0].why, "200 tiles on an 18x18 grid, see [UI](../catalog/2d/kenney-ui-pack.md).");
+eq("stack pick line", st.sections[0].picks[1].line, 16);
+eq("stack gaps", st.gaps[0].text, "No parallax layers yet.");
+eq("stack gap line", st.gaps[0].line, 24);
+eq("CRLF parses the same", JSON.stringify(parseStack(stackMd.replace(/\n/g, "\r\n"), { file: "stacks/s1.md", terms: ["MIT", "CC0"] })), JSON.stringify(st));
+const badStack = (edit) => () => parseStack(edit(stackMd), { file: "stacks/s1.md", terms: ["MIT", "CC0"] });
+throws("unknown section", badStack((m) => m.replace("## Audio", "## Levels")), 'stacks/s1.md:18: section "Levels" is not one of');
+throws("sections out of order", badStack((m) => m.replace("## Art", "## Tools")), 'stacks/s1.md:18: section "Audio" is out of order');
+throws("pick without a link", badStack((m) => m.replace("[Hero](../catalog/2d/luizmelo-martial-hero.md)", "Hero")), "stacks/s1.md:16: a pick line is");
+throws("pick without the bold need", badStack((m) => m.replace("- **Player:** ", "- Player: ")), "stacks/s1.md:16: a pick line is");
+throws("pick without a why", badStack((m) => m.replace("). Idle, run and jump.", ").")), "stacks/s1.md:16: a pick line is");
+throws("licence in a why sentence", badStack((m) => m.replace("Five loops.", "Five CC0 loops.")), 'stacks/s1.md:20: the why sentence names a licence ("CC0")');
+throws("licence phrase in a why sentence", badStack((m) => m.replace("Five loops.", "Five public domain loops.")), '("public domain")');
+throws("missing walked", badStack((m) => m.replace("walked: 2026-09-20\n", "")), "frontmatter is missing walked");
+throws("bad walked date", badStack((m) => m.replace("2026-09-20", "20 Sept")), "walked is not YYYY-MM-DD");
+throws("empty pick section", badStack((m) => m.replace("- **Music, no credit:** [Chips](../catalog/audio/subspaceaudio-5-chiptunes.md). Five loops.", "")), 'section "Audio" has no picks');
+throws("gaps line not a bullet", badStack((m) => m.replace("- No parallax layers yet.", "No parallax layers yet.")), "stacks/s1.md:24: a Gaps line is a bullet");
+eq("licence terms skip plain words", licenceTerms({ licenses: { custom: {}, MIT: { spdx: "MIT" }, CC0: { spdx: "CC0-1.0" } } }, ["OFL-1.1"]).sort().join(","), "CC0,CC0-1.0,MIT,OFL-1.1");
+eq("whole words only", namedLicence("A MITRE-style layout.", ["MIT"]), null);
+eq("finds a hyphenated id", namedLicence("Ships under OFL-1.1 terms.", ["OFL-1.1"]), "OFL-1.1");
+eq("licence in the label is not checked", parseStack(stackMd.replace("[Chips]", "[CC0 Chips]"), { file: "stacks/s1.md", terms: ["CC0"] }).sections[1].picks[0].label, "CC0 Chips");
+eq("pickPath resolves from stacks/", pickPath("stacks/s1.md", "../catalog/2d/x.md"), "catalog/2d/x.md");
+eq("section order constant", STACK_SECTIONS.join(","), "Art,Audio,Fonts,Tools,Gaps");
+
 /* report (keep last) ------------------------------------------------------ */
 if (failures.length) {
   console.error(`lib.test failed (${failures.length}):`);

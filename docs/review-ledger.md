@@ -4,6 +4,45 @@ Newest section at the top. One section per review run. This is the record of wha
 run measured, what it changed, what it deliberately did not change, and what the next
 run should not spend time re-deciding.
 
+## 2026-09-25 (starter stacks)
+
+Sub-project A from the site brainstorm, built from
+`docs/superpowers/specs/2026-09-24-starter-stacks-design.md` in seven commits
+(`10151a9`..`3724fbb`). No catalog entry changed and no `verified` moved.
+
+- **What shipped.** Five stacks in `stacks/`, one per task test: 2D pixel platformer,
+  2D top-down pixel game, 3D low-poly arena in Godot, first-person destruction, mobile
+  puzzle. Each has a page at `/stack/<id>/` with one pick per need and a "What this
+  stack owes" panel computed from the picked entries. The homepage has a Starter stacks
+  section, each picked entry's page lists "Used in", and the sitemap (323 URLs) and both
+  llms files carry the stacks. Only the platformer stack owes a credit line (Eric
+  Skiff), so only its page has Copy buttons.
+- **Gates.** V15 (`site/checks.mjs`) runs in the validator and the build. It fails a
+  pick that is missing, deprecated or malformed, and any title, task, lead, gap or why
+  sentence that names a licence: a stack states no licence facts of its own. Proved by
+  pointing a pick at `freepd`: both exit 1 naming `stacks/2d-pixel-platformer.md:18`.
+- **Writing the stacks.** Every why sentence was checked against its entry; three were
+  cut to the entry's own words (Bondoki's GIFs, VT323's uses, Tiled's "ortho"). The
+  top-down stack's one gap restates task B's finding: no straight-down character set
+  that turns in four directions (0 `top_down` entries tagged `4-directional`).
+- **Final review.** Two findings fixed in `3724fbb`: the licence check now covers every
+  line of prose in a stack, and four statements the entries do not record were removed
+  (the platformer lead's credit claim and "drawn for a side view", which the UI pack is
+  not; "works in any engine" twice; "match and combo effects"). Seven minors deferred:
+  short licence names such as "OFL" pass the check; link targets inside a why sentence
+  are scanned; a BOM on the frontmatter line gives a misleading error; the Copy all
+  fallback selects labels as well as credit lines; the validator walks `stacks/`
+  recursively while the build reads the top level; a broken link in a why sentence
+  names no line; `llms-full.txt` lists credits by entry name without the line.
+- **Measured.** Locally: five homepage links 200, Copy passes the credit line to the
+  clipboard, pages complete without JavaScript, no sideways scroll at 375px, no text
+  below AA in either scheme, zero console errors. Live: five stack pages 200, sitemap
+  323 URLs, `## Starter stacks` in `llms.txt`, three "Used in" links on Kenney UI Pack,
+  homepage link to the platformer page and its Copy button work.
+- Next highest-value action: **sub-project C, visible trust** (freshness panel,
+  recently added and re-verified lists), per the brainstorm. The Smithsonian recheck
+  and the third full review on or after 2026-10-17 still stand.
+
 ## 2026-09-24 (entry pages)
 
 Sub-project B from the site brainstorm, built from

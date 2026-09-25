@@ -7,7 +7,7 @@ walked: 2026-09-25
 
 # Make a 3D low-poly arena game in Godot
 
-For a solo developer building a small 3D arena game in Godot 4. The art, audio and font picks work in any engine; the Tools picks are Godot 4 add-ons.
+For a solo developer building a small 3D arena game in Godot 4. The Tools picks are Godot 4 add-ons.
 
 ## Art
 

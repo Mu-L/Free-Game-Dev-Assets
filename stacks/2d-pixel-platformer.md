@@ -7,7 +7,7 @@ walked: 2026-09-25
 
 # Make a 2D pixel platformer
 
-For a solo developer making a side-view pixel platformer in any engine. The art picks are drawn for a side view. Music comes as two picks: five tracks that need no credit, and a larger album that does.
+For a solo developer making a side-view pixel platformer in any engine. The tiles, characters and background are drawn for a side view. Music comes as two picks: five looping tracks, and an 18-track album for more.
 
 ## Art
 

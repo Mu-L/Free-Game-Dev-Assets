@@ -7,7 +7,7 @@ walked: 2026-09-25
 
 # Make a first-person destruction game
 
-For a solo developer making a first-person game where things break apart. Debris is made ahead of time: fracture a mesh in Blender and ship the pieces, which works in any engine.
+For a solo developer making a first-person game where things break apart. Debris is made ahead of time: fracture a mesh in Blender and ship the pieces.
 
 ## Art
 

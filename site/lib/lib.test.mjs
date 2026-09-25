@@ -249,6 +249,10 @@ eq("finds a hyphenated id", namedLicence("Ships under OFL-1.1 terms.", ["OFL-1.1
 eq("licence in the label is not checked", parseStack(stackMd.replace("[Chips]", "[CC0 Chips]"), { file: "stacks/s1.md", terms: ["CC0"] }).sections[1].picks[0].label, "CC0 Chips");
 eq("pickPath resolves from stacks/", pickPath("stacks/s1.md", "../catalog/2d/x.md"), "catalog/2d/x.md");
 eq("section order constant", STACK_SECTIONS.join(","), "Art,Audio,Fonts,Tools,Gaps");
+throws("licence in the lead", badStack((m) => m.replace("Lead line two.", "All picks are CC0.")), 'stacks/s1.md:11: the lead names a licence ("CC0")');
+throws("licence in a gap", badStack((m) => m.replace("- No parallax layers yet.", "- No CC0 parallax layers yet.")), 'stacks/s1.md:24: the gap names a licence ("CC0")');
+throws("licence in the task", badStack((m) => m.replace('task: "A game: to sell."', "task: A public domain game.")), 'stacks/s1.md:4: the task names a licence ("public domain")');
+throws("licence in the title", badStack((m) => m.replace("title: Make a thing", "title: Make a MIT thing")), 'stacks/s1.md:3: the title names a licence ("MIT")');
 
 /* stacks: owes and page ---------------------------------------------------- */
 import { copyAllText, owes } from "./stacks.mjs";

@@ -15,7 +15,7 @@ For a solo developer making a casual puzzle game for phones: gems for a match-3 
 - **Animated gems:** [Rotating Gems for Match-3 (Bondoki)](../catalog/2d/bondoki-rotating-gems.md). Animated gems in seven colours, with heart-bomb and rainbow-bomb special pieces. Delivered as animated GIFs with no licence file inside, so keep a record of the source page.
 - **Cards, dice and pieces:** [Kenney Board Game Pack](../catalog/2d/kenney-boardgame-pack.md). Playing cards, poker chips, dice and pieces in seven colours, with SVG sources and a dozen matching sounds.
 - **Menus and HUD:** [Kenney UI Pack](../catalog/2d/kenney-ui-pack.md). 430 buttons, panels and sliders.
-- **Sparkle effects:** [Kenney Particle Pack](../catalog/shaders-vfx/kenney-particle-pack.md). 80 particle sprites at 512x512 (sparks, glows, soft blobs) for match and combo effects.
+- **Sparkle effects:** [Kenney Particle Pack](../catalog/shaders-vfx/kenney-particle-pack.md). 80 particle sprites at 512x512 (sparks, glows, soft blobs) for GPU particles and canvas effects.
 
 ## Audio
 

@@ -62,16 +62,26 @@ export function parseStack(text, { file, terms = [] }) {
   if (lines[0] !== "---") fail(0, "a stack starts with frontmatter (---)");
   const end = lines.indexOf("---", 1);
   if (end === -1) fail(0, "frontmatter is not closed with ---");
+  // Licence facts come only from the entries, so no prose in a stack may state one.
+  const noLicence = (i, text, what) => {
+    const named = namedLicence(text, terms);
+    if (named) fail(i, `the ${what} names a licence ("${named}"); licence facts come from the entry`);
+  };
   const meta = {};
+  const metaLine = {};
   for (let i = 1; i < end; i++) {
     const line = lines[i];
     if (!line.trim()) continue;
     const at = line.indexOf(":");
     if (at === -1) fail(i, `frontmatter line "${line.trim()}" is not key: value`);
-    meta[line.slice(0, at).trim()] = unquoteScalar(line.slice(at + 1).trim());
+    const key = line.slice(0, at).trim();
+    meta[key] = unquoteScalar(line.slice(at + 1).trim());
+    metaLine[key] = i;
   }
   for (const key of REQUIRED) if (!meta[key]) fail(0, `frontmatter is missing ${key}`);
   if (!DATE_RE.test(meta.walked)) fail(0, "walked is not YYYY-MM-DD");
+  noLicence(metaLine.title, meta.title, "title");
+  noLicence(metaLine.task, meta.task, "task");
 
   const lead = [];
   let leadLine = null;
@@ -98,20 +108,21 @@ export function parseStack(text, { file, terms = [] }) {
       if (/^#\s/.test(line)) continue; // the page shows the title as its h1
       if (line.trim() && leadLine === null) leadLine = i + 1;
       if (leadLine !== null) lead.push(line);
+      noLicence(i, line, "lead");
       continue;
     }
     if (!line.trim()) continue;
     if (current.name === "Gaps") {
       const g = line.match(/^- (\S.*)$/);
       if (!g) fail(i, "a Gaps line is a bullet (- text)");
+      noLicence(i, g[1], "gap");
       gaps.push({ text: g[1], line: i + 1 });
       continue;
     }
     const m = line.match(PICK_RE);
     if (!m) fail(i, "a pick line is: - **Need:** then a link to the entry, a full stop, and why this pick");
     const [, need, label, href, why] = m;
-    const named = namedLicence(why, terms);
-    if (named) fail(i, `the why sentence names a licence ("${named}"); licence facts come from the entry`);
+    noLicence(i, why, "why sentence");
     current.picks.push({ need: need.trim(), label, href, why, line: i + 1 });
   }
   for (const s of sections) if (!s.picks.length) fail(s.line - 1, `section "${s.name}" has no picks`);

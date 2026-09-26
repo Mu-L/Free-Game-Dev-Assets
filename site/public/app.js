@@ -139,8 +139,8 @@
 
   /* ---------------------------------------------------------- filtering */
 
-  function matches(entry) {
-    if (state.category !== "all" && entry.category !== state.category) return false;
+  /** Every filter except the category and the search words. */
+  function passesFilters(entry) {
     if (entry.status === "active" && !state.active) return false;
     if (entry.status === "needs-review" && !state.review) return false;
     if (entry.status === "deprecated" && !state.deprecated) return false;
@@ -149,7 +149,37 @@
     if (state.noAttr && entry.attribution_required !== false) return false;
     if (state.perspective !== "any" && entry.camera_perspective !== state.perspective)
       return false;
-    return searchScore(entry) > 0;
+    return true;
+  }
+
+  /**
+   * One pass over the catalog per change. The pool is what passes every
+   * filter but the category: the chip counts are taken from it, because
+   * counting with the category applied would make every chip read 0 except
+   * the selected one, which tells the reader nothing.
+   */
+  function computeResults() {
+    const score = new Map();
+    const pool = [];
+    for (const e of data.entries) {
+      if (!passesFilters(e)) continue;
+      const s = searchScore(e);
+      if (!s) continue;
+      score.set(e.id, s);
+      pool.push(e);
+    }
+    const counts = new Map();
+    for (const e of pool) counts.set(e.category, (counts.get(e.category) || 0) + 1);
+    const list =
+      state.category === "all" ? pool.slice() : pool.filter((e) => e.category === state.category);
+    const ranked = state.sort === "name" && queryTests().length > 0;
+    if (ranked) {
+      // Searching under the default sort: best match first, then by name.
+      list.sort((a, b) => score.get(b.id) - score.get(a.id) || SORTS.name(a, b));
+    } else {
+      list.sort(SORTS[state.sort] || SORTS.name);
+    }
+    return { list, counts, total: pool.length, ranked };
   }
 
   // Hyphens and underscores read as spaces: "first person" finds the "first-person" tag.
@@ -283,21 +313,6 @@
     return state.sort === "name" && state.category === "all";
   }
 
-  /**
-   * How many entries each category would yield under the *other* active
-   * filters. Counting with the category filter applied would make every chip
-   * read 0 except the selected one, which tells the reader nothing.
-   */
-  function facetCounts() {
-    const saved = state.category;
-    state.category = "all";
-    const pool = data.entries.filter(matches);
-    state.category = saved;
-    const counts = new Map();
-    for (const e of pool) counts.set(e.category, (counts.get(e.category) || 0) + 1);
-    return { counts, total: pool.length };
-  }
-
   function renderCategoryFilters() {
     const host = $("#category-filters");
     const buttons = [
@@ -321,8 +336,7 @@
     });
   }
 
-  function syncCategoryChips() {
-    const { counts, total } = facetCounts();
+  function syncCategoryChips({ counts, total }) {
     $$("#category-filters .chip").forEach((chip) => {
       const cat = chip.getAttribute("data-cat");
       const on = cat === state.category;
@@ -374,49 +388,102 @@
       <button type="button" class="chip chip-clear" data-clear="all">Clear all</button>`;
   }
 
-  function renderGrid() {
-    const list = data.entries.filter(matches);
-    if (state.sort === "name" && queryTests().length) {
-      // Searching under the default sort: best match first, then by name.
-      const score = new Map(list.map((e) => [e.id, searchScore(e)]));
-      list.sort((a, b) => score.get(b.id) - score.get(a.id) || SORTS.name(a, b));
-    } else {
-      list.sort(SORTS[state.sort] || SORTS.name);
+  function headingHtml(cat, count) {
+    const label = categoryLabels[cat]?.label || cat;
+    return (
+      `<h3 class="group-heading" id="group-${escapeHtml(cat)}" data-cat="${escapeHtml(cat)}">` +
+      `<span class="group-name">${escapeHtml(label)}</span>` +
+      `<span class="group-count">${count}</span>` +
+      `</h3>`
+    );
+  }
+
+  /*
+   * The grid keeps one node per entry and per category heading for the life
+   * of the page. The prerendered rows are adopted as they are; only entries
+   * the build leaves out (deprecated ones) are rendered here, once. Filtering
+   * then toggles `hidden`, and nodes move only when the order changes.
+   */
+  const cardNodes = new Map();
+  const headingNodes = new Map();
+  let placedKey = null;
+
+  function adoptNodes() {
+    const grid = $("#entry-grid");
+    for (const el of $$(".entry-card", grid)) cardNodes.set(el.getAttribute("data-id"), el);
+    for (const el of $$(".group-heading", grid)) headingNodes.set(el.getAttribute("data-cat"), el);
+    const tpl = document.createElement("template");
+    tpl.innerHTML = [
+      ...data.entries.filter((e) => !cardNodes.has(e.id)).map(cardHtml),
+      ...Object.keys(categoryLabels)
+        .filter((cat) => !headingNodes.has(cat))
+        .map((cat) => headingHtml(cat, 0)),
+    ].join("");
+    for (const el of [...tpl.content.children]) {
+      if (el.matches(".entry-card")) cardNodes.set(el.getAttribute("data-id"), el);
+      else headingNodes.set(el.getAttribute("data-cat"), el);
     }
+    // Anything else the grid held (a stale prerender) goes.
+    for (const el of [...grid.children]) {
+      if (!el.matches(".entry-card, .group-heading")) el.remove();
+    }
+  }
+
+  /** Puts every node in `order` (visible ones first), moving nothing already in place. */
+  function placeNodes(order) {
+    const grid = $("#entry-grid");
+    const current = grid.children;
+    if (order.length === current.length && order.every((n, i) => current[i] === n)) return;
+    grid.append(...order);
+  }
+
+  function renderGrid({ list, ranked }) {
     const grid = $("#entry-grid");
     const empty = $("#empty-state");
+    const group = shouldGroup();
     $("#result-count").textContent = `${list.length} / ${data.entries.length}`;
+    empty.hidden = list.length > 0;
 
-    if (!list.length) {
-      grid.innerHTML = "";
-      empty.hidden = false;
-      groupHeadings = [];
-      return;
+    // Under a plain sort the order of all nodes is fixed, so filtering only
+    // toggles visibility. A ranked search reorders on every change.
+    const key = ranked
+      ? `rank:${group}:${list.map((e) => e.id).join(",")}`
+      : `${group ? "group" : "flat"}:${state.sort}`;
+    if (key !== placedKey) {
+      placedKey = key;
+      const shown = new Set(list.map((e) => e.id));
+      const rest = data.entries.filter((e) => !shown.has(e.id));
+      const all = ranked ? [...list, ...rest] : data.entries.slice().sort(SORTS[state.sort] || SORTS.name);
+      const order = [];
+      if (group) {
+        for (const cat of Object.keys(categoryLabels)) {
+          order.push(headingNodes.get(cat));
+          for (const e of all) if (e.category === cat) order.push(cardNodes.get(e.id));
+        }
+        // Entries outside the configured categories never show grouped.
+        for (const e of all) if (!categoryLabels[e.category]) order.push(cardNodes.get(e.id));
+      } else {
+        order.push(...headingNodes.values(), ...all.map((e) => cardNodes.get(e.id)));
+      }
+      placeNodes(order);
     }
-    empty.hidden = true;
 
-    if (!shouldGroup()) {
-      grid.innerHTML = list.map(cardHtml).join("");
-      groupHeadings = [];
-      syncSpy();
-      return;
+    const shown = new Set();
+    const perCat = new Map();
+    for (const e of list) {
+      if (group && !categoryLabels[e.category]) continue;
+      shown.add(e.id);
+      perCat.set(e.category, (perCat.get(e.category) || 0) + 1);
     }
-
-    const out = [];
-    for (const cat of Object.keys(categoryLabels)) {
-      const group = list.filter((e) => e.category === cat);
-      if (!group.length) continue;
-      const label = categoryLabels[cat]?.label || cat;
-      out.push(
-        `<h3 class="group-heading" id="group-${escapeHtml(cat)}" data-cat="${escapeHtml(cat)}">` +
-          `<span class="group-name">${escapeHtml(label)}</span>` +
-          `<span class="group-count">${group.length}</span>` +
-          `</h3>`
-      );
-      out.push(...group.map(cardHtml));
+    for (const [id, el] of cardNodes) el.hidden = !shown.has(id);
+    for (const [cat, el] of headingNodes) {
+      const n = group ? perCat.get(cat) || 0 : 0;
+      el.hidden = !n;
+      if (n) el.querySelector(".group-count").textContent = String(n);
     }
-    grid.innerHTML = out.join("");
-    groupHeadings = $$("#entry-grid .group-heading");
+    groupHeadings = [...grid.children].filter((el) => el.matches(".group-heading") && !el.hidden);
+    // The first visible heading sits flush with the top of the list.
+    for (const el of headingNodes.values()) el.classList.toggle("is-lead", el === groupHeadings[0]);
     syncSpy();
   }
 
@@ -469,10 +536,16 @@
     });
   }
 
+  // Typing waits for a pause before filtering; every other control is immediate.
+  const SEARCH_DELAY = 120;
+  let searchTimer = 0;
+
   function apply() {
-    syncCategoryChips();
+    clearTimeout(searchTimer);
+    const results = computeResults();
+    syncCategoryChips(results);
     renderActiveFilters();
-    renderGrid();
+    renderGrid(results);
     writeUrl();
   }
 
@@ -548,7 +621,8 @@
     search.value = state.q;
     search.addEventListener("input", (e) => {
       state.q = e.target.value;
-      apply();
+      clearTimeout(searchTimer);
+      searchTimer = setTimeout(apply, SEARCH_DELAY);
     });
 
     const toggles = [
@@ -664,6 +738,7 @@
   /* --------------------------------------------------------------- init */
 
   readUrl();
+  adoptNodes();
   renderCategoryFilters();
   renderStarters();
   renderGuides();

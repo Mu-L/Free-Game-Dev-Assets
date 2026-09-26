@@ -825,8 +825,14 @@ input:focus-visible {
   color: var(--muted);
 }
 
-.group-heading:not(:first-child) {
+.group-heading:not(:first-child):not(.is-lead) {
   margin-top: 1.5rem;
+}
+
+/* app.js filters by hiding rows it keeps, and a row's own display would
+   otherwise win over the hidden attribute. */
+.entry-list > [hidden] {
+  display: none;
 }
 
 .group-count {

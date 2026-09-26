@@ -319,10 +319,13 @@ function notFoundHtml(site) {
       <h1>Not found</h1>
       <p>That page is not part of this catalog.</p>
       <p>Looking for an entry? <a href="${esc(base)}/#catalog">Search the catalog</a>.</p>
+      <div id="suggestions"></div>
       <p class="hero-actions">
         <a class="btn" href="${esc(base)}/">Back to the catalog</a>
       </p>
     </main>
+    <script src="${esc(base)}/data.js" defer></script>
+    <script src="${esc(base)}/not-found.js" defer></script>
   </body>
 </html>
 `;

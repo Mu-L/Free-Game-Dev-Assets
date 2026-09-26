@@ -668,20 +668,28 @@
       if (e.target.closest("a")) rememberScroll();
     });
 
+    // The button pressed is gone after the re-render. Focus goes to the chip
+    // that took its place, or to the result count, never back to the top of
+    // the document.
     $("#active-filters").addEventListener("click", (e) => {
       const btn = e.target.closest("[data-clear]");
       if (!btn) return;
       const key = btn.getAttribute("data-clear");
+      const index = $$("#active-filters [data-clear]").indexOf(btn);
       if (key === "all") Object.assign(state, DEFAULTS);
       else state[key] = DEFAULTS[key];
       syncControls();
       apply();
+      const left = $$("#active-filters [data-clear]");
+      const next = key === "all" ? null : left[Math.min(index, left.length - 1)];
+      (next || $("#result-count")).focus();
     });
 
     $("#empty-reset").addEventListener("click", () => {
       Object.assign(state, DEFAULTS);
       syncControls();
       apply();
+      $("#result-count").focus();
     });
 
     const top = $("#to-top");

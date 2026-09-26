@@ -840,15 +840,21 @@ input:focus-visible,
   font-variant-numeric: tabular-nums;
 }
 
-/* Live count on each filter chip. */
+/* Live count on each filter chip. Solid colours only: fading the text with
+   opacity took it below 4.5:1 in both themes. The count is set in the mono
+   face at the chip's own colour (muted: 5.3:1 light, 7.5:1 dark). */
 .chip-count {
   margin-left: 0.15rem;
+  font-family: var(--mono);
+  font-size: 0.92em;
   font-variant-numeric: tabular-nums;
-  opacity: 0.7;
 }
 
-.chip.is-empty {
-  opacity: 0.45;
+/* A category with no matches under the other filters: a dashed outline and
+   its 0 count say so, at full text contrast. */
+.chip.is-empty:not(.is-active) {
+  border-style: dashed;
+  color: var(--muted);
 }
 
 /* "You are here" is deliberately quieter than "this filter is on". */

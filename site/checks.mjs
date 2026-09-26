@@ -296,11 +296,48 @@ export function checkValueSpellings(records, fields = ["formats", "subcategories
         if (!spellings.has(v)) spellings.set(v, rel);
       }
     }
+    // "-es" and "-ies" plurals: after the "s" fold, "base-meshes" keys as
+    // "basemeshe" and "categories" as "categorie". Join such a key to its
+    // singular ("basemesh", "category") only when that singular is in use,
+    // so "shades" is never matched to a "shad".
+    for (const key of [...byKey.keys()]) {
+      let singular = null;
+      if (key.endsWith("ie")) singular = `${key.slice(0, -2)}y`;
+      else if (key.endsWith("e") && /(ch|sh|x|z|s)$/.test(key.slice(0, -1))) singular = key.slice(0, -1);
+      if (!singular || !byKey.has(singular)) continue;
+      for (const [v, rel] of byKey.get(key)) if (!byKey.get(singular).has(v)) byKey.get(singular).set(v, rel);
+      byKey.delete(key);
+    }
     for (const spellings of byKey.values()) {
       if (spellings.size < 2) continue;
       const listed = [...spellings.entries()].map(([v, rel]) => `"${v}" (${rel})`).join(", ");
       errors.push(`${field} spells one value several ways: ${listed}`);
     }
+  }
+  return errors;
+}
+
+/* ----------------------------------------------------------------- V19 */
+/**
+ * Synonyms V13 cannot see (`tiles` beside `tileset`, `ir` beside
+ * `impulse-responses`) were merged by hand; site/value-aliases.json records
+ * each retired spelling so it cannot come back. A tag that looks like an
+ * internal review marker (`r04`) is rejected too: one leaked onto 15 entries.
+ */
+export function checkValueAliases(rel, meta, aliases) {
+  const errors = [];
+  const retired = aliases.retired || {};
+  for (const field of ["formats", "subcategories", "tags"]) {
+    const values = Array.isArray(meta[field]) ? meta[field].map(String) : [];
+    for (const v of values) {
+      const use = aliases[field]?.[v];
+      if (use) errors.push(`${rel} ${field} "${v}" is a retired spelling; use "${use}" (site/value-aliases.json)`);
+      const why = retired[field]?.[v];
+      if (why) errors.push(`${rel} ${field} must not carry "${v}": ${why}`);
+    }
+  }
+  for (const t of Array.isArray(meta.tags) ? meta.tags.map(String) : []) {
+    if (/^r\d+$/.test(t)) errors.push(`${rel} tag "${t}" looks like an internal review marker, not a description`);
   }
   return errors;
 }

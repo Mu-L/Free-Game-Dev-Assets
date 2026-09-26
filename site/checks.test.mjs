@@ -25,6 +25,7 @@ import {
   checkSpdxConsistency,
   checkStacks,
   checkTaxonomyValues,
+  checkValueAliases,
   checkValueSpellings,
 } from "./checks.mjs";
 
@@ -638,10 +639,39 @@ eq("V18 skips fenced code", anchors.has("not-a-heading"), false);
 eq("V18 drops punctuation and link syntax", anchors.has("fonts--ofl-link"), true);
 eq("V18 reads explicit ids", anchors.has("custom"), true);
 
+/* V13: -es and -ies plurals -------------------------------------------- */
+const rec = (rel, subcategories) => ({ rel, meta: { subcategories } });
+rejects(
+  "V13 joins an -es plural to its singular",
+  checkValueSpellings([rec("a.md", ["base-mesh"]), rec("b.md", ["base-meshes"])], ["subcategories"]),
+  '"base-mesh" (a.md), "base-meshes" (b.md)'
+);
+rejects(
+  "V13 joins an -ies plural to its singular",
+  checkValueSpellings([rec("a.md", ["category"]), rec("b.md", ["categories"])], ["subcategories"]),
+  "spells one value several ways"
+);
+accepts(
+  "V13 does not strip -es from a word that is not a sibilant plural",
+  checkValueSpellings([rec("a.md", ["shade"]), rec("b.md", ["shades"]), rec("c.md", ["shad"])], ["subcategories"]).filter((e) => e.includes('"shad"'))
+);
+accepts(
+  "V13 leaves an -ies word alone when no singular is in use",
+  checkValueSpellings([rec("a.md", ["movies"]), rec("b.md", ["movie"])], ["subcategories"]).filter((e) => e.includes("movy"))
+);
+
+/* V19: retired spellings ----------------------------------------------- */
+const aliases = JSON.parse(fs.readFileSync(path.join(__dirname, "value-aliases.json"), "utf8"));
+rejects("V19 rejects a retired subcategory", checkValueAliases("bad.md", { subcategories: ["tiles"] }, aliases), 'use "tileset"');
+rejects("V19 rejects a retired format", checkValueAliases("bad.md", { formats: ["JPEG"] }, aliases), 'use "JPG"');
+rejects("V19 rejects a licence as a subcategory", checkValueAliases("bad.md", { subcategories: ["public-domain"] }, aliases), "a licence, not a kind of content");
+rejects("V19 rejects an internal review tag", checkValueAliases("bad.md", { tags: ["r04"] }, aliases), "internal review marker");
+accepts("V19 lets a tag use a word retired only as a subcategory", checkValueAliases("ok.md", { tags: ["tiles", "public-domain"] }, aliases));
+
 /* ----------------------------------------------------------------------- */
 if (failures.length) {
   console.error(`checks.test failed (${failures.length}):`);
   for (const f of failures) console.error(`  - ${f}`);
   process.exit(1);
 }
-console.log(`checks.test ok: ${passed} assertions across 18 checks`);
+console.log(`checks.test ok: ${passed} assertions across 19 checks`);

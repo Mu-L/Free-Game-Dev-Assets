@@ -10,6 +10,7 @@ attribution_required: true
 attribution_string: "LPC Revised Character Basics by Eliza Wyatt, Stephen Challener (Redshrike), Durrani, BenCreating, Johannes Sjölund (Wulax), Thecilekli and BlueCarrot16 (OGA-BY 3.0). See the Credits files for per-item authors."
 formats: [PNG]
 tags: [lpc, opengameart, cc-by-sa, gpl, oga-by, copyleft-assets]
+camera_perspective: isometric_3_4
 verified: 2026-09-24
 status: active
 ---
@@ -22,6 +23,7 @@ Modernised LPC character bases on OpenGameArt: bodies, heads, hair and clothing 
 
 - **Take OGA-BY.** Measured from the download on 2026-09-24: the three `Credits.txt` files (Body, Clothing, Hair) list 39 items, and all 39 say "LICENSE: OGA-by". OGA-BY 3.0 is CC-BY without the anti-DRM clause, which suits console and store builds. CC-BY-SA and GPL would add share-alike obligations you do not need
 - **Credit per item.** The page names seven authors; the `Credits.txt` files say which author made each head, garment and hairstyle. Credit the ones you ship
+- View: the author's [LPC repository](https://github.com/ElizaWy/LPC), which the submission names as the home of the whole LPC Revised collection, describes it (read 2026-09-26) as "a 32-pixel style, with a three-quarters (top-down) perspective"
 - The download is large: about 80 MB and 14,700 files, most of them palette and layer variants
 - `license: varies` because the page offers three licences and the catalog vocabulary has no OGA-BY value. `commercial: true` because all three permit commercial use
 - Pair with [universal-lpc-generator](universal-lpc-generator.md); see [`docs/high-risk.md`](../../docs/high-risk.md) for the share-alike trap on other LPC material

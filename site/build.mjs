@@ -562,7 +562,7 @@ function main() {
     CATEGORY_CHIPS: categoryChipsHtml(visible, config.categories),
     GUIDE_ROWS: guideRowsHtml(config.guides, repoUrl),
     CATALOG_BLURB: `${stats.total} sources &middot; ${stats.active} active &middot; ${stats.commercialOk} commercial-ok &middot; ${stats.commercialVaries} per-file &middot; ${stats.deprecated} deprecated`,
-    RESULT_COUNT: `${visible.length} / ${stats.total}`,
+    RESULT_COUNT: `${visible.length} of ${stats.total} entries shown`,
     FOOTER_STAMP: `Built ${esc(stamp)} from ${stats.total} catalog entries.`,
   };
   let html = fs.readFileSync(indexPath, "utf8");

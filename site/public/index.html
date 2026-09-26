@@ -103,9 +103,11 @@
             <kbd class="search-key" aria-hidden="true">/</kbd>
           </label>
 
+          <button type="button" class="filters-toggle" id="filters-toggle" aria-expanded="false" aria-controls="category-filters meta-filters" hidden>Filters</button>
+
           <div class="filter-row" id="category-filters" role="group" aria-label="Filter by category"><!--CATEGORY_CHIPS--></div>
 
-          <div class="filter-row meta-filters" role="group" aria-label="Filter by status and terms">
+          <div class="filter-row meta-filters" id="meta-filters" role="group" aria-label="Filter by status and terms">
             <label class="check">
               <input type="checkbox" id="filter-active" checked />
               Active

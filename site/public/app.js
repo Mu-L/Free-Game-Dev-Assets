@@ -380,10 +380,14 @@
     if (state.deprecated) chips.push({ key: "deprecated", label: "showing deprecated" });
     if (state.commercialOnly)
       chips.push({ key: "commercialOnly", label: "commercial OK or per-file review" });
+    if (state.noAttr) chips.push({ key: "noAttr", label: "no attribution only" });
+
     // The filter keeps aggregators whose files differ, which a reader
     // filtering for "safe to ship" must see, not find in a tooltip.
     $("#commercial-note").hidden = !state.commercialOnly;
-    if (state.noAttr) chips.push({ key: "noAttr", label: "no attribution only" });
+    // The small-screen disclosure counts what its hidden panel is doing.
+    const set = chips.filter((c) => c.key !== "q").length;
+    $("#filters-toggle").textContent = set ? `Filters (${set})` : "Filters";
 
     if (!chips.length) {
       host.hidden = true;
@@ -711,6 +715,19 @@
       syncControls();
       apply();
       $("#result-count").focus();
+    });
+
+    // On a phone the filter panel is about 530px of chips and checkboxes
+    // between the search box and the first entry. It folds behind a button
+    // there (styles.css); on wider screens the button is not shown. Only
+    // with this script can the panel be folded, so no-script pages keep it.
+    const controls = $(".controls");
+    const toggle = $("#filters-toggle");
+    toggle.hidden = false;
+    controls.classList.add("is-collapsed");
+    toggle.addEventListener("click", () => {
+      const open = controls.classList.toggle("is-collapsed") === false;
+      toggle.setAttribute("aria-expanded", open ? "true" : "false");
     });
 
     const top = $("#to-top");

@@ -956,6 +956,49 @@ input:focus-visible,
   }
 }
 
+/* The filter disclosure exists for small screens only. app.js unhides it
+   and folds the panel; everything but the result count (the live region)
+   hides while folded. */
+.filters-toggle {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .filters-toggle:not([hidden]) {
+    display: inline-flex;
+    align-items: center;
+    justify-self: start;
+    min-height: 44px;
+    padding: 0.4rem 0.8rem;
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--ink);
+    font: inherit;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .filters-toggle::after {
+    content: "";
+    width: 0.4rem;
+    height: 0.4rem;
+    margin-left: 0.55rem;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: translateY(-2px) rotate(45deg);
+  }
+
+  .filters-toggle[aria-expanded="true"]::after {
+    transform: translateY(2px) rotate(-135deg);
+  }
+
+  .controls.is-collapsed #category-filters,
+  .controls.is-collapsed #meta-filters > :not(.result-count) {
+    display: none;
+  }
+}
+
 /* On a phone the wrapped filter panel is about 530px tall, two thirds of the
    screen, and pinning it left a strip for the entries. Small or short screens
    scroll it away with the page instead; the floating Search button brings it back. */

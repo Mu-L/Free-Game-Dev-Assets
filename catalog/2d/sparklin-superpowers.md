@@ -4,7 +4,7 @@ name: Sparklin Superpowers asset packs
 url: https://github.com/sparklinlabs/superpowers-asset-packs
 publisher: Sparklin
 category: 2d
-subcategories: [sprites, tiles, pixel, ui]
+subcategories: [sprites, tileset, pixel, ui]
 license: CC0
 license_spdx: CC0-1.0
 commercial: true

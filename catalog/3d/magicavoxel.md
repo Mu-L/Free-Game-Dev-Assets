@@ -8,7 +8,7 @@ license: custom
 commercial: true
 attribution_required: false
 formats: [VOX, OBJ]
-tags: [voxel, freeware, r04]
+tags: [voxel, freeware]
 verified: 2026-08-25
 status: active
 ---

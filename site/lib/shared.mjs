@@ -55,6 +55,15 @@ export function commercialLabel(v) {
   return "commercial ?";
 }
 
+/**
+ * The newest date a check may accept as "not in the future": tomorrow in UTC.
+ * A contributor east of UTC who writes their local date before UTC midnight
+ * has not written a future date.
+ */
+export function latestAllowedDate(now = Date.now()) {
+  return new Date(now + 86400000).toISOString().slice(0, 10);
+}
+
 /** Absolute URL of an entry's page. */
 export function entryPageUrl(site, id) {
   return `${String(site.siteUrl).replace(/\/+$/, "")}/entry/${id}/`;

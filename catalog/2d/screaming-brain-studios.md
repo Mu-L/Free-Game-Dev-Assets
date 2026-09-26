@@ -4,7 +4,7 @@ name: Screaming Brain Studios (isometric tiles)
 url: https://screamingbrainstudios.itch.io
 publisher: Screaming Brain Studios
 category: 2d
-subcategories: [tiles, isometric]
+subcategories: [tileset, isometric]
 license: CC0
 license_spdx: CC0-1.0
 commercial: true

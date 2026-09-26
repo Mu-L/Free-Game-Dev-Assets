@@ -4,6 +4,52 @@ Newest section at the top. One section per review run. This is the record of wha
 run measured, what it changed, what it deliberately did not change, and what the next
 run should not spend time re-deciding.
 
+## 2026-09-26 (repo review and issue fixes)
+
+A full review of code, site, catalog data and docs filed issues #1 to #47; this run fixed
+most of them on the `review-fixes` branch, one commit per issue or per interlocked group.
+
+- **CI:** no push path filters (stacks-only pushes were neither validated nor deployed),
+  Node 24 from `.nvmrc`, current action majors, Dependabot for actions, Pages calls
+  `ci.yml` instead of repeating it, and a weekly link check (`links.yml`,
+  `site/check-links.mjs`) that opens one `correction` issue. First run: 317 checked, none
+  dead, moved or stale; 7 to 8 sites refuse robots.
+- **Build and checks:** one frontmatter parser (`site/lib/frontmatter.mjs`) for build
+  and validate, which had drifted; summaries keep literal `_` and `#` (five changed); the
+  build fails on an unreadable entry instead of dropping it. New checks: V16 url scheme,
+  V17 category sets (folders, config, issue form), V18 heading anchors, V19 retired
+  spellings (`site/value-aliases.json`); real calendar dates (the shared `isRealDate` is
+  from a contributor's PR, #48, merged first); Evidence dates inside URLs
+  no longer count; a day of time-zone slack. Renderer: parens in link hrefs, misnested
+  emphasis, unique heading ids.
+- **Tooling:** `package.json` scripts (`npm run check`), `site/new-entry.mjs`,
+  `site/sync-counts.mjs` (every restated count in one command).
+- **Site:** word-start search with name and tag hits first, rows toggled rather than
+  rebuilt, focus kept after removing a filter, `h4` card titles, contrast and touch
+  targets, URL params validated, deferred scripts, a visible per-file note on Commercial
+  OK, a folding filter panel on phones, back-to-results breadcrumb, 404 suggestions,
+  sitemap link.
+- **Catalog (metadata only):** removed the leaked `r04` tag (15 entries); merged
+  subcategory synonyms (`tiles`, `pixel-art`, `ir`, `gui`, `base-mesh`, `public-domain`
+  as a subcategory); one spelling for duplicate tags and formats; publisher on six
+  entries; three URLs moved to durable pages.
+- **Catalog (licence facts, re-read live 2026-09-26):** material-symbols,
+  ms-building-footprints and microsoft-rocketbox no longer ask for on-screen credit;
+  their licences (Apache-2.0, CDLA-Permissive-2.0, MIT) need the licence text kept, and
+  none of the publishers asks for more. Two 2D fields set where the page says so
+  (bondoki-rotating-gems 52x52, lpc-revised-basics 3/4 view).
+- **Deliberately not changed:** `charge-materials` and `blender-ellie-poses` keep a bare
+  `CC-BY`: Blender's card says only "CC-BY", and guessing a version would be a licence
+  claim. Fonts are not self-hosted: that would commit third-party binaries. No check yet
+  for notice-only licences marked credit-required: `nasa-3d-resources` would need its
+  credit wording re-read first.
+- **Still open for a person:** #3 (branch protection), #36 (licence and publisher tags),
+  #37 (a canonical format list), #38 (category moves), #40 (re-verify needs-review
+  entries), #41 (the rest of the 2D fields: the sources do not state them), #42, #43,
+  #45, #47.
+- Next highest-value action: submit `sitemap.xml` in Search Console and Bing Webmaster
+  Tools, then the third full review on or after 2026-10-17.
+
 ## 2026-09-25 (outreach)
 
 Sub-project E, the items that reach outside the repo, each approved by the maintainer

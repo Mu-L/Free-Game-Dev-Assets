@@ -1,0 +1,19 @@
+{
+  "name": "free-game-dev-assets",
+  "private": true,
+  "description": "Catalog checks and static site build. No dependencies.",
+  "license": "CC0-1.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node site/checks.test.mjs && node site/lib/lib.test.mjs",
+    "validate": "node site/validate.mjs",
+    "build": "node site/build.mjs",
+    "check": "npm test && npm run validate && npm run build",
+    "counts": "node site/sync-counts.mjs",
+    "new-entry": "node site/new-entry.mjs",
+    "links": "node site/check-links.mjs",
+    "serve": "npx --yes serve site/dist"
+  }
+}

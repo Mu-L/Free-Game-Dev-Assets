@@ -371,7 +371,7 @@ code {
   align-items: baseline;
 }
 
-.entry-top h3 {
+.entry-top h4 {
   margin: 0;
   font-size: 1.02rem;
   letter-spacing: -0.015em;
@@ -499,7 +499,8 @@ a:focus-visible,
 button:focus-visible,
 select:focus-visible,
 summary:focus-visible,
-input:focus-visible {
+input:focus-visible,
+.result-count:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
@@ -537,12 +538,12 @@ input:focus-visible {
   box-shadow: inset 3px 0 0 var(--accent);
 }
 
-.entry-top h3 a {
+.entry-top h4 a {
   color: var(--ink);
   text-decoration: none;
 }
 
-.entry-top h3 a:hover {
+.entry-top h4 a:hover {
   color: var(--accent);
   text-decoration: underline;
 }
@@ -553,6 +554,26 @@ input:focus-visible {
 @media (pointer: coarse) {
   .topnav a {
     padding-block: 12px;
+  }
+
+  /* "Open source" and "Entry and evidence" sit inside the card-wide title
+     link, so a near miss opened the entry page. Padding cancelled by an
+     equal negative margin grows each to about 44px without moving a thing. */
+  .entry-links a {
+    display: inline-block;
+    padding: 13px 6px;
+    margin: -13px -6px;
+  }
+
+  /* The filter controls get the same 44px on any touch screen, not only
+     on narrow ones. */
+  .chip,
+  .check,
+  .sort-field select,
+  .legend summary {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
   }
 }
 
@@ -665,6 +686,19 @@ input:focus-visible {
 
 .active-filters {
   gap: 0.35rem;
+}
+
+.filter-note {
+  margin: 0;
+  padding: 0.45rem 0.6rem;
+  border-left: 3px solid var(--warn);
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 0.85rem;
+}
+
+.filter-note[hidden] {
+  display: none;
 }
 
 .active-filters-label {
@@ -825,23 +859,35 @@ input:focus-visible {
   color: var(--muted);
 }
 
-.group-heading:not(:first-child) {
+.group-heading:not(:first-child):not(.is-lead) {
   margin-top: 1.5rem;
+}
+
+/* app.js filters by hiding rows it keeps, and a row's own display would
+   otherwise win over the hidden attribute. */
+.entry-list > [hidden] {
+  display: none;
 }
 
 .group-count {
   font-variant-numeric: tabular-nums;
 }
 
-/* Live count on each filter chip. */
+/* Live count on each filter chip. Solid colours only: fading the text with
+   opacity took it below 4.5:1 in both themes. The count is set in the mono
+   face at the chip's own colour (muted: 5.3:1 light, 7.5:1 dark). */
 .chip-count {
   margin-left: 0.15rem;
+  font-family: var(--mono);
+  font-size: 0.92em;
   font-variant-numeric: tabular-nums;
-  opacity: 0.7;
 }
 
-.chip.is-empty {
-  opacity: 0.45;
+/* A category with no matches under the other filters: a dashed outline and
+   its 0 count say so, at full text contrast. */
+.chip.is-empty:not(.is-active) {
+  border-style: dashed;
+  color: var(--muted);
 }
 
 /* "You are here" is deliberately quieter than "this filter is on". */
@@ -907,6 +953,49 @@ input:focus-visible {
 
   .to-top {
     padding: 0.5rem 0.7rem;
+  }
+}
+
+/* The filter disclosure exists for small screens only. app.js unhides it
+   and folds the panel; everything but the result count (the live region)
+   hides while folded. */
+.filters-toggle {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .filters-toggle:not([hidden]) {
+    display: inline-flex;
+    align-items: center;
+    justify-self: start;
+    min-height: 44px;
+    padding: 0.4rem 0.8rem;
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--ink);
+    font: inherit;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .filters-toggle::after {
+    content: "";
+    width: 0.4rem;
+    height: 0.4rem;
+    margin-left: 0.55rem;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: translateY(-2px) rotate(45deg);
+  }
+
+  .filters-toggle[aria-expanded="true"]::after {
+    transform: translateY(2px) rotate(-135deg);
+  }
+
+  .controls.is-collapsed #category-filters,
+  .controls.is-collapsed #meta-filters > :not(.result-count) {
+    display: none;
   }
 }
 

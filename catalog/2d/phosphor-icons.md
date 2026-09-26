@@ -9,7 +9,7 @@ license_spdx: MIT
 commercial: true
 attribution_required: false
 formats: [SVG]
-tags: [icons, multi-weight, r04]
+tags: [icons, multi-weight]
 grid_dimensions: 16x16
 camera_perspective: 2d_flat
 verified: 2026-08-24

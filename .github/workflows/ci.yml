@@ -1,27 +1,27 @@
 name: Validate catalog
 
+# No path filters: the build reads catalog/, stacks/, docs/, site/ and the
+# top-level Markdown files, and the whole run takes seconds.
 on:
   pull_request:
   push:
     branches: [main]
-    paths:
-      - "catalog/**"
-      - "docs/**"
-      - "site/**"
-      - "README.md"
-      - ".github/workflows/ci.yml"
+  workflow_call:
+
+permissions:
+  contents: read
 
 jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
-          node-version: "20"
+          node-version-file: .nvmrc
 
       - name: Test catalog checks
         run: node site/checks.test.mjs

@@ -7,10 +7,27 @@
  */
 
 import path from "node:path";
-import { parseStack, pickPath, StackError } from "./lib/stacks.mjs";
+import { evidenceSection } from "./lib/frontmatter.mjs";
 import { isRealDate } from "./lib/shared.mjs";
+import { parseStack, pickPath, StackError } from "./lib/stacks.mjs";
 
-const DATE_ANY_RE = /\d{4}-\d{2}-\d{2}/g;
+export { evidenceSection };
+
+// A date standing on its own, not part of a longer token such as a path.
+const DATE_TOKEN_RE = /(?<![\w/.-])(\d{4}-\d{2}-\d{2})(?![\w/-])/g;
+
+/**
+ * The dates written in an Evidence section, sorted. Dates inside URLs are
+ * not evidence dates: a link to `.../releases/2026-09-20-notes` says when
+ * the release was, not when the page was read.
+ */
+export function evidenceDates(ev) {
+  const prose = ev
+    .replace(/\]\([^)]*\)/g, "]")
+    .replace(/<https?:[^>]*>/g, "")
+    .replace(/https?:\/\/[^\s)>\]]+/g, "");
+  return [...prose.matchAll(DATE_TOKEN_RE)].map((m) => m[1]).sort();
+}
 
 /** Generic hosts and distributors that are never a rights holder. */
 export const GENERIC_HOSTS = new Set([
@@ -49,15 +66,6 @@ function empty(v) {
   if (typeof v === "string" && v.trim() === "") return true;
   if (Array.isArray(v) && v.length === 0) return true;
   return false;
-}
-
-/** The `## Evidence` section of an entry body, or null. */
-export function evidenceSection(body) {
-  const idx = body.search(/^## Evidence\s*$/m);
-  if (idx === -1) return null;
-  const rest = body.slice(idx);
-  const next = rest.search(/\n## (?!Evidence)/);
-  return next === -1 ? rest : rest.slice(0, next);
 }
 
 /* ------------------------------------------------------------------ V1 */
@@ -151,7 +159,7 @@ export function checkEvidenceDates(rel, meta, body, today) {
   const errors = [];
   const ev = evidenceSection(body);
   if (!ev) return errors; // presence is validate.mjs's job, and only for active
-  const dates = [...ev.matchAll(DATE_ANY_RE)].map((m) => m[0]).sort();
+  const dates = evidenceDates(ev);
   if (!dates.length) {
     errors.push(`${rel} ## Evidence section carries no YYYY-MM-DD date`);
     return errors;
@@ -291,11 +299,48 @@ export function checkValueSpellings(records, fields = ["formats", "subcategories
         if (!spellings.has(v)) spellings.set(v, rel);
       }
     }
+    // "-es" and "-ies" plurals: after the "s" fold, "base-meshes" keys as
+    // "basemeshe" and "categories" as "categorie". Join such a key to its
+    // singular ("basemesh", "category") only when that singular is in use,
+    // so "shades" is never matched to a "shad".
+    for (const key of [...byKey.keys()]) {
+      let singular = null;
+      if (key.endsWith("ie")) singular = `${key.slice(0, -2)}y`;
+      else if (key.endsWith("e") && /(ch|sh|x|z|s)$/.test(key.slice(0, -1))) singular = key.slice(0, -1);
+      if (!singular || !byKey.has(singular)) continue;
+      for (const [v, rel] of byKey.get(key)) if (!byKey.get(singular).has(v)) byKey.get(singular).set(v, rel);
+      byKey.delete(key);
+    }
     for (const spellings of byKey.values()) {
       if (spellings.size < 2) continue;
       const listed = [...spellings.entries()].map(([v, rel]) => `"${v}" (${rel})`).join(", ");
       errors.push(`${field} spells one value several ways: ${listed}`);
     }
+  }
+  return errors;
+}
+
+/* ----------------------------------------------------------------- V19 */
+/**
+ * Synonyms V13 cannot see (`tiles` beside `tileset`, `ir` beside
+ * `impulse-responses`) were merged by hand; site/value-aliases.json records
+ * each retired spelling so it cannot come back. A tag that looks like an
+ * internal review marker (`r04`) is rejected too: one leaked onto 15 entries.
+ */
+export function checkValueAliases(rel, meta, aliases) {
+  const errors = [];
+  const retired = aliases.retired || {};
+  for (const field of ["formats", "subcategories", "tags"]) {
+    const values = Array.isArray(meta[field]) ? meta[field].map(String) : [];
+    for (const v of values) {
+      const use = aliases[field]?.[v];
+      if (use) errors.push(`${rel} ${field} "${v}" is a retired spelling; use "${use}" (site/value-aliases.json)`);
+      const why = retired[field]?.[v];
+      if (why) errors.push(`${rel} ${field} must not carry "${v}": ${why}`);
+    }
+  }
+  for (const t of Array.isArray(meta.tags) ? meta.tags.map(String) : []) {
+    if (/^r\d+$/.test(t)) errors.push(`${rel} tag "${t}" looks like an internal review marker, not a description`);
   }
   return errors;
 }
@@ -425,6 +470,81 @@ export function checkCategoryReadmeRows(categoryName, readmeText, entries) {
   return errors;
 }
 
+/* ----------------------------------------------------------------- V16 */
+/**
+ * `url` becomes the "Go to source" link on every page, so it must be a web
+ * address. A `javascript:` or `data:` value would render as a live link, and
+ * escaping HTML does nothing about a scheme.
+ */
+export function checkEntryUrl(rel, meta) {
+  const errors = [];
+  if (empty(meta.url)) return errors; // missing fields are reported elsewhere
+  let url;
+  try {
+    url = new URL(String(meta.url));
+  } catch {
+    errors.push(`${rel} url "${meta.url}" is not an absolute URL`);
+    return errors;
+  }
+  if (url.protocol !== "https:" && url.protocol !== "http:") {
+    errors.push(`${rel} url must be https:// (or http:// where the source has no https), not ${url.protocol}`);
+  } else if (!url.hostname) {
+    errors.push(`${rel} url "${meta.url}" has no host`);
+  }
+  return errors;
+}
+
+/* ----------------------------------------------------------------- V17 */
+/**
+ * The catalog folders, `site/config.json` categories and the new-source
+ * issue form must list the same categories. A folder missing from the
+ * config still gets entry pages but vanishes from the homepage, the pager
+ * and llms.txt, and nothing said so.
+ */
+export function checkCategorySets({ dirs, configured, formOptions }) {
+  const errors = [];
+  const diff = (a, b) => [...a].filter((x) => !b.has(x)).sort();
+  const d = new Set(dirs);
+  const c = new Set(configured);
+  for (const cat of diff(d, c)) errors.push(`catalog/${cat}/ is not in site/config.json categories, so the homepage would not list it`);
+  for (const cat of diff(c, d)) errors.push(`site/config.json category "${cat}" has no catalog/${cat}/ folder`);
+  if (formOptions) {
+    const f = new Set(formOptions);
+    for (const cat of diff(d, f)) errors.push(`.github/ISSUE_TEMPLATE/new-source.yml category options leave out "${cat}"`);
+    for (const cat of diff(f, d)) errors.push(`.github/ISSUE_TEMPLATE/new-source.yml offers category "${cat}", which is not a catalog folder`);
+  }
+  return errors;
+}
+
+/* ----------------------------------------------------------------- V18 */
+/**
+ * The fragment ids GitHub gives a Markdown file's headings, plus any explicit
+ * `id`/`name` attributes. The README's "Start here" table links category
+ * README headings, and renaming a heading silently broke such a link.
+ */
+export function markdownAnchors(text) {
+  const anchors = new Set();
+  const seen = new Map();
+  let fenced = false;
+  for (const line of String(text).split(/\r?\n/)) {
+    if (/^\s*```/.test(line)) fenced = !fenced;
+    if (fenced) continue;
+    const h = line.match(/^#{1,6}\s+(.*?)\s*#*\s*$/);
+    if (!h) continue;
+    const base = h[1]
+      .replace(/!?\[([^\]]*)\]\([^)]*\)/g, "$1")
+      .replace(/<[^>]+>/g, "")
+      .toLowerCase()
+      .replace(/[^\p{L}\p{N}\s_-]/gu, "")
+      .replace(/ /g, "-");
+    const n = seen.get(base) || 0;
+    seen.set(base, n + 1);
+    anchors.add(n ? `${base}-${n}` : base);
+  }
+  for (const m of String(text).matchAll(/\s(?:id|name)="([^"]+)"/g)) anchors.add(m[1]);
+  return anchors;
+}
+
 /* ------------------------------------------------------------------ V6 */
 /**
  * The category count tables in README.md and catalog/README.md, and the
@@ -468,6 +588,12 @@ export function checkCountTables(measured, docs) {
       errors.push(
         `README.md "Browse ${browse[1]} sources" but the catalog has ${total}`
       );
+    }
+    // Optional wording; checked wherever it appears.
+    for (const m of readme.text.matchAll(/searches all (\d+) entries/g)) {
+      if (Number(m[1]) !== total) {
+        errors.push(`README.md "searches all ${m[1]} entries" but the catalog has ${total}`);
+      }
     }
   }
   return errors;

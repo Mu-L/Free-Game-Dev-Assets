@@ -268,11 +268,14 @@ and follow the [Code of Conduct](CODE_OF_CONDUCT.md).
 <details>
 <summary>Run the checks and preview the site locally</summary>
 
+Node 22 or newer; there is nothing to install.
+
 ```bash
-node site/checks.test.mjs   # the checks, against known-bad fixtures
-node site/validate.mjs      # the catalog, against the checks
-node site/build.mjs         # builds the site into site/dist
-npx --yes serve site/dist   # preview at http://localhost:3000
+npm run check    # all of the below, in the order CI runs them
+npm test         # the checks against known-bad fixtures, and the site modules' tests
+npm run validate # the catalog, against the checks (node site/validate.mjs)
+npm run build    # builds the site into site/dist (node site/build.mjs)
+npm run serve    # preview at http://localhost:3000
 ```
 
 </details>
@@ -297,14 +300,19 @@ npx --yes serve site/dist   # preview at http://localhost:3000
 │   ├── godot-budget-stack.md research-index.md
 │   ├── review-ledger.md        every review pass and what it changed
 │   └── images/readme/          publisher stills used in this README
+├── stacks/                     starter stacks: one pick per need for a kind of game
 ├── site/
 │   ├── validate.mjs            catalog integrity checks
 │   ├── checks.mjs              the checks, as pure functions
 │   ├── checks.test.mjs         fixtures proving each check fails on bad input
+│   ├── new-entry.mjs           starts an entry from the template
+│   ├── sync-counts.mjs         rewrites every restated entry count
 │   ├── license-vocabulary.json the licence values the catalog accepts
 │   ├── spdx-allowed.json       SPDX identifiers in use
 │   ├── build.mjs config.json   static site generator and its settings
+│   ├── lib/                    page renderers and shared helpers, with lib.test.mjs
 │   └── public/                 page, styles and script
+├── package.json                npm scripts only; no dependencies
 └── RESEARCH/README.md          research archive index (drafts are gitignored)
 ```
 

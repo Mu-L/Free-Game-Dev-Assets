@@ -102,14 +102,24 @@
 
   /* -------------------------------------------------------- url <-> state */
 
+  /**
+   * A hand-edited or stale link can carry values the page has no control
+   * for. Each one falls back to its default, and apply() then rewrites the
+   * URL without it.
+   */
   function readUrl() {
     const p = new URLSearchParams(location.search);
-    if (p.has("cat")) state.category = p.get("cat");
+    const pick = (key, field, allowed) => {
+      const v = p.get(key);
+      if (v !== null && allowed.includes(v)) state[field] = v;
+    };
+    pick("cat", "category", ["all", ...Object.keys(categoryLabels)]);
+    pick("sort", "sort", Object.keys(SORTS));
+    pick("view", "perspective", ["any", ...Object.keys(PERSPECTIVE_LABELS)]);
     if (p.has("q")) state.q = p.get("q");
-    if (p.has("sort")) state.sort = p.get("sort");
-    if (p.has("view")) state.perspective = p.get("view");
     const bool = (key, field) => {
-      if (p.has(key)) state[field] = p.get(key) === "1";
+      const v = p.get(key);
+      if (v === "1" || v === "0") state[field] = v === "1";
     };
     bool("active", "active");
     bool("review", "review");
@@ -117,6 +127,8 @@
     bool("commercial", "commercialOnly");
     bool("noattr", "noAttr");
   }
+
+  const RESULTS_KEY = "fgda:results";
 
   function writeUrl() {
     const p = new URLSearchParams();
@@ -135,12 +147,19 @@
     const qs = p.toString();
     const next = `${location.pathname}${qs ? `?${qs}` : ""}${location.hash}`;
     history.replaceState(null, "", next);
+    // Entry pages link back to these results (entry.js reads this).
+    try {
+      if (qs) sessionStorage.setItem(RESULTS_KEY, qs);
+      else sessionStorage.removeItem(RESULTS_KEY);
+    } catch {
+      // Storage can be unavailable; the entry pages then link to the plain catalog.
+    }
   }
 
   /* ---------------------------------------------------------- filtering */
 
-  function matches(entry) {
-    if (state.category !== "all" && entry.category !== state.category) return false;
+  /** Every filter except the category and the search words. */
+  function passesFilters(entry) {
     if (entry.status === "active" && !state.active) return false;
     if (entry.status === "needs-review" && !state.review) return false;
     if (entry.status === "deprecated" && !state.deprecated) return false;
@@ -149,33 +168,108 @@
     if (state.noAttr && entry.attribution_required !== false) return false;
     if (state.perspective !== "any" && entry.camera_perspective !== state.perspective)
       return false;
+    return true;
+  }
 
-    const words = normalize(state.q).split(" ").filter(Boolean);
-    if (!words.length) return true;
-    const hay = normalize(
-      [
-        entry.name,
-        entry.license,
-        entry.category,
-        entry.summary,
-        entry.publisher || "",
-        PERSPECTIVE_SEARCH[entry.camera_perspective] || "",
-        ...(entry.tags || []),
-        ...(entry.formats || []),
-        ...(entry.subcategories || []),
-      ].join(" ")
-    );
-    // Every word must appear somewhere, in any order, so "top down" and "arms fps" work.
-    // A plural query word also matches its singular, since tags are stored one way:
-    // "buttons" finds the "button" tag.
-    return words.every(
-      (w) => hay.includes(w) || (w.length > 3 && w.endsWith("s") && hay.includes(w.slice(0, -1)))
-    );
+  /**
+   * One pass over the catalog per change. The pool is what passes every
+   * filter but the category: the chip counts are taken from it, because
+   * counting with the category applied would make every chip read 0 except
+   * the selected one, which tells the reader nothing.
+   */
+  function computeResults() {
+    const score = new Map();
+    const pool = [];
+    for (const e of data.entries) {
+      if (!passesFilters(e)) continue;
+      const s = searchScore(e);
+      if (!s) continue;
+      score.set(e.id, s);
+      pool.push(e);
+    }
+    const counts = new Map();
+    for (const e of pool) counts.set(e.category, (counts.get(e.category) || 0) + 1);
+    const list =
+      state.category === "all" ? pool.slice() : pool.filter((e) => e.category === state.category);
+    const ranked = state.sort === "name" && queryTests().length > 0;
+    if (ranked) {
+      // Searching under the default sort: best match first, then by name.
+      list.sort((a, b) => score.get(b.id) - score.get(a.id) || SORTS.name(a, b));
+    } else {
+      list.sort(SORTS[state.sort] || SORTS.name);
+    }
+    return { list, counts, total: pool.length, ranked };
   }
 
   // Hyphens and underscores read as spaces: "first person" finds the "first-person" tag.
   function normalize(text) {
     return String(text).toLowerCase().replace(/[-_]+/g, " ").replace(/\s+/g, " ").trim();
+  }
+
+  /* ------------------------------------------------------------- search */
+
+  // Each entry's searchable text, normalised once at load, in three fields.
+  // Name and tags are what a reader means by a word, so a hit there ranks
+  // above one in the other metadata, which ranks above a summary-only hit.
+  const FIELD_WEIGHTS = [3, 2, 1];
+  const searchIndex = new Map(
+    data.entries.map((e) => [
+      e.id,
+      [
+        normalize([e.name, ...(e.tags || [])].join(" ")),
+        normalize(
+          [
+            e.license,
+            e.category,
+            e.publisher || "",
+            PERSPECTIVE_SEARCH[e.camera_perspective] || "",
+            ...(e.formats || []),
+            ...(e.subcategories || []),
+          ].join(" ")
+        ),
+        normalize(e.summary || ""),
+      ],
+    ])
+  );
+
+  /**
+   * One test per query word. A word matches at the start of a word in the
+   * text, never inside one: "ui" finds "UI kit" but not "build", "art" finds
+   * "artwork" but not "earth". A plural query word also matches its singular,
+   * since tags are stored one way: "buttons" finds the "button" tag.
+   */
+  function wordTest(word) {
+    const forms = [word];
+    if (word.length > 3 && word.endsWith("s")) forms.push(word.slice(0, -1));
+    const alt = forms.map((f) => f.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|");
+    return new RegExp(`(?:^|[^\\p{L}\\p{N}])(?:${alt})`, "u");
+  }
+
+  let compiled = { q: null, tests: [] };
+  function queryTests() {
+    if (compiled.q !== state.q) {
+      const words = normalize(state.q).split(" ").filter(Boolean);
+      compiled = { q: state.q, tests: words.map(wordTest) };
+    }
+    return compiled.tests;
+  }
+
+  /**
+   * 0 when the entry misses any query word. Every word must match somewhere,
+   * in any order, so "top down" and "arms fps" work. Each word scores by the
+   * best field it matched in, so name and tag hits rank first.
+   */
+  function searchScore(entry) {
+    const tests = queryTests();
+    if (!tests.length) return 1;
+    const fields = searchIndex.get(entry.id) || [];
+    let score = 0;
+    for (const re of tests) {
+      const i = fields.findIndex((f) => re.test(f));
+      if (i === -1) return 0;
+      score += FIELD_WEIGHTS[i];
+    }
+    return score;
   }
 
   const SORTS = {
@@ -212,7 +306,7 @@
   <span class="entry-edge" aria-hidden="true"></span>
   <div class="entry-body">
     <div class="entry-top">
-      <h3><a class="entry-link" href="entry/${escapeHtml(entry.id)}/" data-id="${escapeHtml(entry.id)}">${escapeHtml(entry.name)}</a></h3>
+      <h4><a class="entry-link" href="entry/${escapeHtml(entry.id)}/" data-id="${escapeHtml(entry.id)}">${escapeHtml(entry.name)}</a></h4>
       <span class="entry-flags">${flags}</span>
     </div>
     <p>${escapeHtml(entry.summary || "")}</p>
@@ -238,21 +332,6 @@
     return state.sort === "name" && state.category === "all";
   }
 
-  /**
-   * How many entries each category would yield under the *other* active
-   * filters. Counting with the category filter applied would make every chip
-   * read 0 except the selected one, which tells the reader nothing.
-   */
-  function facetCounts() {
-    const saved = state.category;
-    state.category = "all";
-    const pool = data.entries.filter(matches);
-    state.category = saved;
-    const counts = new Map();
-    for (const e of pool) counts.set(e.category, (counts.get(e.category) || 0) + 1);
-    return { counts, total: pool.length };
-  }
-
   function renderCategoryFilters() {
     const host = $("#category-filters");
     const buttons = [
@@ -276,8 +355,7 @@
     });
   }
 
-  function syncCategoryChips() {
-    const { counts, total } = facetCounts();
+  function syncCategoryChips({ counts, total }) {
     $$("#category-filters .chip").forEach((chip) => {
       const cat = chip.getAttribute("data-cat");
       const on = cat === state.category;
@@ -309,8 +387,16 @@
     if (!state.active) chips.push({ key: "active", label: "hiding active" });
     if (!state.review) chips.push({ key: "review", label: "hiding needs-review" });
     if (state.deprecated) chips.push({ key: "deprecated", label: "showing deprecated" });
-    if (state.commercialOnly) chips.push({ key: "commercialOnly", label: "commercial OK only" });
+    if (state.commercialOnly)
+      chips.push({ key: "commercialOnly", label: "commercial OK or per-file review" });
     if (state.noAttr) chips.push({ key: "noAttr", label: "no attribution only" });
+
+    // The filter keeps aggregators whose files differ, which a reader
+    // filtering for "safe to ship" must see, not find in a tooltip.
+    $("#commercial-note").hidden = !state.commercialOnly;
+    // The small-screen disclosure counts what its hidden panel is doing.
+    const set = chips.filter((c) => c.key !== "q").length;
+    $("#filters-toggle").textContent = set ? `Filters (${set})` : "Filters";
 
     if (!chips.length) {
       host.hidden = true;
@@ -329,42 +415,109 @@
       <button type="button" class="chip chip-clear" data-clear="all">Clear all</button>`;
   }
 
-  function renderGrid() {
-    const list = data.entries.filter(matches).sort(SORTS[state.sort] || SORTS.name);
+  function headingHtml(cat, count) {
+    const label = categoryLabels[cat]?.label || cat;
+    return (
+      `<h3 class="group-heading" id="group-${escapeHtml(cat)}" data-cat="${escapeHtml(cat)}">` +
+      `<span class="group-name">${escapeHtml(label)}</span>` +
+      `<span class="group-count">${count}</span>` +
+      `</h3>`
+    );
+  }
+
+  /*
+   * The grid keeps one node per entry and per category heading for the life
+   * of the page. The prerendered rows are adopted as they are; only entries
+   * the build leaves out (deprecated ones) are rendered here, once. Filtering
+   * then toggles `hidden`, and nodes move only when the order changes.
+   */
+  const cardNodes = new Map();
+  const headingNodes = new Map();
+  let flatHeading = null;
+  let placedKey = null;
+
+  function adoptNodes() {
+    const grid = $("#entry-grid");
+    for (const el of $$(".entry-card", grid)) cardNodes.set(el.getAttribute("data-id"), el);
+    for (const el of $$(".group-heading", grid)) headingNodes.set(el.getAttribute("data-cat"), el);
+    const tpl = document.createElement("template");
+    tpl.innerHTML = [
+      ...data.entries.filter((e) => !cardNodes.has(e.id)).map(cardHtml),
+      ...Object.keys(categoryLabels)
+        .filter((cat) => !headingNodes.has(cat))
+        .map((cat) => headingHtml(cat, 0)),
+    ].join("");
+    for (const el of [...tpl.content.children]) {
+      if (el.matches(".entry-card")) cardNodes.set(el.getAttribute("data-id"), el);
+      else headingNodes.set(el.getAttribute("data-cat"), el);
+    }
+    // Anything else the grid held (a stale prerender) goes.
+    for (const el of [...grid.children]) {
+      if (!el.matches(".entry-card, .group-heading")) el.remove();
+    }
+    // Card titles are h4 under the h3 category headings. A flat list has no
+    // category headings, so this one keeps the outline from skipping a level.
+    flatHeading = document.createElement("h3");
+    flatHeading.className = "sr-only";
+    flatHeading.textContent = "Matching entries";
+  }
+
+  /** Puts every node in `order` (visible ones first), moving nothing already in place. */
+  function placeNodes(order) {
+    const grid = $("#entry-grid");
+    const current = grid.children;
+    if (order.length === current.length && order.every((n, i) => current[i] === n)) return;
+    grid.append(...order);
+  }
+
+  function renderGrid({ list, ranked }) {
     const grid = $("#entry-grid");
     const empty = $("#empty-state");
-    $("#result-count").textContent = `${list.length} / ${data.entries.length}`;
+    const group = shouldGroup();
+    $("#result-count").textContent = `${list.length} of ${data.entries.length} entries shown`;
+    empty.hidden = list.length > 0;
 
-    if (!list.length) {
-      grid.innerHTML = "";
-      empty.hidden = false;
-      groupHeadings = [];
-      return;
+    // Under a plain sort the order of all nodes is fixed, so filtering only
+    // toggles visibility. A ranked search reorders on every change.
+    const key = ranked
+      ? `rank:${group}:${list.map((e) => e.id).join(",")}`
+      : `${group ? "group" : "flat"}:${state.sort}`;
+    if (key !== placedKey) {
+      placedKey = key;
+      const shown = new Set(list.map((e) => e.id));
+      const rest = data.entries.filter((e) => !shown.has(e.id));
+      const all = ranked ? [...list, ...rest] : data.entries.slice().sort(SORTS[state.sort] || SORTS.name);
+      const order = [flatHeading];
+      if (group) {
+        for (const cat of Object.keys(categoryLabels)) {
+          order.push(headingNodes.get(cat));
+          for (const e of all) if (e.category === cat) order.push(cardNodes.get(e.id));
+        }
+        // Entries outside the configured categories never show grouped.
+        for (const e of all) if (!categoryLabels[e.category]) order.push(cardNodes.get(e.id));
+      } else {
+        order.push(...headingNodes.values(), ...all.map((e) => cardNodes.get(e.id)));
+      }
+      placeNodes(order);
     }
-    empty.hidden = true;
 
-    if (!shouldGroup()) {
-      grid.innerHTML = list.map(cardHtml).join("");
-      groupHeadings = [];
-      syncSpy();
-      return;
+    const shown = new Set();
+    const perCat = new Map();
+    for (const e of list) {
+      if (group && !categoryLabels[e.category]) continue;
+      shown.add(e.id);
+      perCat.set(e.category, (perCat.get(e.category) || 0) + 1);
     }
-
-    const out = [];
-    for (const cat of Object.keys(categoryLabels)) {
-      const group = list.filter((e) => e.category === cat);
-      if (!group.length) continue;
-      const label = categoryLabels[cat]?.label || cat;
-      out.push(
-        `<h3 class="group-heading" id="group-${escapeHtml(cat)}" data-cat="${escapeHtml(cat)}">` +
-          `<span class="group-name">${escapeHtml(label)}</span>` +
-          `<span class="group-count">${group.length}</span>` +
-          `</h3>`
-      );
-      out.push(...group.map(cardHtml));
+    for (const [id, el] of cardNodes) el.hidden = !shown.has(id);
+    flatHeading.hidden = group || !list.length;
+    for (const [cat, el] of headingNodes) {
+      const n = group ? perCat.get(cat) || 0 : 0;
+      el.hidden = !n;
+      if (n) el.querySelector(".group-count").textContent = String(n);
     }
-    grid.innerHTML = out.join("");
-    groupHeadings = $$("#entry-grid .group-heading");
+    groupHeadings = [...grid.children].filter((el) => el.matches(".group-heading") && !el.hidden);
+    // The first visible heading sits flush with the top of the list.
+    for (const el of headingNodes.values()) el.classList.toggle("is-lead", el === groupHeadings[0]);
     syncSpy();
   }
 
@@ -417,10 +570,16 @@
     });
   }
 
+  // Typing waits for a pause before filtering; every other control is immediate.
+  const SEARCH_DELAY = 120;
+  let searchTimer = 0;
+
   function apply() {
-    syncCategoryChips();
+    clearTimeout(searchTimer);
+    const results = computeResults();
+    syncCategoryChips(results);
     renderActiveFilters();
-    renderGrid();
+    renderGrid(results);
     writeUrl();
   }
 
@@ -496,7 +655,8 @@
     search.value = state.q;
     search.addEventListener("input", (e) => {
       state.q = e.target.value;
-      apply();
+      clearTimeout(searchTimer);
+      searchTimer = setTimeout(apply, SEARCH_DELAY);
     });
 
     const toggles = [
@@ -542,20 +702,41 @@
       if (e.target.closest("a")) rememberScroll();
     });
 
+    // The button pressed is gone after the re-render. Focus goes to the chip
+    // that took its place, or to the result count, never back to the top of
+    // the document.
     $("#active-filters").addEventListener("click", (e) => {
       const btn = e.target.closest("[data-clear]");
       if (!btn) return;
       const key = btn.getAttribute("data-clear");
+      const index = $$("#active-filters [data-clear]").indexOf(btn);
       if (key === "all") Object.assign(state, DEFAULTS);
       else state[key] = DEFAULTS[key];
       syncControls();
       apply();
+      const left = $$("#active-filters [data-clear]");
+      const next = key === "all" ? null : left[Math.min(index, left.length - 1)];
+      (next || $("#result-count")).focus();
     });
 
     $("#empty-reset").addEventListener("click", () => {
       Object.assign(state, DEFAULTS);
       syncControls();
       apply();
+      $("#result-count").focus();
+    });
+
+    // On a phone the filter panel is about 530px of chips and checkboxes
+    // between the search box and the first entry. It folds behind a button
+    // there (styles.css); on wider screens the button is not shown. Only
+    // with this script can the panel be folded, so no-script pages keep it.
+    const controls = $(".controls");
+    const toggle = $("#filters-toggle");
+    toggle.hidden = false;
+    controls.classList.add("is-collapsed");
+    toggle.addEventListener("click", () => {
+      const open = controls.classList.toggle("is-collapsed") === false;
+      toggle.setAttribute("aria-expanded", open ? "true" : "false");
     });
 
     const top = $("#to-top");
@@ -612,6 +793,7 @@
   /* --------------------------------------------------------------- init */
 
   readUrl();
+  adoptNodes();
   renderCategoryFilters();
   renderStarters();
   renderGuides();

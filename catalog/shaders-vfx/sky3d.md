@@ -2,6 +2,7 @@
 id: sky3d
 name: Sky3D
 url: https://github.com/TokisanGames/Sky3D
+publisher: TokisanGames
 category: shaders-vfx
 subcategories: [sky, atmosphere, godot]
 license: MIT
@@ -9,7 +10,7 @@ license_spdx: MIT
 commercial: true
 attribution_required: false
 formats: [gdshader, godot-addon]
-tags: [godot-4, day-night, clouds, atmosphere]
+tags: [godot, godot-4, day-night, clouds, atmosphere]
 verified: 2026-07-19
 status: active
 ---

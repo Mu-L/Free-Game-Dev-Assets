@@ -3,7 +3,7 @@ id: paleto-vol01
 name: Paleto Vol.01 (The Classics)
 url: https://paleto.itch.io/paleto-vol01
 category: 2d
-subcategories: [palettes, pixel-art]
+subcategories: [palettes, pixel]
 license: CC0
 license_spdx: CC0-1.0
 commercial: true

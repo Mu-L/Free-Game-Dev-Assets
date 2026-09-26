@@ -9,7 +9,7 @@ license_spdx: MIT
 commercial: true
 attribution_required: false
 formats: [gdshader, godot-addon]
-tags: [godot-4, retro, crt, psx, nintendo-64]
+tags: [godot, godot-4, retro, crt, psx, nintendo-64]
 verified: 2026-07-27
 status: active
 ---

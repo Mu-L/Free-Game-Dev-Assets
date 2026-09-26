@@ -3,11 +3,11 @@ id: lospec
 name: Lospec
 url: https://lospec.com
 category: 2d
-subcategories: [palettes, pixel-art]
+subcategories: [palettes, pixel]
 license: varies
 commercial: unknown
 attribution_required: unknown
-formats: [GPL, PAL, ASE, PNG]
+formats: [gpl-palette, PAL, ASE, PNG]
 tags: [palettes, pixel-art, retro]
 verified: 2026-07-20
 status: needs-review

@@ -9,7 +9,7 @@ license_spdx: MIT
 commercial: true
 attribution_required: false
 formats: [godot-addon]
-tags: [godot-4, destruction, rigidbody, cell-fracture, gdscript]
+tags: [godot, godot-4, destruction, rigidbody, cell-fracture, gdscript]
 verified: 2026-09-23
 status: active
 ---

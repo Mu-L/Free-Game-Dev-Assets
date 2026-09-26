@@ -9,7 +9,7 @@ license_spdx: MIT
 commercial: true
 attribution_required: false
 formats: [godot-addon]
-tags: [godot-4, foliage, r04]
+tags: [godot, godot-4, foliage]
 verified: 2026-08-24
 status: active
 ---

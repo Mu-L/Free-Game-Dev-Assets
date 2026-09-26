@@ -5,6 +5,8 @@ url: https://example.com
 category: 3d
 subcategories: [models, props]
 license: CC0
+# license_spdx is required when site/license-vocabulary.json maps the license to one SPDX id; omit it otherwise
+license_spdx: CC0-1.0
 commercial: true
 attribution_required: false
 formats: [glTF, FBX, PNG]
@@ -14,8 +16,7 @@ verified: 2026-07-19
 status: active
 # Optional (omit if N/A):
 # publisher: Kenney   # rights holder when that publisher has more than one entry; not a generic host
-# license_spdx: CC0-1.0
-# attribution_string: "Credit line if attribution_required"
+# attribution_string: "Credit line"   # required when attribution_required is true
 # commercial: varies   # aggregators only; not a blanket commercial grant
 # grid_dimensions: 16x16          # 2D and UI entries only
 # camera_perspective: top_down   # isometric_3_4 | side_scroller | 2d_flat. 2D and UI entries only; 3D and characters leave it out

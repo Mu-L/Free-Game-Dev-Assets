@@ -6,7 +6,8 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { commercialLabel, esc, PERSPECTIVE_LABELS, unquoteScalar, verifiedAge } from "./lib/shared.mjs";
+import { commercialLabel, esc, latestAllowedDate, PERSPECTIVE_LABELS, verifiedAge } from "./lib/shared.mjs";
+import { parseFrontmatter, summaryFromBody } from "./lib/frontmatter.mjs";
 import { entryPageHtml } from "./lib/entry-page.mjs";
 import { LinkError, makeLinkResolver } from "./lib/links.mjs";
 import { llmsFullTxt, llmsTxt } from "./lib/llms.mjs";
@@ -34,66 +35,6 @@ const OG_CARD_SRC = path.join(ROOT, "docs", "images", "readme", OG_CARD_NAME);
 /** Sort rank for "license permissiveness": least owed first. */
 const ATTRIBUTION_RANK = { none: 0, notice: 1, required: 2, any: 3 };
 
-function parseScalar(raw) {
-  const v = raw.trim();
-  if (v === "true") return true;
-  if (v === "false") return false;
-  if (v === "null" || v === "~" || v === "") return null;
-  if (
-    (v.startsWith('"') && v.endsWith('"')) ||
-    (v.startsWith("'") && v.endsWith("'"))
-  ) {
-    return unquoteScalar(v);
-  }
-  if (v.startsWith("[") && v.endsWith("]")) {
-    const inner = v.slice(1, -1).trim();
-    if (!inner) return [];
-    return inner.split(",").map((part) => {
-      const s = part.trim();
-      if (
-        (s.startsWith('"') && s.endsWith('"')) ||
-        (s.startsWith("'") && s.endsWith("'"))
-      ) {
-        return s.slice(1, -1);
-      }
-      return s;
-    });
-  }
-  return v;
-}
-
-function parseFrontmatter(text) {
-  const match = text.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/);
-  if (!match) return null;
-  const meta = {};
-  for (const line of match[1].split(/\r?\n/)) {
-    if (!line.trim() || line.trim().startsWith("#")) continue;
-    const idx = line.indexOf(":");
-    if (idx === -1) continue;
-    const key = line.slice(0, idx).trim();
-    meta[key] = parseScalar(line.slice(idx + 1));
-  }
-  return { meta, body: match[2].trim() };
-}
-
-function stripMd(text) {
-  return text
-    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
-    .replace(/[*_`#]/g, "")
-    .replace(/\s+/g, " ")
-    .trim();
-}
-
-function summaryFromBody(body) {
-  const chunks = body
-    .split(/\n\s*\n/)
-    .map((p) => p.trim())
-    .filter((p) => p && !p.startsWith("#"));
-  const first = chunks[0] || "";
-  const clean = stripMd(first);
-  return clean.length > 220 ? `${clean.slice(0, 217)}…` : clean;
-}
-
 function walkMarkdown(dir, out = []) {
   if (!fs.existsSync(dir)) return out;
   for (const name of fs.readdirSync(dir)) {
@@ -118,13 +59,18 @@ function loadEntries(vocab) {
 
   for (const file of files) {
     const text = fs.readFileSync(file, "utf8");
+    const rel = path.relative(ROOT, file).split(path.sep).join("/");
     const parsed = parseFrontmatter(text);
     if (!parsed) {
-      errors.push(`No frontmatter: ${path.relative(ROOT, file)}`);
+      errors.push(`${rel} has no frontmatter`);
       continue;
     }
-    const { meta, body } = parsed;
-    const rel = path.relative(ROOT, file).split(path.sep).join("/");
+    if (parsed.errors.length) {
+      errors.push(...parsed.errors.map((e) => `${rel} frontmatter ${e}`));
+      continue;
+    }
+    const { meta } = parsed;
+    const body = parsed.body.trim();
     const required = ["id", "name", "url", "category", "license", "status"];
     const missing = required.filter((k) => meta[k] === undefined || meta[k] === null || meta[k] === "");
     if (missing.length) {
@@ -215,7 +161,7 @@ function entryRowHtml(entry, repo, now) {
   <span class="entry-edge" aria-hidden="true"></span>
   <div class="entry-body">
     <div class="entry-top">
-      <h3><a class="entry-link" href="entry/${esc(entry.id)}/" data-id="${esc(entry.id)}">${esc(entry.name)}</a></h3>
+      <h4><a class="entry-link" href="entry/${esc(entry.id)}/" data-id="${esc(entry.id)}">${esc(entry.name)}</a></h4>
       <span class="entry-flags">${flags}</span>
     </div>
     <p>${esc(entry.summary || "")}</p>
@@ -319,6 +265,9 @@ function headMetaHtml(site, stats, generatedAt, hasCard) {
     : [`<meta name="twitter:card" content="summary" />`];
   return [
     `<link rel="canonical" href="${esc(url)}" />`,
+    // robots.txt is only read at a host's root, so under a project Pages path
+    // its Sitemap line is never seen; point at the sitemap from the page too.
+    `<link rel="sitemap" type="application/xml" href="${esc(url.replace(/\/+$/, ""))}/sitemap.xml" />`,
     `<meta name="theme-color" content="#1a4d3e" media="(prefers-color-scheme: light)" />`,
     `<meta name="theme-color" content="#0f1216" media="(prefers-color-scheme: dark)" />`,
     `<meta property="og:type" content="website" />`,
@@ -370,10 +319,13 @@ function notFoundHtml(site) {
       <h1>Not found</h1>
       <p>That page is not part of this catalog.</p>
       <p>Looking for an entry? <a href="${esc(base)}/#catalog">Search the catalog</a>.</p>
+      <div id="suggestions"></div>
       <p class="hero-actions">
         <a class="btn" href="${esc(base)}/">Back to the catalog</a>
       </p>
     </main>
+    <script src="${esc(base)}/data.js" defer></script>
+    <script src="${esc(base)}/not-found.js" defer></script>
   </body>
 </html>
 `;
@@ -407,7 +359,7 @@ function loadStacks(entries, vocab, spdxAllowed) {
   const byPath = new Map(entries.map((e) => [e.path, e]));
   const errors = [
     ...stray.map((rel) => `${rel}: stacks live directly in stacks/; the build does not read subfolders`),
-    ...checkStacks(files, byPath, terms, new Date().toISOString().slice(0, 10)),
+    ...checkStacks(files, byPath, terms, latestAllowedDate()),
   ];
   if (errors.length) return { stacks: [], errors };
   const stacks = files.map(({ rel, text }) => {
@@ -542,9 +494,12 @@ function main() {
     }
   }
 
+  // An entry that cannot be read must stop the build: carrying on would
+  // publish a site with that entry, and any featured slot for it, missing.
   if (errors.length) {
-    console.error("Build warnings:");
+    console.error(`Build failed (${errors.length}):`);
     for (const e of errors) console.error(`  - ${e}`);
+    process.exit(1);
   }
 
   const repoUrl = config.site.repo;
@@ -607,17 +562,18 @@ function main() {
     CATEGORY_CHIPS: categoryChipsHtml(visible, config.categories),
     GUIDE_ROWS: guideRowsHtml(config.guides, repoUrl),
     CATALOG_BLURB: `${stats.total} sources &middot; ${stats.active} active &middot; ${stats.commercialOk} commercial-ok &middot; ${stats.commercialVaries} per-file &middot; ${stats.deprecated} deprecated`,
-    RESULT_COUNT: `${visible.length} / ${stats.total}`,
+    RESULT_COUNT: `${visible.length} of ${stats.total} entries shown`,
     FOOTER_STAMP: `Built ${esc(stamp)} from ${stats.total} catalog entries.`,
   };
   let html = fs.readFileSync(indexPath, "utf8");
+  const missingMarkers = Object.keys(substitutions).filter((key) => !html.includes(`<!--${key}-->`));
+  if (missingMarkers.length) {
+    console.error(`Build failed: site/public/index.html is missing ${missingMarkers.map((k) => `<!--${k}-->`).join(", ")}`);
+    process.exit(1);
+  }
   for (const [key, value] of Object.entries(substitutions)) {
-    const marker = `<!--${key}-->`;
-    if (!html.includes(marker)) {
-      console.error(`  - index.html is missing the ${marker} marker`);
-      continue;
-    }
-    html = html.replace(marker, value);
+    // A function replacement, so a "$" in the value is never read as a pattern.
+    html = html.replace(`<!--${key}-->`, () => value);
   }
   fs.writeFileSync(indexPath, html);
 
@@ -665,7 +621,6 @@ function main() {
   console.log(
     `Prerendered ${visible.length} entry rows into index.html; wrote ${pages.written.length} entry pages, ${stackPages.written.length} stack pages, sitemap.xml, robots.txt, 404.html, freshness/index.html`
   );
-  if (errors.length) process.exitCode = 0; // soft-fail missing fields as warnings
 }
 
 main();

@@ -1,7 +1,7 @@
 ---
 id: blender-human-base-meshes
 name: Blender Studio Human Base Meshes
-url: https://www.blender.org/download/demo/asset-bundles/human-base-meshes/human-base-meshes-bundle-v1.4.1.zip
+url: https://www.blender.org/download/demo-files/#assets
 publisher: Blender Studio
 category: characters
 subcategories: [base-meshes]
@@ -10,7 +10,7 @@ license_spdx: CC0-1.0
 commercial: true
 attribution_required: false
 formats: [Blend, glTF, FBX]
-tags: [blender-studio, topology, r04]
+tags: [blender-studio, topology]
 verified: 2026-08-24
 status: active
 ---

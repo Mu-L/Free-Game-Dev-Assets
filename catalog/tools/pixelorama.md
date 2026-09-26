@@ -3,7 +3,7 @@ id: pixelorama
 name: Pixelorama
 url: https://orama-interactive.itch.io/pixelorama
 category: tools
-subcategories: [pixel-art]
+subcategories: [pixel]
 license: MIT
 license_spdx: MIT
 commercial: true

@@ -128,8 +128,10 @@ has("title is escaped", p, "<title>A &quot;quoted&quot; &lt;Name&gt; (CC-BY-4.0)
 has("canonical", p, '<link rel="canonical" href="https://x.test/s/entry/e1/" />');
 eq("one h1", (p.match(/<h1[\s>]/g) || []).length, 1);
 has("credit line escaped", p, "Art by &quot;X&quot; &lt;/script&gt;");
-has("copy script with a credit line", p, '<script src="../../entry.js" defer></script>');
-lacks("no copy script without one", page({ attribution_string: undefined }), "entry.js");
+has("entry script with a credit line", p, '<script src="../../entry.js" defer></script>');
+has("entry script without one, for the back link", page({ attribution_string: undefined }), '<script src="../../entry.js" defer></script>');
+lacks("no copy button without a credit line", page({ attribution_string: undefined }), "copy-attribution");
+has("breadcrumb catalog link can return to the results", p, '<a href="../../#catalog" data-back-to-results>Catalog</a>');
 has("note when credit is required but not canned", page({ attribution_string: undefined }), "no canned credit line");
 has("breadcrumb category link", p, "../../?cat=2d#catalog");
 has("next link", p, 'href="../e2/" rel="next"');
@@ -438,6 +440,53 @@ has("llms points at freshness", lt, "Licence freshness, every entry by check dat
 /* freshness: review fixes -------------------------------------------------- */
 has("recent window wording counts the build day", fp, "Checked on 2026-09-25 or in the 30 days before it, newest first.");
 has("empty recent window wording counts the build day", freshnessPageHtml({ stats: freshnessStats([fe("a", "Alpha", 90)], fNow), site, stamp: "2026-09-25", total: 1, hasCard: false }), "None checked on 2026-09-25 or in the 30 days before it.");
+
+/* frontmatter -------------------------------------------------------------- */
+import { evidenceSection, parseFrontmatter, plainText, summaryFromBody } from "./frontmatter.mjs";
+import { latestAllowedDate } from "./shared.mjs";
+const fm = (lines, body = "Body.\n") => parseFrontmatter(`---\n${lines.join("\n")}\n---\n${body}`);
+const f1 = fm([
+  "id: a",
+  'attribution_string: "Music \\"{title}\\" by {artist}"',
+  'tags: ["sci-fi, space", ui, \'it\'\'s\']',
+  "formats:",
+  "  - PNG",
+  '  - "SVG"',
+  "# a comment",
+  "commercial: true",
+]);
+eq("frontmatter undoes quote escapes", f1.meta.attribution_string, 'Music "{title}" by {artist}');
+eq("frontmatter keeps a quoted comma inside one list item", JSON.stringify(f1.meta.tags), JSON.stringify(["sci-fi, space", "ui", "it's"]));
+eq("frontmatter reads a block list", JSON.stringify(f1.meta.formats), JSON.stringify(["PNG", "SVG"]));
+eq("frontmatter reads booleans", f1.meta.commercial, true);
+eq("frontmatter has no errors on good input", f1.errors.length, 0);
+eq("frontmatter ignores a byte-order mark", parseFrontmatter("﻿---\nid: a\n---\nB")?.meta.id, "a");
+eq("frontmatter with CRLF line endings", parseFrontmatter("---\r\nid: a\r\nname: B\r\n---\r\nBody")?.meta.name, "B");
+has("frontmatter rejects a duplicate key", fm(["id: a", "id: b"]).errors.join(), 'line 3: key "id" is given twice');
+has("frontmatter rejects a line that is not key: value", fm(["id: a", "just words"]).errors.join(), 'line 3: "just words" is not a key: value line');
+eq("no frontmatter is null", parseFrontmatter("# Title\n"), null);
+eq("evidence stops at the next heading, whatever its letter", evidenceSection("## Evidence\n\n- e (2026-01-01)\n\n## Extras\n\n- x"), "## Evidence\n\n- e (2026-01-01)\n");
+eq("summary keeps underscores", summaryFromBody("Split by Rig_Medium and **KHR_draco**.\n\n## Notes"), "Split by Rig_Medium and KHR_draco.");
+eq("summary keeps C# and link text", summaryFromBody("# T\n\nA [C#](x.md) library, `code`, *em*."), "A C# library, code, em.");
+eq("plain text undoes escapes", plainText("A \\*literal\\* & <b>"), "A *literal* & <b>");
+eq("summary is capped at 220", summaryFromBody("word ".repeat(80)).length, 218);
+
+/* markdown: review fixes --------------------------------------------------- */
+eq("link href keeps balanced parens", renderInline("[Foo](https://en.wikipedia.org/wiki/Foo_(bar)) next", passLink), '<a href="https://en.wikipedia.org/wiki/Foo_(bar)" rel="noopener noreferrer">Foo</a> next');
+eq("misnested emphasis stays literal", renderInline("**a *b** c*", passLink), "<strong>a *b</strong> c*");
+eq("italic around bold still works", renderInline("*a **b** c*", passLink), "<em>a <strong>b</strong> c</em>");
+const dupIds = rb("## Notes\n\nx\n\n## Notes\n\ny\n\n## Content\n\nz");
+has("first heading keeps its id", dupIds, '<h2 id="notes">');
+has("repeated heading gets a suffix", dupIds, '<h2 id="notes-2">');
+has("heading avoids a template id", dupIds, '<h2 id="content-2">');
+
+/* dates -------------------------------------------------------------------- */
+eq("real date", isRealDate("2026-02-28"), true);
+eq("leap day", isRealDate("2028-02-29"), true);
+eq("no month 13", isRealDate("2025-13-01"), false);
+eq("no 30 February", isRealDate("2026-02-30"), false);
+eq("shape only is not enough", isRealDate("2026-9-1"), false);
+eq("latest allowed is tomorrow in UTC", latestAllowedDate(Date.parse("2026-09-25T23:30:00Z")), "2026-09-26");
 
 /* report (keep last) ------------------------------------------------------ */
 if (failures.length) {

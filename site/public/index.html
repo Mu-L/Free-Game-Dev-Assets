@@ -103,9 +103,11 @@
             <kbd class="search-key" aria-hidden="true">/</kbd>
           </label>
 
+          <button type="button" class="filters-toggle" id="filters-toggle" aria-expanded="false" aria-controls="category-filters meta-filters" hidden>Filters</button>
+
           <div class="filter-row" id="category-filters" role="group" aria-label="Filter by category"><!--CATEGORY_CHIPS--></div>
 
-          <div class="filter-row meta-filters" role="group" aria-label="Filter by status and terms">
+          <div class="filter-row meta-filters" id="meta-filters" role="group" aria-label="Filter by status and terms">
             <label class="check">
               <input type="checkbox" id="filter-active" checked />
               Active
@@ -118,8 +120,8 @@
               <input type="checkbox" id="filter-deprecated" />
               Deprecated
             </label>
-            <label class="check" title="Includes aggregators that need per-file review">
-              <input type="checkbox" id="filter-commercial" />
+            <label class="check">
+              <input type="checkbox" id="filter-commercial" aria-describedby="commercial-note" />
               Commercial OK
             </label>
             <label class="check">
@@ -139,13 +141,19 @@
             <label class="check sort-field">
               <span>Sort</span>
               <select id="sort">
-                <option value="name">Name</option>
+                <option value="name">Name, best match first</option>
                 <option value="license">License, least owed first</option>
                 <option value="verified">Recently verified</option>
               </select>
             </label>
-            <p class="result-count" id="result-count" aria-live="polite"><!--RESULT_COUNT--></p>
+            <p class="result-count" id="result-count" aria-live="polite" tabindex="-1"><!--RESULT_COUNT--></p>
           </div>
+
+          <p class="filter-note" id="commercial-note" hidden>
+            Commercial OK also keeps per-file review sources: aggregators where
+            some files allow commercial use and some do not. Check the licence
+            of each file you take.
+          </p>
 
           <div class="filter-row active-filters" id="active-filters" hidden></div>
         </div>
@@ -184,7 +192,7 @@
       <span aria-hidden="true">↑</span> Search
     </button>
 
-    <script src="./data.js"></script>
-    <script src="./app.js"></script>
+    <script src="./data.js" defer></script>
+    <script src="./app.js" defer></script>
   </body>
 </html>

@@ -4,7 +4,7 @@ name: LuizMelo Monsters Creatures Fantasy
 url: https://luizmelo.itch.io/monsters-creatures-fantasy
 publisher: LuizMelo
 category: 2d
-subcategories: [2d, sprites, characters]
+subcategories: [sprites, characters]
 license: CC0
 license_spdx: CC0-1.0
 commercial: true

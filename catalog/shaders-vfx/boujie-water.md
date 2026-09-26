@@ -9,7 +9,7 @@ license_spdx: MIT
 commercial: true
 attribution_required: false
 formats: [gdshader, godot-addon]
-tags: [godot-4, ocean, gerstner]
+tags: [godot, godot-4, ocean, gerstner]
 verified: 2026-07-19
 status: active
 ---

@@ -9,7 +9,7 @@ license_spdx: MIT
 commercial: true
 attribution_required: false
 formats: [godot-addon]
-tags: [godot-4, camera, shake, cinematic]
+tags: [godot, godot-4, camera, shake, cinematic]
 verified: 2026-08-24
 status: active
 ---

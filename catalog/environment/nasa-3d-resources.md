@@ -4,7 +4,7 @@ name: NASA 3D Resources
 url: https://science.nasa.gov/3d-resources/
 publisher: NASA
 category: environment
-subcategories: [models, planetary, public-domain]
+subcategories: [models, planetary]
 license: public-domain
 commercial: true
 attribution_required: true

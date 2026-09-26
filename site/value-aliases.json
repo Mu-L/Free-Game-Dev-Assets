@@ -1,0 +1,23 @@
+{
+  "_comment": "Spellings merged by the 2026-09-25 review, per field: the key is the retired value, the value is the one to use. 'retired' lists values a field must not carry at all, with the reason. checks.mjs V19 enforces both.",
+  "subcategories": {
+    "tiles": "tileset",
+    "pixel-art": "pixel",
+    "ir": "impulse-responses",
+    "gui": "ui",
+    "base-mesh": "base-meshes"
+  },
+  "tags": {
+    "ps1": "psx",
+    "game-ok": "games-ok"
+  },
+  "formats": {
+    "JPEG": "JPG",
+    "godot-project": "Godot"
+  },
+  "retired": {
+    "subcategories": {
+      "public-domain": "a licence, not a kind of content; the license field records it"
+    }
+  }
+}

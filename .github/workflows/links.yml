@@ -1,0 +1,44 @@
+name: Check source links
+
+# Weekly: fetch every entry's url, and open or update one issue listing dead
+# links, sources that moved, and entries whose licence check is over a year
+# old. It never edits an entry: each one needs its licence re-read first.
+on:
+  schedule:
+    - cron: "41 7 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  links:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+
+      - name: Check links
+        id: check
+        run: node site/check-links.mjs --report link-report.md
+
+      - name: Open or update the report issue
+        if: steps.check.outputs.problems != '0'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PROBLEMS: ${{ steps.check.outputs.problems }}
+        run: |
+          title="Link check: ${PROBLEMS} sources need a look"
+          existing=$(gh issue list --state open --label correction --json number,title \
+            --jq '[.[] | select(.title | startswith("Link check:"))][0].number // empty')
+          if [ -n "$existing" ]; then
+            gh issue edit "$existing" --title "$title" --body-file link-report.md
+          else
+            gh issue create --title "$title" --label correction --body-file link-report.md
+          fi

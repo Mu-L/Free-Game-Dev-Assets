@@ -65,6 +65,17 @@ not counted. `pages.yml` also runs every Monday at 06:17 UTC so the ages keep mo
 when nothing is pushed; GitHub pauses scheduled workflows in a public repository after
 60 days without activity, so a long quiet spell needs a manual run from the Actions tab.
 
+## Link check
+
+`.github/workflows/links.yml` runs `site/check-links.mjs` every Monday at 07:41 UTC (and
+on demand from the Actions tab). It fetches each non-deprecated entry's `url` and opens,
+or updates, one issue labelled `correction` titled "Link check: N sources need a look",
+listing dead links, sources that moved to another domain or GitHub repository, and
+entries verified more than a year ago. Sites that refuse the checker (401, 403, 429) are
+listed for a manual look but never open the issue on their own. It edits nothing: a
+moved source needs its licence re-read before its entry changes. Run it locally with
+`npm run links`.
+
 ## Social preview
 
 `docs/images/readme/og-card.png` is a 1200x630 screenshot of this site's first screen.
@@ -74,8 +85,10 @@ Retake it when the hero changes.
 ## Commands
 
 ```bash
-node site/build.mjs
-npx --yes serve site/dist
+npm run check   # tests, validate, build: what CI runs
+npm run serve   # preview site/dist
+npm run links   # the link check, printed to the terminal
 ```
 
-Deploy: `.github/workflows/pages.yml` (source = GitHub Actions).
+Deploy: `.github/workflows/pages.yml` (source = GitHub Actions), which first runs
+`ci.yml` as a reusable workflow.

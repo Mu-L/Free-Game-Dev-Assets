@@ -11,12 +11,35 @@ export class MarkdownError extends Error {}
 const slot = (i) => `\u0000${i}\u0000`;
 const SLOT_RE = /\u0000(\d+)\u0000/g;
 
-/** Bold and italic on already-escaped text. */
+const count = (str, sub) => str.split(sub).length - 1;
+
+/**
+ * Bold and italic on already-escaped text. Italic that would cross a bold
+ * boundary (`**a *b** c*`) stays literal: wrapping it would nest the tags
+ * wrongly.
+ */
 function marks(escaped) {
   return escaped
     .replace(/\*\*(?=\S)(.+?)(?<=\S)\*\*/g, "<strong>$1</strong>")
-    .replace(/(^|[^*\w])\*(?=\S)([^*]+?)(?<=\S)\*(?![*\w])/g, "$1<em>$2</em>");
+    .replace(/(^|[^*\w])\*(?=\S)([^*]+?)(?<=\S)\*(?![*\w])/g, (whole, pre, inner) =>
+      count(inner, "<strong>") === count(inner, "</strong>") ? `${pre}<em>${inner}</em>` : whole
+    );
 }
+
+/** Ids the page templates use themselves; a heading must not take one. */
+const RESERVED_IDS = new Set([
+  "attribution-string",
+  "content",
+  "copy-attribution",
+  "copy-status",
+  "credits-all",
+  "credits-list",
+  "every-check",
+  "facts-title",
+  "owes-title",
+  "recent",
+  "sec-gaps",
+]);
 
 export function renderInline(text, resolveLink) {
   const slots = [];
@@ -29,8 +52,9 @@ export function renderInline(text, resolveLink) {
   s = s.replace(/`([^`]+)`/g, (_, code) => keep(`<code>${esc(code)}</code>`));
   // Backslash escapes: any ASCII punctuation, as in CommonMark.
   s = s.replace(/\\([!-/:-@[-`{-~])/g, (_, ch) => keep(esc(ch)));
-  // Links. The label keeps bold, italic and code; the href goes through the resolver.
-  s = s.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (_, label, href) => {
+  // Links. The label keeps bold, italic and code; the href goes through the
+  // resolver. The href may hold one level of balanced parens (Foo_(bar)).
+  s = s.replace(/\[([^\]]+)\]\(((?:[^()\s]|\([^()\s]*\))+)\)/g, (_, label, href) => {
     const { href: out, external } = resolveLink(href);
     const rel = external ? ' rel="noopener noreferrer"' : "";
     return keep(`<a href="${esc(out)}"${rel}>${marks(esc(label))}</a>`);
@@ -42,7 +66,6 @@ export function renderInline(text, resolveLink) {
   // and keeps a closing paren that balances one inside it (Foo_(bar)).
   s = s.replace(/https?:\/\/[^\s<>"*\u0000]+/g, (url) => {
     let [, core, tail] = url.match(/^(.*?)([.,;:!?)\]]*)$/);
-    const count = (str, ch) => str.split(ch).length - 1;
     while (tail.startsWith(")") && count(core, "(") > count(core, ")")) {
       core += ")";
       tail = tail.slice(1);
@@ -74,6 +97,7 @@ const lines = (md) => String(md).replace(/\r\n?/g, "\n").split("\n");
 export function renderBlocks(md, { file, resolveLink, firstLine = 1 }) {
   const html = [];
   const stack = [];
+  const ids = new Set(RESERVED_IDS);
   let para = [];
   let item = null;
   let blank = false;
@@ -137,7 +161,12 @@ export function renderBlocks(md, { file, resolveLink, firstLine = 1 }) {
     if (h) {
       flushPara();
       if (h[1] === "#") return; // the page shows the entry name as its h1
-      const id = h[2].toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+      // Unique on the page: a second "Notes" becomes notes-2, and a heading
+      // never takes an id the page template uses.
+      const base = h[2].toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "section";
+      let id = base;
+      for (let n = 2; ids.has(id); n += 1) id = `${base}-${n}`;
+      ids.add(id);
       html.push(`<h2 id="${esc(id)}">${inline(h[2])}</h2>`);
       return;
     }

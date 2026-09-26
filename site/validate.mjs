@@ -9,8 +9,10 @@ import {
   checkActiveIsSettled,
   checkAttributionConsistency,
   checkCategoryReadmeRows,
+  checkCategorySets,
   checkCountTables,
   checkDeprecationReason,
+  checkEntryUrl,
   checkEvidenceDates,
   checkLicenseVocabulary,
   checkPublisherConsistency,
@@ -18,7 +20,11 @@ import {
   checkStacks,
   checkTaxonomyValues,
   checkValueSpellings,
+  evidenceDates,
+  markdownAnchors,
 } from "./checks.mjs";
+import { evidenceSection, parseFrontmatter } from "./lib/frontmatter.mjs";
+import { isRealDate, latestAllowedDate } from "./lib/shared.mjs";
 import { licenceTerms, listStackFiles } from "./lib/stacks.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -76,13 +82,13 @@ const BINARY_EXT = new Set([
   ".bin",
   ".pak",
 ]);
-const SKIP_WALK = new Set([".git", "node_modules", "dist", "RESEARCH"]);
+// Hidden folders (.git, .claude worktrees, editor state) and local scratch
+// space are not part of the repo's content.
+const SKIP_WALK = new Set(["node_modules", "dist", "RESEARCH", "_scratch"]);
 /** Generated output and first-party stills (README screenshots, the social card): not third-party packs. */
 const ALLOWED_BINARY_PREFIXES = ["site/dist/", "docs/images/readme/"];
 const EMOJI_RE = /\p{Extended_Pictographic}/u;
 const MD_LINK_RE = /!\[[^\]]*\]\(([^)]+)\)|\[[^\]]*\]\(([^)]+)\)/g;
-const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
-const EVIDENCE_DATE_RE = /\d{4}-\d{2}-\d{2}/;
 const COMMERCIAL_VALUES = new Set(["true", "false", "unknown", "varies"]);
 const STATUS_VALUES = new Set(["active", "needs-review", "deprecated"]);
 const ATTRIBUTION_REQUIRED_VALUES = new Set(["true", "false", "unknown"]);
@@ -92,47 +98,6 @@ function hasEmoji(text) {
   return EMOJI_RE.test(stripped);
 }
 
-function parseScalar(raw) {
-  const v = raw.trim();
-  if (v === "true") return true;
-  if (v === "false") return false;
-  if (v === "null" || v === "~" || v === "") return null;
-  if (
-    (v.startsWith('"') && v.endsWith('"')) ||
-    (v.startsWith("'") && v.endsWith("'"))
-  ) {
-    return v.slice(1, -1);
-  }
-  if (v.startsWith("[") && v.endsWith("]")) {
-    const inner = v.slice(1, -1).trim();
-    if (!inner) return [];
-    return inner.split(",").map((part) => {
-      const s = part.trim();
-      if (
-        (s.startsWith('"') && s.endsWith('"')) ||
-        (s.startsWith("'") && s.endsWith("'"))
-      ) {
-        return s.slice(1, -1);
-      }
-      return s;
-    });
-  }
-  return v;
-}
-
-function parseFrontmatter(text) {
-  const match = text.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/);
-  if (!match) return null;
-  const meta = {};
-  for (const line of match[1].split(/\r?\n/)) {
-    if (!line.trim() || line.trim().startsWith("#")) continue;
-    const idx = line.indexOf(":");
-    if (idx === -1) continue;
-    meta[line.slice(0, idx).trim()] = parseScalar(line.slice(idx + 1));
-  }
-  return { meta, body: match[2] };
-}
-
 function walkFiles(dir, out = [], filter) {
   if (!fs.existsSync(dir)) return out;
   for (const name of fs.readdirSync(dir)) {
@@ -140,6 +105,7 @@ function walkFiles(dir, out = [], filter) {
     const full = path.join(dir, name);
     const stat = fs.statSync(full);
     if (stat.isDirectory()) {
+      if (name.startsWith(".")) continue;
       walkFiles(full, out, filter);
       continue;
     }
@@ -148,27 +114,11 @@ function walkFiles(dir, out = [], filter) {
   return out;
 }
 
-function todayISO() {
-  const d = new Date();
-  const y = d.getUTCFullYear();
-  const m = String(d.getUTCMonth() + 1).padStart(2, "0");
-  const day = String(d.getUTCDate()).padStart(2, "0");
-  return `${y}-${m}-${day}`;
-}
-
 function isEmptyField(v) {
   if (v === undefined || v === null) return true;
   if (typeof v === "string" && v.trim() === "") return true;
   if (Array.isArray(v) && v.length === 0) return true;
   return false;
-}
-
-function evidenceSection(body) {
-  const idx = body.search(/^## Evidence\s*$/m);
-  if (idx === -1) return null;
-  const rest = body.slice(idx);
-  const next = rest.search(/\n## [^E]/);
-  return next === -1 ? rest : rest.slice(0, next);
 }
 
 function relFromRoot(file) {
@@ -190,6 +140,13 @@ function enumKey(v) {
   return String(v);
 }
 
+/** Heading anchors per Markdown file, read once. */
+const anchorCache = new Map();
+function anchorsOf(file) {
+  if (!anchorCache.has(file)) anchorCache.set(file, markdownAnchors(fs.readFileSync(file, "utf8")));
+  return anchorCache.get(file);
+}
+
 function checkRelativeLinks(file, errors) {
   const text = fs.readFileSync(file, "utf8");
   const dir = path.dirname(file);
@@ -201,15 +158,44 @@ function checkRelativeLinks(file, errors) {
     if (target.startsWith("<") && target.endsWith(">")) target = target.slice(1, -1);
     const href = target.split(/\s+/)[0];
     if (!href) continue;
-    if (/^(https?:|mailto:|ftp:|#)/i.test(href)) continue;
+    if (/^(https?:|mailto:|ftp:)/i.test(href)) continue;
     const hash = href.indexOf("#");
     const filePart = hash === -1 ? href : href.slice(0, hash);
-    if (!filePart) continue;
-    const resolved = path.resolve(dir, filePart);
+    const fragment = hash === -1 ? "" : href.slice(hash + 1);
+    const resolved = filePart ? path.resolve(dir, filePart) : file;
     if (!fs.existsSync(resolved)) {
       errors.push(`${relFromRoot(file)} broken link: ${href}`);
+      continue;
+    }
+    // A fragment into a Markdown file must name one of its headings.
+    if (fragment && resolved.endsWith(".md") && fs.statSync(resolved).isFile()) {
+      let id = fragment;
+      try {
+        id = decodeURIComponent(fragment);
+      } catch {
+        // A malformed escape stays as written and fails the lookup below.
+      }
+      if (!anchorsOf(resolved).has(id.toLowerCase())) {
+        errors.push(`${relFromRoot(file)} broken anchor: ${href} (no such heading in ${relFromRoot(resolved)})`);
+      }
     }
   }
+}
+
+/** The options of the `id: category` dropdown in the new-source issue form. */
+function categoryFormOptions(yml) {
+  const lines = yml.split(/\r?\n/);
+  const at = lines.findIndex((l) => /^\s*id:\s*category\s*$/.test(l));
+  if (at === -1) return [];
+  const start = lines.findIndex((l, i) => i > at && /^\s*options:\s*$/.test(l));
+  if (start === -1) return [];
+  const out = [];
+  for (let i = start + 1; i < lines.length; i += 1) {
+    const m = lines[i].match(/^\s*-\s+(\S+)\s*$/);
+    if (!m) break;
+    out.push(m[1]);
+  }
+  return out;
 }
 
 function coverageReport(entries) {
@@ -235,7 +221,8 @@ function coverageReport(entries) {
 
 function main() {
   const errors = [];
-  const today = todayISO();
+  // "In the future" means after tomorrow in UTC, so no time zone's today fails.
+  const today = latestAllowedDate();
   const config = JSON.parse(fs.readFileSync(CONFIG_PATH, "utf8"));
   const expectedCount = config.expectedEntryCount;
   if (!Number.isInteger(expectedCount) || expectedCount < 1) {
@@ -266,6 +253,7 @@ function main() {
       continue;
     }
     const { meta, body } = parsed;
+    for (const e of parsed.errors) errors.push(`${rel} frontmatter ${e}`);
     const missing = REQUIRED.filter((k) => isEmptyField(meta[k]));
     if (missing.length) errors.push(`${rel} missing/empty: ${missing.join(", ")}`);
 
@@ -300,6 +288,7 @@ function main() {
     if (attrKey === "true" && isEmptyField(meta.attribution_string)) {
       errors.push(`${rel} attribution_required true needs attribution_string`);
     }
+    errors.push(...checkEntryUrl(rel, meta));
     errors.push(...checkLicenseVocabulary(rel, meta, vocab));
     errors.push(...checkSpdxConsistency(rel, meta, vocab, spdxAllowed));
     errors.push(...checkAttributionConsistency(rel, meta, body, vocab));
@@ -315,14 +304,14 @@ function main() {
 
     if (meta.verified) {
       const v = String(meta.verified);
-      if (!DATE_RE.test(v)) errors.push(`${rel} verified is not YYYY-MM-DD`);
+      if (!isRealDate(v)) errors.push(`${rel} verified "${v}" is not a real YYYY-MM-DD date`);
       else if (v > today) errors.push(`${rel} verified ${v} is in the future`);
     }
 
     if (meta.status === "active") {
       const ev = evidenceSection(body);
       if (!ev) errors.push(`${rel} active entry missing ## Evidence`);
-      else if (!EVIDENCE_DATE_RE.test(ev)) {
+      else if (!evidenceDates(ev).length) {
         errors.push(`${rel} active Evidence section has no YYYY-MM-DD date`);
       }
     }
@@ -390,6 +379,15 @@ function main() {
       `entry count ${entryFiles.length} !== ${expectedCount} (update expectedEntryCount in site/config.json when adding or removing entries)`
     );
   }
+
+  const formPath = path.join(ROOT, ".github", "ISSUE_TEMPLATE", "new-source.yml");
+  errors.push(
+    ...checkCategorySets({
+      dirs: categories,
+      configured: Object.keys(config.categories || {}),
+      formOptions: fs.existsSync(formPath) ? categoryFormOptions(fs.readFileSync(formPath, "utf8")) : null,
+    })
+  );
 
   for (const item of config.featured || []) {
     const id = typeof item === "string" ? item : item?.id;

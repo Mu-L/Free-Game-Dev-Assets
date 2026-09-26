@@ -45,6 +45,27 @@ export function commercialLabel(v) {
   return "commercial ?";
 }
 
+/**
+ * True for a YYYY-MM-DD string that names a real calendar day. The shape
+ * alone let 2025-13-01 through, and 2026-02-30 rolled over to 2 March.
+ */
+export function isRealDate(s) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(s));
+  if (!m) return false;
+  const [y, mo, d] = m.slice(1).map(Number);
+  const t = new Date(Date.UTC(y, mo - 1, d));
+  return t.getUTCFullYear() === y && t.getUTCMonth() === mo - 1 && t.getUTCDate() === d;
+}
+
+/**
+ * The newest date a check may accept as "not in the future": tomorrow in UTC.
+ * A contributor east of UTC who writes their local date before UTC midnight
+ * has not written a future date.
+ */
+export function latestAllowedDate(now = Date.now()) {
+  return new Date(now + 86400000).toISOString().slice(0, 10);
+}
+
 /** Absolute URL of an entry's page. */
 export function entryPageUrl(site, id) {
   return `${String(site.siteUrl).replace(/\/+$/, "")}/entry/${id}/`;

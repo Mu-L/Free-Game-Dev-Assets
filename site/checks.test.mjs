@@ -13,9 +13,13 @@ import {
   checkActiveIsSettled,
   checkAttributionConsistency,
   checkCategoryReadmeRows,
+  checkCategorySets,
   checkCountTables,
   checkDeprecationReason,
+  checkEntryUrl,
   checkEvidenceDates,
+  evidenceDates,
+  markdownAnchors,
   checkLicenseVocabulary,
   checkPublisherConsistency,
   checkSpdxConsistency,
@@ -47,6 +51,11 @@ function rejects(label, errors, needle) {
     return;
   }
   passed += 1;
+}
+
+function eq(label, actual, expected) {
+  if (actual === expected) passed += 1;
+  else failures.push(`${label}: expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`);
 }
 
 function accepts(label, errors) {
@@ -558,10 +567,74 @@ rejects("V15 rejects a licence in a why sentence", oneStack(stackText("- **Tiles
 rejects("V15 rejects a walked date in the future", oneStack(stackText(goodPick, { walked: "2099-01-01" })), "walked 2099-01-01 is in the future");
 rejects("V15 rejects an unknown section", oneStack(stackText(goodPick, { section: "## Levels" })), 'section "Levels" is not one of');
 
+/* V8: evidence dates are prose dates, and real ------------------------- */
+const V8_META = { verified: "2026-09-01" };
+accepts(
+  "V8 ignores a date inside a link target",
+  checkEvidenceDates("ok.md", V8_META, "\n## Evidence\n\n- [Notes](https://x.test/releases/2026-09-20-notes) (2026-09-01): \"CC0\"\n", TODAY)
+);
+accepts(
+  "V8 ignores a date inside a bare URL",
+  checkEvidenceDates("ok.md", V8_META, "\n## Evidence\n\n- Live page (2026-09-01): https://x.test/2099-01-01/post\n", TODAY)
+);
+rejects(
+  "V8 still sees a bumped verified behind a URL date",
+  checkEvidenceDates("bad.md", { verified: "2026-09-20" }, "\n## Evidence\n\n- Live page (2026-09-01): https://x.test/2026-09-20/\n", TODAY),
+  "newer than its newest Evidence date 2026-09-01"
+);
+rejects(
+  "V8 rejects an impossible Evidence date",
+  checkEvidenceDates("bad.md", { verified: "2026-02-01" }, EV("2026-02-30"), TODAY),
+  "2026-02-30 is not a real calendar date"
+);
+eq(
+  "evidenceDates reads prose dates only",
+  evidenceDates("- [a](https://x/2020-01-01) (2026-01-02) and <https://y/2021-01-01> 2026-01-03").join(","),
+  "2026-01-02,2026-01-03"
+);
+
+/* V16: url scheme ------------------------------------------------------ */
+rejects("V16 rejects javascript:", checkEntryUrl("bad.md", { url: "javascript:alert(1)" }), "must be https://");
+rejects("V16 rejects data:", checkEntryUrl("bad.md", { url: "data:text/html,<script>x</script>" }), "must be https://");
+rejects("V16 rejects a relative url", checkEntryUrl("bad.md", { url: "/downloads" }), "is not an absolute URL");
+accepts("V16 accepts https", checkEntryUrl("ok.md", { url: "https://kenney.nl/assets" }));
+accepts("V16 accepts http where a source has no https", checkEntryUrl("ok.md", { url: "http://www.makehumancommunity.org/" }));
+
+/* V17: category sets --------------------------------------------------- */
+accepts(
+  "V17 accepts matching sets",
+  checkCategorySets({ dirs: ["2d", "3d"], configured: ["3d", "2d"], formOptions: ["2d", "3d"] })
+);
+rejects(
+  "V17 rejects a folder missing from config",
+  checkCategorySets({ dirs: ["2d", "video"], configured: ["2d"], formOptions: null }),
+  "catalog/video/ is not in site/config.json"
+);
+rejects(
+  "V17 rejects a config category with no folder",
+  checkCategorySets({ dirs: ["2d"], configured: ["2d", "vfx"], formOptions: null }),
+  'category "vfx" has no catalog/vfx/ folder'
+);
+rejects(
+  "V17 rejects an issue form missing a category",
+  checkCategorySets({ dirs: ["2d", "video"], configured: ["2d", "video"], formOptions: ["2d"] }),
+  'leave out "video"'
+);
+
+/* V18: markdown anchors ------------------------------------------------ */
+const anchors = markdownAnchors(
+  "# Top\n\n## Choosing a pixel tileset\n\n## Notes\n\n## Notes\n\n```\n## Not a heading\n```\n\n### Fonts & `OFL` [link](x.md)\n\n<a id=\"custom\"></a>\n"
+);
+eq("V18 slugs a heading", anchors.has("choosing-a-pixel-tileset"), true);
+eq("V18 numbers a repeated heading", anchors.has("notes") && anchors.has("notes-1"), true);
+eq("V18 skips fenced code", anchors.has("not-a-heading"), false);
+eq("V18 drops punctuation and link syntax", anchors.has("fonts--ofl-link"), true);
+eq("V18 reads explicit ids", anchors.has("custom"), true);
+
 /* ----------------------------------------------------------------------- */
 if (failures.length) {
   console.error(`checks.test failed (${failures.length}):`);
   for (const f of failures) console.error(`  - ${f}`);
   process.exit(1);
 }
-console.log(`checks.test ok: ${passed} assertions across 15 checks`);
+console.log(`checks.test ok: ${passed} assertions across 18 checks`);

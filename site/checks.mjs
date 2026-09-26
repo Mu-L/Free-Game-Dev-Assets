@@ -7,10 +7,27 @@
  */
 
 import path from "node:path";
+import { evidenceSection } from "./lib/frontmatter.mjs";
+import { isRealDate } from "./lib/shared.mjs";
 import { parseStack, pickPath, StackError } from "./lib/stacks.mjs";
 
-const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
-const DATE_ANY_RE = /\d{4}-\d{2}-\d{2}/g;
+export { evidenceSection };
+
+// A date standing on its own, not part of a longer token such as a path.
+const DATE_TOKEN_RE = /(?<![\w/.-])(\d{4}-\d{2}-\d{2})(?![\w/-])/g;
+
+/**
+ * The dates written in an Evidence section, sorted. Dates inside URLs are
+ * not evidence dates: a link to `.../releases/2026-09-20-notes` says when
+ * the release was, not when the page was read.
+ */
+export function evidenceDates(ev) {
+  const prose = ev
+    .replace(/\]\([^)]*\)/g, "]")
+    .replace(/<https?:[^>]*>/g, "")
+    .replace(/https?:\/\/[^\s)>\]]+/g, "");
+  return [...prose.matchAll(DATE_TOKEN_RE)].map((m) => m[1]).sort();
+}
 
 /** Generic hosts and distributors that are never a rights holder. */
 export const GENERIC_HOSTS = new Set([
@@ -49,15 +66,6 @@ function empty(v) {
   if (typeof v === "string" && v.trim() === "") return true;
   if (Array.isArray(v) && v.length === 0) return true;
   return false;
-}
-
-/** The `## Evidence` section of an entry body, or null. */
-export function evidenceSection(body) {
-  const idx = body.search(/^## Evidence\s*$/m);
-  if (idx === -1) return null;
-  const rest = body.slice(idx);
-  const next = rest.search(/\n## (?!Evidence)/);
-  return next === -1 ? rest : rest.slice(0, next);
 }
 
 /* ------------------------------------------------------------------ V1 */
@@ -151,17 +159,20 @@ export function checkEvidenceDates(rel, meta, body, today) {
   const errors = [];
   const ev = evidenceSection(body);
   if (!ev) return errors; // presence is validate.mjs's job, and only for active
-  const dates = [...ev.matchAll(DATE_ANY_RE)].map((m) => m[0]).sort();
+  const dates = evidenceDates(ev);
   if (!dates.length) {
     errors.push(`${rel} ## Evidence section carries no YYYY-MM-DD date`);
     return errors;
+  }
+  for (const d of new Set(dates)) {
+    if (!isRealDate(d)) errors.push(`${rel} Evidence date ${d} is not a real calendar date`);
   }
   const newest = dates[dates.length - 1];
   if (newest > today) {
     errors.push(`${rel} Evidence date ${newest} is in the future`);
   }
   const verified = empty(meta.verified) ? null : String(meta.verified);
-  if (verified && DATE_RE.test(verified) && verified > newest) {
+  if (verified && isRealDate(verified) && verified > newest) {
     errors.push(
       `${rel} verified ${verified} is newer than its newest Evidence date ${newest}. ` +
         `A new verified date needs a dated Evidence line from the same check`
@@ -417,6 +428,81 @@ export function checkCategoryReadmeRows(categoryName, readmeText, entries) {
     }
   }
   return errors;
+}
+
+/* ----------------------------------------------------------------- V16 */
+/**
+ * `url` becomes the "Go to source" link on every page, so it must be a web
+ * address. A `javascript:` or `data:` value would render as a live link, and
+ * escaping HTML does nothing about a scheme.
+ */
+export function checkEntryUrl(rel, meta) {
+  const errors = [];
+  if (empty(meta.url)) return errors; // missing fields are reported elsewhere
+  let url;
+  try {
+    url = new URL(String(meta.url));
+  } catch {
+    errors.push(`${rel} url "${meta.url}" is not an absolute URL`);
+    return errors;
+  }
+  if (url.protocol !== "https:" && url.protocol !== "http:") {
+    errors.push(`${rel} url must be https:// (or http:// where the source has no https), not ${url.protocol}`);
+  } else if (!url.hostname) {
+    errors.push(`${rel} url "${meta.url}" has no host`);
+  }
+  return errors;
+}
+
+/* ----------------------------------------------------------------- V17 */
+/**
+ * The catalog folders, `site/config.json` categories and the new-source
+ * issue form must list the same categories. A folder missing from the
+ * config still gets entry pages but vanishes from the homepage, the pager
+ * and llms.txt, and nothing said so.
+ */
+export function checkCategorySets({ dirs, configured, formOptions }) {
+  const errors = [];
+  const diff = (a, b) => [...a].filter((x) => !b.has(x)).sort();
+  const d = new Set(dirs);
+  const c = new Set(configured);
+  for (const cat of diff(d, c)) errors.push(`catalog/${cat}/ is not in site/config.json categories, so the homepage would not list it`);
+  for (const cat of diff(c, d)) errors.push(`site/config.json category "${cat}" has no catalog/${cat}/ folder`);
+  if (formOptions) {
+    const f = new Set(formOptions);
+    for (const cat of diff(d, f)) errors.push(`.github/ISSUE_TEMPLATE/new-source.yml category options leave out "${cat}"`);
+    for (const cat of diff(f, d)) errors.push(`.github/ISSUE_TEMPLATE/new-source.yml offers category "${cat}", which is not a catalog folder`);
+  }
+  return errors;
+}
+
+/* ----------------------------------------------------------------- V18 */
+/**
+ * The fragment ids GitHub gives a Markdown file's headings, plus any explicit
+ * `id`/`name` attributes. The README's "Start here" table links category
+ * README headings, and renaming a heading silently broke such a link.
+ */
+export function markdownAnchors(text) {
+  const anchors = new Set();
+  const seen = new Map();
+  let fenced = false;
+  for (const line of String(text).split(/\r?\n/)) {
+    if (/^\s*```/.test(line)) fenced = !fenced;
+    if (fenced) continue;
+    const h = line.match(/^#{1,6}\s+(.*?)\s*#*\s*$/);
+    if (!h) continue;
+    const base = h[1]
+      .replace(/!?\[([^\]]*)\]\([^)]*\)/g, "$1")
+      .replace(/<[^>]+>/g, "")
+      .toLowerCase()
+      .replace(/[^\p{L}\p{N}\s_-]/gu, "")
+      .replace(/ /g, "-");
+    const n = seen.get(base) || 0;
+    seen.set(base, n + 1);
+    anchors.add(n ? `${base}-${n}` : base);
+  }
+  for (const m of String(text).matchAll(/\s(?:id|name)="([^"]+)"/g)) anchors.add(m[1]);
+  return anchors;
 }
 
 /* ------------------------------------------------------------------ V6 */

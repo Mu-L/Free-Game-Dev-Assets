@@ -35,7 +35,6 @@ function credit(entry) {
   if (entry.attribution_required === true && entry.attribution_string) {
     return {
       value: "Required",
-      script: true,
       block: `<div class="attribution">
           <p class="attribution-label">Credit line</p>
           <p class="attribution-string" id="attribution-string">${esc(entry.attribution_string)}</p>
@@ -47,12 +46,11 @@ function credit(entry) {
   if (entry.attribution_required === true) {
     return {
       value: "Required",
-      script: false,
       block: `<p class="attribution-note">Attribution is required and no canned credit line is recorded. Read the Notes for what the source asks for.</p>`,
     };
   }
-  if (entry.attribution_required === false) return { value: "Not required", script: false, block: "" };
-  return { value: "Unclear: read the Notes", script: false, block: "" };
+  if (entry.attribution_required === false) return { value: "Not required", block: "" };
+  return { value: "Unclear: read the Notes", block: "" };
 }
 
 export function entryPageHtml({ entry, leadHtml, restHtml, deprecatedReasonHtml, prev, next, site, categoryLabel, stamp, total, hasCard, now, stacks = [] }) {
@@ -140,7 +138,7 @@ export function entryPageHtml({ entry, leadHtml, restHtml, deprecatedReasonHtml,
     </header>
     <main class="section entry-page" id="content">
       <nav class="breadcrumb" aria-label="Breadcrumb">
-        <a href="../../#catalog">Catalog</a> <span aria-hidden="true">/</span>
+        <a href="../../#catalog" data-back-to-results>Catalog</a> <span aria-hidden="true">/</span>
         <a href="../../?cat=${encodeURIComponent(entry.category)}#catalog">${esc(categoryLabel)}</a> <span aria-hidden="true">/</span>
         <span aria-current="page">${esc(entry.name)}</span>
       </nav>
@@ -168,7 +166,7 @@ export function entryPageHtml({ entry, leadHtml, restHtml, deprecatedReasonHtml,
       <p><a href="../../freshness/">Licence freshness</a></p>
       <p class="footer-stamp">Built ${esc(stamp)} from ${total} catalog entries.</p>
     </footer>
-    ${c.script ? '<script src="../../entry.js" defer></script>' : ""}
+    <script src="../../entry.js" defer></script>
   </body>
 </html>
 `;

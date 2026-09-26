@@ -128,6 +128,8 @@
     bool("noattr", "noAttr");
   }
 
+  const RESULTS_KEY = "fgda:results";
+
   function writeUrl() {
     const p = new URLSearchParams();
     if (state.category !== DEFAULTS.category) p.set("cat", state.category);
@@ -145,6 +147,13 @@
     const qs = p.toString();
     const next = `${location.pathname}${qs ? `?${qs}` : ""}${location.hash}`;
     history.replaceState(null, "", next);
+    // Entry pages link back to these results (entry.js reads this).
+    try {
+      if (qs) sessionStorage.setItem(RESULTS_KEY, qs);
+      else sessionStorage.removeItem(RESULTS_KEY);
+    } catch {
+      // Storage can be unavailable; the entry pages then link to the plain catalog.
+    }
   }
 
   /* ---------------------------------------------------------- filtering */

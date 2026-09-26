@@ -1,4 +1,23 @@
-/** Copy button for an entry page's credit line. The page works without it. */
+/** Entry page helpers. The page works without them. */
+
+// "Catalog" in the breadcrumb returns to the search and filters the reader
+// left, which the homepage keeps in sessionStorage. Without them it goes to
+// the plain catalog, as built.
+(() => {
+  const link = document.querySelector("[data-back-to-results]");
+  if (!link) return;
+  let qs = null;
+  try {
+    qs = sessionStorage.getItem("fgda:results");
+  } catch {
+    return;
+  }
+  // Only a query string the homepage wrote: URL-encoded key=value pairs.
+  if (!qs || !/^[\w.~%+=&-]+$/.test(qs)) return;
+  link.setAttribute("href", `../../?${qs}#catalog`);
+})();
+
+/** Copy button for an entry page's credit line. */
 (() => {
   const btn = document.getElementById("copy-attribution");
   if (!btn) return;

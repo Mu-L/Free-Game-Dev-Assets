@@ -118,8 +118,10 @@ has("title is escaped", p, "<title>A &quot;quoted&quot; &lt;Name&gt; (CC-BY-4.0)
 has("canonical", p, '<link rel="canonical" href="https://x.test/s/entry/e1/" />');
 eq("one h1", (p.match(/<h1[\s>]/g) || []).length, 1);
 has("credit line escaped", p, "Art by &quot;X&quot; &lt;/script&gt;");
-has("copy script with a credit line", p, '<script src="../../entry.js" defer></script>');
-lacks("no copy script without one", page({ attribution_string: undefined }), "entry.js");
+has("entry script with a credit line", p, '<script src="../../entry.js" defer></script>');
+has("entry script without one, for the back link", page({ attribution_string: undefined }), '<script src="../../entry.js" defer></script>');
+lacks("no copy button without a credit line", page({ attribution_string: undefined }), "copy-attribution");
+has("breadcrumb catalog link can return to the results", p, '<a href="../../#catalog" data-back-to-results>Catalog</a>');
 has("note when credit is required but not canned", page({ attribution_string: undefined }), "no canned credit line");
 has("breadcrumb category link", p, "../../?cat=2d#catalog");
 has("next link", p, 'href="../e2/" rel="next"');

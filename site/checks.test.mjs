@@ -327,6 +327,13 @@ accepts(
     { name: "README.md", text: goodReadme, pathFragment: "catalog/CAT/" },
   ])
 );
+rejects(
+  "V6 rejects a stale 'searches all N entries'",
+  checkCountTables({ "2d": 2, video: 1 }, [
+    { name: "README.md", text: `${goodReadme}\nThe site searches all 2 entries.`, pathFragment: "catalog/CAT/" },
+  ]),
+  '"searches all 2 entries" but the catalog has 3'
+);
 
 /* V11 ------------------------------------------------------------------- */
 const readme = [

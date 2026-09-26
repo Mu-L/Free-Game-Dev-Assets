@@ -549,6 +549,12 @@ export function checkCountTables(measured, docs) {
         `README.md "Browse ${browse[1]} sources" but the catalog has ${total}`
       );
     }
+    // Optional wording; checked wherever it appears.
+    for (const m of readme.text.matchAll(/searches all (\d+) entries/g)) {
+      if (Number(m[1]) !== total) {
+        errors.push(`README.md "searches all ${m[1]} entries" but the catalog has ${total}`);
+      }
+    }
   }
   return errors;
 }

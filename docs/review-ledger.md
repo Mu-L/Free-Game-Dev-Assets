@@ -18,7 +18,8 @@ most of them on the `review-fixes` branch, one commit per issue or per interlock
   and validate, which had drifted; summaries keep literal `_` and `#` (five changed); the
   build fails on an unreadable entry instead of dropping it. New checks: V16 url scheme,
   V17 category sets (folders, config, issue form), V18 heading anchors, V19 retired
-  spellings (`site/value-aliases.json`); real calendar dates; Evidence dates inside URLs
+  spellings (`site/value-aliases.json`); real calendar dates (the shared `isRealDate` is
+  from a contributor's PR, #48, merged first); Evidence dates inside URLs
   no longer count; a day of time-zone slack. Renderer: parens in link hrefs, misnested
   emphasis, unique heading ids.
 - **Tooling:** `package.json` scripts (`npm run check`), `site/new-entry.mjs`,

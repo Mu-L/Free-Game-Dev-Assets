@@ -98,7 +98,7 @@ export function parseStack(text, { file, terms = [] }) {
     metaLine[key] = i;
   }
   for (const key of REQUIRED) if (!meta[key]) fail(0, `frontmatter is missing ${key}`);
-  if (!isRealDate(meta.walked)) fail(0, "walked is not a real YYYY-MM-DD date");
+  if (!isRealDate(meta.walked)) fail(0, "walked is not YYYY-MM-DD (a real calendar date is required)");
   noLicence(metaLine.title, meta.title, "title");
   noLicence(metaLine.task, meta.task, "task");
 

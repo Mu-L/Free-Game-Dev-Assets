@@ -19,8 +19,18 @@ export const STATUS_NOTES = {
 const VERIFIED_FRESH_DAYS = 180;
 const VERIFIED_AGING_DAYS = 365;
 
+/** A real calendar date in strict YYYY-MM-DD form, independent of local time. */
+export function isRealDate(value) {
+  if (typeof value !== "string" || value.length !== 10 || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+  const [year, month, day] = value.split("-").map(Number);
+  const date = new Date(0);
+  // Unlike Date.UTC, this preserves years 0000-0099.
+  date.setUTCFullYear(year, month - 1, day);
+  return date.getUTCFullYear() === year && date.getUTCMonth() === month - 1 && date.getUTCDate() === day;
+}
+
 export function verifiedAge(verified, now) {
-  if (!verified) return { days: null, bucket: "unknown" };
+  if (!isRealDate(verified)) return { days: null, bucket: "unknown" };
   const t = Date.parse(`${verified}T00:00:00Z`);
   if (Number.isNaN(t)) return { days: null, bucket: "unknown" };
   const days = Math.max(0, Math.floor((now - t) / 86400000));
@@ -43,18 +53,6 @@ export function commercialLabel(v) {
   if (v === false) return "non-commercial";
   if (v === "varies") return "per-file review";
   return "commercial ?";
-}
-
-/**
- * True for a YYYY-MM-DD string that names a real calendar day. The shape
- * alone let 2025-13-01 through, and 2026-02-30 rolled over to 2 March.
- */
-export function isRealDate(s) {
-  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(s));
-  if (!m) return false;
-  const [y, mo, d] = m.slice(1).map(Number);
-  const t = new Date(Date.UTC(y, mo - 1, d));
-  return t.getUTCFullYear() === y && t.getUTCMonth() === mo - 1 && t.getUTCDate() === d;
 }
 
 /**

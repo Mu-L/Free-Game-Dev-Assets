@@ -7,7 +7,7 @@ subcategories: [palettes, pixel]
 license: varies
 commercial: unknown
 attribution_required: unknown
-formats: [GPL, PAL, ASE, PNG]
+formats: [gpl-palette, PAL, ASE, PNG]
 tags: [palettes, pixel-art, retro]
 verified: 2026-07-20
 status: needs-review

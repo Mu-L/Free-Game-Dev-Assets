@@ -8,7 +8,7 @@ license: MIT
 license_spdx: MIT
 commercial: true
 attribution_required: false
-formats: [gdshader, godot-project]
+formats: [gdshader, Godot]
 tags: [godot, volumetric, clouds, sky-shader, clayjohn]
 verified: 2026-07-27
 status: active

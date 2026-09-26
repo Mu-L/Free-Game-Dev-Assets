@@ -31,6 +31,7 @@ body:
         - characters
         - audio
         - animation
+        - video
         - environment
         - shaders-vfx
         - fonts

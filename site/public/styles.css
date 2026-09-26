@@ -555,6 +555,26 @@ input:focus-visible,
   .topnav a {
     padding-block: 12px;
   }
+
+  /* "Open source" and "Entry and evidence" sit inside the card-wide title
+     link, so a near miss opened the entry page. Padding cancelled by an
+     equal negative margin grows each to about 44px without moving a thing. */
+  .entry-links a {
+    display: inline-block;
+    padding: 13px 6px;
+    margin: -13px -6px;
+  }
+
+  /* The filter controls get the same 44px on any touch screen, not only
+     on narrow ones. */
+  .chip,
+  .check,
+  .sort-field select,
+  .legend summary {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
 }
 
 .entry-links {

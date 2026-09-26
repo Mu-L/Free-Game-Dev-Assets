@@ -65,6 +65,15 @@ not counted. `pages.yml` also runs every Monday at 06:17 UTC so the ages keep mo
 when nothing is pushed; GitHub pauses scheduled workflows in a public repository after
 60 days without activity, so a long quiet spell needs a manual run from the Actions tab.
 
+## Sitemap
+
+`build.mjs` writes `sitemap.xml` (home, freshness, stacks and every non-deprecated entry)
+and links it from the homepage with `<link rel="sitemap">`. The `Sitemap:` line in
+`robots.txt` is written too, but crawlers only read robots.txt at a host's root, so
+under `/Free-Game-Dev-Assets/` it is never seen. Submit
+`https://tmhsdigital.github.io/Free-Game-Dev-Assets/sitemap.xml` once in Google Search
+Console and Bing Webmaster Tools; that is the step that gets it read.
+
 ## Link check
 
 `.github/workflows/links.yml` runs `site/check-links.mjs` every Monday at 07:41 UTC (and

@@ -265,6 +265,9 @@ function headMetaHtml(site, stats, generatedAt, hasCard) {
     : [`<meta name="twitter:card" content="summary" />`];
   return [
     `<link rel="canonical" href="${esc(url)}" />`,
+    // robots.txt is only read at a host's root, so under a project Pages path
+    // its Sitemap line is never seen; point at the sitemap from the page too.
+    `<link rel="sitemap" type="application/xml" href="${esc(url.replace(/\/+$/, ""))}/sitemap.xml" />`,
     `<meta name="theme-color" content="#1a4d3e" media="(prefers-color-scheme: light)" />`,
     `<meta name="theme-color" content="#0f1216" media="(prefers-color-scheme: dark)" />`,
     `<meta property="og:type" content="website" />`,

@@ -1,6 +1,6 @@
 # Design: starter stacks
 
-Date: 2026-09-24. Status: approved in conversation, awaiting spec review.
+Date: 2026-09-24. Status: implemented; see the entry for it in `docs/review-ledger.md`.
 
 ## Why
 

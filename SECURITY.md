@@ -13,6 +13,6 @@ and a quote from the live source page.
 
 Report XSS or other issues in `site/` through
 [GitHub private vulnerability reporting](https://github.com/TMHSDigital/Free-Game-Dev-Assets/security/advisories/new)
-if it is enabled, otherwise open an issue without a proof-of-concept payload.
+(enabled for this repository). If you cannot use it, open an issue without a proof-of-concept payload.
 
 Do not open issues for third-party asset files. This repo does not host them.

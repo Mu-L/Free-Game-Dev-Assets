@@ -1,6 +1,6 @@
 # Design: licence freshness
 
-Date: 2026-09-25. Status: approved in conversation, awaiting spec review.
+Date: 2026-09-25. Status: implemented; see the entry for it in `docs/review-ledger.md`.
 
 ## Why
 

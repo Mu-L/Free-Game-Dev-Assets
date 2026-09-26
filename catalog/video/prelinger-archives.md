@@ -4,7 +4,7 @@ name: Prelinger Archives (Internet Archive)
 url: https://archive.org/details/prelinger
 publisher: Prelinger Archives
 category: video
-subcategories: [archival, stock-footage, public-domain]
+subcategories: [archival, stock-footage]
 license: varies
 commercial: varies
 attribution_required: unknown

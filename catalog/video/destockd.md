@@ -3,7 +3,7 @@ id: destockd
 name: Destockd
 url: https://www.destockd.com/
 category: video
-subcategories: [stock-footage, archival, public-domain]
+subcategories: [stock-footage, archival]
 license: varies
 commercial: varies
 attribution_required: false

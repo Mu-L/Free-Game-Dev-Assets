@@ -4,7 +4,7 @@ name: NASA Image and Video Library
 url: https://images.nasa.gov
 publisher: NASA
 category: environment
-subcategories: [images, video, audio, public-domain]
+subcategories: [images, video, audio]
 license: custom
 commercial: unknown
 attribution_required: true

@@ -3,7 +3,7 @@ id: echothief
 name: EchoThief Impulse Response Library
 url: https://www.echothief.com/
 category: audio
-subcategories: [ir, reverb]
+subcategories: [impulse-responses, reverb]
 license: unknown
 commercial: unknown
 attribution_required: unknown

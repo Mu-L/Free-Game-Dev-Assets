@@ -3,7 +3,7 @@ id: libresprite
 name: LibreSprite
 url: https://github.com/LibreSprite/LibreSprite
 category: tools
-subcategories: [pixel-art]
+subcategories: [pixel]
 license: GPL-2.0
 commercial: true
 attribution_required: false

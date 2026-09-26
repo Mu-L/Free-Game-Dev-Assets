@@ -3,7 +3,7 @@ id: lospec
 name: Lospec
 url: https://lospec.com
 category: 2d
-subcategories: [palettes, pixel-art]
+subcategories: [palettes, pixel]
 license: varies
 commercial: unknown
 attribution_required: unknown

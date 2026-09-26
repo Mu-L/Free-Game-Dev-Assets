@@ -4,7 +4,7 @@ name: Kenney UI Pack
 url: https://kenney.nl/assets/ui-pack
 publisher: Kenney
 category: 2d
-subcategories: [ui, gui]
+subcategories: [ui]
 license: CC0
 license_spdx: CC0-1.0
 commercial: true

@@ -3,7 +3,7 @@ id: dcss-tiles
 name: Dungeon Crawl Stone Soup Tiles
 url: https://github.com/crawl/tiles
 category: 2d
-subcategories: [tiles, sprites, monsters, items]
+subcategories: [tileset, sprites, monsters, items]
 license: varies
 commercial: unknown
 attribution_required: unknown

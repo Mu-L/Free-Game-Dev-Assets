@@ -4,7 +4,7 @@ name: Quaternius Universal Base Characters
 url: https://quaternius.com/packs/universalbasecharacters.html
 publisher: Quaternius
 category: characters
-subcategories: [base-mesh, modular, rigged]
+subcategories: [base-meshes, modular, rigged]
 license: CC0
 license_spdx: CC0-1.0
 commercial: true

@@ -102,14 +102,24 @@
 
   /* -------------------------------------------------------- url <-> state */
 
+  /**
+   * A hand-edited or stale link can carry values the page has no control
+   * for. Each one falls back to its default, and apply() then rewrites the
+   * URL without it.
+   */
   function readUrl() {
     const p = new URLSearchParams(location.search);
-    if (p.has("cat")) state.category = p.get("cat");
+    const pick = (key, field, allowed) => {
+      const v = p.get(key);
+      if (v !== null && allowed.includes(v)) state[field] = v;
+    };
+    pick("cat", "category", ["all", ...Object.keys(categoryLabels)]);
+    pick("sort", "sort", Object.keys(SORTS));
+    pick("view", "perspective", ["any", ...Object.keys(PERSPECTIVE_LABELS)]);
     if (p.has("q")) state.q = p.get("q");
-    if (p.has("sort")) state.sort = p.get("sort");
-    if (p.has("view")) state.perspective = p.get("view");
     const bool = (key, field) => {
-      if (p.has(key)) state[field] = p.get(key) === "1";
+      const v = p.get(key);
+      if (v === "1" || v === "0") state[field] = v === "1";
     };
     bool("active", "active");
     bool("review", "review");

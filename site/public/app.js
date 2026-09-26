@@ -149,33 +149,78 @@
     if (state.noAttr && entry.attribution_required !== false) return false;
     if (state.perspective !== "any" && entry.camera_perspective !== state.perspective)
       return false;
-
-    const words = normalize(state.q).split(" ").filter(Boolean);
-    if (!words.length) return true;
-    const hay = normalize(
-      [
-        entry.name,
-        entry.license,
-        entry.category,
-        entry.summary,
-        entry.publisher || "",
-        PERSPECTIVE_SEARCH[entry.camera_perspective] || "",
-        ...(entry.tags || []),
-        ...(entry.formats || []),
-        ...(entry.subcategories || []),
-      ].join(" ")
-    );
-    // Every word must appear somewhere, in any order, so "top down" and "arms fps" work.
-    // A plural query word also matches its singular, since tags are stored one way:
-    // "buttons" finds the "button" tag.
-    return words.every(
-      (w) => hay.includes(w) || (w.length > 3 && w.endsWith("s") && hay.includes(w.slice(0, -1)))
-    );
+    return searchScore(entry) > 0;
   }
 
   // Hyphens and underscores read as spaces: "first person" finds the "first-person" tag.
   function normalize(text) {
     return String(text).toLowerCase().replace(/[-_]+/g, " ").replace(/\s+/g, " ").trim();
+  }
+
+  /* ------------------------------------------------------------- search */
+
+  // Each entry's searchable text, normalised once at load, in three fields.
+  // Name and tags are what a reader means by a word, so a hit there ranks
+  // above one in the other metadata, which ranks above a summary-only hit.
+  const FIELD_WEIGHTS = [3, 2, 1];
+  const searchIndex = new Map(
+    data.entries.map((e) => [
+      e.id,
+      [
+        normalize([e.name, ...(e.tags || [])].join(" ")),
+        normalize(
+          [
+            e.license,
+            e.category,
+            e.publisher || "",
+            PERSPECTIVE_SEARCH[e.camera_perspective] || "",
+            ...(e.formats || []),
+            ...(e.subcategories || []),
+          ].join(" ")
+        ),
+        normalize(e.summary || ""),
+      ],
+    ])
+  );
+
+  /**
+   * One test per query word. A word matches at the start of a word in the
+   * text, never inside one: "ui" finds "UI kit" but not "build", "art" finds
+   * "artwork" but not "earth". A plural query word also matches its singular,
+   * since tags are stored one way: "buttons" finds the "button" tag.
+   */
+  function wordTest(word) {
+    const forms = [word];
+    if (word.length > 3 && word.endsWith("s")) forms.push(word.slice(0, -1));
+    const alt = forms.map((f) => f.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|");
+    return new RegExp(`(?:^|[^\\p{L}\\p{N}])(?:${alt})`, "u");
+  }
+
+  let compiled = { q: null, tests: [] };
+  function queryTests() {
+    if (compiled.q !== state.q) {
+      const words = normalize(state.q).split(" ").filter(Boolean);
+      compiled = { q: state.q, tests: words.map(wordTest) };
+    }
+    return compiled.tests;
+  }
+
+  /**
+   * 0 when the entry misses any query word. Every word must match somewhere,
+   * in any order, so "top down" and "arms fps" work. Each word scores by the
+   * best field it matched in, so name and tag hits rank first.
+   */
+  function searchScore(entry) {
+    const tests = queryTests();
+    if (!tests.length) return 1;
+    const fields = searchIndex.get(entry.id) || [];
+    let score = 0;
+    for (const re of tests) {
+      const i = fields.findIndex((f) => re.test(f));
+      if (i === -1) return 0;
+      score += FIELD_WEIGHTS[i];
+    }
+    return score;
   }
 
   const SORTS = {
@@ -330,7 +375,14 @@
   }
 
   function renderGrid() {
-    const list = data.entries.filter(matches).sort(SORTS[state.sort] || SORTS.name);
+    const list = data.entries.filter(matches);
+    if (state.sort === "name" && queryTests().length) {
+      // Searching under the default sort: best match first, then by name.
+      const score = new Map(list.map((e) => [e.id, searchScore(e)]));
+      list.sort((a, b) => score.get(b.id) - score.get(a.id) || SORTS.name(a, b));
+    } else {
+      list.sort(SORTS[state.sort] || SORTS.name);
+    }
     const grid = $("#entry-grid");
     const empty = $("#empty-state");
     $("#result-count").textContent = `${list.length} / ${data.entries.length}`;

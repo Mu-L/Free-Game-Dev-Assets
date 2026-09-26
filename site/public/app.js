@@ -378,7 +378,11 @@
     if (!state.active) chips.push({ key: "active", label: "hiding active" });
     if (!state.review) chips.push({ key: "review", label: "hiding needs-review" });
     if (state.deprecated) chips.push({ key: "deprecated", label: "showing deprecated" });
-    if (state.commercialOnly) chips.push({ key: "commercialOnly", label: "commercial OK only" });
+    if (state.commercialOnly)
+      chips.push({ key: "commercialOnly", label: "commercial OK or per-file review" });
+    // The filter keeps aggregators whose files differ, which a reader
+    // filtering for "safe to ship" must see, not find in a tooltip.
+    $("#commercial-note").hidden = !state.commercialOnly;
     if (state.noAttr) chips.push({ key: "noAttr", label: "no attribution only" });
 
     if (!chips.length) {

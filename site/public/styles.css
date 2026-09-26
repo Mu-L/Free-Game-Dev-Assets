@@ -688,6 +688,19 @@ input:focus-visible,
   gap: 0.35rem;
 }
 
+.filter-note {
+  margin: 0;
+  padding: 0.45rem 0.6rem;
+  border-left: 3px solid var(--warn);
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 0.85rem;
+}
+
+.filter-note[hidden] {
+  display: none;
+}
+
 .active-filters-label {
   font-family: var(--mono);
   font-size: 0.72rem;

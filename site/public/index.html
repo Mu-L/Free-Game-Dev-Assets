@@ -118,8 +118,8 @@
               <input type="checkbox" id="filter-deprecated" />
               Deprecated
             </label>
-            <label class="check" title="Includes aggregators that need per-file review">
-              <input type="checkbox" id="filter-commercial" />
+            <label class="check">
+              <input type="checkbox" id="filter-commercial" aria-describedby="commercial-note" />
               Commercial OK
             </label>
             <label class="check">
@@ -146,6 +146,12 @@
             </label>
             <p class="result-count" id="result-count" aria-live="polite" tabindex="-1"><!--RESULT_COUNT--></p>
           </div>
+
+          <p class="filter-note" id="commercial-note" hidden>
+            Commercial OK also keeps per-file review sources: aggregators where
+            some files allow commercial use and some do not. Check the licence
+            of each file you take.
+          </p>
 
           <div class="filter-row active-filters" id="active-filters" hidden></div>
         </div>

@@ -8,7 +8,7 @@ license: custom
 commercial: true
 attribution_required: unknown
 formats: [middleware]
-tags: [audio, freemium, budget-cap, r04]
+tags: [audio, freemium, budget-cap]
 verified: 2026-07-19
 status: needs-review
 ---

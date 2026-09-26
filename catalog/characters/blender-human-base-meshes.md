@@ -10,7 +10,7 @@ license_spdx: CC0-1.0
 commercial: true
 attribution_required: false
 formats: [Blend, glTF, FBX]
-tags: [blender-studio, topology, r04]
+tags: [blender-studio, topology]
 verified: 2026-08-24
 status: active
 ---

@@ -9,7 +9,7 @@ license_spdx: CC0-1.0
 commercial: true
 attribution_required: false
 formats: [PNG, SBSAR]
-tags: [pbr, seamless, substance, r04]
+tags: [pbr, seamless, substance]
 verified: 2026-08-24
 status: active
 ---

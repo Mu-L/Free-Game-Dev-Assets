@@ -9,7 +9,7 @@ license_spdx: GPL-2.0-or-later
 commercial: true
 attribution_required: false
 formats: [tmx, JSON]
-tags: [tilemap, isometric, hex, r04]
+tags: [tilemap, isometric, hex]
 verified: 2026-09-22
 status: active
 ---

@@ -9,7 +9,7 @@ license_spdx: Apache-2.0
 commercial: true
 attribution_required: false
 formats: [basis, ktx2]
-tags: [gpu-texture, pipeline, r04]
+tags: [gpu-texture, pipeline]
 verified: 2026-08-24
 status: active
 ---

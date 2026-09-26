@@ -9,7 +9,7 @@ license_spdx: MIT
 commercial: true
 attribution_required: false
 formats: [godot-addon, gdextension]
-tags: [godot-4, behavior-tree, state-machine, ai, gdextension]
+tags: [godot, godot-4, behavior-tree, state-machine, ai, gdextension]
 verified: 2026-08-24
 status: active
 ---

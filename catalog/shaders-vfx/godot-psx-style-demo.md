@@ -9,7 +9,7 @@ license_spdx: MIT
 commercial: true
 attribution_required: false
 formats: [gdshader, godot-project]
-tags: [godot-4, ps1, affine, dither, vertex-snap]
+tags: [godot, godot-4, psx, affine, dither, vertex-snap]
 verified: 2026-07-27
 status: active
 ---

@@ -9,7 +9,7 @@ license_spdx: MIT
 commercial: true
 attribution_required: false
 formats: [godot-addon, gdextension, EXR, R16, PNG]
-tags: [godot-4, terrain, heightmap, clipmap, gdextension]
+tags: [godot, godot-4, terrain, heightmap, clipmap, gdextension]
 verified: 2026-08-24
 status: active
 ---

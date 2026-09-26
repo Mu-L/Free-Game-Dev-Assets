@@ -8,7 +8,7 @@ license: varies
 commercial: varies
 attribution_required: false
 formats: [Blend, glTF, HDR]
-tags: [blender, marketplace, royalty-free, cc0]
+tags: [blender, marketplace, royalty-free]
 verified: 2026-08-24
 status: active
 ---

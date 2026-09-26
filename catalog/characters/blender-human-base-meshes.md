@@ -1,7 +1,7 @@
 ---
 id: blender-human-base-meshes
 name: Blender Studio Human Base Meshes
-url: https://www.blender.org/download/demo/asset-bundles/human-base-meshes/human-base-meshes-bundle-v1.4.1.zip
+url: https://www.blender.org/download/demo-files/#assets
 publisher: Blender Studio
 category: characters
 subcategories: [base-meshes]

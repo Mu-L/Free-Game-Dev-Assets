@@ -161,7 +161,7 @@ function entryRowHtml(entry, repo, now) {
   <span class="entry-edge" aria-hidden="true"></span>
   <div class="entry-body">
     <div class="entry-top">
-      <h3><a class="entry-link" href="entry/${esc(entry.id)}/" data-id="${esc(entry.id)}">${esc(entry.name)}</a></h3>
+      <h4><a class="entry-link" href="entry/${esc(entry.id)}/" data-id="${esc(entry.id)}">${esc(entry.name)}</a></h4>
       <span class="entry-flags">${flags}</span>
     </div>
     <p>${esc(entry.summary || "")}</p>

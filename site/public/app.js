@@ -287,7 +287,7 @@
   <span class="entry-edge" aria-hidden="true"></span>
   <div class="entry-body">
     <div class="entry-top">
-      <h3><a class="entry-link" href="entry/${escapeHtml(entry.id)}/" data-id="${escapeHtml(entry.id)}">${escapeHtml(entry.name)}</a></h3>
+      <h4><a class="entry-link" href="entry/${escapeHtml(entry.id)}/" data-id="${escapeHtml(entry.id)}">${escapeHtml(entry.name)}</a></h4>
       <span class="entry-flags">${flags}</span>
     </div>
     <p>${escapeHtml(entry.summary || "")}</p>
@@ -406,6 +406,7 @@
    */
   const cardNodes = new Map();
   const headingNodes = new Map();
+  let flatHeading = null;
   let placedKey = null;
 
   function adoptNodes() {
@@ -427,6 +428,11 @@
     for (const el of [...grid.children]) {
       if (!el.matches(".entry-card, .group-heading")) el.remove();
     }
+    // Card titles are h4 under the h3 category headings. A flat list has no
+    // category headings, so this one keeps the outline from skipping a level.
+    flatHeading = document.createElement("h3");
+    flatHeading.className = "sr-only";
+    flatHeading.textContent = "Matching entries";
   }
 
   /** Puts every node in `order` (visible ones first), moving nothing already in place. */
@@ -441,7 +447,7 @@
     const grid = $("#entry-grid");
     const empty = $("#empty-state");
     const group = shouldGroup();
-    $("#result-count").textContent = `${list.length} / ${data.entries.length}`;
+    $("#result-count").textContent = `${list.length} of ${data.entries.length} entries shown`;
     empty.hidden = list.length > 0;
 
     // Under a plain sort the order of all nodes is fixed, so filtering only
@@ -454,7 +460,7 @@
       const shown = new Set(list.map((e) => e.id));
       const rest = data.entries.filter((e) => !shown.has(e.id));
       const all = ranked ? [...list, ...rest] : data.entries.slice().sort(SORTS[state.sort] || SORTS.name);
-      const order = [];
+      const order = [flatHeading];
       if (group) {
         for (const cat of Object.keys(categoryLabels)) {
           order.push(headingNodes.get(cat));
@@ -476,6 +482,7 @@
       perCat.set(e.category, (perCat.get(e.category) || 0) + 1);
     }
     for (const [id, el] of cardNodes) el.hidden = !shown.has(id);
+    flatHeading.hidden = group || !list.length;
     for (const [cat, el] of headingNodes) {
       const n = group ? perCat.get(cat) || 0 : 0;
       el.hidden = !n;
